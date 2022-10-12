@@ -1,0 +1,142 @@
+<mxfile host="app.diagrams.net" modified="2022-10-12T01:27:22.343Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36" etag="hKbndaMphkQ84bQMRR16" version="20.4.0" type="github">
+  <diagram id="qFKPq-x0psGgImuTj-QG" name="Page-1">
+    <mxGraphModel dx="1038" dy="547" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-52" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Dc9PCxxopQuKufJcrBsT-4" target="Dc9PCxxopQuKufJcrBsT-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-4" value="Ingredient" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="50" width="290" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-5" value="description&lt;br&gt;best before date&lt;br&gt;location&lt;br&gt;amount&lt;br&gt;unit&lt;br&gt;category&lt;br&gt;comparing with other ingredients" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="90" width="190" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-6" value="IngredientsList" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="90" width="100" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-29" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="60" y="50" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-1" value="ClassName" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-29">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-2" value="Responsibilities" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-29">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-3" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-29">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-30" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="850" y="50" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-31" value="IngredientAdapter" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-30">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-32" value="Responsibilities" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-30">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-33" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-30">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-34" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="850" y="290" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-35" value="RecipeAdapter" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-34">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-36" value="Responsibilities" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-34">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-37" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-34">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-38" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="850" y="530" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-39" value="ShoppingListAdapter" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-38">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-40" value="Responsibilities" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-38">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-41" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-38">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-42" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="850" y="790" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-43" value="MealPlanAdapter" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-42">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-44" value="Responsibilities" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-42">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-45" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-42">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-47" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="60" y="290" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-14" value="RecipeList" style="rounded=0;whiteSpace=wrap;html=1;container=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-47">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-15" value="Sorting by recipe title&lt;br&gt;Sorting by recipe" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-47">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-16" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-47">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-48" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="70" y="520" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-17" value="MealPlan" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-48">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-18" value="Responsibilities" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-48">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-19" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-48">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-49" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="450" y="290" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-8" value="IngredientList" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-49">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-9" value="list of ingredients&lt;br&gt;sorting by ingredient description&lt;br&gt;sorting by ingredient best before&lt;br&gt;sorting by ingredient location&lt;br&gt;sorting by ingredient category" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-49">
+          <mxGeometry y="40" width="170" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-10" value="Ingredient" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-49">
+          <mxGeometry x="170" y="40" width="85" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-50" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="450" y="530" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-11" value="Recipe" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-50">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-12" value="title&lt;br&gt;preparation time&lt;br&gt;number of servings&lt;br&gt;category&lt;br&gt;comments&lt;br&gt;photograph&lt;br&gt;list of ingredients" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-50">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-13" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-50">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-51" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="450" y="790" width="255" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-20" value="ShoppingList" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-51">
+          <mxGeometry width="255" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-21" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-51">
+          <mxGeometry y="40" width="145" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Dc9PCxxopQuKufJcrBsT-22" value="Collaborators" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Dc9PCxxopQuKufJcrBsT-51">
+          <mxGeometry x="145" y="40" width="110" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

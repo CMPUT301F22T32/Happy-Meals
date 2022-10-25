@@ -3,9 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_login_screen.xml" value="0.5045289855072463" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.5045289855072463" />
-        <entry key="app/src/main/res/layout/main_activity_list_adapter.xml" value="0.5045289855072463" />
+        <entry key="..\:/Users/SophiaRuduke/Documents/Projects/Happy-Meals/app/src/main/res/layout/activity_login_screen.xml" value="0.1796875" />
+        <entry key="..\:/Users/SophiaRuduke/Documents/Projects/Happy-Meals/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/SophiaRuduke/Documents/Projects/Happy-Meals/app/src/main/res/layout/main_activity_list_adapter.xml" value="0.1796875" />
       </map>
     </option>
   </component>

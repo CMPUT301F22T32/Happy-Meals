@@ -10,7 +10,7 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="75dp"
         android:text="@string/login"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="40sp"
@@ -21,21 +21,25 @@
     <TextView
         android:id="@+id/title_username"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
         android:text="@string/username"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintTop_toBottomOf="@+id/text_title"
-        tools:layout_editor_absoluteX="32dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_title" />
 
     <TextView
         android:id="@+id/title_password"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/password"
-        app:layout_constraintTop_toBottomOf="@+id/input_username"
-        tools:layout_editor_absoluteX="32dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_username" />
 
     <EditText
         android:id="@+id/input_password"
@@ -65,11 +69,13 @@
     <TextView
         android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/forgot_password_prompt"
-        android:textColor="@color/material_dynamic_primary80"
         android:clickable="true"
+        android:text="@string/forgot_password_prompt"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_password" />

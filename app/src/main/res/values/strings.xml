@@ -1,6 +1,8 @@
 <resources>
     <!-- MainActivity -->
     <string name="app_name">Happy Meals</string>
+    <string name="user_greeting">Hello User,</string>
+    <string name="meal_planner_prompt"><b>Your Meal Planner</b></string>
 
     <!-- LoginScreen -->
     <string name="login">Login</string>

@@ -8,7 +8,8 @@ public class Ingredient {
     private String unit;
     private String category;
 
-    public Ingredient(String description, String bestBeforeDate, String location, int amount, String unit, String category) {
+    // TODO implement enum
+    public Ingredient(String description, String bestBeforeDate, String location, Integer amount, String unit, String category) {
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
@@ -29,7 +30,7 @@ public class Ingredient {
         return location;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
@@ -43,5 +44,25 @@ public class Ingredient {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setBestBeforeDate(String bestBeforeDate) {
+        this.bestBeforeDate = bestBeforeDate;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

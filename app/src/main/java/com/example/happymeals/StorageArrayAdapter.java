@@ -41,7 +41,7 @@ public class StorageArrayAdapter extends ArrayAdapter<Ingredient> {
             TextView unit = view.findViewById(R.id.unit_text);
 
             description.setText(ingredient.getDescription());
-            location.setText(ingredient.getLocation());
+            location.setText(ingredient.getLocation().toString());
             amount.setText(ingredient.getAmount().toString());
             unit.setText(ingredient.getUnit());
 

@@ -3,13 +3,13 @@ package com.example.happymeals;
 public class Ingredient {
     private String description;
     private String bestBeforeDate;
-    private String location;
+    private Location location;
     private int amount;
     private String unit;
-    private String category;
+    private IngredientCategory category;
 
     // TODO implement enum
-    public Ingredient(String description, String bestBeforeDate, String location, Integer amount, String unit, String category) {
+    public Ingredient(String description, String bestBeforeDate, Location location, Integer amount, String unit, IngredientCategory category) {
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
@@ -26,7 +26,7 @@ public class Ingredient {
         return bestBeforeDate;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -38,7 +38,7 @@ public class Ingredient {
         return unit;
     }
 
-    public String getCategory() {
+    public IngredientCategory getCategory() {
         return category;
     }
 
@@ -50,7 +50,7 @@ public class Ingredient {
         this.bestBeforeDate = bestBeforeDate;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -62,7 +62,7 @@ public class Ingredient {
         this.unit = unit;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(IngredientCategory category) {
         this.category = category;
     }
 }

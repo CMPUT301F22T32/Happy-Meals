@@ -66,13 +66,13 @@ public class FireStoreManager {
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d( DATA_STORE_TAG, "Data has been found!" );
+                        Log.d( DATA_STORE_TAG, "Data has been created." );
                     }
                 })
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d( DATA_STORE_TAG, "Data has been found!" );
+                        Log.d( DATA_STORE_TAG, "Data could not be created." );
                     }
                 });
     }
@@ -92,13 +92,13 @@ public class FireStoreManager {
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d( DATA_DELETE_TAG, "Data has been removed!" );
+                        Log.d( DATA_DELETE_TAG, "Data has been removed." );
                     }
                 })
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d( DATA_DELETE_TAG, "Data was unable to be removed!" );
+                        Log.d( DATA_DELETE_TAG, "Data was unable to be removed." );
                     }
                 });
 
@@ -124,12 +124,12 @@ public class FireStoreManager {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if ( task.isSuccessful() ) {
-                    Log.d( GET_DATA_TAG, "Data has been found!" );
+                    Log.d( GET_DATA_TAG, "Data has been found." );
                     //<todo> Will need change these once classes have been flushed out.
                     listener.onDataFetchSuccess(
                             task.getResult().toObject( requestClassType.getClass() ) );
                 } else {
-                    Log.d( GET_DATA_TAG, "Data has not been found!" );
+                    Log.d( GET_DATA_TAG, "Data could not be found." );
                 }
             }
         });

@@ -20,7 +20,7 @@ public class IngredientStorageActivity extends AppCompatActivity {
         // TODO: pull from database
         // remove from here
         storage.setIngredients();
-        storage.addIngredient(new Ingredient("Apple", "01-11-2022", Location.Fridge, 1, "count", IngredientCategory.Fruit));
+        storage.addIngredient(new Ingredient("Apple", "01-11-2022", Location.Fridge, 1, AmountUnit.count, IngredientCategory.Fruit));
         // remove to here
 
         storageListView = findViewById(R.id.storage_list);

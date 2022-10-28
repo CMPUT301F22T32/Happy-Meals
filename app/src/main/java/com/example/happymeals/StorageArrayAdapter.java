@@ -10,20 +10,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
+/**
+ * This class is used to display a list of ingredients in the Storage activity
+ */
 public class StorageArrayAdapter extends ArrayAdapter<Ingredient> {
     private ArrayList<Ingredient> storageList;
     private Context context;
 
+    /**
+     * This initializes the StorageArrayAdapter
+     * @param context {@link Context}
+     * This is the application's environment
+     * @param storageList {@link ArrayList<Ingredient>}
+     * This is the list of ingredients to be displayed
+     */
     public StorageArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
         super(context, 0, storageList);
         this.storageList = storageList;
         this.context = context;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -43,7 +54,7 @@ public class StorageArrayAdapter extends ArrayAdapter<Ingredient> {
             description.setText(ingredient.getDescription());
             location.setText(ingredient.getLocation().toString());
             amount.setText(ingredient.getAmount().toString());
-            unit.setText(ingredient.getUnit());
+            unit.setText(ingredient.getUnit().toString());
 
         return view;
     }

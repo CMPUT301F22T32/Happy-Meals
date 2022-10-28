@@ -111,28 +111,43 @@ public class FireStoreManager {
      *                       is located.
      * @param documentName The {@link String} representing the document name that is being removed
      *                     from the given collection.
-     * @param listener The {@link Class} which holds the listner for the success of document
-     *                 removal.
+     * @param listener The {@link Class} which impliments the {@link DatabaseListener}
+     *                 and holds the listener for the success of data fetching.
      * @param requestClassType The {@link DatabaseObject} child class specifying which type of class
      *                         should be created and returned.
      * @see <todo> List other classes here once created.</todo>
      */
     public void getData( String collectionName, String documentName, DatabaseListener listener,
                          DatabaseObject requestClassType ) {
-        userDocument.collection( collectionName ).document( documentName ).get()
+        getData( userDocument.collection( collectionName )
+                .document( documentName ), listener, requestClassType );
+    }
+
+    /**
+     * Finds the data located in the given document and gives it to the listener to publish.
+     * @param documentReference The {@link DocumentReference} which holds the reference to
+     *                          the requested data.
+     * @param listener The {@link Class} which impliments the {@link DatabaseListener}
+     *      *                 and holds the listener for the success of data fetching.
+     * @param requestClassType The {@link DatabaseObject} child class specifying which type of class
+     *      *                         should be created and returned.
+     */
+    public void getData( DocumentReference documentReference,
+                         DatabaseListener listener, DatabaseObject requestClassType ) {
+        documentReference.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if ( task.isSuccessful() ) {
-                    Log.d( GET_DATA_TAG, "Data has been found." );
-                    //<todo> Will need change these once classes have been flushed out.
-                    listener.onDataFetchSuccess(
-                            task.getResult().toObject( requestClassType.getClass() ) );
-                } else {
-                    Log.d( GET_DATA_TAG, "Data could not be found." );
-                }
-            }
-        });
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if ( task.isSuccessful() ) {
+                            Log.d( GET_DATA_TAG, "Data has been found." );
+                            //<todo> Will need change these once classes have been flushed out.
+                            listener.onDataFetchSuccess(
+                                    task.getResult().toObject( requestClassType.getClass() ) );
+                        } else {
+                            Log.d( GET_DATA_TAG, "Data could not be found." );
+                        }
+                    }
+                });
     }
 
     /**

@@ -29,6 +29,12 @@ import java.util.Enumeration;
  */
 public class FireStoreManager {
 
+    // <todo> Move enumerations over to a constants class.
+    public enum COLLECTION_NAME {
+        INGREDIENTS,
+        RECIPES,
+        MEAL_PLANS
+    }
     private DocumentReference userDocument;
 
     private static final String IP_TAG = "IpFetcher";
@@ -54,13 +60,13 @@ public class FireStoreManager {
      * addData() will set the document's data to the the arrtibutes of the given object.
      * The attributes given must be from a getAttrName() method or Firestore will not be able to
      * translate it to a document. This will override any pre-existing data in the request document.
-     * @param collectionName The {@link String} of the collection which holds desired document.
+     * @param collectionName The {@link Enum} of the collection which holds desired document.
      * @param documentName Document namme represented as a {@link String} which data is being
      *                     written too.
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
-    public void addData( String collectionName, String documentName, DatabaseObject data ) {
-        userDocument.collection( collectionName )
+    public void addData( COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
+        userDocument.collection( collectionName.toString() )
                 .document( documentName )
                 .set( data )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
@@ -82,12 +88,12 @@ public class FireStoreManager {
      * deleteDocument() will remove the requested document and all it's entries from the database.
      * If no such document exists but the path specified is valid the request will still be
      * successful.
-     * @param collectionName The {@link String} of the collection name that holds all data entries.
+     * @param collectionName The {@link Enum} of the collection name that holds all data entries.
      * @param documentName The {@link String} of the document name which should hold the specific
      *                     data entry to be deleted.
      */
-    public void deleteDocument( String collectionName, String documentName ) {
-        userDocument.collection( collectionName ).document( documentName )
+    public void deleteDocument( COLLECTION_NAME collectionName, String documentName ) {
+        userDocument.collection( collectionName.toString() ).document( documentName )
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -107,7 +113,7 @@ public class FireStoreManager {
     /**
      * Finds the document located in the given path and calls the listener function. At this time
      * the proper class will be created from the fetched data and passed as a parameter.
-     * @param collectionName The {@link String} representing the collection name where the document
+     * @param collectionName The {@link Enum} representing the collection name where the document
      *                       is located.
      * @param documentName The {@link String} representing the document name that is being removed
      *                     from the given collection.
@@ -117,9 +123,9 @@ public class FireStoreManager {
      *                         should be created and returned.
      * @see <todo> List other classes here once created.</todo>
      */
-    public void getData( String collectionName, String documentName, DatabaseListener listener,
+    public void getData( COLLECTION_NAME collectionName, String documentName, DatabaseListener listener,
                          DatabaseObject requestClassType ) {
-        getData( userDocument.collection( collectionName )
+        getData( userDocument.collection( collectionName.toString() )
                 .document( documentName ), listener, requestClassType );
     }
 
@@ -154,12 +160,12 @@ public class FireStoreManager {
      * This will return a reference to a document which can be then used in other classes. The
      * intended purpose of this is to allow for references to be made attributes for specific
      * classes.
-     * @param collectionName {@link String} of the collection name which the document is located.
+     * @param collectionName {@link Enum} of the collection name which the document is located.
      * @param documentName {@link String} of the document name which is being requested.
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
-    public DocumentReference getReferenceTo( String collectionName, String documentName ) {
-        return userDocument.collection( collectionName ).document( documentName );
+    public DocumentReference getReferenceTo( COLLECTION_NAME collectionName, String documentName ) {
+        return userDocument.collection( collectionName.toString() ).document( documentName );
     }
 
     // https://stackoverflow.com/questions/6064510/how-to-get-ip-address-of-the-device-from-code
@@ -183,4 +189,14 @@ public class FireStoreManager {
         return null;
     }
 
+    /**
+     * This performs the same function as addData(), created to create clarity on use.
+     * @param collectionName The {@link Enum} of the collection which holds desired document.
+     * @param documentName Document namme represented as a {@link String} which data is being
+     *                     written too.
+     * @param data {@link DatabaseObject} holding data to be stored in the document.
+     */
+    public void updateData( COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
+        addData( collectionName, documentName, data );
+    }
 }

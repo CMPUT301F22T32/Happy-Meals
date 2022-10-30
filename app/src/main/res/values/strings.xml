@@ -9,6 +9,8 @@
     <string name="ingredient_information">Ingredient Information</string>
     <string name="best_before_date">Best Before Date</string>
     <string name="save">Save</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

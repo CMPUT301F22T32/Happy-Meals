@@ -11,7 +11,8 @@ public class InputValidator {
     private StringBuilder errorString = new StringBuilder();
 
     public void checkText(EditText text, String name) {
-        if (!text.getText().toString().isEmpty())
+        // must explicitly check for empty string and not isEmpty()
+        if (text.getText().toString().equals(""))
             errorString.append(String.format("- %s cannot be empty.\n", name));
     }
 

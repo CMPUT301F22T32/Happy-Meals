@@ -10,9 +10,9 @@ public class InputValidator {
 
     private StringBuilder errorString = new StringBuilder();
 
-    public boolean checkText(EditText text, String name) {
+    public void checkText(EditText text, String name) {
         if (!text.getText().toString().isEmpty())
-            errorString.append(String.format("%s cannot be empty.\n", name));
+            errorString.append(String.format("- %s cannot be empty.\n", name));
     }
 
     public void checkDate(EditText date) {
@@ -21,7 +21,7 @@ public class InputValidator {
             String dateStr = date.getText().toString();
             LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
         } catch (Exception e) {
-            errorString.append(String.format("Date cannot be empty and must be in YYYY-MM-DD format.\n"));
+            errorString.append(String.format("- Date cannot be empty and must be in YYYY-MM-DD format.\n"));
         }
     }
 
@@ -36,12 +36,12 @@ public class InputValidator {
             valid = false;
         }
         if (!valid)
-            errorString.append(String.format("%s cannot be empty and must be a positive integer.\n", name));
+            errorString.append(String.format("- %s cannot be empty and must be a positive integer.\n", name));
     }
 
     public void checkSpinner(Spinner spinner, String name) {
         if (spinner.getSelectedItem().toString().isEmpty())
-            errorString.append(String.format("%s cannot be empty.\n", name));
+            errorString.append(String.format("- %s cannot be empty.\n", name));
     }
 
     public String getErrors() {

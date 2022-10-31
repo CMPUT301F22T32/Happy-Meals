@@ -3,12 +3,13 @@
     <string name="description">Description</string>
     <string name="name">Name</string>
     <string name="quantity">Quantity</string>
-    <string name="unit_cost">Unit Cost</string>
+    <string name="unit_cost">Unit</string>
     <string name="location">Location</string>
     <string name="category">Category</string>
     <string name="ingredient_information">Ingredient Information</string>
     <string name="best_before_date">Best Before Date</string>
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

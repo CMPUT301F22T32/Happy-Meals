@@ -6,12 +6,12 @@ package com.example.happymeals;
 public class Ingredient {
     private String description;
     private String bestBeforeDate;
-    private Location location;
+    private Constant.Location location;
     private int amount;
-    private AmountUnit unit;
-    private IngredientCategory category;
+    private Constant.AmountUnit unit;
+    private Constant.IngredientCategory category;
 
-    public Ingredient(String description, String bestBeforeDate, Location location, Integer amount, AmountUnit unit, IngredientCategory category) {
+    public Ingredient(String description, String bestBeforeDate, Constant.Location location, Integer amount, Constant.AmountUnit unit, Constant.IngredientCategory category) {
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
@@ -40,7 +40,7 @@ public class Ingredient {
      * This returns the enum Location of the Ingredient
      * @return location
      */
-    public Location getLocation() {
+    public Constant.Location getLocation() {
         return location;
     }
 
@@ -56,7 +56,7 @@ public class Ingredient {
      * This returns the units of the amount of the Ingredient
      * @return unit
      */
-    public AmountUnit getUnit() {
+    public Constant.AmountUnit getUnit() {
         return unit;
     }
 
@@ -64,7 +64,7 @@ public class Ingredient {
      * This returns the enum IngredientCategory of the Ingredient
      * @return category
      */
-    public IngredientCategory getCategory() {
+    public Constant.IngredientCategory getCategory() {
         return category;
     }
 
@@ -88,10 +88,10 @@ public class Ingredient {
 
     /**
      * This sets the location of the Ingredient
-     * @param location {@link Location}
+     * @param location {@link Constant.Location}
      * This is the location of the Ingredient
      */
-    public void setLocation(Location location) {
+    public void setLocation(Constant.Location location) {
         this.location = location;
     }
 
@@ -106,19 +106,19 @@ public class Ingredient {
 
     /**
      * This sets the enum AmountUnit for the amount of the Ingredient
-     * @param unit {@link AmountUnit}
+     * @param unit {@link Constant.AmountUnit}
      * This is the unit for the amount for the Ingredient
      */
-    public void setUnit(AmountUnit unit) {
+    public void setUnit(Constant.AmountUnit unit) {
         this.unit = unit;
     }
 
     /**
      * This sets the category for the Ingredient
-     * @param category {@link IngredientCategory}
+     * @param category {@link Constant.IngredientCategory}
      * This is the category for the Ingredient
      */
-    public void setCategory(IngredientCategory category) {
+    public void setCategory(Constant.IngredientCategory category) {
         this.category = category;
     }
 }

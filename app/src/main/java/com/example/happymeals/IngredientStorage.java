@@ -17,7 +17,7 @@ public class IngredientStorage {
      */
     public void setIngredients() {
         // TODO pull information from database
-        ingredients.add(new Ingredient("Milk", "DD-MM-YYYY", Location.Pantry, 2, AmountUnit.count, IngredientCategory.Fruit));
+        ingredients.add(new Ingredient("Milk", "DD-MM-YYYY", Constant.Location.Pantry, 2, Constant.AmountUnit.count, Constant.IngredientCategory.Fruit));
     }
 
     /**

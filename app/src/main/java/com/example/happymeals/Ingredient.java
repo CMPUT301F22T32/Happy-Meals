@@ -11,6 +11,11 @@ public class Ingredient {
     private Constant.AmountUnit unit;
     private Constant.IngredientCategory category;
 
+    // empty constuctor
+    public Ingredient() {
+
+    }
+
     public Ingredient(String description, String bestBeforeDate, Constant.Location location, Integer amount, Constant.AmountUnit unit, Constant.IngredientCategory category) {
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;

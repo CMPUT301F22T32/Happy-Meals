@@ -15,18 +15,21 @@ public class IngredientStorage {
     private CollectionReference ingredientCollection;
 
     public IngredientStorage( FireStoreManager fsm ) {
-        this.ingredients = new ArrayList<Ingredient>();
+        this.ingredients = new ArrayList< Ingredient >();
         this.fsm = fsm;
-//        this.ingredientCollection = fsm.get
+        this.ingredientCollection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS );
     }
 
     /**
      * This pulls the list of ingredients in the Firebase database and sets it to ingredients
      */
     public void storeIngredient( Ingredient ingredient ) {
-//        fsm.addData();
+        fsm.addData( ingredientCollection, ingredient );
     }
 
+    public void updateIngredientsFromDatabase() {
+        fsm.getAllFrom( ingredientCollection );
+    }
     /**
      * This returns an ArrayList of the Ingredients
      * @return

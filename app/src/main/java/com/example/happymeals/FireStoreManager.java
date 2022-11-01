@@ -13,6 +13,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -28,8 +30,6 @@ import java.util.Enumeration;
  * which holds the documents for representing the users collections of data.
  */
 public class FireStoreManager {
-
-    // <todo> Move enumerations over to a constants class.
 
     private DocumentReference userDocument;
 
@@ -57,13 +57,23 @@ public class FireStoreManager {
      * The attributes given must be from a getAttrName() method or Firestore will not be able to
      * translate it to a document. This will override any pre-existing data in the request document.
      * @param collectionName The {@link Enum} of the collection which holds desired document.
-     * @param documentName Document namme represented as a {@link String} which data is being
-     *                     written too.
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
-    public void addData( Constants.COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
-        userDocument.collection( collectionName.toString() )
-                .document( documentName )
+    public void addData( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
+        addData( userDocument.collection( collectionName.toString() ), data );
+    }
+
+    /**
+     * Requires a collection name and document name which will lead to a specific data set.
+     * addData() will set the document's data to the the arrtibutes of the given object.
+     * The attributes given must be from a getAttrName() method or Firestore will not be able to
+     * translate it to a document. This will override any pre-existing data in the request document.
+     * @param collection The {@link CollectionReference} of the collection which holds desired document.
+     * @param data {@link DatabaseObject} holding data to be stored in the document.
+     */
+    public void addData( CollectionReference collection, DatabaseObject data ) {
+        collection
+                .document( data.getName() )
                 .set( data )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -89,7 +99,21 @@ public class FireStoreManager {
      *                     data entry to be deleted.
      */
     public void deleteDocument( Constants.COLLECTION_NAME collectionName, String documentName ) {
-        userDocument.collection( collectionName.toString() ).document( documentName )
+        deleteDocument( userDocument.collection( collectionName.toString() ), documentName );
+
+    }
+
+    /**
+     * Requires a collection name and document name which will lead to a specific dataset.
+     * deleteDocument() will remove the requested document and all it's entries from the database.
+     * If no such document exists but the path specified is valid the request will still be
+     * successful.
+     * @param collection The {@link CollectionReference} of the collection name that holds all data entries.
+     * @param documentName The {@link String} of the document name which should hold the specific
+     *                     data entry to be deleted.
+     */
+    public void deleteDocument( CollectionReference  collection, String documentName ) {
+        collection.document( documentName )
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -106,6 +130,23 @@ public class FireStoreManager {
 
     }
 
+    public void getAllFrom( CollectionReference collection ) {
+        collection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TT", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("TT", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+    }
     /**
      * Finds the document located in the given path and calls the listener function. At this time
      * the proper class will be created from the fetched data and passed as a parameter.
@@ -157,12 +198,33 @@ public class FireStoreManager {
      * intended purpose of this is to allow for references to be made attributes for specific
      * classes.
      * @param collectionName {@link Enum} of the collection name which the document is located.
-     * @param data {@link DatabaseObject} object holding the data of the requested
-     *                                   document name which is being requested.
+     * @param documentName {@link String} of the document name which is being requested.
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
-    public DocumentReference getReferenceTo( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
-        return userDocument.collection( collectionName.toString() ).document( data.getName() );
+    public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collectionName, String documentName ) {
+        return userDocument.collection( collectionName.toString() ).document( documentName );
+    }
+
+    /**
+     * This will return a reference to a document which can be then used in other classes. The
+     * intended purpose of this is to allow for references to be made attributes for specific
+     * classes.
+     * @param collection {@link CollectionReference} of the collection name which the document is located.
+     * @param documentName {@link String} of the document name which is being requested.
+     * @return {@link DocumentReference} referring to the requested document in the given path.
+     */
+    public DocumentReference getDocReferenceTo( CollectionReference collection, String documentName ) {
+        return collection.document( documentName );
+    }
+
+    /**
+     * This will return a reference to a collection in the Firestore database. This collection
+     * but be stored in the document of the user in the first level of hierarchy.
+     * @param collectionName
+     * @return {@link CollectionReference} The reference to the collection requested.
+     */
+    public CollectionReference getCollectionReferenceTo( Constants.COLLECTION_NAME collectionName ) {
+        return userDocument.collection( collectionName.toString() );
     }
 
     // https://stackoverflow.com/questions/6064510/how-to-get-ip-address-of-the-device-from-code
@@ -189,11 +251,18 @@ public class FireStoreManager {
     /**
      * This performs the same function as addData(), created to create clarity on use.
      * @param collectionName The {@link Enum} of the collection which holds desired document.
-     * @param documentName Document namme represented as a {@link String} which data is being
-     *                     written too.
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
-    public void updateData( Constants.COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
-        addData( collectionName, documentName, data );
+    public void updateData( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
+        addData( collectionName, data );
+    }
+
+    /**
+     * This performs the same function as addData(), created to create clarity on use.
+     * @param collection The {@link CollectionReference} of the collection which holds desired document.
+     * @param data {@link DatabaseObject} holding data to be stored in the document.
+     */
+    public void updateData( CollectionReference collection, DatabaseObject data ) {
+        addData( collection, data );
     }
 }

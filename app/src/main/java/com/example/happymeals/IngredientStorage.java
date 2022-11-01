@@ -1,23 +1,30 @@
 package com.example.happymeals;
 
+import com.google.firebase.firestore.CollectionReference;
+
 import java.util.ArrayList;
+
+import io.grpc.ChannelLogger;
 
 /**
  * This is a class for storing a list of ingredients
  */
 public class IngredientStorage {
     private ArrayList<Ingredient> ingredients;
+    private FireStoreManager fsm;
+    private CollectionReference ingredientCollection;
 
-    public IngredientStorage() {
-        ingredients = new ArrayList<Ingredient>();
+    public IngredientStorage( FireStoreManager fsm ) {
+        this.ingredients = new ArrayList<Ingredient>();
+        this.fsm = fsm;
+//        this.ingredientCollection = fsm.get
     }
 
     /**
      * This pulls the list of ingredients in the Firebase database and sets it to ingredients
      */
-    public void setIngredients() {
-        // TODO pull information from database
-        ingredients.add(new Ingredient("Milk", "DD-MM-YYYY", Constant.Location.Pantry, 2, Constant.AmountUnit.count, Constant.IngredientCategory.Fruit));
+    public void storeIngredient( Ingredient ingredient ) {
+//        fsm.addData();
     }
 
     /**

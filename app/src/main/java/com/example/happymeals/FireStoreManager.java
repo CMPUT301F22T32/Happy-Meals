@@ -30,11 +30,7 @@ import java.util.Enumeration;
 public class FireStoreManager {
 
     // <todo> Move enumerations over to a constants class.
-    public enum COLLECTION_NAME {
-        INGREDIENTS,
-        RECIPES,
-        MEAL_PLANS
-    }
+
     private DocumentReference userDocument;
 
     private static final String IP_TAG = "IpFetcher";
@@ -65,7 +61,7 @@ public class FireStoreManager {
      *                     written too.
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
-    public void addData( COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
+    public void addData( Constants.COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
         userDocument.collection( collectionName.toString() )
                 .document( documentName )
                 .set( data )
@@ -92,7 +88,7 @@ public class FireStoreManager {
      * @param documentName The {@link String} of the document name which should hold the specific
      *                     data entry to be deleted.
      */
-    public void deleteDocument( COLLECTION_NAME collectionName, String documentName ) {
+    public void deleteDocument( Constants.COLLECTION_NAME collectionName, String documentName ) {
         userDocument.collection( collectionName.toString() ).document( documentName )
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
@@ -123,7 +119,7 @@ public class FireStoreManager {
      *                         should be created and returned.
      * @see <todo> List other classes here once created.</todo>
      */
-    public void getData( COLLECTION_NAME collectionName, String documentName, DatabaseListener listener,
+    public void getData( Constants.COLLECTION_NAME collectionName, String documentName, DatabaseListener listener,
                          DatabaseObject requestClassType ) {
         getData( userDocument.collection( collectionName.toString() )
                 .document( documentName ), listener, requestClassType );
@@ -161,11 +157,12 @@ public class FireStoreManager {
      * intended purpose of this is to allow for references to be made attributes for specific
      * classes.
      * @param collectionName {@link Enum} of the collection name which the document is located.
-     * @param documentName {@link String} of the document name which is being requested.
+     * @param data {@link DatabaseObject} object holding the data of the requested
+     *                                   document name which is being requested.
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
-    public DocumentReference getReferenceTo( COLLECTION_NAME collectionName, String documentName ) {
-        return userDocument.collection( collectionName.toString() ).document( documentName );
+    public DocumentReference getReferenceTo( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
+        return userDocument.collection( collectionName.toString() ).document( data.getName() );
     }
 
     // https://stackoverflow.com/questions/6064510/how-to-get-ip-address-of-the-device-from-code
@@ -196,7 +193,7 @@ public class FireStoreManager {
      *                     written too.
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
-    public void updateData( COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
+    public void updateData( Constants.COLLECTION_NAME collectionName, String documentName, DatabaseObject data ) {
         addData( collectionName, documentName, data );
     }
 }

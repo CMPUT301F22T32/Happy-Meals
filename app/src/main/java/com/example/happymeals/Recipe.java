@@ -2,6 +2,7 @@ package com.example.happymeals;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +18,7 @@ public class Recipe extends DatabaseObject {
 
     private double cookTime;
     private String description;
+    private ArrayList< String > comments;
     private ArrayList< HashMap< String, DocumentReference > > ingredients;
     private ArrayList< String > instructions;
     private double prepTime;
@@ -31,6 +33,8 @@ public class Recipe extends DatabaseObject {
      * Full constructor to create a recipe will all the provided attributes.
      * @param cookTime The {@link Double} representing the time it takes to cook the meal in hrs.
      * @param description The {@link String} field which will hold the description of the recipe.
+     * @param comments The {@link ArrayList} which holds an array of {@link String}s which hold
+     *                 comments the users might have added to the recipe.
      * @param ingredients The {@link HashMap} which holds all the ingredient references in
      *                    the form of {@link DocumentReference}'s.
      * @param instructions {@link ArrayList} holding all the instructions in order to complete the
@@ -39,12 +43,13 @@ public class Recipe extends DatabaseObject {
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
      */
-    public Recipe( double cookTime, String description,
+    public Recipe( double cookTime, String description, ArrayList< String > comments,
                    ArrayList< HashMap< String, DocumentReference > > ingredients,
                    ArrayList< String > instructions,
                    double prepTime, double servings ) {
         this.cookTime = cookTime;
         this.description = description;
+        this.comments = comments;
         // <todo> Need to add functionality to use only partial amounts of each ingredient.
         this.ingredients = ingredients;
         this.instructions = instructions;
@@ -67,6 +72,12 @@ public class Recipe extends DatabaseObject {
     public String getDescription() {
         return description;
     }
+
+    /**
+     * Gets the comments of the recipe.
+     * @return {@link ArrayList} object used to store the comments.
+     */
+    public ArrayList< String > getComments() { return comments; }
 
     /**
      * Gets the list of ingredients needed to make the meal with the described servings.

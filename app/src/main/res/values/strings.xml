@@ -9,5 +9,9 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="forgot_password_prompt"><u>Forgot your password?</u>.</string>
+    <string name="ingredient_storage">Ingredient Storage</string>
+    <string name="recipes">Recipes</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="meal_plan">Meal Plan</string>
 
 </resources>

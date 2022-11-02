@@ -1,5 +1,7 @@
 package com.example.happymeals;
 
+import java.util.Map;
+
 /**
  * @author jeastgaa
  * @version 1.00.01
@@ -13,4 +15,6 @@ public interface DatabaseListener {
      * @param data {@link DatabaseObject} which holds the returned class.
      */
     void onDataFetchSuccess( DatabaseObject data );
+
+    void onSpinnerFetchSuccess( Map< String, Object > data );
 }

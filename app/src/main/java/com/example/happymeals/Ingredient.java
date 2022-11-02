@@ -3,20 +3,24 @@ package com.example.happymeals;
 /**
  * This is a class defines an Ingredient
  */
-public class Ingredient {
+public class Ingredient extends DatabaseObject{
+
+    private String name;
     private String description;
     private String bestBeforeDate;
-    private Constant.Location location;
+    private Constants.Location location;
     private int amount;
-    private Constant.AmountUnit unit;
-    private Constant.IngredientCategory category;
+    private Constants.AmountUnit unit;
+    private Constants.IngredientCategory category;
 
-    // empty constuctor
     public Ingredient() {
 
     }
 
-    public Ingredient(String description, String bestBeforeDate, Constant.Location location, Integer amount, Constant.AmountUnit unit, Constant.IngredientCategory category) {
+    public Ingredient( String name, String description, String bestBeforeDate,
+                       Constants.Location location, Integer amount, Constants.AmountUnit unit,
+                       Constants.IngredientCategory category ) {
+        this.name = name;
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
@@ -45,7 +49,7 @@ public class Ingredient {
      * This returns the enum Location of the Ingredient
      * @return location
      */
-    public Constant.Location getLocation() {
+    public Constants.Location getLocation() {
         return location;
     }
 
@@ -61,7 +65,7 @@ public class Ingredient {
      * This returns the units of the amount of the Ingredient
      * @return unit
      */
-    public Constant.AmountUnit getUnit() {
+    public Constants.AmountUnit getUnit() {
         return unit;
     }
 
@@ -69,7 +73,7 @@ public class Ingredient {
      * This returns the enum IngredientCategory of the Ingredient
      * @return category
      */
-    public Constant.IngredientCategory getCategory() {
+    public Constants.IngredientCategory getCategory() {
         return category;
     }
 
@@ -78,7 +82,7 @@ public class Ingredient {
      * @param description {@link String}
      * This is the description of the Ingredient
      */
-    public void setDescription(String description) {
+    public void setDescription( String description ) {
         this.description = description;
     }
 
@@ -87,16 +91,16 @@ public class Ingredient {
      * @param bestBeforeDate {@link String}
      * This is the best before date of the Ingredient
      */
-    public void setBestBeforeDate(String bestBeforeDate) {
+    public void setBestBeforeDate( String bestBeforeDate ) {
         this.bestBeforeDate = bestBeforeDate;
     }
 
     /**
      * This sets the location of the Ingredient
-     * @param location {@link Constant.Location}
+     * @param location {@link Constants.Location}
      * This is the location of the Ingredient
      */
-    public void setLocation(Constant.Location location) {
+    public void setLocation( Constants.Location location ) {
         this.location = location;
     }
 
@@ -105,25 +109,25 @@ public class Ingredient {
      * @param amount {@link Integer}
      * This is the number amount of the Ingredient
      */
-    public void setAmount(int amount) {
+    public void setAmount( int amount ) {
         this.amount = amount;
     }
 
     /**
      * This sets the enum AmountUnit for the amount of the Ingredient
-     * @param unit {@link Constant.AmountUnit}
+     * @param unit {@link Constants.AmountUnit}
      * This is the unit for the amount for the Ingredient
      */
-    public void setUnit(Constant.AmountUnit unit) {
+    public void setUnit( Constants.AmountUnit unit ) {
         this.unit = unit;
     }
 
     /**
      * This sets the category for the Ingredient
-     * @param category {@link Constant.IngredientCategory}
+     * @param category {@link Constants.IngredientCategory}
      * This is the category for the Ingredient
      */
-    public void setCategory(Constant.IngredientCategory category) {
+    public void setCategory( Constants.IngredientCategory category ) {
         this.category = category;
     }
 }

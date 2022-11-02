@@ -16,12 +16,9 @@ public class IngredientStorageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient_storage);
 
-        storage = new IngredientStorage();
+//        storage = new IngredientStorage();
         // TODO: pull from database
-        // remove from here
-        storage.setIngredients();
-        storage.addIngredient(new Ingredient("Apple", "01-11-2022", Constant.Location.Fridge, 1, Constant.AmountUnit.count, Constant.IngredientCategory.Fruit));
-        // remove to here
+
 
         storageListView = findViewById(R.id.storage_list);
         storageAdapter = new StorageArrayAdapter(this, storage.getIngredients());

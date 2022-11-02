@@ -2,25 +2,60 @@ package com.example.happymeals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
 
+/**
+ * This class is the entry point of the application and serves as the home
+ * page for navigation. From this activity, all of the other main activities -- such as the
+ * Ingredient Storage, Recipes, Meal Plan, and Shopping List -- can be viewed.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * This is the function called whenever the MainActivity is created -- in our
+     * case, this is on the launch of the app or when navigating back to the home page.
+     * It it responsible for sending the intents to access all the other main views.
+     * @param savedInstanceState The instance state to restore the activity to (if applicable) {@link Bundle}
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_main );
 
-        ArrayAdapter<String> adapter = new MainActivityListAdapter(this, 0);
-        ListView options = findViewById(R.id.option_list);
-        options.setAdapter(adapter);
+        // The 4 buttons to access the other activities
+        Button ingredientStorageButton = findViewById( R.id.ingredient_storage_button );
+        Button recipesButton = findViewById( R.id.recipes_button );
+        Button mealPlannerButton = findViewById( R.id.meal_planner_button );
+        Button shoppingListButton = findViewById( R.id.shopping_list_button );
 
-        // testing login screen
-        //Intent intent = new Intent(this, LoginScreen.class);
-        //startActivity(intent);
+        ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                //TODO: Send intent for Ingredient Storage Activity
+            }
+        });
 
+        recipesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                //TODO: Send intent for Recipe View Activity
+            }
+        });
+
+        mealPlannerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                //TODO: Send intent for Meal Planner Activity
+            }
+        });
+
+        shoppingListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                //TODO: Send intent for Shopping List Activity
+            }
+        });
     }
 }

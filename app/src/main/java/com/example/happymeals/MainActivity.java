@@ -2,6 +2,8 @@ package com.example.happymeals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,10 +32,13 @@ public class MainActivity extends AppCompatActivity {
         Button mealPlannerButton = findViewById( R.id.meal_planner_button );
         Button shoppingListButton = findViewById( R.id.shopping_list_button );
 
+        Context context = this;
+
         ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                //TODO: Send intent for Ingredient Storage Activity
+                Intent ingredientStorageIntent = new Intent(context, IngredientStorageActivity.class);
+                startActivity(ingredientStorageIntent);
             }
         });
 

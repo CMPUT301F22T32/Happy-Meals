@@ -2,6 +2,14 @@ package com.example.happymeals;
 
 public class Constants {
 
+    public static String SPINNER = "SPINNERS";
+
+    public enum StoredSpinnerChoices {
+        LOCATION,
+        INGREDIENT_CATEGORY,
+        AMOUNT_UNIT
+    }
+
     public enum Location {
         PANTRY, FRIDGE, FREEZER
     }

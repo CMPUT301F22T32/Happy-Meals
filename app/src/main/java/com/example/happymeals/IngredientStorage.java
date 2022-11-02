@@ -3,13 +3,12 @@ package com.example.happymeals;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
-
-import io.grpc.ChannelLogger;
+import java.util.Map;
 
 /**
  * This is a class for storing a list of ingredients
  */
-public class IngredientStorage {
+public class IngredientStorage implements DatabaseListener{
     private ArrayList<Ingredient> ingredients;
     private FireStoreManager fsm;
     private CollectionReference ingredientCollection;
@@ -28,14 +27,14 @@ public class IngredientStorage {
     }
 
     public void updateIngredientsFromDatabase() {
-        fsm.getAllFrom( ingredientCollection );
+        fsm.getAllFrom( ingredientCollection, this, new Ingredient() );
     }
     /**
      * This returns an ArrayList of the Ingredients
      * @return
      * Returns the ArrayList of Ingredients that the IngredientStorage has
      */
-    public ArrayList<Ingredient> getIngredients() {
+    public ArrayList< Ingredient > getIngredients() {
         return ingredients;
     }
 
@@ -43,8 +42,18 @@ public class IngredientStorage {
      * This add and Ingredient to ingredients and adds the ingredient to the Firebase database
      * @param ingredient
      */
-    public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
+    public void addIngredient( Ingredient ingredient ) {
+        ingredients.add( ingredient );
         // TODO implement database interaction
+    }
+
+    @Override
+    public void onDataFetchSuccess(DatabaseObject data) {
+
+    }
+
+    @Override
+    public void onSpinnerFetchSuccess(Map<String, Object> data) {
+
     }
 }

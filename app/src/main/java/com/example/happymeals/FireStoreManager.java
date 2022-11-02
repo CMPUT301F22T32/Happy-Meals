@@ -130,7 +130,17 @@ public class FireStoreManager {
 
     }
 
-    public void getAllFrom( CollectionReference collection ) {
+    /**
+     * This will call the listener function for all data objects found in the
+     * collection requested.
+     * @param collection {@link CollectionReference} of documents holding the data being requested.
+     * @param listener {@link DatabaseListener} that holds the method that will be called on
+     *                                         the success of data fetching.
+     * @param requestClassType {@link DatabaseObject} which will define the type of class to
+     *                                               cast the fetched data to.
+     */
+    public void getAllFrom( CollectionReference collection, DatabaseListener listener,
+                            DatabaseObject requestClassType) {
         collection
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -138,7 +148,8 @@ public class FireStoreManager {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TT", document.getId() + " => " + document.getData());
+                                listener.onDataFetchSuccess(
+                                        document.toObject( requestClassType.getClass() ) );
                             }
                         } else {
                             Log.d("TT", "Error getting documents: ", task.getException());

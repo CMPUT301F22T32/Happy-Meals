@@ -11,35 +11,35 @@ public class IngredientTest {
         Ingredient emptyIngredient = new Ingredient();
 
         emptyIngredient.setDescription("Apple");
-        assertEquals(emptyIngredient.getDescription(), "Apple");
+        assertEquals("Apple", emptyIngredient.getDescription());
 
         emptyIngredient.setBestBeforeDate("01-11-2022");
-        assertEquals(emptyIngredient.getBestBeforeDate(), "01-11-2022");
+        assertEquals("01-11-2022", emptyIngredient.getBestBeforeDate());
 
         emptyIngredient.setLocation(Constants.Location.FREEZER);
-        assertEquals(emptyIngredient.getLocation(), Constants.Location.FREEZER);
+        assertEquals(Constants.Location.FREEZER, emptyIngredient.getLocation());
 
         emptyIngredient.setAmount(5);
-        assertEquals(emptyIngredient.getAmount(), new Integer(5));
+        assertEquals(new Integer(5), emptyIngredient.getAmount());
 
         emptyIngredient.setUnit(Constants.AmountUnit.COUNT);
-        assertEquals(emptyIngredient.getUnit(), Constants.AmountUnit.COUNT);
+        assertEquals(Constants.AmountUnit.COUNT, emptyIngredient.getUnit());
 
         emptyIngredient.setCategory(Constants.IngredientCategory.FRUIT);
-        assertEquals(emptyIngredient.getCategory(), Constants.IngredientCategory.FRUIT);
+        assertEquals(Constants.IngredientCategory.FRUIT, emptyIngredient.getCategory());
     }
 
     @Test
     void testGetters() {
         Ingredient ingredient = new Ingredient("Ground Beef", "extra lean", "02-11-2022", Constants.Location.FREEZER, 500, Constants.AmountUnit.MG, Constants.IngredientCategory.MEAT);
 
-        assertEquals(ingredient.getName(), "Ground Beef");
-        assertEquals(ingredient.getDescription(), "extra lean");
-        assertEquals(ingredient.getBestBeforeDate(), "02-11-2022");
-        assertEquals(ingredient.getLocation(), Constants.Location.FREEZER);
-        assertEquals(ingredient.getAmount(), new Integer(500));
-        assertEquals(ingredient.getUnit(), Constants.AmountUnit.MG);
-        assertEquals(ingredient.getCategory(), Constants.IngredientCategory.MEAT);
+        assertEquals("Ground Beef", ingredient.getName());
+        assertEquals("extra lean", ingredient.getDescription());
+        assertEquals("02-11-2022", ingredient.getBestBeforeDate());
+        assertEquals(Constants.Location.FREEZER, ingredient.getLocation());
+        assertEquals(new Integer(500), ingredient.getAmount());
+        assertEquals(Constants.AmountUnit.MG, ingredient.getUnit());
+        assertEquals(Constants.IngredientCategory.MEAT, ingredient.getCategory());
     }
 
 

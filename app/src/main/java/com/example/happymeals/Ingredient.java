@@ -20,7 +20,7 @@ public class Ingredient extends DatabaseObject{
     public Ingredient( String name, String description, String bestBeforeDate,
                        Constants.Location location, Integer amount, Constants.AmountUnit unit,
                        Constants.IngredientCategory category ) {
-        this.name = name;
+        super(name);
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
@@ -28,12 +28,6 @@ public class Ingredient extends DatabaseObject{
         this.unit = unit;
         this.category = category;
     }
-
-    /**
-     * This returns the name of the Ingredient
-     * @return description
-     */
-    public String getName() { return name; }
 
     /**
      * This returns the description of the Ingredient
@@ -82,13 +76,6 @@ public class Ingredient extends DatabaseObject{
     public Constants.IngredientCategory getCategory() {
         return category;
     }
-
-    /**
-     * This sets the name of the Ingredient
-     * @param name {@link String}
-     * This is the description of the Ingredient
-     */
-    public void setName( String name ) { this.name = name; }
 
     /**
      * This sets the description of the Ingredient

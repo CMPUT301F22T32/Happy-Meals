@@ -23,6 +23,7 @@ public class Recipe extends DatabaseObject {
     private ArrayList< String > instructions;
     private double prepTime;
     private double servings;
+    private String type;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}
@@ -42,11 +43,12 @@ public class Recipe extends DatabaseObject {
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
+     * @param type {@link String} the type of recipe (breakfast, lunch, etc)
      */
     public Recipe( double cookTime, String description, ArrayList< String > comments,
                    ArrayList< HashMap< String, DocumentReference > > ingredients,
                    ArrayList< String > instructions,
-                   double prepTime, double servings ) {
+                   double prepTime, double servings, String type ) {
         this.cookTime = cookTime;
         this.description = description;
         this.comments = comments;
@@ -55,8 +57,15 @@ public class Recipe extends DatabaseObject {
         this.instructions = instructions;
         this.prepTime = prepTime;
         this.servings = servings;
+        this.type = type;
     }
 
+
+    public String getType() {
+        return type;
+
+
+    }
     /**
      * Gets the cook time of the recipe.
      * @return {@link Double} cookTime measured in hrs.

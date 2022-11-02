@@ -30,6 +30,12 @@ public class Ingredient extends DatabaseObject{
     }
 
     /**
+     * This returns the name of the Ingredient
+     * @return description
+     */
+    public String getName() { return name; }
+
+    /**
      * This returns the description of the Ingredient
      * @return description
      */
@@ -76,6 +82,13 @@ public class Ingredient extends DatabaseObject{
     public Constants.IngredientCategory getCategory() {
         return category;
     }
+
+    /**
+     * This sets the name of the Ingredient
+     * @param name {@link String}
+     * This is the description of the Ingredient
+     */
+    public void setName( String name ) { this.name = name; }
 
     /**
      * This sets the description of the Ingredient

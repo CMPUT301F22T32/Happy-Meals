@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +12,9 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.Constants;
+import com.example.happymeals.InputValidator;
+import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
@@ -87,17 +90,17 @@ public class IngredientViewActivity extends AppCompatActivity {
 
     private void populateSpinners() {
 
-        ArrayAdapter<AmountUnit> unitAdapter = new ArrayAdapter<>( this,
+        ArrayAdapter<Constants.AmountUnit> unitAdapter = new ArrayAdapter<>( this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                AmountUnit.values() );
+                Constants.AmountUnit.values() );
 
-        ArrayAdapter<Location> locationAdapter = new ArrayAdapter<>( this,
+        ArrayAdapter<Constants.Location> locationAdapter = new ArrayAdapter<>( this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                Location.values() );
+                Constants.Location.values() );
 
-        ArrayAdapter<IngredientCategory> categoryAdapter = new ArrayAdapter<>( this,
+        ArrayAdapter<Constants.IngredientCategory> categoryAdapter = new ArrayAdapter<>( this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                IngredientCategory.values() );
+                Constants.IngredientCategory.values() );
 
         unitSpinner.setAdapter( unitAdapter );
         locationSpinner.setAdapter( locationAdapter );
@@ -109,9 +112,9 @@ public class IngredientViewActivity extends AppCompatActivity {
         description.setText( ingredient.getDescription() );
         date.setText( ingredient.getBestBeforeDate() );
         quantity.setText( Integer.toString(ingredient.getAmount()) );
-        unitSpinner.setSelection(Arrays.asList( AmountUnit.values() ).indexOf( ingredient.getUnit() ) );
-        locationSpinner.setSelection( Arrays.asList( Location.values() ).indexOf( ingredient.getLocation() ) );
-        categorySpinner.setSelection(Arrays.asList( IngredientCategory.values() ).indexOf( ingredient.getCategory() ) );
+        unitSpinner.setSelection(Arrays.asList( Constants.AmountUnit.values() ).indexOf( ingredient.getUnit() ) );
+        locationSpinner.setSelection( Arrays.asList( Constants.Location.values() ).indexOf( ingredient.getLocation() ) );
+        categorySpinner.setSelection(Arrays.asList( Constants.IngredientCategory.values() ).indexOf( ingredient.getCategory() ) );
     }
 
     private void checkInput() {
@@ -150,13 +153,13 @@ public class IngredientViewActivity extends AppCompatActivity {
 
                 String descriptionArg = description.getText().toString();
                 String dateArg = date.getText().toString();
-                Location locationArg = (Location) locationSpinner.getSelectedItem();
+                Constants.Location locationArg = (Constants.Location) locationSpinner.getSelectedItem();
                 int amountArg = Integer.parseInt(quantity.getText().toString());
-                AmountUnit amountUnitArg = (AmountUnit) unitSpinner.getSelectedItem();
-                IngredientCategory categoryArg = (IngredientCategory) categorySpinner.getSelectedItem();
+                Constants.AmountUnit amountUnitArg = (Constants.AmountUnit) unitSpinner.getSelectedItem();
+                Constants.IngredientCategory categoryArg = (Constants.IngredientCategory) categorySpinner.getSelectedItem();
 
                 if (ingredient == null)
-                    ingredient = new Ingredient( descriptionArg, dateArg, locationArg, amountArg, amountUnitArg, categoryArg );
+                    ingredient = new Ingredient( "name?", descriptionArg, dateArg, locationArg, amountArg, amountUnitArg, categoryArg );
 
                 else {
                     ingredient.setDescription( descriptionArg );

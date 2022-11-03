@@ -1,5 +1,7 @@
-package com.example.happymeals;
+package com.example.happymeals.recipe;
 
+import com.example.happymeals.DatabaseObject;
+import com.example.happymeals.FireStoreManager;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.lang.reflect.Array;

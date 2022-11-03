@@ -1,15 +1,17 @@
-package com.example.happymeals;
+package com.example.happymeals.recipe;
 
 
 
 // recipe storage class
+
+import com.example.happymeals.ingredient.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeStorage {
 
-    private List<Recipe> recipes;
+    private ArrayList<Recipe> recipes;
 
     public RecipeStorage() {
         recipes = new ArrayList<Recipe>();
@@ -19,11 +21,11 @@ public class RecipeStorage {
         recipes.add(recipe);
     }
 
-    public List<Recipe> getRecipes() {
+    public ArrayList<Recipe> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(List<Recipe> recipes) {
+    public void setRecipes(ArrayList<Recipe> recipes) {
         this.recipes = recipes;
     }
 

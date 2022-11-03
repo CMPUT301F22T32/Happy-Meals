@@ -1,13 +1,15 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.happymeals.R;
+
 public class IngredientStorageActivity extends AppCompatActivity {
     private ListView storageListView;
-    private StorageArrayAdapter storageAdapter;
+    private IngredientStorageArrayAdapter storageAdapter;
     private IngredientStorage storage;
 
 
@@ -21,7 +23,7 @@ public class IngredientStorageActivity extends AppCompatActivity {
 
 
         storageListView = findViewById(R.id.storage_list);
-        storageAdapter = new StorageArrayAdapter(this, storage.getIngredients());
+        storageAdapter = new IngredientStorageArrayAdapter(this, storage.getIngredients());
         storageListView.setAdapter(storageAdapter);
 
 

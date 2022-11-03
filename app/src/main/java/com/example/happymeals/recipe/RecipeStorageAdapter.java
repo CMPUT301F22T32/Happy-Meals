@@ -1,24 +1,25 @@
-package com.example.happymeals;
+package com.example.happymeals.recipe;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.happymeals.R;
+
 import java.util.ArrayList;
 
-public class RecipeStorageAdapter {
+public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private ArrayList<Recipe> recipeStorageList;
     private Context context;
 
-
-
-
     public RecipeStorageAdapter(Context context, ArrayList<Recipe> recipeStorageList) {
+        super(context, 0, recipeStorageList);
         this.context = context;
         this.recipeStorageList = recipeStorageList;
     }

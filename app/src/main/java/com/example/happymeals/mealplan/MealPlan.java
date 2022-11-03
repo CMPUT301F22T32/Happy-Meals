@@ -1,15 +1,11 @@
-package com.example.happymeals;
+package com.example.happymeals.mealplan;
 
-import static com.example.happymeals.MealPlan.DAY_OF_WEEK.*;
-
-import android.util.Pair;
-
+import com.example.happymeals.DatabaseObject;
+import com.example.happymeals.FireStoreManager;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 

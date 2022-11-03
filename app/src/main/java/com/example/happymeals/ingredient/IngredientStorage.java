@@ -1,5 +1,9 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
 
+import com.example.happymeals.Constants;
+import com.example.happymeals.DatabaseListener;
+import com.example.happymeals.DatabaseObject;
+import com.example.happymeals.FireStoreManager;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
@@ -8,7 +12,7 @@ import java.util.Map;
 /**
  * This is a class for storing a list of ingredients
  */
-public class IngredientStorage implements DatabaseListener{
+public class IngredientStorage implements DatabaseListener {
     private ArrayList<Ingredient> ingredients;
     private FireStoreManager fsm;
     private CollectionReference ingredientCollection;

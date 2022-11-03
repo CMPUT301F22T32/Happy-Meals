@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.recipe;
 
 // recipe storage activity
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.happymeals.R;
 
 public class RecipeStorageActivity extends AppCompatActivity {
     private ListView recipeListView;
@@ -20,7 +22,7 @@ public class RecipeStorageActivity extends AppCompatActivity {
 
         recipeListView = (ListView) findViewById(R.id.recipe_list);
         recipeStorage = new RecipeStorage();
-        recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage);
+        recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
         recipeListView.setAdapter(recipeStorageAdapter);
     }
 

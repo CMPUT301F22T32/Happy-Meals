@@ -1,9 +1,12 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
+
+import com.example.happymeals.Constants;
+import com.example.happymeals.DatabaseObject;
 
 /**
  * This is a class defines an Ingredient
  */
-public class Ingredient extends DatabaseObject{
+public class Ingredient extends DatabaseObject {
 
     private String name;
     private String description;

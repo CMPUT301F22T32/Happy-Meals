@@ -40,10 +40,12 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.recipe_details_activity);
 
         Intent intent = getIntent();
-        if( !intent.hasExtra("recipe") || !intent.hasExtra("ingredientList" ) ) {
+        if( !intent.hasExtra("recipe") ) {
+            // If no recipe has been passed we cannot display anything.
             // <todo> Some error checking here
             finish();
         }
+
         nameField = findViewById( R.id.recipe_name_field);
         descriptionField = findViewById( R.id.recipe_description_field);
         prepTimeField = findViewById( R.id.recipe_preptime_field );
@@ -53,13 +55,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         instructionsField = findViewById( R.id.recipe_instructions_field );
         commendsField = findViewById( R.id.recipe_comment_field );
 
+        // Get the recipe and ingredient list
         recipe = (Recipe) getIntent().getSerializableExtra("recipe");
-        ingredients = (ArrayList<Ingredient>) getIntent().getSerializableExtra( "ingredientList" );
+        ingredients = recipe.getIngredients();
         if( recipe != null ) {
             setAllValues();
         }
     }
 
+    /**
+     * This will set all the values ot display inside the .xml file.
+     */
     private void setAllValues() {
         nameField.setText( recipe.getName() );
         descriptionField.setText( recipe.getDescription() );
@@ -74,7 +80,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void TestOnClick( View view ){
-        // <todo> Impliemnt this method for editing later.
+    /**
+     * On the edit button click all fields become editable so that the user can change values.
+     * @param view {@link View} of the view calling the functino.
+     */
+    public void onEditClick( View view ){
+        finish();
     }
 }

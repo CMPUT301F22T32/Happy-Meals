@@ -46,9 +46,9 @@ public class IngredientArrayAdapter extends ArrayAdapter<Ingredient> {
 
             Ingredient ingredient = storageList.get(position);
 
-            TextView name = view.findViewById( R.id.ingredient_list_adapter_name_field );
-            TextView description = view.findViewById(R.id.description_textView);
-            TextView location = view.findViewById(R.id.location_text);
+            TextView name = view.findViewById( R.id.recipe_list_name_field);
+            TextView description = view.findViewById(R.id.recipe_list_description_field);
+            TextView location = view.findViewById(R.id.recipe_list_servings_field);
             TextView amount = view.findViewById(R.id.amount_text);
             TextView unit = view.findViewById(R.id.unit_text);
 

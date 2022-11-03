@@ -18,7 +18,7 @@ public class Recipe extends DatabaseObject implements Serializable {
     private double cookTime;
     private String description;
     private ArrayList< String > comments;
-    private ArrayList< HashMap< String, String > > ingredients;
+    private ArrayList< Ingredient > ingredients;
     private ArrayList< String > instructions;
     private double prepTime;
     private double servings;
@@ -35,8 +35,7 @@ public class Recipe extends DatabaseObject implements Serializable {
      * @param description The {@link String} field which will hold the description of the recipe.
      * @param comments The {@link ArrayList} which holds an array of {@link String}s which hold
      *                 comments the users might have added to the recipe.
-     * @param ingredients The {@link HashMap} which holds all the ingredient references in
-     *                    the form of {@link String}'s.
+     * @param ingredients The {@link ArrayList} which holds all the ingredient used in the recipe.
      * @param instructions {@link ArrayList} holding all the instructions in order to complete the
      *                                      recipe. These are all {@link String} values.
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
@@ -44,7 +43,7 @@ public class Recipe extends DatabaseObject implements Serializable {
      *                               described.
      */
     public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
-                   ArrayList< HashMap< String, String > > ingredients,
+                   ArrayList< Ingredient > ingredients,
                    ArrayList< String > instructions,
                    double prepTime, double servings ) {
         super(name);
@@ -98,10 +97,9 @@ public class Recipe extends DatabaseObject implements Serializable {
 
     /**
      * Gets the list of ingredients needed to make the meal with the described servings.
-     * @return {@link ArrayList} holding all the ingredient references. These are held
-     * by {@link String}s.
+     * @return {@link ArrayList} holding all the ingredients.
      */
-    public ArrayList<HashMap<String, String>> getIngredients() {
+    public ArrayList< Ingredient > getIngredients() {
         return ingredients;
     }
 

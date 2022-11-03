@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/recipe_list_description_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="52dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:text="Description"
@@ -27,54 +27,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/amount_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Amount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_label" />
-
-    <TextView
         android:id="@+id/recipe_list_servings_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="location"
+        android:text="0"
         app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_label"
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
-
-    <TextView
-        android:id="@+id/unit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
-        android:text="XX"
-        app:layout_constraintStart_toEndOf="@+id/amount_text"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_field" />
 
     <TextView
         android:id="@+id/recipe_list_servings_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="Location"
+        android:layout_marginTop="16dp"
+        android:text="Servings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
-
-    <TextView
-        android:id="@+id/amount_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
-        android:text="XX"
-        app:layout_constraintStart_toEndOf="@+id/amount_label"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_field" />
 
     <TextView
         android:id="@+id/recipe_list_name_field"
@@ -90,5 +60,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

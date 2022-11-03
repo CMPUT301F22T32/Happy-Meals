@@ -1,8 +1,7 @@
 package com.example.happymeals;
 
-import com.google.firebase.firestore.DocumentReference;
 
-import java.lang.reflect.Array;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,12 +13,12 @@ import java.util.HashMap;
  * This class represents recipes that can be loaded inside the application and shown to the
  * end user.
  */
-public class Recipe extends DatabaseObject {
+public class Recipe extends DatabaseObject implements Serializable {
 
     private double cookTime;
     private String description;
     private ArrayList< String > comments;
-    private ArrayList< HashMap< String, DocumentReference > > ingredients;
+    private ArrayList< HashMap< String, String > > ingredients;
     private ArrayList< String > instructions;
     private double prepTime;
     private double servings;
@@ -31,22 +30,24 @@ public class Recipe extends DatabaseObject {
 
     /**
      * Full constructor to create a recipe will all the provided attributes.
+     * @param name The {@link String} representing the name of the recipe
      * @param cookTime The {@link Double} representing the time it takes to cook the meal in hrs.
      * @param description The {@link String} field which will hold the description of the recipe.
      * @param comments The {@link ArrayList} which holds an array of {@link String}s which hold
      *                 comments the users might have added to the recipe.
      * @param ingredients The {@link HashMap} which holds all the ingredient references in
-     *                    the form of {@link DocumentReference}'s.
+     *                    the form of {@link String}'s.
      * @param instructions {@link ArrayList} holding all the instructions in order to complete the
      *                                      recipe. These are all {@link String} values.
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
      */
-    public Recipe( double cookTime, String description, ArrayList< String > comments,
-                   ArrayList< HashMap< String, DocumentReference > > ingredients,
+    public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
+                   ArrayList< HashMap< String, String > > ingredients,
                    ArrayList< String > instructions,
                    double prepTime, double servings ) {
+        super(name);
         this.cookTime = cookTime;
         this.description = description;
         this.comments = comments;
@@ -80,11 +81,27 @@ public class Recipe extends DatabaseObject {
     public ArrayList< String > getComments() { return comments; }
 
     /**
+     * Goes through all the comment strings and forms them into a single string.
+     * This is intended to be used by activities such that the comments can be placed
+     * as a string.
+     * @return {@link String} of all the combined comments from comments {@link ArrayList}.
+     */
+    public String getCommentsAsString() {
+        int count = 1;
+        String instructionString = "";
+        for( String str : comments){
+            instructionString += count + ": " + str + "\n";
+            count++;
+        }
+        return instructionString;
+    }
+
+    /**
      * Gets the list of ingredients needed to make the meal with the described servings.
      * @return {@link ArrayList} holding all the ingredient references. These are held
-     * by {@link DocumentReference}s.
+     * by {@link String}s.
      */
-    public ArrayList<HashMap<String, DocumentReference>> getIngredients() {
+    public ArrayList<HashMap<String, String>> getIngredients() {
         return ingredients;
     }
 
@@ -96,6 +113,22 @@ public class Recipe extends DatabaseObject {
      */
     public ArrayList<String> getInstructions() {
         return instructions;
+    }
+
+    /**
+     * Goes through all the instruction strings and forms them into a single string.
+     * This is intended to be used by activities such that the instructions can be placed
+     * as a string.
+     * @return {@link String} of all the combined comments from instructions {@link ArrayList}.
+     */
+    public String getInstructionsAsString() {
+        int count = 1;
+        String instructionString = "";
+        for( String str : instructions){
+            instructionString += count + ": " + str + "\n";
+            count++;
+        }
+        return instructionString;
     }
 
     /**

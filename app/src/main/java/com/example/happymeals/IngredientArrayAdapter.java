@@ -15,18 +15,18 @@ import java.util.ArrayList;
 /**
  * This class is used to display a list of ingredients in the Storage activity
  */
-public class StorageArrayAdapter extends ArrayAdapter<Ingredient> {
+public class IngredientArrayAdapter extends ArrayAdapter<Ingredient> {
     private ArrayList<Ingredient> storageList;
     private Context context;
 
     /**
-     * This initializes the StorageArrayAdapter
+     * This initializes the IngredientArrayAdapter
      * @param context {@link Context}
      * This is the application's environment
      * @param storageList {@link ArrayList<Ingredient>}
      * This is the list of ingredients to be displayed
      */
-    public StorageArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
+    public IngredientArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
         super(context, 0, storageList);
         this.storageList = storageList;
         this.context = context;
@@ -46,11 +46,13 @@ public class StorageArrayAdapter extends ArrayAdapter<Ingredient> {
 
             Ingredient ingredient = storageList.get(position);
 
+            TextView name = view.findViewById( R.id.ingredient_list_adapter_name_field );
             TextView description = view.findViewById(R.id.description_textView);
             TextView location = view.findViewById(R.id.location_text);
             TextView amount = view.findViewById(R.id.amount_text);
             TextView unit = view.findViewById(R.id.unit_text);
 
+            name.setText( ingredient.getName() );
             description.setText(ingredient.getDescription());
             location.setText(ingredient.getLocation().toString());
             amount.setText(ingredient.getAmount().toString());

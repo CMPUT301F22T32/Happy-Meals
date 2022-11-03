@@ -3,20 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:foreground="@android:drawable/divider_horizontal_dark">
 
     <TextView
         android:id="@+id/ing_content_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/ingredient_information"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="28sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -38,7 +43,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/description"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/ing_content_desc_input"
@@ -53,7 +58,8 @@
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
                 android:paddingStart="8sp"
-                android:text="" />
+                android:text=""
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/ing_content_date_title"
@@ -63,7 +69,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/best_before_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/ing_content_date_input"
@@ -76,6 +82,7 @@
                 android:ems="10"
                 android:includeFontPadding="false"
                 android:inputType="date"
+                android:maxLength="10"
                 android:minHeight="48dp"
                 android:paddingStart="8sp" />
 
@@ -87,45 +94,41 @@
                 android:layout_marginTop="32dp"
                 android:text="@string/quantity"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/ing_content_quantity_input"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                android:background="@android:drawable/editbox_dropdown_light_frame"
-                android:ems="10"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:minHeight="48dp"
-                android:paddingStart="8sp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/ing_content_cost_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/unit_cost"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp" />
+                <EditText
+                    android:id="@+id/ing_content_quantity_input"
+                    android:layout_width="165dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:background="@android:drawable/editbox_dropdown_light_frame"
+                    android:ems="10"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:paddingStart="8sp"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <EditText
-                android:id="@+id/ing_content_cost_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                android:background="@android:drawable/editbox_dropdown_light_frame"
-                android:ems="10"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:minHeight="48dp"
-                android:paddingStart="8sp" />
+                <Spinner
+                    android:id="@+id/ing_content_unit_input"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:dropDownWidth="match_parent"
+                    android:prompt="@string/select_one"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/ing_content_quantity_input"
+                    tools:layout_editor_absoluteY="-1dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/ing_content_location_title"
@@ -135,17 +138,19 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/ing_content_location_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
                 android:background="@android:drawable/btn_dropdown"
-                android:minHeight="48dp" />
+                android:dropDownWidth="match_parent"
+                android:minHeight="48dp"
+                android:prompt="@string/select_one" />
 
             <TextView
                 android:id="@+id/ing_content_category_title"
@@ -155,25 +160,47 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/category"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/ing_content_category_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
                 android:background="@android:drawable/btn_dropdown"
-                android:minHeight="48dp" />
+                android:dropDownWidth="match_parent"
+                android:minHeight="48dp"
+                android:prompt="@string/select_one" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                android:layout_marginVertical="32dp"
-                android:text="@string/save" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="42dp">
+
+                <Button
+                    android:id="@+id/ing_view_delete_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/ing_view_save_button"
+                    app:layout_constraintEnd_toStartOf="@+id/ing_view_save_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/ing_view_save_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="32dp"
+                    android:text="@string/save"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/ing_view_delete_button"
+                    tools:layout_editor_absoluteY="32dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>

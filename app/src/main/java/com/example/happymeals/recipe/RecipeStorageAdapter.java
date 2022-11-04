@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
+import com.example.happymeals.RecipeDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -19,8 +20,12 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private ArrayList<Recipe> recipeStorageList;
     private Context context;
 
-    public RecipeStorageAdapter(Context context, ArrayList<Recipe> recipeStorageList) {
-        super(context, 0, recipeStorageList);
+
+
+    public RecipeStorageAdapter(@NonNull Context context, ArrayList<Recipe> recipeStorageList) {
+        super(context, 0 , recipeStorageList );
+        this.context = context;
+        this.recipeStorageList = recipeStorageList;
     }
 
     @NonNull
@@ -44,7 +49,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( context, RecipeDetailsActivity.class );
-                intent.putExtra("recipe", currentRecipe );
+                intent.putExtra("recipe", currentRecipe.getName() );
                 context.startActivity( intent );
             }
         });

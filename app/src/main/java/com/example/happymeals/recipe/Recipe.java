@@ -1,10 +1,11 @@
 package com.example.happymeals.recipe;
 
 import com.example.happymeals.database.*;
-import com.example.happymeals.ingredient.Ingredient;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.io.Serializable;
+
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,12 +17,12 @@ import java.util.HashMap;
  * This class represents recipes that can be loaded inside the application and shown to the
  * end user.
  */
-public class Recipe extends DatabaseObject implements Serializable {
+public class Recipe extends DatabaseObject {
 
     private double cookTime;
     private String description;
     private ArrayList< String > comments;
-    private ArrayList< Ingredient > ingredients;
+    private HashMap< String, DocumentReference> ingredients;
     private ArrayList< String > instructions;
     private double prepTime;
     private double servings;
@@ -38,7 +39,9 @@ public class Recipe extends DatabaseObject implements Serializable {
      * @param description The {@link String} field which will hold the description of the recipe.
      * @param comments The {@link ArrayList} which holds an array of {@link String}s which hold
      *                 comments the users might have added to the recipe.
-     * @param ingredients The {@link ArrayList} which holds all the ingredient used in the recipe.
+     * @param ingredients The {@link HashMap} which holds all the ingredient used in the recipe.
+     *                    Recipes keys are their names, and values are the references to the
+     *                    documents they are stored in.
      * @param instructions {@link ArrayList} holding all the instructions in order to complete the
      *                                      recipe. These are all {@link String} values.
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
@@ -46,7 +49,7 @@ public class Recipe extends DatabaseObject implements Serializable {
      *                               described.
      */
     public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
-                   ArrayList< Ingredient > ingredients,
+                   HashMap< String, DocumentReference > ingredients,
                    ArrayList< String > instructions,
                    double prepTime, double servings ) {
         super(name);
@@ -102,7 +105,7 @@ public class Recipe extends DatabaseObject implements Serializable {
      * Gets the list of ingredients needed to make the meal with the described servings.
      * @return {@link ArrayList} holding all the ingredients.
      */
-    public ArrayList< Ingredient > getIngredients() {
+    public HashMap<String, DocumentReference> getIngredients() {
         return ingredients;
     }
 

@@ -1,4 +1,4 @@
-package com.example.happymeals.recipe;
+package com.example.happymeals;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,24 +9,24 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.happymeals.R;
+import com.example.happymeals.database.DatabaseListener;
+import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
 import com.example.happymeals.recipe.Recipe;
+import com.example.happymeals.recipe.RecipeStorage;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-/**
- * @author bfiogbe
- */
-public class RecipeDetailsActivity extends AppCompatActivity {
+public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener {
 
     private Recipe recipe;
 
     private ArrayList<Ingredient> ingredients;
-
+    private IngredientStorageArrayAdapter adapter;
     private TextView nameField;
     private TextView descriptionField;
     private TextView prepTimeField;
@@ -37,8 +37,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView commendsField;
 
     /**
-     * This is the function called whenever the RecipeDetailsActivity is created -- in our
-     * case, this is when the user selects a {@link Recipe} from the {@link RecipeStorageActivity}.
+     * This is the function called whenever the MainActivity is created -- in our
+     * case, this is on the launch of the app or when navigating back to the home page.
+     * It it responsible for sending the intents to access all the other main views.
      * @param savedInstanceState The instance state to restore the activity to (if applicable) {@link Bundle}
      */
     @Override
@@ -53,6 +54,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             finish();
         }
 
+        RecipeStorage storage = RecipeStorage.getInstance();
+
         nameField = findViewById( R.id.recipe_name_field);
         descriptionField = findViewById( R.id.recipe_description_field);
         prepTimeField = findViewById( R.id.recipe_preptime_field );
@@ -63,9 +66,14 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         commendsField = findViewById( R.id.recipe_comment_field );
 
         // Get the recipe and ingredient list
-        recipe = (Recipe) getIntent().getSerializableExtra("recipe");
-        ingredients = recipe.getIngredients();
+        recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
+        // Get the array reference so that we can pass it into the adapter.
+        ingredients = storage.getIngredientListReference();
+        adapter = new IngredientStorageArrayAdapter( this, ingredients );
+        // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
+        // change.
         if( recipe != null ) {
+            ingredients = storage.getIngredientsAsList( recipe, adapter );
             setAllValues();
         }
     }
@@ -82,7 +90,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         instructionsField.setText( recipe.getInstructionsAsString() );
         commendsField.setText( recipe.getCommentsAsString() );
 
-        IngredientStorageArrayAdapter adapter = new IngredientStorageArrayAdapter( this, ingredients );
         ingredientsListField.setAdapter( adapter );
 
     }
@@ -93,5 +100,15 @@ public class RecipeDetailsActivity extends AppCompatActivity {
      */
     public void onEditClick( View view ){
         finish();
+    }
+
+    @Override
+    public void onDataFetchSuccess(DatabaseObject data) {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSpinnerFetchSuccess(Map<String, Object> data) {
+
     }
 }

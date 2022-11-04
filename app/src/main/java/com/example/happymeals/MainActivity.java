@@ -9,6 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.ingredient.IngredientStorage;
+import com.example.happymeals.recipe.RecipeStorage;
+import com.google.firebase.firestore.DocumentReference;
+
 import com.example.happymeals.ingredient.IngredientStorageActivity;
 import com.example.happymeals.ingredient.IngredientViewActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
@@ -16,6 +21,7 @@ import com.example.happymeals.recipe.RecipeStorageActivity;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * This class is the entry point of the application and serves as the home
@@ -34,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+
+        // Create the firebase manager connection along with all the storage classes.
+        FireStoreManager.getInstance();
+        RecipeStorage.getInstance();
+        IngredientStorage.getInstance();
 
         Context context = this;
 
@@ -57,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick( View view ) {
                 //TODO: Send intent for Recipe View Activity
-                Intent intent = new Intent( MainActivity.this, RecipeStorageActivity.class );
+                Intent intent = new Intent( context, RecipeStorageActivity.class );
                 startActivity( intent );
             }
         });

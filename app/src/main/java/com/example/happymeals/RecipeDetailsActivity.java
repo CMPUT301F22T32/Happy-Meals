@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public class RecipeDetailsActivity extends AppCompatActivity {
+public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener{
 
     private Recipe recipe;
 
     private ArrayList< Ingredient > ingredients;
-
+    private IngredientArrayAdapter adapter;
     private TextView nameField;
     private TextView descriptionField;
     private TextView prepTimeField;
@@ -46,6 +47,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             finish();
         }
 
+        RecipeStorage storage = RecipeStorage.getInstance();
+
         nameField = findViewById( R.id.recipe_name_field);
         descriptionField = findViewById( R.id.recipe_description_field);
         prepTimeField = findViewById( R.id.recipe_preptime_field );
@@ -56,9 +59,14 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         commendsField = findViewById( R.id.recipe_comment_field );
 
         // Get the recipe and ingredient list
-        recipe = (Recipe) getIntent().getSerializableExtra("recipe");
-        ingredients = recipe.getIngredients();
+        recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
+        // Get the array reference so that we can pass it into the adapter.
+        ingredients = storage.getIngredientListReference();
+        adapter = new IngredientArrayAdapter( this, ingredients );
+        // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
+        // change.
         if( recipe != null ) {
+            ingredients = storage.getIngredientsAsList( recipe, adapter );
             setAllValues();
         }
     }
@@ -75,7 +83,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         instructionsField.setText( recipe.getInstructionsAsString() );
         commendsField.setText( recipe.getCommentsAsString() );
 
-        IngredientArrayAdapter adapter = new IngredientArrayAdapter( this, ingredients );
         ingredientsListField.setAdapter( adapter );
 
     }
@@ -86,5 +93,15 @@ public class RecipeDetailsActivity extends AppCompatActivity {
      */
     public void onEditClick( View view ){
         finish();
+    }
+
+    @Override
+    public void onDataFetchSuccess(DatabaseObject data) {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSpinnerFetchSuccess(Map<String, Object> data) {
+
     }
 }

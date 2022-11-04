@@ -47,12 +47,11 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( context, RecipeDetailsActivity.class );
-                intent.putExtra("recipe", currentRecipe );
+                intent.putExtra("recipe", currentRecipe.getName() );
                 context.startActivity( intent );
             }
         });
 
         return listItem;
     }
-
 }

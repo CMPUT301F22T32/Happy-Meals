@@ -31,6 +31,8 @@ import java.util.Enumeration;
  */
 public class FireStoreManager {
 
+    private static FireStoreManager instance = null;
+
     private DocumentReference userDocument;
 
     private static final String IP_TAG = "IpFetcher";
@@ -42,13 +44,20 @@ public class FireStoreManager {
      * Class constructor. This will connect to the Firebase database. Finding the local IP address
      * of the device being used as the document name that will hold user's collections.
      */
-    public FireStoreManager() {
+    private FireStoreManager() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         // Get the local IP address to identify the user.
         String ipAddress = getLocalIpAddress();
         // <todo> Need to make string a constant in a constant file.
         CollectionReference collectionReference = database.collection( "localUsers" );
         userDocument = collectionReference.document( ipAddress );
+    }
+
+    public static FireStoreManager getInstance() {
+        if( instance == null ) {
+            instance = new FireStoreManager();
+        }
+        return instance;
     }
 
     /**

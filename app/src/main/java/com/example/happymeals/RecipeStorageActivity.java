@@ -12,27 +12,23 @@ import androidx.appcompat.app.AppCompatActivity;
  * of new activities. It will display simple details of the recipe and allow the user to launch
  * activity to create a new recipe.
  */
-public class RecipeStorageActivity extends AppCompatActivity {
+public class RecipeStorageActivity extends AppCompatActivity implements DatasetWatcher {
     private ListView recipeListView;
-    private RecipeStorageAdapter recipeStorageAdapter;
     private RecipeStorage recipeStorage;
-
+    private RecipeStorageAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_storage);
-        FireStoreManager fsm = new FireStoreManager();
         recipeListView = findViewById(R.id.recipe_list);
+        recipeStorage = RecipeStorage.getInstance();
+        recipeStorage.setListeningActivity(this);
+        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
+        recipeListView.setAdapter(adapter);
+    }
 
-        recipeStorage = new RecipeStorage( fsm ){
-            @Override
-            public void updateStorage() {
-                recipeStorageAdapter.notifyDataSetChanged();
-            }
-        };
-
-        recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
-        recipeListView.setAdapter(recipeStorageAdapter);
+    public void signalChangeToAdapter() {
+        adapter.notifyDataSetChanged();
     }
 
     @Override

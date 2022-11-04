@@ -2,10 +2,14 @@ package com.example.happymeals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.happymeals.ingredient.IngredientStorageActivity;
+import com.example.happymeals.ingredient.IngredientViewActivity;
 
 /**
  * This class is the entry point of the application and serves as the home
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 
+        Context context = this;
+
         // The 4 buttons to access the other activities
         Button ingredientStorageButton = findViewById( R.id.ingredient_storage_button );
         Button recipesButton = findViewById( R.id.recipes_button );
@@ -34,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
         ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                //TODO: Send intent for Ingredient Storage Activity
+                Intent intent = new Intent(context, IngredientStorageActivity.class);
+                startActivity(intent);
             }
         });
 

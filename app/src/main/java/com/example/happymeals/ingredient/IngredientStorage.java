@@ -1,9 +1,7 @@
 package com.example.happymeals.ingredient;
 
 import com.example.happymeals.Constants;
-import com.example.happymeals.DatabaseListener;
-import com.example.happymeals.DatabaseObject;
-import com.example.happymeals.FireStoreManager;
+import com.example.happymeals.database.*;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
@@ -48,7 +46,16 @@ public class IngredientStorage implements DatabaseListener {
      */
     public void addIngredient( Ingredient ingredient ) {
         ingredients.add( ingredient );
+        fsm.addData(ingredientCollection, ingredient);
         // TODO implement database interaction
+    }
+
+    public void removeIngredient( Ingredient ingredient ) {
+        fsm.deleteDocument(ingredientCollection, ingredient.getName());
+    }
+
+    public void updateIngredient( Ingredient ingredient ) {
+        fsm.updateData(ingredientCollection, new DatabaseObject(ingredient.getName()));
     }
 
     @Override

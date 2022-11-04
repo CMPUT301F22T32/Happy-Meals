@@ -1,7 +1,7 @@
 package com.example.happymeals.ingredient;
 
 import com.example.happymeals.Constants;
-import com.example.happymeals.DatabaseObject;
+import com.example.happymeals.database.DatabaseObject;
 
 /**
  * This is a class defines an Ingredient
@@ -30,6 +30,11 @@ public class Ingredient extends DatabaseObject {
         this.amount = amount;
         this.unit = unit;
         this.category = category;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**
@@ -78,6 +83,10 @@ public class Ingredient extends DatabaseObject {
      */
     public Constants.IngredientCategory getCategory() {
         return category;
+    }
+
+    public void setName( String name ) {
+        this.name = name;
     }
 
     /**

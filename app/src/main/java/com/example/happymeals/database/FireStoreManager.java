@@ -1,10 +1,11 @@
-package com.example.happymeals;
+package com.example.happymeals.database;
 
 import android.text.format.Formatter;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.happymeals.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,7 +60,7 @@ public class FireStoreManager {
      * @param collectionName The {@link Enum} of the collection which holds desired document.
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
-    public void addData( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
+    public void addData(Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
         addData( userDocument.collection( collectionName.toString() ), data );
     }
 

@@ -1,7 +1,7 @@
 package com.example.happymeals.mealplan;
 
-import com.example.happymeals.DatabaseObject;
-import com.example.happymeals.FireStoreManager;
+import com.example.happymeals.database.DatabaseObject;
+import com.example.happymeals.database.FireStoreManager;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.text.SimpleDateFormat;

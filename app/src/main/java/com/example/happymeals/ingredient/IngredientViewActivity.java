@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.InputValidator;
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
@@ -22,6 +23,7 @@ import java.util.Arrays;
 
 public class IngredientViewActivity extends AppCompatActivity {
 
+    private EditText name;
     private EditText description;
     private EditText date;
     private EditText quantity;
@@ -40,15 +42,22 @@ public class IngredientViewActivity extends AppCompatActivity {
     private Ingredient ingredient = null;
     private Boolean newIngredient;
 
+    private IngredientStorage ingredientStorage;
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ingredient_content_view);
 
+        // won't need new instance after we have the singleton ingredient storage initialized in
+        // main class
+        ingredientStorage = new IngredientStorage(new FireStoreManager());
+
         Intent intent = getIntent();
         context = this;
 
-        description = findViewById( R.id.ing_content_desc_input );
+        name = findViewById( R.id.ing_content_name_input );
+        description = findViewById( R.id.ing_content_desc_input);
         date = findViewById( R.id.ing_content_date_input );
         quantity = findViewById( R.id.ing_content_quantity_input );
         unitSpinner = findViewById( R.id.ing_content_unit_input );
@@ -71,7 +80,7 @@ public class IngredientViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
-                        "Save Ingredient",
+                        "Remove Ingredient",
                         String.format("Are you sure you want to remove %s?", ingredient.getDescription()),
                         context,
                         getDeleteListener());
@@ -108,7 +117,10 @@ public class IngredientViewActivity extends AppCompatActivity {
     }
 
     private void fillFields( Intent intent ) {
-        ingredient = ( Ingredient ) intent.getSerializableExtra( INGREDIENT_EXTRA );
+        Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
+        ingredient = ingredientStorage.getIngredients().get(ingredientIndex);
+
+        name.setText( ingredient.getName() );
         description.setText( ingredient.getDescription() );
         date.setText( ingredient.getBestBeforeDate() );
         quantity.setText( Integer.toString(ingredient.getAmount()) );
@@ -121,6 +133,7 @@ public class IngredientViewActivity extends AppCompatActivity {
         InputValidator validator = new InputValidator();
         String errorString = "The ingredient couldn't be saved for the following reasons:\n";
 
+        validator.checkText( name, "Name");
         validator.checkText( description, "Description" );
         validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
@@ -151,6 +164,7 @@ public class IngredientViewActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                String nameArg = description.getText().toString();
                 String descriptionArg = description.getText().toString();
                 String dateArg = date.getText().toString();
                 Constants.Location locationArg = (Constants.Location) locationSpinner.getSelectedItem();
@@ -158,19 +172,25 @@ public class IngredientViewActivity extends AppCompatActivity {
                 Constants.AmountUnit amountUnitArg = (Constants.AmountUnit) unitSpinner.getSelectedItem();
                 Constants.IngredientCategory categoryArg = (Constants.IngredientCategory) categorySpinner.getSelectedItem();
 
-                if (ingredient == null)
-                    ingredient = new Ingredient( "name?", descriptionArg, dateArg, locationArg, amountArg, amountUnitArg, categoryArg );
+                if (ingredient == null) {
+                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg, locationArg, amountArg, amountUnitArg, categoryArg);
+                    ingredientStorage.addIngredient(ingredient);
+                }
 
                 else {
+                    ingredient.setName( nameArg );
                     ingredient.setDescription( descriptionArg );
                     ingredient.setBestBeforeDate( dateArg );
                     ingredient.setLocation( locationArg );
                     ingredient.setAmount( amountArg );
                     ingredient.setUnit( amountUnitArg );
                     ingredient.setCategory( categoryArg );
+
+                    ingredientStorage.updateIngredient(ingredient);
                 }
 
-                deleteButton.setVisibility(View.VISIBLE);
+                // go back to ingredient storage view after saving.
+                finish();
             }
         };
     }
@@ -181,7 +201,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // TODO impl functionality to delete ingredient from DB
+                ingredientStorage.removeIngredient(ingredient);
                 finish();
             }
         };

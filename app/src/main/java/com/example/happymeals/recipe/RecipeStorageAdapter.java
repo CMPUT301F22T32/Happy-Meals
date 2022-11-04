@@ -23,7 +23,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         this.context = context;
         this.recipeStorageList = recipeStorageList;
     }
-
+/*
     @NonNull
     @Override
 
@@ -46,4 +46,6 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         return listItem;
     }
 
+
+ */
 }

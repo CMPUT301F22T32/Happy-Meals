@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.database;
 
 import java.util.Map;
 

@@ -1,10 +1,8 @@
 package com.example.happymeals.recipe;
 
-import com.example.happymeals.DatabaseObject;
-import com.example.happymeals.FireStoreManager;
+import com.example.happymeals.database.*;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 

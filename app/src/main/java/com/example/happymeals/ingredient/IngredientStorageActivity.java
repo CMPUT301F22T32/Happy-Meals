@@ -18,7 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * This is the activity that will display a list of the ingredients in the storage. The list will
  * be persistent and display ingredient data that has been stored in the database. Ingredients can
  * be selected to view details, and new ingredients can be added by hitting the plus button.
- * @author kstark & sruduke
+ * @author kstark sruduke
  */
 public class IngredientStorageActivity extends AppCompatActivity {
 

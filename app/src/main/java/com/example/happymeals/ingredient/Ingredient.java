@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * This is a class defines an Ingredient
- * @author kstark, jeastgaa & sruduke
+ * @author kstark jeastgaa sruduke
  */
 public class Ingredient extends DatabaseObject implements Serializable {
 

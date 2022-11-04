@@ -1,6 +1,15 @@
+<<<<<<< HEAD:app/src/main/java/com/example/happymeals/mealplan/MealPlan.java
+package com.example.happymeals.mealplan;
+
+import com.example.happymeals.database.DatabaseObject;
+import com.example.happymeals.database.FireStoreManager;
+import com.google.firebase.firestore.DocumentReference;
+
+=======
 package com.example.happymeals;
 
 import java.io.Serializable;
+>>>>>>> origin:app/src/main/java/com/example/happymeals/MealPlan.java
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;

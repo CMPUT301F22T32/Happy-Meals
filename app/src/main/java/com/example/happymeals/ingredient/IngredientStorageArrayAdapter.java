@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,12 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.happymeals.R;
+import com.example.happymeals.ingredient.Ingredient;
+
 import java.util.ArrayList;
 
 /**
  * This class is used to display a list of ingredients in the Storage activity
  */
-public class IngredientArrayAdapter extends ArrayAdapter<Ingredient> {
+
+public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
+
     private ArrayList<Ingredient> storageList;
     private Context context;
 
@@ -26,7 +31,8 @@ public class IngredientArrayAdapter extends ArrayAdapter<Ingredient> {
      * @param storageList {@link ArrayList<Ingredient>}
      * This is the list of ingredients to be displayed
      */
-    public IngredientArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
+
+    public IngredientStorageArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
         super(context, 0, storageList);
         this.storageList = storageList;
         this.context = context;

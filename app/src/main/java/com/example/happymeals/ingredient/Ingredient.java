@@ -1,4 +1,7 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
+
+import com.example.happymeals.Constants;
+import com.example.happymeals.database.DatabaseObject;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,7 +9,8 @@ import java.util.Date;
 /**
  * This is a class defines an Ingredient
  */
-public class Ingredient extends DatabaseObject implements Serializable {
+
+public class Ingredient extends DatabaseObject {
 
     private String description;
     private Date bestBeforeDate;
@@ -29,6 +33,11 @@ public class Ingredient extends DatabaseObject implements Serializable {
         this.amount = amount;
         this.unit = unit;
         this.category = category;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     /**
@@ -77,6 +86,10 @@ public class Ingredient extends DatabaseObject implements Serializable {
      */
     public Constants.IngredientCategory getCategory() {
         return category;
+    }
+
+    public void setName( String name ) {
+        this.name = name;
     }
 
     /**

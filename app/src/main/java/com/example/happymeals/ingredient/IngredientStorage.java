@@ -1,5 +1,7 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
 
+import com.example.happymeals.Constants;
+import com.example.happymeals.database.*;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ import java.util.Map;
 /**
  * This is a class for storing a list of ingredients
  */
-public class IngredientStorage implements DatabaseListener{
+public class IngredientStorage implements DatabaseListener {
     private ArrayList<Ingredient> ingredients;
     private FireStoreManager fsm;
     private CollectionReference ingredientCollection;
@@ -44,7 +46,16 @@ public class IngredientStorage implements DatabaseListener{
      */
     public void addIngredient( Ingredient ingredient ) {
         ingredients.add( ingredient );
+        fsm.addData(ingredientCollection, ingredient);
         // TODO implement database interaction
+    }
+
+    public void removeIngredient( Ingredient ingredient ) {
+        fsm.deleteDocument(ingredientCollection, ingredient.getName());
+    }
+
+    public void updateIngredient( Ingredient ingredient ) {
+        fsm.updateData(ingredientCollection, new DatabaseObject(ingredient.getName()));
     }
 
     @Override

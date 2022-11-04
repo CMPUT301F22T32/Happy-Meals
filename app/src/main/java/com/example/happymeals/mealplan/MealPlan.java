@@ -1,9 +1,15 @@
+<<<<<<< HEAD:app/src/main/java/com/example/happymeals/mealplan/MealPlan.java
 package com.example.happymeals.mealplan;
 
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.FireStoreManager;
 import com.google.firebase.firestore.DocumentReference;
 
+=======
+package com.example.happymeals;
+
+import java.io.Serializable;
+>>>>>>> origin:app/src/main/java/com/example/happymeals/MealPlan.java
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,24 +25,7 @@ import java.util.Map;
  * means that the meal plan should be defined with the date as a Sunday value otherwise the
  * data will not turn out.
  */
-public class MealPlan extends DatabaseObject {
-
-    //<todo> Move enumeration over to a constants class.
-    public enum DAY_OF_WEEK {
-        SUNDAY,
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY
-    };
-
-    public enum MEAL_OF_DAY {
-        BREAKFAST,
-        LUNCH,
-        DINNER
-    }
+public class MealPlan extends DatabaseObject implements Serializable {
 
     public final static String IS_MADE_FIELD = "made";
 
@@ -84,9 +73,9 @@ public class MealPlan extends DatabaseObject {
      * accordingly.
      */
     private void createMapForWeekday() {
-        for( DAY_OF_WEEK week : DAY_OF_WEEK.values() ) {
+        for( Constants.DAY_OF_WEEK week : Constants.DAY_OF_WEEK.values() ) {
             HashMap< String, HashMap< String, Object> > mealsOfDay = new HashMap<>();
-            for( MEAL_OF_DAY meal : MEAL_OF_DAY.values() ) {
+            for( Constants.MEAL_OF_DAY meal : Constants.MEAL_OF_DAY.values() ) {
                 HashMap< String, Object > details = new HashMap<>();
                 details.put( IS_MADE_FIELD, false );
                 mealsOfDay.put( meal.toString(), details);
@@ -103,23 +92,38 @@ public class MealPlan extends DatabaseObject {
      * @param mealOfDay The {@link Enum} MEAL_OF_DAY we are looking for.
      * @return The {@link Boolean} value stored in the made field of requested meal.
      */
-    public boolean isMealMade( DAY_OF_WEEK dayOfWeek, MEAL_OF_DAY mealOfDay ) {
+    public boolean isMealMade( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
         boolean isMade = ( Boolean ) plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).get( IS_MADE_FIELD );
         return isMade;
     }
 
-    public boolean isMealMade( DAY_OF_WEEK dayOfWeek, DocumentReference recipe ) {
+    /**
+     * Checks to see if the specified meal has eben made. The meal is specified by the day of the
+     * week such as Tuesday, and the recipe. If there are multiple of the same recipe it will
+     * return the first one found.
+     * @param dayOfWeek The {@link Enum} DAY_OF_WEEK value which represents the day of the week
+     *                  we are querying
+     * @param recipe The {@link String} name of the recipe we are looking for.
+     * @return A {@link Boolean} value of the "made" value attached to the requested recipe.
+     */
+    public boolean isMealMade( Constants.DAY_OF_WEEK dayOfWeek, String recipe ) {
         for( Map.Entry< String, HashMap< String, Object > > map : plans.get( dayOfWeek.toString() ).entrySet() ){
             for( Map.Entry< String, Object> detailsMap : map.getValue().entrySet() ) {
                 if( detailsMap.getValue() == recipe ) {
-                    return (Boolean ) map.getValue().get( IS_MADE_FIELD );
+                    return ( Boolean ) map.getValue().get( IS_MADE_FIELD );
                 }
             }
         }
         return false;
     }
 
-    public void removeMeal( DAY_OF_WEEK dayOfWeek, MEAL_OF_DAY mealOfDay ) {
+    /**
+     * Removes a meal from the day of a week and sets the "made" value to false.
+     * @param dayOfWeek The {@link Enum} of the week day the meal is being removed from.
+     * @param mealOfDay The {@link Enum} of the meal of the day for which the meal is being
+     *                  removed from.
+     */
+    public void removeMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
         plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).remove( "meal" );
         setMealMade( dayOfWeek, mealOfDay, false );
     }
@@ -131,21 +135,37 @@ public class MealPlan extends DatabaseObject {
      *                  planned for.
      * @param mealOfDay The {@link Enum} which holds the meal of the day this recipe is being planned
      *             for.
-     * @param recipe The {@link DocumentReference} referring to the document in the FireStore
+     * @param recipe The {@link String} referring to the document in the FireStore
      *               Database holding the recipe that is being added.
      */
-    public void setMealOfDay( DAY_OF_WEEK dayOfWeek, MEAL_OF_DAY mealOfDay, DocumentReference recipe ) {
+    public void setMealOfDay( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, String recipe ) {
         HashMap< String, HashMap< String, Object >> temp = plans.get( dayOfWeek.toString() );
         HashMap< String, Object > temp2 = temp.get( mealOfDay.toString() );
         temp2.put( "meal", recipe );
         plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).put( "meal", recipe );
     }
 
-    public void setMealMade( DAY_OF_WEEK dayOfWeek, MEAL_OF_DAY mealOfDay, boolean isMade ) {
+    /**
+     * Set the value for a meal being made to a {@link Boolean} value of true or false. This can be
+     * done for a day of the week, at a specific meal of the day such as lunch or dinner.
+     * @param dayOfWeek The {@link Enum} representing the day of the week where the recipe is
+     *                  stored.
+     * @param mealOfDay The {@link Enum} representing the meal of the day such as breakfast for
+     *                  which the "made" value is being set.
+     * @param isMade The {@link Boolean} that the "made" value is being set to.
+     */
+    public void setMealMade( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, boolean isMade ) {
         plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).put( IS_MADE_FIELD, isMade);
     }
 
-    public void setMealMade( DAY_OF_WEEK dayOfWeek, DocumentReference recipe, boolean isMade ) {
+    /**
+     * This will set the required meal's made value to be a {@link Boolean} value of true or false.
+     * This value is false by default and can only be updated through this method.
+     * @param dayOfWeek The {@link Enum} of the requested day which we are making a meal.
+     * @param recipe The {@link String} of the recipe path that is being made.
+     * @param isMade The {@link Boolean} value which will represent if the recipe has been made.
+     */
+    public void setMealMade( Constants.DAY_OF_WEEK dayOfWeek, String recipe, boolean isMade ) {
         for( Map.Entry< String, HashMap< String, Object > > map : plans.get( dayOfWeek.toString() ).entrySet() ){
             for( Map.Entry< String, Object> detailsMap : map.getValue().entrySet() ) {
                 if( detailsMap.getValue() == recipe ) {
@@ -164,7 +184,14 @@ public class MealPlan extends DatabaseObject {
         return plans;
     }
 
-    public DocumentReference getRecipeAt( DAY_OF_WEEK dayOfWeek, MEAL_OF_DAY mealOfDay ) {
-        return ( DocumentReference ) plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).get( "meal" );
+    /**
+     * Navigates through the plans {@link HashMap} to the meal requeted. This meal will then be
+     * returned as a {@link String} representing the path to the meal inside the database.
+     * @param dayOfWeek The {@link Enum} which will define the day of the week we are requesting.
+     * @param mealOfDay The {@link Enum} which will define the meal of the day we are requesting.
+     * @return The {@link String} value of the path to the recipe requested.
+     */
+    public String getRecipePathAt( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
+        return plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).get( "meal" ).toString();
     }
 }

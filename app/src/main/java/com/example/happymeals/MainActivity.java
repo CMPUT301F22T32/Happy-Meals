@@ -2,6 +2,7 @@ package com.example.happymeals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,11 @@ import android.widget.Button;
 
 import com.example.happymeals.ingredient.IngredientStorageActivity;
 import com.example.happymeals.ingredient.IngredientViewActivity;
+import com.example.happymeals.recipe.RecipeStorageActivity;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class is the entry point of the application and serves as the home
@@ -49,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick( View view ) {
                 //TODO: Send intent for Recipe View Activity
+                Intent intent = new Intent( MainActivity.this, RecipeStorageActivity.class );
+                startActivity( intent );
             }
         });
 

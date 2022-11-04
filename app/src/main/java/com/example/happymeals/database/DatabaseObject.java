@@ -1,12 +1,14 @@
 package com.example.happymeals.database;
 
+import java.io.Serializable;
+
 /**
  * @author jeastgaa
  * @version 1.00.01
  * Class to be used as parent object for any objects being input into the Firestore Database
  * through {@link FireStoreManager}
  */
-public class DatabaseObject {
+public class DatabaseObject implements Serializable {
 
     protected String name;
 
@@ -28,6 +30,6 @@ public class DatabaseObject {
      * @return {@link String} of the name.
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 }

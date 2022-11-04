@@ -161,9 +161,6 @@ public class Recipe extends DatabaseObject implements Serializable {
         comments.add(comment);
     }
 
-    public void setIngredients(ArrayList<HashMap<String, DocumentReference>> ingredients) {
-        this.ingredients = ingredients;
-    }
 
     public void setInstructions(ArrayList<String> instructions) {
         this.instructions = instructions;
@@ -177,7 +174,7 @@ public class Recipe extends DatabaseObject implements Serializable {
         this.servings = servings;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

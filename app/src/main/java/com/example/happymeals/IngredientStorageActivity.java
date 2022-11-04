@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 public class IngredientStorageActivity extends AppCompatActivity {
     private ListView storageListView;
-    private StorageArrayAdapter storageAdapter;
+    private IngredientArrayAdapter storageAdapter;
     private IngredientStorage storage;
 
 
@@ -21,11 +21,8 @@ public class IngredientStorageActivity extends AppCompatActivity {
 
 
         storageListView = findViewById(R.id.storage_list);
-        storageAdapter = new StorageArrayAdapter(this, storage.getIngredients());
+        storageAdapter = new IngredientArrayAdapter(this, storage.getIngredients());
         storageListView.setAdapter(storageAdapter);
-
-
-
 
 
     }

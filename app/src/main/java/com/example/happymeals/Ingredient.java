@@ -1,13 +1,15 @@
 package com.example.happymeals;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * This is a class defines an Ingredient
  */
-public class Ingredient extends DatabaseObject{
+public class Ingredient extends DatabaseObject implements Serializable {
 
-    private String name;
     private String description;
-    private String bestBeforeDate;
+    private Date bestBeforeDate;
     private Constants.Location location;
     private int amount;
     private Constants.AmountUnit unit;
@@ -17,7 +19,7 @@ public class Ingredient extends DatabaseObject{
 
     }
 
-    public Ingredient( String name, String description, String bestBeforeDate,
+    public Ingredient( String name, String description, Date bestBeforeDate,
                        Constants.Location location, Integer amount, Constants.AmountUnit unit,
                        Constants.IngredientCategory category ) {
         super(name);
@@ -41,7 +43,7 @@ public class Ingredient extends DatabaseObject{
      * This returns the Best Before Date of the Ingredient
      * @return bestBeforeDate
      */
-    public String getBestBeforeDate() {
+    public Date getBestBeforeDate() {
         return bestBeforeDate;
     }
 
@@ -91,7 +93,7 @@ public class Ingredient extends DatabaseObject{
      * @param bestBeforeDate {@link String}
      * This is the best before date of the Ingredient
      */
-    public void setBestBeforeDate( String bestBeforeDate ) {
+    public void setBestBeforeDate( Date bestBeforeDate ) {
         this.bestBeforeDate = bestBeforeDate;
     }
 

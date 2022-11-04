@@ -209,11 +209,11 @@ public class FireStoreManager {
      * intended purpose of this is to allow for references to be made attributes for specific
      * classes.
      * @param collectionName {@link Enum} of the collection name which the document is located.
-     * @param documentName {@link String} of the document name which is being requested.
+     * @param data {@link DatabaseObject} of the document name which is being requested.
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
-    public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collectionName, String documentName ) {
-        return userDocument.collection( collectionName.toString() ).document( documentName );
+    public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
+        return userDocument.collection( collectionName.toString() ).document( data.getName() );
     }
 
     /**
@@ -221,11 +221,11 @@ public class FireStoreManager {
      * intended purpose of this is to allow for references to be made attributes for specific
      * classes.
      * @param collection {@link CollectionReference} of the collection name which the document is located.
-     * @param documentName {@link String} of the document name which is being requested.
+     * @param data {@link DatabaseObject} of the document name which is being requested.
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
-    public DocumentReference getDocReferenceTo( CollectionReference collection, String documentName ) {
-        return collection.document( documentName );
+    public DocumentReference getDocReferenceTo( CollectionReference collection, DatabaseObject data ) {
+        return collection.document( data.getName() );
     }
 
     /**

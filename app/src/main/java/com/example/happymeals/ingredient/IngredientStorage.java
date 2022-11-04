@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * This is a class for storing a list of ingredients
+ * This is a class for storing a list of ingredients.
+ * @author kstark
  */
 public class IngredientStorage implements DatabaseListener {
     private ArrayList<Ingredient> ingredients;
@@ -31,6 +32,7 @@ public class IngredientStorage implements DatabaseListener {
     public void updateIngredientsFromDatabase() {
         fsm.getAllFrom( ingredientCollection, this, new Ingredient() );
     }
+
     /**
      * This returns an ArrayList of the Ingredients
      * @return
@@ -55,7 +57,7 @@ public class IngredientStorage implements DatabaseListener {
     }
 
     public void updateIngredient( Ingredient ingredient ) {
-        fsm.updateData(ingredientCollection, new DatabaseObject(ingredient.getName()));
+        fsm.updateData(ingredientCollection, ingredient);
     }
 
     @Override

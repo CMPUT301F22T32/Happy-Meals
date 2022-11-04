@@ -1,36 +1,35 @@
 package com.example.happymeals.recipe;
 
-
-
 // recipe storage class
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorage.java
+import com.example.happymeals.Constants;
+import com.example.happymeals.database.DatabaseListener;
+import com.example.happymeals.database.DatabaseObject;
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.Ingredient;
-
-=======
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorage.java
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecipeStorage implements DatabaseListener{
+/**
+ * @author bfiogbe
+ */
+public class RecipeStorage implements DatabaseListener {
 
     private ArrayList<Recipe> recipes;
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorage.java
-=======
     private FireStoreManager fsm;
     private CollectionReference collection;
     public RecipeStorage( FireStoreManager fsm ) {
+
         this.recipes = new ArrayList<Recipe>();
         this.fsm = fsm;
         this.collection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.RECIPES );
         this.fsm.getAllFrom( collection, this, new Recipe() );
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorage.java
 
     }
 

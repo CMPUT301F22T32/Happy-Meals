@@ -2,6 +2,8 @@ package com.example.happymeals;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.example.happymeals.ingredient.Ingredient;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -10,14 +12,14 @@ public class IngredientTest {
 
     @Test
     void testSetters() {
+        // this tests the ingredient setter methods using an empty ingredeint
         Ingredient emptyIngredient = new Ingredient();
 
         emptyIngredient.setDescription("Apple");
         assertEquals("Apple", emptyIngredient.getDescription());
 
-        Date date = new Date(2022, 03, 05);
-        emptyIngredient.setBestBeforeDate(date);
-        assertEquals(date, emptyIngredient.getBestBeforeDate());
+        emptyIngredient.setBestBeforeDate(new Date(2022, 01, 01));
+        assertEquals(new Date(2022, 01, 01), emptyIngredient.getBestBeforeDate());
 
         emptyIngredient.setLocation(Constants.Location.FREEZER);
         assertEquals(Constants.Location.FREEZER, emptyIngredient.getLocation());
@@ -34,12 +36,14 @@ public class IngredientTest {
 
     @Test
     void testGetters() {
-        Date d = new Date(2022, 11, 01);
-        Ingredient ingredient = new Ingredient("Ground Beef", "extra lean", d, Constants.Location.FREEZER, 500, Constants.AmountUnit.MG, Constants.IngredientCategory.MEAT);
+        // this will test the ingredeint getter methods using an existing ingredeint
+        Ingredient ingredient = new Ingredient("Ground Beef", "extra lean",
+                new Date(2022, 01, 01), Constants.Location.FREEZER, 500,
+                Constants.AmountUnit.MG, Constants.IngredientCategory.MEAT);
 
         assertEquals("Ground Beef", ingredient.getName());
         assertEquals("extra lean", ingredient.getDescription());
-        assertEquals(d, ingredient.getBestBeforeDate());
+        assertEquals(new Date(2022, 01, 01), ingredient.getBestBeforeDate());
         assertEquals(Constants.Location.FREEZER, ingredient.getLocation());
         assertEquals(new Integer(500), ingredient.getAmount());
         assertEquals(Constants.AmountUnit.MG, ingredient.getUnit());

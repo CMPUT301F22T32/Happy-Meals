@@ -1,60 +1,18 @@
+
 package com.example.happymeals;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.recipe.Recipe;
+
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
-import io.grpc.Metadata;
+public class RecipeTest {
 
-public class RecipesTest {
-
-    @Test
-    void testSetters() {
-        Recipe recipe = new Recipe();
-
-        recipe.setCookTime(2);
-        assertEquals(2, recipe.getCookTime());
-
-        recipe.setDescription("Mom's Chicken Alfredo");
-        assertEquals("Mom's Chicken Alfredo", recipe.getDescription());
-
-        ArrayList<String> comments = new ArrayList<String>();
-        comments.add("Too much salt");
-        comments.add("Delicious!");
-
-        recipe.setComments(comments);
-        assertEquals(comments, recipe.getComments());
-
-        String comment = "Not enough garlic";
-        recipe.addComments(comment);
-        comments.add(comment);
-        assertEquals(comments, recipe.getComments());
-
-        ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-        ingredients.add(new Ingredient("Chicken breast", "organic",
-                new Date(2022, 01, 11), Constants.Location.FRIDGE, 1,
-                Constants.AmountUnit.COUNT, Constants.IngredientCategory.MEAT));
-        ingredients.add(new Ingredient("Heavy Cream", "Lactose Free",
-                new Date(2023, 01, 01), Constants.Location.FRIDGE, 500,
-                Constants.AmountUnit.mL, Constants.IngredientCategory.DAIRY));
-
-        ArrayList<String> instuctions = new ArrayList<String>();
-        instuctions.add("Make sauce");
-        instuctions.add("Cook Chicken");
-        recipe.setInstructions(instuctions);
-        assertEquals(instuctions, recipe.getInstructions());
-
-        recipe.setPrepTime(10);
-        assertEquals(10, recipe.getPrepTime());
-
-        recipe.setServings(4);
-        assertEquals(4, recipe.getServings());
-
-    }
 
     @Test
     void gettersTest() {

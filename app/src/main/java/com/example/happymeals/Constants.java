@@ -28,4 +28,20 @@ public class Constants {
         MEAL_PLANS
     }
 
+    public enum DAY_OF_WEEK {
+        SUNDAY,
+        MONDAY,
+        TUESDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY,
+        SATURDAY
+    }
+
+    public enum MEAL_OF_DAY {
+        BREAKFAST,
+        LUNCH,
+        DINNER
+    }
+
 }

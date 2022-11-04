@@ -1,9 +1,11 @@
 package com.example.happymeals;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,14 +13,15 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class RecipeStorageAdapter {
+public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private ArrayList<Recipe> recipeStorageList;
     private Context context;
 
 
 
 
-    public RecipeStorageAdapter(Context context, ArrayList<Recipe> recipeStorageList) {
+    public RecipeStorageAdapter(@NonNull Context context, ArrayList<Recipe> recipeStorageList) {
+        super(context, 0 , recipeStorageList );
         this.context = context;
         this.recipeStorageList = recipeStorageList;
     }
@@ -29,18 +32,25 @@ public class RecipeStorageAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null)
-            listItem = LayoutInflater.from(context).inflate(R.layout.recipe_storage_content, parent, false);
+            listItem = LayoutInflater.from(context).inflate(R.layout.recipe_content, parent, false);
 
         Recipe currentRecipe = recipeStorageList.get(position);
 
-        TextView name = (TextView) listItem.findViewById(R.id.recipeName);
-        name.setText(currentRecipe.getRecipeName());
+        TextView name = listItem.findViewById(R.id.recipe_list_name_field);
+        TextView servings = listItem.findViewById( R.id.recipe_list_servings_field );
+        TextView description = listItem.findViewById( R.id.recipe_list_description_field );
+        name.setText( currentRecipe.getName() );
+        servings.setText( String.valueOf( currentRecipe.getServings() ) );
+        description.setText( currentRecipe.getDescription() );
 
-        TextView ingredients = (TextView) listItem.findViewById(R.id.ingredients);
-        ingredients.setText(currentRecipe.getIngredients());
-
-        TextView instructions = (TextView) listItem.findViewById(R.id.instructions);
-        instructions.setText(currentRecipe.getInstructions());
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( context, RecipeDetailsActivity.class );
+                intent.putExtra("recipe", currentRecipe );
+                context.startActivity( intent );
+            }
+        });
 
         return listItem;
     }

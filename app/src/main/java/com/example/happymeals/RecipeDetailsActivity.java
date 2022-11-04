@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 
@@ -42,8 +43,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if( !intent.hasExtra("recipe") ) {
             // If no recipe has been passed we cannot display anything.
+            // IT SHOULD DISPLAY EMPTY FEILDS!!!
             // <todo> Some error checking here
-            finish();
+            //finish();
         }
 
         nameField = findViewById( R.id.recipe_name_field);
@@ -56,7 +58,27 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         commendsField = findViewById( R.id.recipe_comment_field );
 
         // Get the recipe and ingredient list
-        recipe = (Recipe) getIntent().getSerializableExtra("recipe");
+        //recipe = (Recipe) getIntent().getSerializableExtra("recipe");
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Very Good");
+        comments.add("Try with ground turkey next time");
+        String strComments = "1: Very Good\n2: Try with ground turkey next time\n";
+        ingredients = new ArrayList<Ingredient>();
+        ingredients.add(new Ingredient("Lettuce", "Crisp romaine lettuce",
+                new Date(2022, 01, 11), Constants.Location.FRIDGE, 1,
+                Constants.AmountUnit.COUNT, Constants.IngredientCategory.FRUIT));
+        ingredients.add(new Ingredient("Ground beef", "Extra lean ground beef",
+                new Date(2023, 01, 01), Constants.Location.FREEZER, 500,
+                Constants.AmountUnit.MG, Constants.IngredientCategory.MEAT));
+        ArrayList instructions = new ArrayList<String>();
+        instructions.add("Cook beef in a hot pan");
+        instructions.add("Cut lettuce");
+        String strInstructions = "1: Cook beef in a hot pan\n2: Cut lettuce\n";
+
+        recipe = new Recipe("Tacos", 2, "The best tacos ever",
+                comments, ingredients, instructions, 15, 6);
+
+
         ingredients = recipe.getIngredients();
         if( recipe != null ) {
             setAllValues();

@@ -79,6 +79,7 @@ public class RecipesTest {
                 comments, ingredients, instructions, 15, 6);
 
         // Test getters
+        assertEquals("Tacos", recipe.getName());
         assertEquals(2, recipe.getCookTime());
         assertEquals("The best tacos ever", recipe.getDescription());
         assertEquals(comments, recipe.getComments());

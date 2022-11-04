@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Button mealPlannerButton = findViewById( R.id.meal_planner_button );
         Button shoppingListButton = findViewById( R.id.shopping_list_button );
 
+        // Intent to open Ingredient Storage Activity
         ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Intent to open Recipe Storage Activity
         recipesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Intent to open MealPlanner Activity
         mealPlannerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Intent to open Shopping List Activity
         shoppingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {

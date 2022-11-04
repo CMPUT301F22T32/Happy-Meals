@@ -16,7 +16,8 @@ import com.example.happymeals.ingredient.Ingredient;
 import java.util.ArrayList;
 
 /**
- * This class is used to display a list of ingredients in the Storage activity
+ * This class is used to display a list of ingredients in the Storage activity.
+ * @author kstark
  */
 
 public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {

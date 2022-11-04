@@ -19,7 +19,9 @@ import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 
 public class IngredientViewActivity extends AppCompatActivity {
 
@@ -122,7 +124,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
         name.setText( ingredient.getName() );
         description.setText( ingredient.getDescription() );
-        date.setText( ingredient.getBestBeforeDate() );
+        date.setText( ingredient.getBestBeforeDate().toString() );
         quantity.setText( Integer.toString(ingredient.getAmount()) );
         unitSpinner.setSelection(Arrays.asList( Constants.AmountUnit.values() ).indexOf( ingredient.getUnit() ) );
         locationSpinner.setSelection( Arrays.asList( Constants.Location.values() ).indexOf( ingredient.getLocation() ) );
@@ -166,7 +168,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
                 String nameArg = description.getText().toString();
                 String descriptionArg = description.getText().toString();
-                String dateArg = date.getText().toString();
+                Date dateArg = Date.from(Instant.parse(date.getText().toString()));
                 Constants.Location locationArg = (Constants.Location) locationSpinner.getSelectedItem();
                 int amountArg = Integer.parseInt(quantity.getText().toString());
                 Constants.AmountUnit amountUnitArg = (Constants.AmountUnit) unitSpinner.getSelectedItem();

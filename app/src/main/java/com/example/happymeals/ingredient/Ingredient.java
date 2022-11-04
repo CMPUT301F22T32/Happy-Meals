@@ -10,7 +10,7 @@ import java.util.Date;
  * This is a class defines an Ingredient
  */
 
-public class Ingredient extends DatabaseObject {
+public class Ingredient extends DatabaseObject implements Serializable {
 
     private String description;
     private Date bestBeforeDate;

@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.recipe;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.happymeals.R;
+import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.recipe.Recipe;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -17,7 +22,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
     private Recipe recipe;
 
-    private ArrayList< Ingredient > ingredients;
+    private ArrayList<Ingredient> ingredients;
 
     private TextView nameField;
     private TextView descriptionField;
@@ -75,7 +80,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         instructionsField.setText( recipe.getInstructionsAsString() );
         commendsField.setText( recipe.getCommentsAsString() );
 
-        IngredientArrayAdapter adapter = new IngredientArrayAdapter( this, ingredients );
+        IngredientStorageArrayAdapter adapter = new IngredientStorageArrayAdapter( this, ingredients );
         ingredientsListField.setAdapter( adapter );
 
     }

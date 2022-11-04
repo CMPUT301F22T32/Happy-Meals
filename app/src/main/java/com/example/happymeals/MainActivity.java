@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.recipe.RecipeStorage;
 import com.google.firebase.firestore.DocumentReference;
 
 import com.example.happymeals.ingredient.IngredientStorageActivity;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick( View view ) {
                 //TODO: Send intent for Recipe View Activity
-                Intent intent = new Intent( MainActivity.this, RecipeStorageActivity.class );
+                Intent intent = new Intent( context, RecipeStorageActivity.class );
                 startActivity( intent );
             }
         });

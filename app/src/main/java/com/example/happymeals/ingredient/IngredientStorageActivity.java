@@ -24,7 +24,7 @@ public class IngredientStorageActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
 
-        ingredientStorage = new IngredientStorage( new FireStoreManager() ) ;
+        ingredientStorage = new IngredientStorage( FireStoreManager.getInstance() ) ;
 
         storageListView = findViewById( R.id.storage_list) ;
         storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() ) ;
@@ -53,5 +53,9 @@ public class IngredientStorageActivity extends AppCompatActivity {
         if ( index.length > 0 )
             ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_EXTRA, index[0] ) ;
         startActivity( ingredientIntent ) ;
+    }
+
+    public void updateTheAdapter( View view ) {
+        this.storageAdapter.notifyDataSetChanged();
     }
 }

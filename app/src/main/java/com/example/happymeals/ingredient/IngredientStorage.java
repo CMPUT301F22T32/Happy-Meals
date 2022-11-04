@@ -19,6 +19,7 @@ public class IngredientStorage implements DatabaseListener {
         this.ingredients = new ArrayList< Ingredient >();
         this.fsm = fsm;
         this.ingredientCollection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS );
+        fsm.getAllFrom( ingredientCollection, this, new Ingredient() );
     }
 
     /**
@@ -60,7 +61,18 @@ public class IngredientStorage implements DatabaseListener {
 
     @Override
     public void onDataFetchSuccess(DatabaseObject data) {
-
+        Ingredient ingredient = (Ingredient) data;
+        Boolean replace = Boolean.FALSE;
+        for( Ingredient ing : this.ingredients ) {
+            if( ing.getName() == ingredient.getName() ){
+                ing = ingredient;
+                replace = Boolean.TRUE;
+                break;
+            }
+        }
+        if( !replace ){
+            ingredients.add( ingredient );
+        }
     }
 
     @Override

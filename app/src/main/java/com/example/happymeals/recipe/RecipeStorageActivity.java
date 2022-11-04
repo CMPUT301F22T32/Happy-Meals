@@ -6,10 +6,9 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorageActivity.java
+import com.example.happymeals.DatasetWatcher;
 import com.example.happymeals.R;
 
-=======
 /**
  * Class that holds the {@link AppCompatActivity} which will run the activity for the user.
  * This activity will show all the recipes saved by the user and allow for the start
@@ -17,11 +16,11 @@ import com.example.happymeals.R;
  * activity to create a new recipe.
  */
 public class RecipeStorageActivity extends AppCompatActivity implements DatasetWatcher {
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorageActivity.java
-public class RecipeStorageActivity extends AppCompatActivity {
+
     private ListView recipeListView;
     private RecipeStorage recipeStorage;
     private RecipeStorageAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,23 +32,12 @@ public class RecipeStorageActivity extends AppCompatActivity {
         recipeListView.setAdapter(adapter);
     }
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorageActivity.java
-        recipeListView = (ListView) findViewById(R.id.recipe_list);
-        recipeStorage = new RecipeStorage();
-        recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
-=======
-        recipeStorage = new RecipeStorage( fsm ){
-            @Override
-            public void updateStorage() {
-                recipeStorageAdapter.notifyDataSetChanged();
-            }
-        };
+
 
     public void signalChangeToAdapter() {
         adapter.notifyDataSetChanged();
-        recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorageActivity.java
-        recipeListView.setAdapter(recipeStorageAdapter);
+        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
+        recipeListView.setAdapter(adapter);
     }
 
     @Override

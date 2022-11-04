@@ -6,35 +6,35 @@ package com.example.happymeals.recipe;
 
 import android.content.Context;
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorage.java
+import com.example.happymeals.Constants;
+import com.example.happymeals.DatasetWatcher;
+import com.example.happymeals.database.DatabaseListener;
+import com.example.happymeals.database.DatabaseObject;
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.Ingredient;
-
-=======
+import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorage.java
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecipeStorage implements DatabaseListener{
+public class RecipeStorage implements DatabaseListener {
 
     private static RecipeStorage instance;
 
     private DatasetWatcher listeningActivity;
 
     private ArrayList<Recipe> recipes;
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorage.java
-=======
     private FireStoreManager fsm;
     private CollectionReference collection;
 
     private ArrayList< Ingredient > ingredientHolderForReturn;
-    private IngredientArrayAdapter ingredientListener;
+    private IngredientStorageArrayAdapter ingredientListener;
 
     private RecipeStorage() {
         this.recipes = new ArrayList<Recipe>();
@@ -81,7 +81,7 @@ public class RecipeStorage implements DatabaseListener{
     public ArrayList< Ingredient > getIngredientListReference() {
         return this.ingredientHolderForReturn;
     }
-    public ArrayList< Ingredient > getIngredientsAsList( Recipe recipe, IngredientArrayAdapter listener ) {
+    public ArrayList< Ingredient > getIngredientsAsList( Recipe recipe, IngredientStorageArrayAdapter listener ) {
         if( this.ingredientHolderForReturn.size() != recipe.getIngredients().size() ){
             this.ingredientHolderForReturn.clear();
             this.ingredientListener = listener;

@@ -20,6 +20,7 @@ import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
 import java.util.Arrays;
+import java.util.Date;
 
 public class IngredientViewActivity extends AppCompatActivity {
 
@@ -51,7 +52,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
         // won't need new instance after we have the singleton ingredient storage initialized in
         // main class
-        ingredientStorage = new IngredientStorage(new FireStoreManager());
+        ingredientStorage = new IngredientStorage( FireStoreManager.getInstance() );
 
         Intent intent = getIntent();
         context = this;
@@ -122,7 +123,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
         name.setText( ingredient.getName() );
         description.setText( ingredient.getDescription() );
-        date.setText( ingredient.getBestBeforeDate() );
+        date.setText( ingredient.getBestBeforeDate().toString() );
         quantity.setText( Integer.toString(ingredient.getAmount()) );
         unitSpinner.setSelection(Arrays.asList( Constants.AmountUnit.values() ).indexOf( ingredient.getUnit() ) );
         locationSpinner.setSelection( Arrays.asList( Constants.Location.values() ).indexOf( ingredient.getLocation() ) );
@@ -173,14 +174,14 @@ public class IngredientViewActivity extends AppCompatActivity {
                 Constants.IngredientCategory categoryArg = (Constants.IngredientCategory) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg, locationArg, amountArg, amountUnitArg, categoryArg);
+                    ingredient = new Ingredient(nameArg, descriptionArg, new Date( dateArg ), locationArg, amountArg, amountUnitArg, categoryArg);
                     ingredientStorage.addIngredient(ingredient);
                 }
 
                 else {
                     ingredient.setName( nameArg );
                     ingredient.setDescription( descriptionArg );
-                    ingredient.setBestBeforeDate( dateArg );
+                    ingredient.setBestBeforeDate( new Date( dateArg) );
                     ingredient.setLocation( locationArg );
                     ingredient.setAmount( amountArg );
                     ingredient.setUnit( amountUnitArg );

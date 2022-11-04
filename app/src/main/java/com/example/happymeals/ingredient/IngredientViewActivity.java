@@ -52,7 +52,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
         // won't need new instance after we have the singleton ingredient storage initialized in
         // main class
-        ingredientStorage = new IngredientStorage( FireStoreManager.getInstance() );
+        ingredientStorage = IngredientStorage.getInstance();
 
         Intent intent = getIntent();
         context = this;
@@ -119,15 +119,16 @@ public class IngredientViewActivity extends AppCompatActivity {
 
     private void fillFields( Intent intent ) {
         Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
-        ingredient = ingredientStorage.getIngredients().get(ingredientIndex);
+        ingredient = ingredientStorage.getIngredients().get( ingredientIndex );
 
         name.setText( ingredient.getName() );
+        name.setEnabled( false );
         description.setText( ingredient.getDescription() );
         date.setText( ingredient.getBestBeforeDate().toString() );
         quantity.setText( Integer.toString(ingredient.getAmount()) );
         unitSpinner.setSelection(Arrays.asList( Constants.AmountUnit.values() ).indexOf( ingredient.getUnit() ) );
         locationSpinner.setSelection( Arrays.asList( Constants.Location.values() ).indexOf( ingredient.getLocation() ) );
-        categorySpinner.setSelection(Arrays.asList( Constants.IngredientCategory.values() ).indexOf( ingredient.getCategory() ) );
+        categorySpinner.setSelection( Arrays.asList( Constants.IngredientCategory.values() ).indexOf( ingredient.getCategory() ) );
     }
 
     private void checkInput() {
@@ -136,7 +137,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
         validator.checkText( name, "Name");
         validator.checkText( description, "Description" );
-        validator.checkDate( date );
+//        validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
         validator.checkSpinner( unitSpinner, "Quantity Unit" );
         validator.checkSpinner( locationSpinner, "Location" );
@@ -165,23 +166,24 @@ public class IngredientViewActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                String nameArg = description.getText().toString();
+                String nameArg = name.getText().toString();
                 String descriptionArg = description.getText().toString();
-                String dateArg = date.getText().toString();
+                // <todo> Change date to a fragment
+                Date dateArg = new Date();
                 Constants.Location locationArg = (Constants.Location) locationSpinner.getSelectedItem();
                 int amountArg = Integer.parseInt(quantity.getText().toString());
                 Constants.AmountUnit amountUnitArg = (Constants.AmountUnit) unitSpinner.getSelectedItem();
                 Constants.IngredientCategory categoryArg = (Constants.IngredientCategory) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    ingredient = new Ingredient(nameArg, descriptionArg, new Date( dateArg ), locationArg, amountArg, amountUnitArg, categoryArg);
+                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
                     ingredientStorage.addIngredient(ingredient);
                 }
 
                 else {
                     ingredient.setName( nameArg );
                     ingredient.setDescription( descriptionArg );
-                    ingredient.setBestBeforeDate( new Date( dateArg) );
+                    ingredient.setBestBeforeDate( dateArg );
                     ingredient.setLocation( locationArg );
                     ingredient.setAmount( amountArg );
                     ingredient.setUnit( amountUnitArg );

@@ -108,8 +108,8 @@ public class FireStoreManager {
      * @param documentName The {@link String} of the document name which should hold the specific
      *                     data entry to be deleted.
      */
-    public void deleteDocument( Constants.COLLECTION_NAME collectionName, String documentName ) {
-        deleteDocument( userDocument.collection( collectionName.toString() ), documentName );
+    public void deleteDocument( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
+        deleteDocument( userDocument.collection( collectionName.toString() ), data );
 
     }
 
@@ -122,8 +122,8 @@ public class FireStoreManager {
      * @param documentName The {@link String} of the document name which should hold the specific
      *                     data entry to be deleted.
      */
-    public void deleteDocument( CollectionReference  collection, String documentName ) {
-        collection.document( documentName )
+    public void deleteDocument( CollectionReference  collection, DatabaseObject data ) {
+        collection.document( data.getName() )
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         // Create the firebase manager connection along with all the storage classes.
         FireStoreManager.getInstance();
         RecipeStorage.getInstance();
+        IngredientStorage.getInstance();
+
         Context context = this;
 
         // The 4 buttons to access the other activities

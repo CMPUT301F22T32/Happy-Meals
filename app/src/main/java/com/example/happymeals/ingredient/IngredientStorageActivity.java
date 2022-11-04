@@ -10,11 +10,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.happymeals.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class IngredientStorageActivity extends AppCompatActivity {
+public class IngredientStorageActivity extends AppCompatActivity implements DatasetWatcher {
     private ListView storageListView;
     private IngredientStorageArrayAdapter storageAdapter;
     private IngredientStorage ingredientStorage;
@@ -24,9 +25,10 @@ public class IngredientStorageActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
 
-        ingredientStorage = new IngredientStorage( FireStoreManager.getInstance() ) ;
+        ingredientStorage = IngredientStorage.getInstance();
 
         storageListView = findViewById( R.id.storage_list) ;
+        ingredientStorage.setListeningActivity(this);
         storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() ) ;
         storageListView.setAdapter( storageAdapter ) ;
 
@@ -55,7 +57,8 @@ public class IngredientStorageActivity extends AppCompatActivity {
         startActivity( ingredientIntent ) ;
     }
 
-    public void updateTheAdapter( View view ) {
-        this.storageAdapter.notifyDataSetChanged();
+    @Override
+    public void signalChangeToAdapter() {
+        storageAdapter.notifyDataSetChanged();
     }
 }

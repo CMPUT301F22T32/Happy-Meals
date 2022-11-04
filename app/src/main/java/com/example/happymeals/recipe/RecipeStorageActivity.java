@@ -36,8 +36,6 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
 
     public void signalChangeToAdapter() {
         adapter.notifyDataSetChanged();
-        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
-        recipeListView.setAdapter(adapter);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.happymeals.ingredient;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.DatasetWatcher;
 import com.example.happymeals.database.*;
 import com.google.firebase.firestore.CollectionReference;
 
@@ -11,22 +12,38 @@ import java.util.Map;
  * This is a class for storing a list of ingredients
  */
 public class IngredientStorage implements DatabaseListener {
+
+    private static IngredientStorage instance;
+
+    private DatasetWatcher listeningActivity;
+
     private ArrayList<Ingredient> ingredients;
     private FireStoreManager fsm;
     private CollectionReference ingredientCollection;
 
-    public IngredientStorage( FireStoreManager fsm ) {
+    private IngredientStorage() {
         this.ingredients = new ArrayList< Ingredient >();
-        this.fsm = fsm;
+        this.fsm = FireStoreManager.getInstance();
         this.ingredientCollection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS );
         fsm.getAllFrom( ingredientCollection, this, new Ingredient() );
+        this.listeningActivity = null;
     }
 
-    /**
-     * This pulls the list of ingredients in the Firebase database and sets it to ingredients
-     */
-    public void storeIngredient( Ingredient ingredient ) {
-        fsm.addData( ingredientCollection, ingredient );
+    public static IngredientStorage getInstance() {
+        if( instance == null ){
+            instance = new IngredientStorage();
+        }
+        return instance;
+    }
+
+    public void setListeningActivity( DatasetWatcher context ) {
+        this.listeningActivity = context;
+    }
+
+    public void updateStorage() {
+        if (listeningActivity != null) {
+            listeningActivity.signalChangeToAdapter();
+        }
     }
 
     public void updateIngredientsFromDatabase() {
@@ -47,16 +64,34 @@ public class IngredientStorage implements DatabaseListener {
      */
     public void addIngredient( Ingredient ingredient ) {
         ingredients.add( ingredient );
+        updateStorage();
         fsm.addData(ingredientCollection, ingredient);
         // TODO implement database interaction
     }
 
+    public Ingredient getIngredient( String ingredientName ) {
+        for( Ingredient ingredient : ingredients ) {
+            if (ingredient.getName().equals(ingredientName)) {
+                return ingredient;
+            }
+        }
+        return null;
+    }
+
     public void removeIngredient( Ingredient ingredient ) {
-        fsm.deleteDocument(ingredientCollection, ingredient.getName());
+        ingredients.remove( ingredient );
+        updateStorage();
+        fsm.deleteDocument(ingredientCollection, ingredient);
     }
 
     public void updateIngredient( Ingredient ingredient ) {
-        fsm.updateData(ingredientCollection, new DatabaseObject(ingredient.getName()));
+        for( Ingredient i : ingredients ) {
+            if( i.getName().equals(ingredient.getName() ) ){
+                i = ingredient;
+            }
+        }
+        updateStorage();
+        fsm.updateData( ingredientCollection, ingredient );
     }
 
     @Override
@@ -73,6 +108,7 @@ public class IngredientStorage implements DatabaseListener {
         if( !replace ){
             ingredients.add( ingredient );
         }
+        updateStorage();
     }
 
     @Override

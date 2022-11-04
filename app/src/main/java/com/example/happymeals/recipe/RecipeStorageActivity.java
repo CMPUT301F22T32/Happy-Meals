@@ -29,7 +29,7 @@ public class RecipeStorageActivity extends AppCompatActivity {
         recipeListView = findViewById(R.id.recipe_list);
 
         recipeListView = (ListView) findViewById(R.id.recipe_list);
-        //recipeStorage = new RecipeStorage();
+        recipeStorage = new RecipeStorage(fsm);
         recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
 
         recipeStorage = new RecipeStorage( fsm ){

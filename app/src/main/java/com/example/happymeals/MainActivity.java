@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+
                 //TODO: Send intent for Ingredient Storage Activity
             }
         });

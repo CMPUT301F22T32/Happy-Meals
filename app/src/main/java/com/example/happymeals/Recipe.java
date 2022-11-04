@@ -122,4 +122,40 @@ public class Recipe extends DatabaseObject {
     public double getServings() {
         return servings;
     }
+
+    public void setCookTime(double cookTime) {
+        this.cookTime = cookTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
+    }
+
+    public void addComments(String comment) {
+        comments.add(comment);
+    }
+
+    public void setIngredients(ArrayList<HashMap<String, DocumentReference>> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setInstructions(ArrayList<String> instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setPrepTime(double prepTime) {
+        this.prepTime = prepTime;
+    }
+
+    public void setServings(double servings) {
+        this.servings = servings;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

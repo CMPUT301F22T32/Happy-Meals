@@ -22,21 +22,26 @@ import androidx.test.filters.LargeTest;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class NavigatingToRecipeStorageTest {
+public class RecipeStorageNavigationTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void navigatingToRecipeStorageTest() {
+    public void recipeStorageNavigationTest() {
+        ViewInteraction button = onView(
+                allOf(withId(R.id.recipes_button), withText("RECIPES"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        button.check(matches(isDisplayed()));
+
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.recipes_button), withText("Recipes"),
                         childAtPosition(
@@ -47,10 +52,11 @@ public class NavigatingToRecipeStorageTest {
                         isDisplayed()));
         materialButton.perform(click());
 
-        ViewInteraction linearLayout = onView(
-                allOf(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class)),
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.recipe_title), withText("Recipes"),
+                        withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
+        textView.check(matches(isDisplayed()));
 
         ViewInteraction materialTextView = onView(
                 allOf(withId(R.id.return_text), withText("Go Back"),
@@ -62,9 +68,11 @@ public class NavigatingToRecipeStorageTest {
                         isDisplayed()));
         materialTextView.perform(click());
 
-        ViewInteraction frameLayout = onView(
-                allOf(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class), isDisplayed()));
-        frameLayout.check(matches(isDisplayed()));
+        ViewInteraction button2 = onView(
+                allOf(withId(R.id.recipes_button), withText("RECIPES"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        button2.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(

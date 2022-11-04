@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_ingredient_storage.xml" value="0.19610507246376813" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_recipe_storage.xml" value="0.26927083333333335" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/ingredient_storage_content.xml" value="0.335" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/recipe_content.xml" value="0.5" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/recipe_details_activity.xml" value="0.335" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/recipe_list_conent.xml" value="0.5" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
-      </map>
-    </option>
+  <component name="ProjectRootManager" version="2" default="true">
+    <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
 </project>

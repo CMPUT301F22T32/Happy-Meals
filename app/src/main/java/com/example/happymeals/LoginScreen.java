@@ -12,6 +12,7 @@ import android.widget.TextView;
  * This class is a candidate to be the entry point of the application -- its implementation has yet
  * to be approved. It features a login screen and will authenticate users. Upon successful authentication,
  * users can then access all their persistent data.
+ * @author sruduke
  */
 public class LoginScreen extends AppCompatActivity {
 

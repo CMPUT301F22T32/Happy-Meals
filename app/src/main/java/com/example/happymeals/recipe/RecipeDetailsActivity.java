@@ -18,6 +18,9 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/**
+ * @author bfiogbe
+ */
 public class RecipeDetailsActivity extends AppCompatActivity {
 
     private Recipe recipe;
@@ -34,9 +37,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView commendsField;
 
     /**
-     * This is the function called whenever the MainActivity is created -- in our
-     * case, this is on the launch of the app or when navigating back to the home page.
-     * It it responsible for sending the intents to access all the other main views.
+     * This is the function called whenever the RecipeDetailsActivity is created -- in our
+     * case, this is when the user selects a {@link Recipe} from the {@link RecipeStorageActivity}.
      * @param savedInstanceState The instance state to restore the activity to (if applicable) {@link Bundle}
      */
     @Override

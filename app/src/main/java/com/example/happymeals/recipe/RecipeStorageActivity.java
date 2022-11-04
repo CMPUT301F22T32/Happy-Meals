@@ -14,6 +14,7 @@ import com.example.happymeals.database.FireStoreManager;
  * This activity will show all the recipes saved by the user and allow for the start
  * of new activities. It will display simple details of the recipe and allow the user to launch
  * activity to create a new recipe.
+ * @author bfiogbe
  */
 public class RecipeStorageActivity extends AppCompatActivity {
     private ListView recipeListView;

@@ -8,8 +8,8 @@ import java.util.Date;
 
 /**
  * This is a class defines an Ingredient
+ * @author kstark, jeastgaa & sruduke
  */
-
 public class Ingredient extends DatabaseObject implements Serializable {
 
     private String description;
@@ -19,10 +19,24 @@ public class Ingredient extends DatabaseObject implements Serializable {
     private Constants.AmountUnit unit;
     private Constants.IngredientCategory category;
 
+    /**
+     * This is an empty constructor needed for Firestore construction.
+     */
     public Ingredient() {
 
     }
 
+    /**
+     * This is the loaded constructor for an {@link Ingredient} object. It contains all of the
+     * necessary parameters for instantiation.
+     * @param name The name of the ingredient ({@link String}).
+     * @param description An optional description of the ingredient ({@link String}).
+     * @param bestBeforeDate The expiry date in YYYY-MM-DD ISO Format ({@link Date}).
+     * @param location The location where the ingredient is stored ({@link Constants.Location}).
+     * @param amount The positive integer amount of the ingredient ({@link Integer}.
+     * @param unit The unit the ingredient is stored by ({@link Constants.AmountUnit}).
+     * @param category The food category that the ingredient falls under ({@link Constants.IngredientCategory}).
+     */
     public Ingredient( String name, String description, Date bestBeforeDate,
                        Constants.Location location, Integer amount, Constants.AmountUnit unit,
                        Constants.IngredientCategory category ) {
@@ -35,6 +49,11 @@ public class Ingredient extends DatabaseObject implements Serializable {
         this.category = category;
     }
 
+    /**
+     * This function overrides the getName() function inherited from the {@link DatabaseObject} to
+     * return the name of the ingredient.
+     * @return name
+     */
     @Override
     public String getName() {
         return name;
@@ -88,6 +107,11 @@ public class Ingredient extends DatabaseObject implements Serializable {
         return category;
     }
 
+    /**
+     * This sets the name of the Ingredient
+     * @param name {@link String}
+     * This is the name of the Ingredient
+     */
     public void setName( String name ) {
         this.name = name;
     }

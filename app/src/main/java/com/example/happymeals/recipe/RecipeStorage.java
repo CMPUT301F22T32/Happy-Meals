@@ -1,7 +1,5 @@
 package com.example.happymeals.recipe;
 
-
-
 // recipe storage class
 
 import com.example.happymeals.Constants;
@@ -18,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author bfiogbe
+ */
 public class RecipeStorage implements DatabaseListener {
 
     private ArrayList<Recipe> recipes;

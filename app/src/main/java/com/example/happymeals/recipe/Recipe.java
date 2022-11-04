@@ -1,13 +1,10 @@
 package com.example.happymeals.recipe;
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/Recipe.java
 import com.example.happymeals.database.*;
+import com.example.happymeals.ingredient.Ingredient;
 import com.google.firebase.firestore.DocumentReference;
 
-=======
-
 import java.io.Serializable;
->>>>>>> origin:app/src/main/java/com/example/happymeals/Recipe.java
 import java.util.ArrayList;
 import java.util.HashMap;
 

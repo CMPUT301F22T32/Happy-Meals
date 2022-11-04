@@ -6,17 +6,16 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorageActivity.java
 import com.example.happymeals.R;
+import com.example.happymeals.database.FireStoreManager;
 
-=======
 /**
  * Class that holds the {@link AppCompatActivity} which will run the activity for the user.
  * This activity will show all the recipes saved by the user and allow for the start
  * of new activities. It will display simple details of the recipe and allow the user to launch
  * activity to create a new recipe.
+ * @author bfiogbe
  */
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorageActivity.java
 public class RecipeStorageActivity extends AppCompatActivity {
     private ListView recipeListView;
     private RecipeStorageAdapter recipeStorageAdapter;
@@ -29,11 +28,10 @@ public class RecipeStorageActivity extends AppCompatActivity {
         FireStoreManager fsm = new FireStoreManager();
         recipeListView = findViewById(R.id.recipe_list);
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorageActivity.java
         recipeListView = (ListView) findViewById(R.id.recipe_list);
-        recipeStorage = new RecipeStorage();
+        //recipeStorage = new RecipeStorage();
         recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
-=======
+
         recipeStorage = new RecipeStorage( fsm ){
             @Override
             public void updateStorage() {
@@ -42,7 +40,6 @@ public class RecipeStorageActivity extends AppCompatActivity {
         };
 
         recipeStorageAdapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorageActivity.java
         recipeListView.setAdapter(recipeStorageAdapter);
     }
 

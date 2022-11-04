@@ -19,20 +19,10 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private ArrayList<Recipe> recipeStorageList;
     private Context context;
 
-<<<<<<< HEAD:app/src/main/java/com/example/happymeals/recipe/RecipeStorageAdapter.java
     public RecipeStorageAdapter(Context context, ArrayList<Recipe> recipeStorageList) {
         super(context, 0, recipeStorageList);
-=======
-
-
-
-    public RecipeStorageAdapter(@NonNull Context context, ArrayList<Recipe> recipeStorageList) {
-        super(context, 0 , recipeStorageList );
->>>>>>> origin:app/src/main/java/com/example/happymeals/RecipeStorageAdapter.java
-        this.context = context;
-        this.recipeStorageList = recipeStorageList;
     }
-/*
+
     @NonNull
     @Override
 
@@ -62,6 +52,4 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         return listItem;
     }
 
-
- */
 }

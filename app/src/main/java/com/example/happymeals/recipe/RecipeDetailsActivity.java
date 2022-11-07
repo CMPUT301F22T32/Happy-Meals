@@ -3,25 +3,21 @@ package com.example.happymeals.recipe;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.happymeals.R;
 
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
-import com.example.happymeals.recipe.Recipe;
-import com.example.happymeals.recipe.RecipeStorage;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener {
@@ -29,6 +25,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private Recipe recipe;
 
     private ArrayList<Ingredient> ingredients;
+    private HashMap< String, HashMap< String, Object > > ingredientMap;
     private IngredientStorageArrayAdapter adapter;
     private TextView nameField;
     private EditText descriptionField;
@@ -75,10 +72,11 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
         // Get the array reference so that we can pass it into the adapter.
         ingredients = storage.getIngredientListReference();
-        adapter = new IngredientStorageArrayAdapter( this, ingredients );
         // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
         // change.
         if( recipe != null ) {
+            ingredientMap = storage.getRecipeIngredientMap( recipe );
+            adapter = new IngredientStorageArrayAdapter( this, ingredients, ingredientMap);
             ingredients = storage.getIngredientsAsList( recipe, adapter );
             setAllValues();
         }

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.example.happymeals.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class is used to display a list of ingredients in the Storage activity.
@@ -23,6 +24,7 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
 
     private ArrayList<Ingredient> storageList;
     private Context context;
+    private HashMap< String, Double > countMap;
 
     /**
      * This initializes the IngredientArrayAdapter
@@ -32,10 +34,13 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
      * This is the list of ingredients to be displayed
      */
 
-    public IngredientSpecificArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
+    public IngredientSpecificArrayAdapter(@NonNull Context context,
+                                          ArrayList<Ingredient> storageList,
+                                          HashMap< String, Double > countMap ) {
         super(context, 0, storageList);
         this.storageList = storageList;
         this.context = context;
+        this.countMap = countMap;
     }
 
     /**
@@ -57,7 +62,7 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
         TextView unit = view.findViewById(R.id.ingredient_specific_amount_unit_text);
 
         name.setText( ingredient.getName() );
-        amount.setText(ingredient.getAmount().toString());
+        amount.setText( countMap.get( ingredient.getName() ).toString() );
         unit.setText(ingredient.getUnit().toString());
 
         return view;

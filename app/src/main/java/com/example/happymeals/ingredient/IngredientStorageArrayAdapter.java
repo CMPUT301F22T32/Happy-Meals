@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.example.happymeals.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class is used to display a list of ingredients in the Storage activity.
@@ -23,6 +24,7 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
 
     private ArrayList<Ingredient> storageList;
     private Context context;
+    private HashMap< String, HashMap< String, Object > > countMap;
 
     /**
      * This initializes the IngredientArrayAdapter
@@ -32,10 +34,17 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
      * This is the list of ingredients to be displayed
      */
 
-    public IngredientStorageArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
+    public IngredientStorageArrayAdapter(@NonNull Context context,
+                                         ArrayList<Ingredient> storageList,
+                                         HashMap< String, HashMap< String, Object > >... countMap) {
         super(context, 0, storageList);
         this.storageList = storageList;
         this.context = context;
+        if( countMap.length > 0 ) {
+            this.countMap = countMap[0];
+        } else {
+            this.countMap = null;
+        }
     }
 
     /**
@@ -61,7 +70,11 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
             name.setText( ingredient.getName() );
             description.setText(ingredient.getDescription());
             location.setText(ingredient.getLocation().toString());
-            amount.setText(ingredient.getAmount().toString());
+            if( countMap != null ) {
+                amount.setText(countMap.get( ingredient.getName()).get("count").toString());
+            } else {
+                amount.setText(ingredient.getAmount().toString());
+            }
             unit.setText(ingredient.getUnit().toString());
 
         return view;

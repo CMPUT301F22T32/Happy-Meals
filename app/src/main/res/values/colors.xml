@@ -10,4 +10,5 @@
     <color name="yellow">#FFEE00</color>
     <color name = "blue">#00B7FF</color>
     <color name = "dark_blue">#0015FF</color>
+    <color name="empty_red">#E73A16</color>
 </resources>

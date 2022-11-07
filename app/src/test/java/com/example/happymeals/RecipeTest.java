@@ -3,12 +3,10 @@ package com.example.happymeals;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
-import com.google.firebase.firestore.DocumentReference;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,9 +38,12 @@ public class RecipeTest {
         instructions.add("Cook beef in a hot pan");
         instructions.add("Cut lettuce");
         String strInstructions = "1: Cook beef in a hot pan\n2: Cut lettuce\n";
-
+        HashMap< String, HashMap< String, Object > > ingredientMap = new HashMap<>();
+        for( Ingredient i : ingredients ) {
+            ingredientMap.put(i.getName(), new HashMap<>() );
+        }
         Recipe recipe = new Recipe("Tacos", 2, "The best tacos ever",
-                comments, recipeStorage.getIngredientMapForRecipe(ingredients, new HashMap<>()),
+                comments, recipeStorage.makeIngredientMapForRecipe(ingredientMap),
                 strInstructions, 15, 6);
 
         // Test getters

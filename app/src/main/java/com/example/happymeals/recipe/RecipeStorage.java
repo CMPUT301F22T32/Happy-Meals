@@ -43,7 +43,6 @@ public class RecipeStorage implements DatabaseListener {
         this.collection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.RECIPES );
         this.fsm.getAllFrom( collection, this, new Recipe() );
         this.listeningActivity = null;
-
     }
 
     public static RecipeStorage getInstance() {
@@ -59,38 +58,39 @@ public class RecipeStorage implements DatabaseListener {
         updateStorage();
     }
 
-    public HashMap< String, DocumentReference > convertArrayToHashMap( ArrayList< Ingredient > listToConvert ) {
-        HashMap< String, DocumentReference > mapToReturn = new HashMap<>();
-        for( Ingredient i : listToConvert ) {
-            mapToReturn.put( i.getName(), fsm.getDocReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS, i) );
-        }
-        return mapToReturn;
-    }
+    public HashMap< String, HashMap< String, Object > > makeIngredientMapForRecipe(
+            HashMap< String, HashMap< String, Object > > givenMap ) {
 
-    public HashMap< String, HashMap< String, Object > >
-    getIngredientMapForRecipe( ArrayList< Ingredient > ilist, HashMap< String, Double > cmap ) {
-        HashMap< String, HashMap< String, Object> > mapToReturn = new HashMap<>();
-
-        for( Ingredient i : ilist ) {
-            HashMap< String, Object > tempMap = new HashMap<>();
-            tempMap.put( "count", cmap.get( i.getName() ) );
-            tempMap.put( "reference", fsm.getDocReferenceTo(Constants.COLLECTION_NAME.INGREDIENTS,
-                    i ) );
-            mapToReturn.put( i.getName(), tempMap);
+        for( Map.Entry<String, HashMap< String, Object > > entry : givenMap.entrySet() ) {
+            entry.getValue().put(
+                    "reference",
+                    fsm.getDocReferenceTo(Constants.COLLECTION_NAME.INGREDIENTS,
+                            this.getRecipe( entry.getKey() ) ) );
         }
-        return mapToReturn;
+
+        return givenMap;
     }
 
     public ArrayList<Recipe> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(ArrayList<Recipe> recipes) {
+    public void setRecipes( ArrayList<Recipe> recipes ) {
         this.recipes = recipes;
     }
 
     public void removeRecipe(Recipe recipe) {
         recipes.remove(recipe);
+        updateStorage();
+    }
+
+    public HashMap< String, HashMap< String, Object > > getRecipeIngredientMap ( Recipe recipe ) {
+        return recipe.getIngredients();
+    }
+
+    public Double getCountForIngredientInRecipe( Recipe recipe, Ingredient ingredient ) {
+        return (Double) getRecipeIngredientMap( recipe ).get( ingredient.getName() )
+                .get("count");
     }
 
     public Recipe getRecipe( String recipeName ) {
@@ -105,6 +105,7 @@ public class RecipeStorage implements DatabaseListener {
     public ArrayList< Ingredient > getIngredientListReference() {
         return this.ingredientHolderForReturn;
     }
+
     public ArrayList< Ingredient > getIngredientsAsList( Recipe recipe, IngredientStorageArrayAdapter listener ) {
         if( this.ingredientHolderForReturn.size() != recipe.getIngredients().size() ){
             this.ingredientHolderForReturn.clear();

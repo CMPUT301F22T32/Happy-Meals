@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputStringFragment;
@@ -19,10 +18,8 @@ import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.annotation.Documented;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RecipeAddActivity extends AppCompatActivity  implements SearchIngredientFragment.SearchIngredientsFragmentListener,
@@ -39,7 +36,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
 
     private ArrayList< Ingredient > ingredientsInRecipe;
     private ArrayList< String > comments;
-    private HashMap< String, Double > countMap;
+    private HashMap< String, HashMap< String, Object > > countMap;
     private IngredientStorageArrayAdapter adapter;
 
     private Button confirmButton;
@@ -61,7 +58,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         ingredientsInRecipe = new ArrayList<>();
         countMap = new HashMap<>();
         comments = new ArrayList<>();
-        adapter = new IngredientStorageArrayAdapter( this, ingredientsInRecipe );
+        adapter = new IngredientStorageArrayAdapter( this, ingredientsInRecipe, countMap );
 
         confirmButton = findViewById( R.id.recipe_add_save_button );
         cancelButton = findViewById( R.id.recipe_add_cancel_button );
@@ -108,8 +105,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 String newInstructions = instructionsField.getText().toString();
                 double newServings = new Double( servingsField.getText().toString() );
                 storage.addRecipe( new Recipe( newName, newCookTime, newDescription, comments,
-                        RecipeStorage.getInstance().getIngredientMapForRecipe(
-                                ingredientsInRecipe, countMap
+                        RecipeStorage.getInstance().makeIngredientMapForRecipe(
+                                countMap
                         ),
                         newInstructions, newPrepTime, newServings
                         ));
@@ -124,9 +121,9 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                                 HashMap< String, Double > countMap ) {
         for( Ingredient i : ingredientsToAdd ) {
             ingredientsInRecipe.add( i );
-        }
-        for(Map.Entry< String, Double > entry : countMap.entrySet() ) {
-            this.countMap.put( entry.getKey(), entry.getValue() );
+            HashMap< String, Object > tempMap = new HashMap<>();
+            tempMap.put("count", countMap.get( i.getName() ) );
+            this.countMap.put( i.getName(), tempMap );
         }
         adapter.notifyDataSetChanged();
     }

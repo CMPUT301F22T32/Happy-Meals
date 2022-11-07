@@ -79,8 +79,11 @@ public class SearchIngredientFragment extends DialogFragment implements
         allIngredients = view.findViewById( R.id.recipe_add_all_ingredients_list );
         addedIngredients = view.findViewById( R.id.recipe_add_added_ingredients_list );
 
-        allIngredientsAdapter = new IngredientStorageArrayAdapter( view.getContext(), storage.getIngredients() );
-        addedIngredientsAdapter = new IngredientSpecificArrayAdapter( view.getContext(), addedIngredientsList );
+        allIngredientsAdapter = new IngredientStorageArrayAdapter( view.getContext(),
+                                                                    storage.getIngredients() );
+        addedIngredientsAdapter = new IngredientSpecificArrayAdapter( view.getContext(),
+                                                                    addedIngredientsList,
+                                                                    ingredientCountMap );
 
         allIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

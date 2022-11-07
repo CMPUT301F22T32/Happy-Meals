@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
-import com.example.happymeals.RecipeDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -38,7 +37,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
 
         Recipe currentRecipe = recipeStorageList.get(position);
 
-        TextView name = listItem.findViewById(R.id.recipe_list_name_field);
+        TextView name = listItem.findViewById(R.id.ingredient_specific_list_name_field);
         TextView servings = listItem.findViewById( R.id.recipe_list_servings_field );
         TextView description = listItem.findViewById( R.id.recipe_list_description_field );
         name.setText( currentRecipe.getName() );

@@ -4,8 +4,11 @@ import com.example.happymeals.Constants;
 import com.example.happymeals.DatasetWatcher;
 import com.example.happymeals.database.*;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,6 +37,14 @@ public class IngredientStorage implements DatabaseListener {
             instance = new IngredientStorage();
         }
         return instance;
+    }
+
+    public HashMap< String, DocumentReference > convertListToHashMap(ArrayList< Ingredient > iList ) {
+        HashMap< String, DocumentReference > mapToReturn = new HashMap<>();
+        for( Ingredient i : iList ) {
+            mapToReturn.put( i.getName(), fsm.getDocReferenceTo(ingredientCollection, i ) );
+        }
+        return mapToReturn;
     }
 
     public void setListeningActivity( DatasetWatcher context ) {

@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author kstark
  */
 
-public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
+public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
 
     private ArrayList<Ingredient> storageList;
     private Context context;
@@ -32,7 +32,7 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
      * This is the list of ingredients to be displayed
      */
 
-    public IngredientStorageArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
+    public IngredientSpecificArrayAdapter(@NonNull Context context, ArrayList<Ingredient> storageList) {
         super(context, 0, storageList);
         this.storageList = storageList;
         this.context = context;
@@ -47,22 +47,18 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.ingredient_storage_content, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.ingredient_specific_content, parent, false);
         }
 
-            Ingredient ingredient = storageList.get(position);
+        Ingredient ingredient = storageList.get(position);
 
-            TextView name = view.findViewById( R.id.ingredient_storage_list_name_field);
-            TextView description = view.findViewById(R.id.recipe_list_description_field);
-            TextView location = view.findViewById(R.id.recipe_list_servings_field);
-            TextView amount = view.findViewById(R.id.ingredient_storage_amount_text);
-            TextView unit = view.findViewById(R.id.ingredient_storage_amount_unit_text);
+        TextView name = view.findViewById( R.id.ingredient_specific_list_name_field);
+        TextView amount = view.findViewById(R.id.ingredient_specific_amount_text);
+        TextView unit = view.findViewById(R.id.ingredient_specific_amount_unit_text);
 
-            name.setText( ingredient.getName() );
-            description.setText(ingredient.getDescription());
-            location.setText(ingredient.getLocation().toString());
-            amount.setText(ingredient.getAmount().toString());
-            unit.setText(ingredient.getUnit().toString());
+        name.setText( ingredient.getName() );
+        amount.setText(ingredient.getAmount().toString());
+        unit.setText(ingredient.getUnit().toString());
 
         return view;
     }

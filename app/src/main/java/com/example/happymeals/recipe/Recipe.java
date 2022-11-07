@@ -22,8 +22,8 @@ public class Recipe extends DatabaseObject {
     private double cookTime;
     private String description;
     private ArrayList< String > comments;
-    private HashMap< String, DocumentReference> ingredients;
-    private ArrayList< String > instructions;
+    private HashMap< String, HashMap< String, Object > > ingredients;
+    private String instructions;
     private double prepTime;
     private double servings;
 
@@ -42,15 +42,15 @@ public class Recipe extends DatabaseObject {
      * @param ingredients The {@link HashMap} which holds all the ingredient used in the recipe.
      *                    Recipes keys are their names, and values are the references to the
      *                    documents they are stored in.
-     * @param instructions {@link ArrayList} holding all the instructions in order to complete the
+     * @param instructions {@link String} holding all the instructions in order to complete the
      *                                      recipe. These are all {@link String} values.
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
      */
     public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
-                   HashMap< String, DocumentReference > ingredients,
-                   ArrayList< String > instructions,
+                   HashMap< String, HashMap< String, Object > > ingredients,
+                   String instructions,
                    double prepTime, double servings ) {
         super(name);
         this.cookTime = cookTime;
@@ -105,35 +105,19 @@ public class Recipe extends DatabaseObject {
      * Gets the list of ingredients needed to make the meal with the described servings.
      * @return {@link ArrayList} holding all the ingredients.
      */
-    public HashMap<String, DocumentReference> getIngredients() {
+    public HashMap<String, HashMap< String, Object > > getIngredients() {
         return ingredients;
     }
 
     /**
      * Gets the list of instructions which are stored in the order of which they need to be
      * completed.
-     * @return The {@link ArrayList} holding all the {@link String} values representing the
-     * instructions to make the meal.
+     * @return The {@link String} the instructions of the meal.
      */
-    public ArrayList<String> getInstructions() {
+    public String getInstructions() {
         return instructions;
     }
 
-    /**
-     * Goes through all the instruction strings and forms them into a single string.
-     * This is intended to be used by activities such that the instructions can be placed
-     * as a string.
-     * @return {@link String} of all the combined comments from instructions {@link ArrayList}.
-     */
-    public String getInstructionsAsString() {
-        int count = 1;
-        String instructionString = "";
-        for( String str : instructions){
-            instructionString += count + ": " + str + "\n";
-            count++;
-        }
-        return instructionString;
-    }
 
     /**
      * Gets the stored prep time of the recipe. This is the total time - cook time.

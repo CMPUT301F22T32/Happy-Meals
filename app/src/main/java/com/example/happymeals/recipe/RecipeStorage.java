@@ -55,6 +55,30 @@ public class RecipeStorage implements DatabaseListener {
 
     public void addRecipe(Recipe recipe) {
         recipes.add(recipe);
+        fsm.addData( collection, recipe );
+        updateStorage();
+    }
+
+    public HashMap< String, DocumentReference > convertArrayToHashMap( ArrayList< Ingredient > listToConvert ) {
+        HashMap< String, DocumentReference > mapToReturn = new HashMap<>();
+        for( Ingredient i : listToConvert ) {
+            mapToReturn.put( i.getName(), fsm.getDocReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS, i) );
+        }
+        return mapToReturn;
+    }
+
+    public HashMap< String, HashMap< String, Object > >
+    getIngredientMapForRecipe( ArrayList< Ingredient > ilist, HashMap< String, Double > cmap ) {
+        HashMap< String, HashMap< String, Object> > mapToReturn = new HashMap<>();
+
+        for( Ingredient i : ilist ) {
+            HashMap< String, Object > tempMap = new HashMap<>();
+            tempMap.put( "count", cmap.get( i.getName() ) );
+            tempMap.put( "reference", fsm.getDocReferenceTo(Constants.COLLECTION_NAME.INGREDIENTS,
+                    i ) );
+            mapToReturn.put( i.getName(), tempMap);
+        }
+        return mapToReturn;
     }
 
     public ArrayList<Recipe> getRecipes() {
@@ -85,8 +109,10 @@ public class RecipeStorage implements DatabaseListener {
         if( this.ingredientHolderForReturn.size() != recipe.getIngredients().size() ){
             this.ingredientHolderForReturn.clear();
             this.ingredientListener = listener;
-            for( DocumentReference doc : recipe.getIngredients().values() ) {
-                fsm.getData( doc, this, new Ingredient() );
+            for( HashMap< String, Object >  mapInstance: recipe.getIngredients().values() ) {
+                if( mapInstance.get("reference") instanceof DocumentReference ) {
+                    fsm.getData( (DocumentReference) mapInstance.get("reference"), this, new Ingredient() );
+                }
             }
         }
         return this.ingredientHolderForReturn;
@@ -135,6 +161,7 @@ public class RecipeStorage implements DatabaseListener {
     public void setListeningActivity( DatasetWatcher context ) {
         this.listeningActivity = context;
     }
+
     public void updateStorage() {
         if( listeningActivity != null ) {
             listeningActivity.signalChangeToAdapter();

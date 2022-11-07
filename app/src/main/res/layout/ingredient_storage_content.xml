@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:text="Description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_name_field" />
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_storage_list_name_field" />
 
     <View
         android:id="@+id/divider"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/amount_label"
+        android:id="@+id/ingredient_storage_amount_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -47,13 +47,13 @@
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
 
     <TextView
-        android:id="@+id/unit_text"
+        android:id="@+id/ingredient_storage_amount_unit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
         android:text="XX"
-        app:layout_constraintStart_toEndOf="@+id/amount_text"
+        app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_text"
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_field" />
 
     <TextView
@@ -67,17 +67,17 @@
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
 
     <TextView
-        android:id="@+id/amount_text"
+        android:id="@+id/ingredient_storage_amount_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
         android:text="XX"
-        app:layout_constraintStart_toEndOf="@+id/amount_label"
+        app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_label"
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_field" />
 
     <TextView
-        android:id="@+id/recipe_list_name_field"
+        android:id="@+id/ingredient_storage_list_name_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

@@ -5,16 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/recipe_list_description_field"
-        android:layout_width="390dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:text="Description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="409dp"
@@ -27,24 +17,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/recipe_list_servings_field"
+        android:id="@+id/ingredient_specific_amount_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="0"
-        app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_label"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
+        android:text="Amount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field" />
 
     <TextView
-        android:id="@+id/recipe_list_servings_label"
+        android:id="@+id/ingredient_specific_amount_unit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:text="Servings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
+        android:text="XX"
+        app:layout_constraintStart_toEndOf="@+id/ingredient_specific_amount_text"
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field" />
+
+    <TextView
+        android:id="@+id/ingredient_specific_amount_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="XX"
+        app:layout_constraintStart_toEndOf="@+id/ingredient_specific_amount_label"
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field" />
 
     <TextView
         android:id="@+id/ingredient_specific_list_name_field"
@@ -52,12 +52,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:text="Name"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_list_description_field"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

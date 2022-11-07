@@ -179,7 +179,6 @@ public class FireStoreManager {
      *                 and holds the listener for the success of data fetching.
      * @param requestClassType The {@link DatabaseObject} child class specifying which type of class
      *                         should be created and returned.
-     * @see <todo> List other classes here once created.</todo>
      */
     public void getData( Constants.COLLECTION_NAME collectionName, String documentName, DatabaseListener listener,
                          DatabaseObject requestClassType ) {

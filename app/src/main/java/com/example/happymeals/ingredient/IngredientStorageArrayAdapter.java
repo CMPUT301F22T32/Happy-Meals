@@ -30,7 +30,7 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
      * This initializes the IngredientArrayAdapter
      * @param context {@link Context}
      * This is the application's environment
-     * @param storageList {@link ArrayList<Ingredient>}
+     * @param storageList
      * This is the list of ingredients to be displayed
      */
 

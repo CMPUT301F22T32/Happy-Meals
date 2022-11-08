@@ -3,7 +3,7 @@ package com.example.happymeals;
 public class Constants {
 
     public static String SPINNER = "SPINNERS";
-
+    public static String LOCAL_USERS = "localUsers";
     public enum StoredSpinnerChoices {
         LOCATION,
         INGREDIENT_CATEGORY,

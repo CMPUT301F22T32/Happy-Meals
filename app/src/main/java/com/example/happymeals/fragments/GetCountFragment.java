@@ -16,28 +16,58 @@ import androidx.fragment.app.DialogFragment;
 import com.example.happymeals.R;
 import com.example.happymeals.ingredient.Ingredient;
 
+/**
+ * @author jeastgaa
+ * @version 1.00.01
+ * This fragment class gets a {@link Double} value from the user, returning it to the listening
+ * class which implements this nested {@link GetCountFragmentListener} interface.
+ */
 public class GetCountFragment extends DialogFragment {
 
+    /**
+     * @author jeastgaa
+     * @version 1.00.01
+     * This interface allows classes which call this fragment to receive the inputted double value.
+     * This will also pass the required ingredient that was being interacted with back to the
+     * listening class.
+     */
     public interface GetCountFragmentListener{
+        /**
+         * Contains the count and {@link Ingredient} which will be passed back to the calling
+         * class.
+         * @param count The {@link Double} which holds the count inputted by the user.
+         * @param ingredient The {@link Ingredient} which the count is attatched to.
+         */
         void onConfirmClick( double count, Ingredient ingredient );
     }
 
     private GetCountFragment.GetCountFragmentListener listener;
-    private AlertDialog fragment;
-    private Context context;
     private EditText getCountField;
     private Ingredient ingredientToHold;
 
-    public GetCountFragment( Context context, GetCountFragmentListener listener, Ingredient ingredient ) {
+    /**
+     * Base constructor requiring a {@link GetCountFragmentListener} and {@link Ingredient} to be
+     * passed in order to return this information on the fragment confirmation.
+     * @param listener The {@link GetCountFragmentListener} which the confirmation method will be
+     *                 called to.
+     * @param ingredient The {@link Ingredient} which will be returned to the given listener.
+     */
+    public GetCountFragment( GetCountFragmentListener listener, Ingredient ingredient ) {
         this.listener = listener;
-        this.context = context;
         this.ingredientToHold = ingredient;
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onAttach( Context context ) {
         super.onAttach( context );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstance ) {

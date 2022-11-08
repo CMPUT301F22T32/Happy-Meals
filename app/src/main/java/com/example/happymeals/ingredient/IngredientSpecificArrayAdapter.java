@@ -16,8 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class is used to display a list of ingredients in the Storage activity.
- * @author kstark
+ * @author jeastgaa
+ * This class is used adapt the {@link Ingredient} classes information specifically to a
+ * provided recipe. This adapter will present the count which is passed in through a
+ * {@link HashMap}. This will be simular to the {@link IngredientStorageArrayAdapter} with the
+ * exception of using a different content .xml file.
+ * @see IngredientStorageArrayAdapter
  */
 
 public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
@@ -27,11 +31,14 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
     private HashMap< String, Double > countMap;
 
     /**
-     * This initializes the IngredientArrayAdapter
+     * Base constructor that initializes the IngredientArrayAdapter
      * @param context {@link Context}
      * This is the application's environment
      * @param storageList {@link ArrayList<Ingredient>}
      * This is the list of ingredients to be displayed
+     * @param countMap The {@link HashMap} which maps a count of the required ingredients
+     *                 to the passed in ingredients. The map should contain keys which match
+     *                 the {@link Ingredient}'s name value.
      */
 
     public IngredientSpecificArrayAdapter(@NonNull Context context,

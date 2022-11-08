@@ -56,7 +56,6 @@ public class Recipe extends DatabaseObject {
         this.cookTime = cookTime;
         this.description = description;
         this.comments = comments;
-        // <todo> Need to add functionality to use only partial amounts of each ingredient.
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.prepTime = prepTime;

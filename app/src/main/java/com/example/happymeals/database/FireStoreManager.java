@@ -24,7 +24,7 @@ import java.util.Enumeration;
 
 /**
  * @author jeastgaa
- * @version 0.00.12
+ * @version 1.03.01
  * @see DatabaseListener As used interface to subscribe to successful data requests.
  * FireStoreManager is responsible for instantiating a connectino to the database as well as
  * getting and setting requested values in the databse. Contains global {@link DocumentReference}
@@ -49,8 +49,7 @@ public class FireStoreManager {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         // Get the local IP address to identify the user.
         String ipAddress = getLocalIpAddress();
-        // <todo> Need to make string a constant in a constant file.
-        CollectionReference collectionReference = database.collection( "localUsers" );
+        CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
         userDocument = collectionReference.document( ipAddress );
     }
 
@@ -105,8 +104,7 @@ public class FireStoreManager {
      * If no such document exists but the path specified is valid the request will still be
      * successful.
      * @param collectionName The {@link Enum} of the collection name that holds all data entries.
-     * @param documentName The {@link String} of the document name which should hold the specific
-     *                     data entry to be deleted.
+     * @param data The {@link DatabaseObject} holding the data that is being removed.
      */
     public void deleteDocument( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
         deleteDocument( userDocument.collection( collectionName.toString() ), data );
@@ -119,8 +117,7 @@ public class FireStoreManager {
      * If no such document exists but the path specified is valid the request will still be
      * successful.
      * @param collection The {@link CollectionReference} of the collection name that holds all data entries.
-     * @param documentName The {@link String} of the document name which should hold the specific
-     *                     data entry to be deleted.
+     * @param data The {@link DatabaseObject} holding the data that is being removed.
      */
     public void deleteDocument( CollectionReference  collection, DatabaseObject data ) {
         collection.document( data.getName() )
@@ -235,6 +232,10 @@ public class FireStoreManager {
      */
     public DocumentReference getDocReferenceTo( CollectionReference collection, DatabaseObject data ) {
         return collection.document( data.getName() );
+    }
+
+    public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collection, String objectName ) {
+        return userDocument.collection( collection.toString() ).document( objectName );
     }
 
     /**

@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.happymeals.DatasetWatcher;
+import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

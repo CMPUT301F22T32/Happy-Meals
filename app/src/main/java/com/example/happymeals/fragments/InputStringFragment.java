@@ -19,16 +19,34 @@ import com.example.happymeals.ingredient.Ingredient;
 
 import java.util.ArrayList;
 
+/**
+ * @author jeastgaa
+ * @version 1.00.01
+ * This fragment class will get a string from the user and return it to the
+ * {@link InputStringFragmentListener} that was passed in the launch of the fragment.
+ */
 public class InputStringFragment extends DialogFragment {
 
+    /**
+     * @author jeastgaa
+     * @version 1.00.01
+     * Listener interface to be implemented by any class that wants to call this fragment to
+     * receive the string input.
+     */
     public interface InputStringFragmentListener{
+        /**
+         * This method will hold the {@link String} value that was inputted by the fragment.
+         * @param str The passed {@link String}
+         */
         void onConfirmClick( String str );
     }
 
     private EditText inputTextView;
     private InputStringFragment.InputStringFragmentListener listener;
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onAttach( Context context ) {
         super.onAttach( context );
@@ -39,6 +57,9 @@ public class InputStringFragment extends DialogFragment {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstance ) {

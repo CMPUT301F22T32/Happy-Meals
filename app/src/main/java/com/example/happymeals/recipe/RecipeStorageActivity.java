@@ -1,6 +1,7 @@
 package com.example.happymeals.recipe;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.happymeals.DatasetWatcher;
+import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,7 +36,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         recipeListView = findViewById(R.id.recipe_list);
         recipeStorage = RecipeStorage.getInstance();
         recipeStorage.setListeningActivity(this);
-        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
+        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
         recipeListView.setAdapter(adapter);
         newRecipeButton = findViewById( R.id.recipe_storage_add_button );
 
@@ -62,4 +63,6 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     public void onGoBack( View view ) {
         finish();
     }
+
+
 }

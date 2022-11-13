@@ -2,7 +2,9 @@ package com.example.happymeals.recipe;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,6 +32,10 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         recipeStorage.setListeningActivity(this);
         adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
         recipeListView.setAdapter(adapter);
+        Spinner RecipeFilter = (Spinner) findViewById(R.id.recipe_filter);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(RecipeStorageActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.dropdown_options));
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        RecipeFilter.setAdapter(dataAdapter);
     }
 
 

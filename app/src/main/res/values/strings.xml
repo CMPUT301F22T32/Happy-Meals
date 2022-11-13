@@ -27,4 +27,15 @@
     <string name="shopping_list">Shopping List</string>
     <string name="meal_plan">Meal Plan</string>
 
+    <!-- RecipeStorage -->
+    <string-array name="dropdown_options">
+        <item>Description</item>
+        <item>Best Before Date</item>
+        <item>Location</item>
+        <item>Ingredient Category</item>
+
+
+        </string-array>
+
+
 </resources>

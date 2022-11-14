@@ -29,10 +29,11 @@
 
     <!-- RecipeStorage -->
     <string-array name="dropdown_options">
-        <item>Description</item>
-        <item>Best Before Date</item>
-        <item>Location</item>
-        <item>Ingredient Category</item>
+        <item>Type</item>
+        <item>Available Ingredients</item>
+        <item>Unavailable Ingredients</item>
+        <item>Recently Added</item>
+        <item>Preparation Time</item>
 
 
         </string-array>

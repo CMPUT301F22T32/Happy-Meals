@@ -8,7 +8,7 @@
     <string name="description">Description</string>
     <string name="name">Name</string>
     <string name="quantity">Quantity</string>
-    <string name="unit_cost">Unit</string>
+    <string name="unit">Unit</string>
     <string name="location">Location</string>
     <string name="category">Category</string>
     <string name="ingredient_information">Ingredient Information</string>
@@ -26,5 +26,15 @@
     <string name="recipes">Recipes</string>
     <string name="shopping_list">Shopping List</string>
     <string name="meal_plan">Meal Plan</string>
+
+    <!-- Shopping List -->
+    <string name="sort_by">Sort By:</string>
+    <string name="filter">Filter:</string>
+    <string name="storage_amount">Amount in Storage:</string>
+    <string name="amount_needed">Amount Needed:</string>
+    <string name="shopping_list_adapter_unit">Unit:</string>
+    <string name="shopping_list_adapter_category">Ingredient Category:</string>
+    <string name="buy_prompt">I have picked up this item</string>
+
 
 </resources>

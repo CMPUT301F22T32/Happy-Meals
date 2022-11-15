@@ -103,6 +103,10 @@ public class ShoppingList implements DatabaseListener {
         return allIngredients;
     }
 
+    public ArrayList<Ingredient> getStoredIngredients() {
+        return ingredientStorage.getIngredients();
+    }
+
     @Override
     public void onDataFetchSuccess(DatabaseObject data) {
         allRecipeIngredients.add((Ingredient) data);

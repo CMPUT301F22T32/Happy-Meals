@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,6 +46,14 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
             public void onClick(View view) {
                 Intent intent = new Intent( context, RecipeAddActivity.class );
                 startActivity( intent );
+            }
+        });
+
+        recipeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                return true;
             }
         });
 

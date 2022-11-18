@@ -210,4 +210,8 @@ public class IngredientStorage implements DatabaseListener {
     public void onSpinnerFetchSuccess(Map<String, Object> data) {
 
     }
+
+    public Ingredient getIngredientByIndex(int i){
+        return ingredients.get(i);
+    }
 }

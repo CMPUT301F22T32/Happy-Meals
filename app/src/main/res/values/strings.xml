@@ -26,5 +26,7 @@
     <string name="recipes">Recipes</string>
     <string name="shopping_list">Shopping List</string>
     <string name="meal_plan">Meal Plan</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

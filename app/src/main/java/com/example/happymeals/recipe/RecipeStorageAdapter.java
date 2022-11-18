@@ -46,6 +46,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         servings.setText( String.valueOf( currentRecipe.getServings() ) );
         description.setText( currentRecipe.getDescription() );
 
+        /*
         listItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,8 +54,9 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
                 intent.putExtra("recipe", currentRecipe.getName() );
                 context.startActivity( intent );
             }
-        });
+        }); */
 
+        /*
         listItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -67,7 +69,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
                 return true;
 
             }
-        });
+        }); */
 
         return listItem;
     }

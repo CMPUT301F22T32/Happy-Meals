@@ -13,41 +13,45 @@ import com.example.happymeals.R;
 import com.example.happymeals.mealplan.MealPlanDeltailsActivity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 
 public class MealPlanActivity extends AppCompatActivity {
-    CalendarView calendar;
+    CalendarView calendarView;
     Button mealPlanButton;
-    Date date;
+    Calendar cal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_plan);
 
-        calendar = findViewById(R.id.meal_plan_calendar);
+        calendarView = findViewById(R.id.meal_plan_calendar);
         mealPlanButton = findViewById(R.id.meal_plan_edit);
-        date = new Date();
+        cal = Calendar.getInstance();
 
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-                date = new Date(year, month, dayOfMonth);
+               cal.set(year-1900, month, dayOfMonth);
+               // constructor: Calendar.set(year+1900, month, dayOfMonth)
             }
         });
+
+        calendarView.getFirstDayOfWeek();
 
         mealPlanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMealPlanDetailActivity(date);
+                startMealPlanDetailActivity(cal);
 
             }
         });
     }
 
-    private void startMealPlanDetailActivity(Date date) {
+    private void startMealPlanDetailActivity(Calendar cal) {
         Intent mealPlanIntent = new Intent(this, MealPlanDeltailsActivity.class);
-        mealPlanIntent.putExtra("Date", (Serializable) date);
+        mealPlanIntent.putExtra("Date", (Serializable) cal);
         startActivity(mealPlanIntent) ;
     }
 }

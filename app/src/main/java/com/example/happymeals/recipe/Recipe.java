@@ -62,6 +62,10 @@ public class Recipe extends DatabaseObject {
         this.servings = servings;
     }
 
+    public Recipe(String description) {
+        this.description = description;
+    }
+
     /**
      * Gets the cook time of the recipe.
      * @return {@link Double} cookTime measured in hrs.

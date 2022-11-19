@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.MealPlanIngredientFragment;
@@ -22,6 +23,7 @@ import java.util.Date;
 
 public class MealPlanDeltailsActivity extends AppCompatActivity implements MealPlanRecipeFragment.OnFragmentInteractionListener, MealPlanIngredientFragment.OnFragmentInteractionListener {
     TabLayout weektab;
+    TextView mealPlanTitle;
 
     GridView breakfastView;
     GridView lunchView;
@@ -48,12 +50,14 @@ public class MealPlanDeltailsActivity extends AppCompatActivity implements MealP
         Intent intent = getIntent();
 
         // tab set up
-        Date date = (Date) intent.getSerializableExtra("Date");
+        Calendar cal = (Calendar) intent.getSerializableExtra("Date");
         weektab = findViewById(R.id.week_tab);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        int day = cal.get(Calendar.DAY_OF_WEEK);
         weektab.selectTab(weektab.getTabAt(day-2));
+
+        mealPlanTitle = findViewById(R.id.meal_plan_date);
+        MealPlan mp = new MealPlan(new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), (cal.get(Calendar.DAY_OF_MONTH) - day + 1)));
+        mealPlanTitle.setText(mp.getName());
 
         // GridView setup
         breakfastView = findViewById(R.id.breakfast_gridview);

@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:text="Description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_name_field" />
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field" />
 
     <View
         android:id="@+id/divider"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
 
     <TextView
-        android:id="@+id/recipe_list_name_field"
+        android:id="@+id/ingredient_specific_list_name_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

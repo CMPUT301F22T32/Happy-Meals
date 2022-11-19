@@ -172,6 +172,10 @@ public class RecipeStorage implements DatabaseListener {
         return null;
     }
 
+    public Recipe getRecipeByIndex(int index){
+        return recipes.get(index);
+    }
+
     /**
      * This will find the map that stores both reference database paths and the amount of each
      * ingredient.

@@ -9,10 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AlertDialog;
 
 import com.example.happymeals.database.FireAuth;
-import com.example.happymeals.ingredient.IngredientStorageActivity;
 
 /** Initial UI layer for user login
  * This class is a candidate to be the entry point of the application -- its implementation has yet
@@ -35,7 +33,7 @@ public class Login extends AppCompatActivity {
      */
 
 
-    private Button login;
+    private Button login, register;
     private TextView forgotPassword;
     private EditText user, password;
     private FireAuth fireAuth;
@@ -52,10 +50,9 @@ public class Login extends AppCompatActivity {
         user = findViewById(R.id.input_username);
         password = findViewById(R.id.input_password);
         forgotPassword = findViewById(R.id.forgot_password);
-
+        register = findViewById(R.id.register_button);
 
         // user clicks "login" button
-
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -99,7 +96,13 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
+        // user clicks "register" button
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this, Register.class));
+            }
+        });
     }
 
 

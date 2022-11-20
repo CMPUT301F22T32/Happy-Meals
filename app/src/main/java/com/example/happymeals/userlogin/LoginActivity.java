@@ -103,6 +103,9 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // user clicks "forgot password" button
+
     }
 
 

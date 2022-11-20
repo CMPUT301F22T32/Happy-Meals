@@ -28,20 +28,27 @@ public class FirebaseAuthenticationHandler {
     // create FireAuth to function statically and allow login and register to access it
     public FirebaseFirestore fireStore;
     public FirebaseAuth authenticate;
-    static private FirebaseAuthenticationHandler fireAuth = null;
+    static private FirebaseAuthenticationHandler fireAuth;
 
 
     private FirebaseAuthenticationHandler(){
+        fireAuth = null;
         fireStore = FirebaseFirestore.getInstance();
         authenticate = FirebaseAuth.getInstance();
     }
 
     public static FirebaseAuthenticationHandler getFireAuth(){
+
         if(fireAuth == null){
             fireAuth = new FirebaseAuthenticationHandler();
         }
         return fireAuth;
     }
+
+
+
+
+
     /** 1) Authenticate user Login -- Checks with data to see if userinput is valid and in Firestore
      * @param: user - email/username
      * @param: password - user password

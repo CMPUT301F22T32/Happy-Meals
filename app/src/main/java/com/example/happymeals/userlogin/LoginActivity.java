@@ -37,20 +37,21 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button login, register;
     private TextView forgotPassword;
-    private EditText user, password;
-    private FirebaseAuthenticationHandler fireAuth = FirebaseAuthenticationHandler.getFireAuth();
+    private EditText userInputField, passwordInputField;
+    private FirebaseAuthenticationHandler fireAuth;
 
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_screen);
 
+        setContentView(R.layout.activity_login_screen);
+        fireAuth = FirebaseAuthenticationHandler.getFireAuth();
         // initialize all used objects
 
         login = findViewById(R.id.login_button);
-        user = findViewById(R.id.input_username);
-        password = findViewById(R.id.input_password);
+        userInputField = findViewById(R.id.input_username);
+        passwordInputField = findViewById(R.id.input_password);
         forgotPassword = findViewById(R.id.forgot_password);
         register = findViewById(R.id.register_button);
 
@@ -59,22 +60,24 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // get input from user
-                String inputUser = user.getText().toString();
-                String inputPass = password.getText().toString();
+                String inputUser = userInputField.getText().toString();
+                String inputPass = passwordInputField.getText().toString();
 
 
                 // check for errors
 
+                // use string strip userInput.getText().toString()."Strip".Len > 0
+
                 //1 empty user passed
 
-                if( TextUtils.isEmpty(inputUser)) {
-                    user.setError("User cannot be empty");
+                if( TextUtils.isEmpty(inputUser.trim())) {
+                    userInputField.setError("User cannot be empty");
                 }
 
                 //2 empty password passed
 
-                if( TextUtils.isEmpty(inputPass)) {
-                    password.setError("Password cannot be empty");
+                if( TextUtils.isEmpty(inputPass.trim())) {
+                    passwordInputField.setError("Password cannot be empty");
                 }
                 //3 Password length cannot be less than 8 chars
 
@@ -100,7 +103,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                 // close this activity
-                finish();
             }
         });
 

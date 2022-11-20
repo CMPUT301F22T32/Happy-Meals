@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button login, register;
     private TextView forgotPassword;
     private EditText user, password;
-    private FirebaseAuthenticationHandler fireAuth;
+    private FirebaseAuthenticationHandler fireAuth = FirebaseAuthenticationHandler.getFireAuth();
 
 
     @Override

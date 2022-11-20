@@ -37,5 +37,14 @@
 
     </string-array>
 
+    <!-- RecipeStorage -->
+    <string-array name="recipe_options">
+        <item>Type</item>
+        <item>Available Ingredients</item>
+        <item>Unavailable Ingredients</item>
+        <item>Recently Added</item>
+
+
+    </string-array>
 
 </resources>

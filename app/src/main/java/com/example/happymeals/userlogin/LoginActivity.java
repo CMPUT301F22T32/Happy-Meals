@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.userlogin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.happymeals.database.FireAuth;
+import com.example.happymeals.MainActivity;
+import com.example.happymeals.R;
+import com.example.happymeals.database.FirebaseAuthenticationHandler;
 
 /** Initial UI layer for user login
  * This class is a candidate to be the entry point of the application -- its implementation has yet
@@ -21,7 +23,7 @@ import com.example.happymeals.database.FireAuth;
  */
 
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * This is the function called whenever the LoginScreen is created -- in our
@@ -36,7 +38,7 @@ public class Login extends AppCompatActivity {
     private Button login, register;
     private TextView forgotPassword;
     private EditText user, password;
-    private FireAuth fireAuth;
+    private FirebaseAuthenticationHandler fireAuth;
 
 
     @Override
@@ -76,14 +78,10 @@ public class Login extends AppCompatActivity {
                 }
                 //3 Password length cannot be less than 8 chars
 
-                if( inputPass.length() < 8) {
-                    password.setError("Password must be greater than 8 characters");
-                }
-
-                fireAuth.getFireauth().userLogin(inputUser,inputPass, new OutputListener() {
+                fireAuth.getFireAuth().userLogin(inputUser,inputPass, new OutputListener() {
                     @Override
                     public void onSuccess() {
-                        startActivity(new Intent(Login.this, MainActivity.class));
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
 
                     @Override
@@ -100,7 +98,9 @@ public class Login extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, Register.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                // close this activity
+                finish();
             }
         });
     }

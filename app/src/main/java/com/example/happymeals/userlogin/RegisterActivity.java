@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.userlogin;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.happymeals.database.FireAuth;
+import com.example.happymeals.R;
+import com.example.happymeals.database.FirebaseAuthenticationHandler;
 
-public class Register extends AppCompatActivity{
-    private Button register;
+public class RegisterActivity extends AppCompatActivity{
+    private Button registerBtn;
     private TextView returnLogin;
-    private EditText user, password;
-    private FireAuth fireAuth;
+    private EditText userData, passData;
+    private FirebaseAuthenticationHandler fireAuth;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -27,37 +28,38 @@ public class Register extends AppCompatActivity{
 
         // initialize all used objects
 
-        register = findViewById(R.id.register_button);
-        user = findViewById(R.id.create_username);
-        password = findViewById(R.id.create_password);
+        registerBtn = findViewById(R.id.register_button);
+        userData = findViewById(R.id.create_username);
+        passData = findViewById(R.id.create_password);
         returnLogin = findViewById(R.id.return_login);
 
 
-        register.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newUser = user.getText().toString();
-                String newPass = password.getText().toString();
+                String newUser = userData.getText().toString();
+                String newPass = passData.getText().toString();
                 //1 empty user passed
 
                 if (TextUtils.isEmpty(newUser)) {
-                    user.setError("User cannot be empty");
+                    userData.setError("User cannot be empty");
                 }
 
                 //2 empty password passed
 
                 if (TextUtils.isEmpty(newPass)) {
-                    password.setError("Password cannot be empty");
+                    passData.setError("Password cannot be empty");
                 }
                 //3 Password length cannot be less than 8 chars
 
                 if (newPass.length() < 8) {
-                    password.setError("Password must be greater than 8 characters");
+                    passData.setError("Password must be greater than 8 characters");
                 }
-                fireAuth.getFireauth().userLogin(newUser, newPass, new OutputListener() {
+                fireAuth.getFireAuth().userLogin(newUser, newPass, new OutputListener() {
                     @Override
                     public void onSuccess() {
-                        startActivity(new Intent(Register.this, MainActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        finish();
                     }
 
                     @Override
@@ -70,7 +72,9 @@ public class Register extends AppCompatActivity{
             returnLogin.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(Register.this, Login.class));
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    // close this activity
+                    finish();
                 }
             });
 

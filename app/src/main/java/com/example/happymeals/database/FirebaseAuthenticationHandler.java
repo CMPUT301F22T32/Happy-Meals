@@ -5,7 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.happymeals.OutputListener;
+import com.example.happymeals.userlogin.OutputListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,27 +19,35 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
-
+/**@author bfiogbe
  */
 
 
-public class FireAuth {
+public class FirebaseAuthenticationHandler {
 
     // create FireAuth to function statically and allow login and register to access it
     public FirebaseFirestore fireStore;
     public FirebaseAuth authenticate;
-    static private FireAuth fireauth;
+    static private FirebaseAuthenticationHandler fireAuth;
+
+
+    public FirebaseAuthenticationHandler() {
+        fireAuth = null;
+    }
+
+    public FirebaseAuthenticationHandler getFireAuth() {
+        return fireAuth;
+    }
 
     // getter and setter for FireAuth
-    public static FireAuth getFireauth() {
+    public static void FirebaseAuthenticationHandler() {
         // check if empty than initialize
-        if(fireauth == null) {
-            fireauth = new FireAuth();
-            fireauth.authenticate = FirebaseAuth.getInstance();
-            fireauth.fireStore = FirebaseFirestore.getInstance();
+        if(fireAuth == null) {
+            fireAuth = new FirebaseAuthenticationHandler();
+            fireAuth.authenticate = FirebaseAuth.getInstance();
+            fireAuth.fireStore = FirebaseFirestore.getInstance();
         }
-        return fireauth;
+
     }
 
     /** 1) Authenticate user Login -- Checks with data to see if userinput is valid and in Firestore
@@ -49,17 +57,17 @@ public class FireAuth {
      */
 
     public void userLogin(String user, String password, OutputListener listener){
-        fireauth.authenticate.signInWithEmailAndPassword(user, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        fireAuth.authenticate.signInWithEmailAndPassword(user, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             // test
             public void onComplete(@NonNull Task<AuthResult> action) {
                 if (action.isSuccessful()) {
                     listener.onSuccess();
-                    Log.d("TAG", "User has successfully authenticated");
+                    Log.d("LoginActivity", "User has successfully authenticated");
                 }
                 else {
                     listener.onFailure(new Exception());
-                    Log.d("TAG", "User authentication was unsuccessful");
+                    Log.d("LoginActivity", "User authentication was unsuccessful");
                 }
 
             }
@@ -69,11 +77,11 @@ public class FireAuth {
     public void validUser(OutputListener listener) {
         // check is a user already exists
 
-        if(fireauth.authenticate.getCurrentUser() != null) {
-            Log.d("TAG", "Valid existing user");
+        if(fireAuth.authenticate.getCurrentUser() != null) {
+            Log.d("LoginActivity", "Valid existing user");
         }
         else {
-            Log.d("TAG", "Not an existing user");
+            Log.d("LoginActivity", "Not an existing user");
         }
     }
 
@@ -84,12 +92,12 @@ public class FireAuth {
      */
 
     public void userRegister(String user, String password, OutputListener listener) {
-        fireauth.authenticate.createUserWithEmailAndPassword(user, password).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+        fireAuth.authenticate.createUserWithEmailAndPassword(user, password).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
             @Override
             public void onComplete(@NonNull Task<AuthResult> action) {
                 if(action.isSuccessful()) {
-                    String IdUser = fireauth.authenticate.getCurrentUser().getUid();
-                    DocumentReference documentReference = fireauth.fireStore.collection("Users").document(IdUser);
+                    String IdUser = fireAuth.authenticate.getCurrentUser().getUid();
+                    DocumentReference documentReference = fireAuth.fireStore.collection("Users").document(IdUser);
 
                     //store every user in a hashmap into Firestore
 
@@ -102,12 +110,12 @@ public class FireAuth {
                         @Override
                         public void onSuccess(Void unused) {
                             listener.onSuccess();
-                            Log.d("TAG", "User has been added to firebase");
+                            Log.d("RegisterActivity", "User has been added to firebase");
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("TAG", "Error: User not created or added to firebase");
+                            Log.d("RegisterActivity", "Error: User not created or added to firebase");
                             listener.onFailure(e);
                         }
                     });

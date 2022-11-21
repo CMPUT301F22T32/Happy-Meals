@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-15-Add-sort-functionality-to-stored-ingredients
+
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -67,7 +67,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
 
 
 
-    }
+    
 
     public void signalChangeToAdapter() {
         adapter.notifyDataSetChanged();

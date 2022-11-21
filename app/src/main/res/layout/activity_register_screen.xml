@@ -11,9 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:text="Register"
+        android:text="Register for Happy Meals"
+        android:fontFamily="@font/avenir_black"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="40sp"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -68,27 +69,51 @@
         app:layout_constraintTop_toBottomOf="@+id/title_username" />
 
     <TextView
+        android:id="@+id/return_login_txt"
+        android:layout_width="233dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/avenir_roman"
+        android:text="     Already have an account?"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_button"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
         android:id="@+id/return_login"
-        android:layout_width="347dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="87dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
         android:clickable="true"
-        android:text="Already registered? Click here to login"
+        android:fontFamily="@font/avenir_roman"
+        android:text="Log in."
         android:textColor="@color/blue"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/return_login_txt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_password" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/return_login_txt"
+        app:layout_constraintTop_toBottomOf="@+id/register_button"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/register_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Create"
+        android:layout_width="352dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:background="#9f0400"
+        android:fontFamily="@font/avenir_black"
+        android:text="Register"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/return_login" />
+        app:layout_constraintTop_toBottomOf="@+id/create_password" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,7 +35,8 @@ public class LoginActivity extends AppCompatActivity {
      */
 
 
-    private Button login, register;
+    private Button loginBtn;
+    private TextView register;
     private TextView forgotPassword;
     private EditText userInputField, passwordInputField;
     private FirebaseAuthenticationHandler fireAuth;
@@ -49,14 +50,14 @@ public class LoginActivity extends AppCompatActivity {
         fireAuth = FirebaseAuthenticationHandler.getFireAuth();
         // initialize all used objects
 
-        login = findViewById(R.id.login_button);
+        loginBtn = findViewById(R.id.login_button);
         userInputField = findViewById(R.id.input_username);
         passwordInputField = findViewById(R.id.input_password);
         forgotPassword = findViewById(R.id.forgot_password);
         register = findViewById(R.id.register_button);
 
         // user clicks "login" button
-        login.setOnClickListener(new View.OnClickListener(){
+        loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 // get input from user

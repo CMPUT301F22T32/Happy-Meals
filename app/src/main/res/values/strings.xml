@@ -18,6 +18,7 @@
     <string name="select_one">Select One</string>
 
     <!-- LoginScreen -->
+    <string name = "login_title">Login to Happy Meals</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

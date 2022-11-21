@@ -15,6 +15,7 @@
     <string name="best_before_date">Best Before Date</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="cancel">cancel</string>
     <string name="select_one">Select One</string>
 
     <!-- LoginScreen -->
@@ -37,7 +38,16 @@
     <string name="add_mealplan">Make a new mealplan</string>
     <string name="edit_mealplan">Edit an existing meal plan</string>
     <string name="delete_mealplan">Delete an existing meal plan</string>
-    <string name="view_mealplan">View my meal plans</string>
+    <string name="view_mealplan">View all meal plans</string>
+    <string name="meal_prompt">Your meals for</string>
+    <string name="today">today</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="add">add</string>
+    <string name="clear">clear</string>
+    <string name="selection">Selection</string>
+    <string name="mealplan_week">Week of Meal Plan</string>
+    <string name="day_view">View meals by day</string>
     <string name="meal_plan_description">You can build a meal plan using either your stored ingredients or stored recipes. You can choose any number of ingredients or recipes; a meal plan will be curated based on your selections.</string>
 
     <!-- Shopping List -->

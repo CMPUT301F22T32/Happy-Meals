@@ -3,6 +3,7 @@ package com.example.happymeals.mealplan;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,17 +11,17 @@ import android.widget.Button;
 import android.widget.CalendarView;
 
 import com.example.happymeals.R;
-import com.example.happymeals.mealplan.MealPlanDeltailsActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class MealPlanActivity extends AppCompatActivity {
     CalendarView calendarView;
     Button mealPlanButton;
     Calendar cal;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +40,19 @@ public class MealPlanActivity extends AppCompatActivity {
             }
         });
 
-        calendarView.getFirstDayOfWeek();
-
-        mealPlanButton.setOnClickListener(new View.OnClickListener() {
+        Button viewAll = findViewById(R.id.view_all_meal_plans);
+        viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startMealPlanDetailActivity(cal);
-
+                Intent intent = new Intent(context, MealPlanListViewActivity.class);
+                startActivity(intent);
             }
         });
+
     }
 
     private void startMealPlanDetailActivity(Calendar cal) {
-        Intent mealPlanIntent = new Intent(this, MealPlanDeltailsActivity.class);
+        Intent mealPlanIntent = new Intent(this, MealPlanDetailsActivity.class);
         mealPlanIntent.putExtra("Date", (Serializable) cal);
         startActivity(mealPlanIntent) ;
     }

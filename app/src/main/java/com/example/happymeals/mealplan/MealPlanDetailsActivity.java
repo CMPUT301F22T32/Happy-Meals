@@ -2,7 +2,6 @@ package com.example.happymeals.mealplan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class MealPlanDeltailsActivity extends AppCompatActivity implements MealPlanRecipeFragment.OnFragmentInteractionListener, MealPlanIngredientFragment.OnFragmentInteractionListener {
+public class MealPlanDetailsActivity extends AppCompatActivity implements MealPlanRecipeFragment.OnFragmentInteractionListener, MealPlanIngredientFragment.OnFragmentInteractionListener {
     TabLayout weektab;
     TextView mealPlanTitle;
 
@@ -45,7 +44,7 @@ public class MealPlanDeltailsActivity extends AppCompatActivity implements MealP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meal_plan_deltails);
+        setContentView(R.layout.activity_meal_plan_details);
 
         Intent intent = getIntent();
 
@@ -56,8 +55,8 @@ public class MealPlanDeltailsActivity extends AppCompatActivity implements MealP
         weektab.selectTab(weektab.getTabAt(day-2));
 
         mealPlanTitle = findViewById(R.id.meal_plan_date);
-        MealPlan mp = new MealPlan(new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), (cal.get(Calendar.DAY_OF_MONTH) - day + 1)));
-        mealPlanTitle.setText(mp.getName());
+        //MealPlanStorage mp = new MealPlanStorage(new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), (cal.get(Calendar.DAY_OF_MONTH) - day + 1)));
+        //mealPlanTitle.setText(mp.getName());
 
         // GridView setup
         breakfastView = findViewById(R.id.breakfast_gridview);

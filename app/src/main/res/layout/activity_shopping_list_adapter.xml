@@ -114,31 +114,12 @@
         app:layout_constraintStart_toEndOf="@+id/shop_list_category_title"
         app:layout_constraintTop_toBottomOf="@+id/shop_list_unit_value" />
 
-    <ImageView
-        android:id="@+id/shop_list_ingredient_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/shop_list_buy_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/shop_list_category_value"
-        app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"
-        tools:srcCompat="@android:drawable/ic_menu_gallery" />
-
-    <Button
-        android:id="@+id/shop_list_buy_button"
-        android:layout_width="0dp"
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/buy_prompt"
-        app:icon="@drawable/cart_icon"
-        app:iconSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shop_list_category_title" />
+        android:scaleX="5"
+        android:scaleY="5"
+        tools:layout_editor_absoluteX="307dp"
+        tools:layout_editor_absoluteY="131dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

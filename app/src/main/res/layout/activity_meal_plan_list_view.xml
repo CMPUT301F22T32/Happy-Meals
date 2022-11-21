@@ -16,20 +16,21 @@
         android:text="@string/your_mealplans"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
+        app:layout_constraintEnd_toStartOf="@+id/add_meal_plan_btn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/add_meal_plan_btn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"
-        tools:layout_editor_absoluteX="315dp" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <ListView
         android:layout_width="0dp"

@@ -16,6 +16,7 @@ import com.example.happymeals.recipe.RecipeStorage;
 
 import com.example.happymeals.ingredient.IngredientStorageActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
 
 /**
  * This class is the entry point of the application and serves as the home
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         shoppingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                //TODO: Send intent for Shopping List Activity
+                Intent intent = new Intent(context, ShoppingListActivity.class);
+                startActivity(intent);
             }
         });
     }

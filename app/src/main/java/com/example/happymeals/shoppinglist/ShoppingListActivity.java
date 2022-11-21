@@ -20,9 +20,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shopping_list);
 
         ingredientListView = findViewById(R.id.shopping_list_ingredients);
-        shoppingList = ShoppingList.getInstance();
+        //shoppingList = ShoppingList.getInstance();
 
-        shoppingListAdapter = new ShoppingListAdapter( this, shoppingList.getIngredientsToBuy(), shoppingList.getStoredIngredients() ) ;
-        ingredientListView.setAdapter( shoppingListAdapter );
+        //shoppingListAdapter = new ShoppingListAdapter( this, shoppingList.getIngredientsToBuy(), shoppingList.getStoredIngredients() ) ;
+        //ingredientListView.setAdapter( shoppingListAdapter );
     }
 }

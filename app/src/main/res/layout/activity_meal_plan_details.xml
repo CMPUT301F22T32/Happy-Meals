@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mealplan.MealPlanDeltailsActivity">
+    tools:context=".mealplan.MealPlanDetailsActivity">
 
 
     <com.google.android.material.tabs.TabLayout
@@ -169,8 +169,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Meal Plan Date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="32dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

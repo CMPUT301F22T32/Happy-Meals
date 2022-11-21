@@ -7,9 +7,8 @@ import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.mealplan.MealPlan;
+import com.example.happymeals.mealplan.MealPlanStorage;
 import com.example.happymeals.recipe.Recipe;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,7 @@ public class ShoppingList implements DatabaseListener {
 
     private FireStoreManager fsm;
     private IngredientStorage ingredientStorage;
-    private MealPlan mealPlan;
+    private MealPlanStorage mealPlan;
 
     // Each ingredient will have a corresponding list of tuples; each tuple represents a recipe and
     // the amount of the ingredient in the specific recipe (must be an ArrayList so duplicates are

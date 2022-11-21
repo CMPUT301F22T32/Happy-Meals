@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.happymeals" >
+    package="com.example.happymeals">
 
     <application
         android:allowBackup="true"
@@ -12,27 +12,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyMeals"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+
+        <!-- Main Activity -->
         <activity
-            android:name=".mealplan.CreateMealPlanActivity"
-            android:exported="true"
-            />
-        <activity
-            android:name=".mealplan.MealPlanListViewActivity"
-            android:exported="true" />
-        <activity
-            android:name=".mealplan.SelectMealsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".mealplan.MealPlanActivity"
-            android:exported="true" />
-        <activity
-            android:name=".mealplan.MealPlanDeltailsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <!-- Ingredient Storage -->
         <activity
             android:name=".ingredient.IngredientViewActivity"
             android:parentActivityName=".ingredient.IngredientStorageActivity">
@@ -44,29 +37,44 @@
         </activity>
         <activity
             android:name=".ingredient.IngredientStorageActivity"
-
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!-- Recipes -->
         <activity
             android:name=".recipe.RecipeDetailsActivity"
             android:exported="true" />
         <activity android:name=".recipe.RecipeStorageActivity" />
-
         <activity android:name=".recipe.RecipeAddActivity" />
+
+        <!-- Meal Plan -->
+        <activity
+            android:name=".mealplan.MealPlanActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".mealplan.MealPlanListViewActivity"
+            android:parentActivityName=".mealplan.MealPlanActivity" />
+        <activity
+            android:name=".mealplan.CreateMealPlanActivity"
+            android:parentActivityName=".mealplan.MealPlanListViewActivity" />
+        <activity
+            android:name=".mealplan.MealPlanDetailsActivity"
+            android:parentActivityName=".mealplan.MealPlanListViewActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <!-- Shopping List -->
+        <activity
+            android:name=".shoppinglist.ShoppingListActivity"
+            android:parentActivityName=".MainActivity" />
+
     </application>
 
 </manifest>

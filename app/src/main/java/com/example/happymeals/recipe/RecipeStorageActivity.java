@@ -1,16 +1,26 @@
 package com.example.happymeals.recipe;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+15-Add-sort-functionality-to-stored-ingredients
 import android.widget.Spinner;
+import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.happymeals.DatasetWatcher;
+import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
+
 import com.example.happymeals.ingredient.IngredientStorageActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 /**
  * Class that holds the {@link AppCompatActivity} which will run the activity for the user.
@@ -23,16 +33,20 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     private ListView recipeListView;
     private RecipeStorage recipeStorage;
     private RecipeStorageAdapter adapter;
+    private FloatingActionButton newRecipeButton;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_storage);
+        context = this;
         recipeListView = findViewById(R.id.recipe_list);
         recipeStorage = RecipeStorage.getInstance();
         recipeStorage.setListeningActivity(this);
-        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
+        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
         recipeListView.setAdapter(adapter);
+
 
 
         Spinner RecipeSort = findViewById(R.id.recipe_filter);
@@ -41,7 +55,19 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         RecipeSort.setAdapter(dataAdapter);
     }
 
+        newRecipeButton = findViewById( R.id.recipe_storage_add_button );
 
+        newRecipeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( context, RecipeAddActivity.class );
+                startActivity( intent );
+            }
+        });
+
+
+
+    }
 
     public void signalChangeToAdapter() {
         adapter.notifyDataSetChanged();
@@ -55,4 +81,6 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     public void onGoBack( View view ) {
         finish();
     }
+
+
 }

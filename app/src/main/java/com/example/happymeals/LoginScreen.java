@@ -29,7 +29,7 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login_screen );
 
-        TextView forgetPassword = findViewById( R.id.forgot_password );
+        TextView forgetPassword = findViewById( R.id.forgot_password);
         Button login = findViewById( R.id.login_button );
 
         forgetPassword.setOnClickListener( new View.OnClickListener() {
@@ -43,7 +43,7 @@ public class LoginScreen extends AppCompatActivity {
             @Override
             public void onClick( View view ) {
                 // first check that username and password have been filled
-                EditText username = findViewById( R.id.input_username );
+                EditText username = findViewById( R.id.input_username);
                 EditText password = findViewById( R.id.input_password );
 
                 if ( username.getText().length() <= 0 || password.getText().length() <= 0 ) {

@@ -1,13 +1,23 @@
 package com.example.happymeals.recipe;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.R;
@@ -33,6 +43,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
     private ListView ingredientsView;
     private EditText instructionsField;
     private TextView commentsField;
+    private ImageView imageView;
+    private FloatingActionButton addImageButton;
 
     private ArrayList< Ingredient > ingredientsInRecipe;
     private ArrayList< String > comments;
@@ -45,6 +57,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
     private FloatingActionButton addIngredientsButton;
 
     private Context context;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    public static final int CAMERA_ACTION_CODE = 1;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -72,6 +86,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         servingsField = findViewById( R.id.recipe_add_servings_field );
         instructionsField = findViewById( R.id.recipe_add_instructions_field );
         commentsField = findViewById( R.id.recipe_add_comments_field );
+        imageView = findViewById( R.id.recpie_add_image );
+        addImageButton = findViewById( R.id.recipe_add_image_button);
 
         ingredientsView.setAdapter( adapter );
 
@@ -111,6 +127,32 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                         newInstructions, newPrepTime, newServings
                         ));
                 finish();
+            }
+        });
+
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Bundle bundle = result.getData().getExtras();
+                    Bitmap finalImage = (Bitmap) bundle.get("data");
+                    imageView.setImageBitmap(finalImage);
+                }
+            }
+        });
+
+        addImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                activityResultLauncher.launch(intent);
+                /*
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    activityResultLauncher.launch(intent);
+                }
+                else {
+                    Toast.makeText(RecipeAddActivity.this, "There is no app that supports this action", Toast.LENGTH_LONG).show();
+                }*/
             }
         });
 

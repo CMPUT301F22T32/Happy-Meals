@@ -1,5 +1,7 @@
 package com.example.happymeals.recipe;
 
+import android.media.Image;
+
 import com.example.happymeals.database.*;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -26,6 +28,7 @@ public class Recipe extends DatabaseObject {
     private String instructions;
     private double prepTime;
     private double servings;
+    private Image image;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}

@@ -39,16 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/SortType"
-        android:layout_width="301dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="80dp"
-        android:text="Type"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/SortBy"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/recipe_storage_add_button"
@@ -69,7 +60,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recipe_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SortType" />
+        app:layout_constraintTop_toBottomOf="@+id/recipe_filter" />
 
     <TextView
         android:id="@+id/return_text"
@@ -81,5 +72,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/recipe_filter"
+        android:layout_width="301dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="80dp"
+        android:text="Type"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/SortBy"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

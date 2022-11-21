@@ -5,14 +5,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+15-Add-sort-functionality-to-stored-ingredients
+import android.widget.Spinner;
 import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
+
+import com.example.happymeals.ingredient.IngredientStorageActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 /**
  * Class that holds the {@link AppCompatActivity} which will run the activity for the user.
@@ -38,6 +46,15 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         recipeStorage.setListeningActivity(this);
         adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
         recipeListView.setAdapter(adapter);
+
+
+
+        Spinner RecipeSort = findViewById(R.id.recipe_filter);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(RecipeStorageActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.recipe_options));
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        RecipeSort.setAdapter(dataAdapter);
+    }
+
         newRecipeButton = findViewById( R.id.recipe_storage_add_button );
 
         newRecipeButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +64,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                 startActivity( intent );
             }
         });
+
 
 
     }

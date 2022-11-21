@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-15-Add-sort-functionality-to-stored-ingredients
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,16 +45,16 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         recipeStorage.setListeningActivity(this);
         adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
         recipeListView.setAdapter(adapter);
-
+        newRecipeButton = findViewById( R.id.recipe_storage_add_button );
 
 
         Spinner RecipeSort = findViewById(R.id.recipe_filter);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(RecipeStorageActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.recipe_options));
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         RecipeSort.setAdapter(dataAdapter);
-    }
 
-        newRecipeButton = findViewById( R.id.recipe_storage_add_button );
+
+
 
         newRecipeButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -74,13 +74,13 @@ public class IngredientIntentTests {
         textView2.check(matches(withText("Sort by")));
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.textView4), withText("Description"),
+                allOf(withId(R.id.recipe_storage_description_label), withText("Description"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
         textView3.check(matches(withText("Description")));
 
         ViewInteraction imageButton = onView(
-                allOf(withId(R.id.add_new_ingredient_button),
+                allOf(withId(R.id.recipe_storage_add_button),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
         imageButton.check(matches(isDisplayed()));
@@ -92,7 +92,7 @@ public class IngredientIntentTests {
         listView.check(matches(isDisplayed()));
 
         ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.add_new_ingredient_button),
+                allOf(withId(R.id.recipe_storage_add_button),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -274,7 +274,7 @@ public class IngredientIntentTests {
         materialButton9.perform(scrollTo(), click());
 
         ViewInteraction textView8 = onView(
-                allOf(withId(R.id.recipe_list_name_field), withText("Apple"),
+                allOf(withId(R.id.ingredient_specific_list_name_field), withText("Apple"),
                         withParent(withParent(withId(R.id.storage_list))),
                         isDisplayed()));
         textView8.check(matches(withText("Apple")));
@@ -292,13 +292,13 @@ public class IngredientIntentTests {
         textView10.check(matches(withText("PANTRY")));
 
         ViewInteraction textView11 = onView(
-                allOf(withId(R.id.amount_text), withText("5"),
+                allOf(withId(R.id.ingredient_specific_amount_text), withText("5"),
                         withParent(withParent(withId(R.id.storage_list))),
                         isDisplayed()));
         textView11.check(matches(withText("5")));
 
         ViewInteraction textView12 = onView(
-                allOf(withId(R.id.unit_text), withText("COUNT"),
+                allOf(withId(R.id.ingredient_specific_amount_unit_text), withText("COUNT"),
                         withParent(withParent(withId(R.id.storage_list))),
                         isDisplayed()));
         textView12.check(matches(withText("COUNT")));
@@ -419,7 +419,7 @@ public class IngredientIntentTests {
         textView16.check(matches(withText("Green")));
 
         ViewInteraction textView17 = onView(
-                allOf(withId(R.id.amount_text), withText("3"),
+                allOf(withId(R.id.ingredient_specific_amount_text), withText("3"),
                         withParent(withParent(withId(R.id.storage_list))),
                         isDisplayed()));
         textView17.check(matches(withText("3")));

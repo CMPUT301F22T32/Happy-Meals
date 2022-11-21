@@ -94,7 +94,7 @@
                 android:text="TextView" />
 
             <CalendarView
-                android:id="@+id/calendarView"
+                android:id="@+id/meal_plan_calendar_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp" />

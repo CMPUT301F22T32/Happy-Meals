@@ -27,8 +27,15 @@
             android:name=".mealplan.MealPlanActivity"
             android:exported="true" />
         <activity
+            android:name=".mealplan.MealPlanDeltailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ingredient.IngredientViewActivity"
-            android:parentActivityName=".ingredient.IngredientStorageActivity" >
+            android:parentActivityName=".ingredient.IngredientStorageActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -37,6 +44,7 @@
         </activity>
         <activity
             android:name=".ingredient.IngredientStorageActivity"
+
             android:parentActivityName=".MainActivity" >
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -57,6 +65,8 @@
             android:name=".recipe.RecipeDetailsActivity"
             android:exported="true" />
         <activity android:name=".recipe.RecipeStorageActivity" />
+
+        <activity android:name=".recipe.RecipeAddActivity" />
     </application>
 
 </manifest>

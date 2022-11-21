@@ -50,11 +50,11 @@ public class ShoppingList implements DatabaseListener {
         ArrayList<Recipe> recipesFromMealPlan = null;
 
         for (Recipe recipe : recipesFromMealPlan) {
-            for (Map.Entry<String, DocumentReference> entry : recipe.getIngredients().entrySet()) {
+            for (Map.Entry<String, HashMap<String, Object>> entry : recipe.getIngredients().entrySet()) {
                 String recipeName = entry.getKey();
-                DocumentReference reference = entry.getValue();
+                //DocumentReference reference = entry.getValue();
 
-                fsm.getData(reference, this, new Ingredient());
+                //fsm.getData(reference, this, new Ingredient());
                 int lastIndex = allRecipeIngredients.size() - 1;
 
                 Ingredient ingredient = allRecipeIngredients.get(lastIndex);

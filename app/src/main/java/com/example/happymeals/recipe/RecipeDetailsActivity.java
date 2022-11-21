@@ -3,22 +3,21 @@ package com.example.happymeals.recipe;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.happymeals.R;
 
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
-import com.example.happymeals.recipe.Recipe;
-import com.example.happymeals.recipe.RecipeStorage;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener {
@@ -26,15 +25,18 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private Recipe recipe;
 
     private ArrayList<Ingredient> ingredients;
+    private HashMap< String, HashMap< String, Object > > ingredientMap;
     private IngredientStorageArrayAdapter adapter;
     private TextView nameField;
-    private TextView descriptionField;
-    private TextView prepTimeField;
-    private TextView cookTimeField;
-    private TextView servingsField;
+    private EditText descriptionField;
+    private EditText prepTimeField;
+    private EditText cookTimeField;
+    private EditText servingsField;
     private ListView ingredientsListField;
     private TextView instructionsField;
     private TextView commendsField;
+
+    private TextView editButton;
 
     /**
      * This is the function called whenever the MainActivity is created -- in our
@@ -56,8 +58,9 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
 
         RecipeStorage storage = RecipeStorage.getInstance();
 
-        nameField = findViewById( R.id.recipe_name_field);
-        descriptionField = findViewById( R.id.recipe_description_field);
+        editButton = findViewById( R.id.edit_recipe_button );
+        nameField = findViewById( R.id.recipe_name_field );
+        descriptionField = findViewById( R.id.recipe_description_field );
         prepTimeField = findViewById( R.id.recipe_preptime_field );
         cookTimeField = findViewById( R.id.recipe_cooktime_field );
         ingredientsListField = findViewById( R.id.recipe_ingredients_listview );
@@ -69,10 +72,11 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
         // Get the array reference so that we can pass it into the adapter.
         ingredients = storage.getIngredientListReference();
-        adapter = new IngredientStorageArrayAdapter( this, ingredients );
         // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
         // change.
         if( recipe != null ) {
+            ingredientMap = storage.getRecipeIngredientMap( recipe );
+            adapter = new IngredientStorageArrayAdapter( this, ingredients, ingredientMap);
             ingredients = storage.getIngredientsAsList( recipe, adapter );
             setAllValues();
         }
@@ -86,8 +90,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         descriptionField.setText( recipe.getDescription() );
         prepTimeField.setText( String.valueOf( recipe.getPrepTime() ) );
         cookTimeField.setText( String.valueOf( recipe.getCookTime() ) );
-        servingsField.setText( String.valueOf( recipe.getCookTime() ) );
-        instructionsField.setText( recipe.getInstructionsAsString() );
+        servingsField.setText( String.valueOf( recipe.getServings() ) );
+        instructionsField.setText( recipe.getInstructions() );
         commendsField.setText( recipe.getCommentsAsString() );
 
         ingredientsListField.setAdapter( adapter );
@@ -99,7 +103,12 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
      * @param view {@link View} of the view calling the functino.
      */
     public void onEditClick( View view ){
-        finish();
+        editButton.setEnabled( false );
+
+        descriptionField.setFocusable( true );
+        prepTimeField.setFocusable( true );
+        cookTimeField.setFocusable( true );
+        servingsField.setFocusable( true );
     }
 
     @Override

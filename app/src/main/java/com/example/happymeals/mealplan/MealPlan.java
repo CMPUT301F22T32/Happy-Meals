@@ -53,6 +53,11 @@ public class MealPlan extends DatabaseObject {
         this.name = date;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+
     /**
      * Secondary Constructor that allows other classes to define a MealPlan by passing in a date
      * which will get translated to a String.
@@ -149,14 +154,13 @@ public class MealPlan extends DatabaseObject {
      *                  planned for.
      * @param mealOfDay The {@link Enum} which holds the meal of the day this recipe is being planned
      *             for.
-     * @param recipe The {@link String} referring to the document in the FireStore
-     *               Database holding the recipe that is being added.
+     *
      */
-    public void setMealOfDay( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, String recipe ) {
+    public void setMealOfDay( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<String> recipes ) {
         HashMap< String, HashMap< String, Object >> temp = plans.get( dayOfWeek.toString() );
         HashMap< String, Object > temp2 = temp.get( mealOfDay.toString() );
-        temp2.put( "meal", recipe );
-        plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).put( "meal", recipe );
+        temp2.put( "meal", recipes );
+        plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).put( "meal", recipes );
     }
 
     /**

@@ -11,17 +11,11 @@ import android.widget.Button;
 
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.IngredientStorage;
+import com.example.happymeals.mealplan.MealPlanActivity;
 import com.example.happymeals.recipe.RecipeStorage;
-import com.google.firebase.firestore.DocumentReference;
 
 import com.example.happymeals.ingredient.IngredientStorageActivity;
-import com.example.happymeals.ingredient.IngredientViewActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 /**
  * This class is the entry point of the application and serves as the home
@@ -77,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         mealPlannerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                //TODO: Send intent for Meal Planner Activity
+                Intent intent = new Intent(context, MealPlanActivity.class);
+                startActivity(intent);
             }
         });
 

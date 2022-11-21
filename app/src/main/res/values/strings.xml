@@ -27,4 +27,7 @@
     <string name="shopping_list">Shopping List</string>
     <string name="meal_plan">Meal Plan</string>
 
+    <!-- Action Bar Menu -->
+    <string name="spinner_settings">Edit Spinners</string>
+
 </resources>

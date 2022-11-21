@@ -22,25 +22,25 @@ public class IngredientTest {
         emptyIngredient.setBestBeforeDate(new Date(2022, 01, 01));
         assertEquals(new Date(2022, 01, 01), emptyIngredient.getBestBeforeDate());
 
-        emptyIngredient.setLocation(Constants.Location.FREEZER);
-        assertEquals(Constants.Location.FREEZER, emptyIngredient.getLocation());
+        emptyIngredient.setLocation("Freezer");
+        assertEquals("Freezer", emptyIngredient.getLocation());
 
         emptyIngredient.setAmount(5);
         assertEquals(new Integer(5), emptyIngredient.getAmount());
 
-        emptyIngredient.setUnit(Constants.AmountUnit.COUNT);
-        assertEquals(Constants.AmountUnit.COUNT, emptyIngredient.getUnit());
+        emptyIngredient.setUnit("Count");
+        assertEquals("Count", emptyIngredient.getUnit());
 
-        emptyIngredient.setCategory(Constants.IngredientCategory.FRUIT);
-        assertEquals(Constants.IngredientCategory.FRUIT, emptyIngredient.getCategory());
+        emptyIngredient.setCategory("Fruit");
+        assertEquals("Fruit", emptyIngredient.getCategory());
     }
 
     @Test
     void testGetters() {
         // this will test the ingredeint getter methods using an existing ingredeint
         Ingredient ingredient = new Ingredient("Ground Beef", "extra lean",
-                new Date(2022, 01, 01), Constants.Location.FREEZER, 500,
-                Constants.AmountUnit.MG, Constants.IngredientCategory.MEAT);
+                new Date(2022, 01, 01), "Freezer", 500,
+                "Mg", "Meat");
 
         assertEquals("Ground Beef", ingredient.getName());
         assertEquals("extra lean", ingredient.getDescription());

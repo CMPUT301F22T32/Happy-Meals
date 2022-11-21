@@ -14,13 +14,11 @@ import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputStringFragment;
 import com.example.happymeals.fragments.SearchIngredientFragment;
 import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class RecipeAddActivity extends AppCompatActivity  implements SearchIngredientFragment.SearchIngredientsFragmentListener,
         InputStringFragment.InputStringFragmentListener {
@@ -84,7 +82,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         addCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new InputStringFragment().show( getSupportFragmentManager(), "L E S F");
+                new InputStringFragment("Comment To Add To Recipe", 120).show( getSupportFragmentManager(), "L E S F");
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {

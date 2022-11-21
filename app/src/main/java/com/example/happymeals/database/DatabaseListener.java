@@ -1,5 +1,7 @@
 package com.example.happymeals.database;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -16,5 +18,9 @@ public interface DatabaseListener {
      */
     void onDataFetchSuccess( DatabaseObject data );
 
-    void onSpinnerFetchSuccess( Map< String, Object > data );
+    /**
+     * To be used when the Spinner values have been fetched from the database on request.
+     * @param listOfSpinners The {@link ArrayList} which holds all the spinner from the DB.
+     */
+    <T> void onSpinnerFetchSuccess(T listOfSpinners );
 }

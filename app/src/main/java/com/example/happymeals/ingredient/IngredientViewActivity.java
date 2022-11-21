@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.Constants;
-import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.InputValidator;
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
@@ -48,7 +47,7 @@ public class IngredientViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ingredient_content_view);
+        setContentView(R.layout.content_ingredient_view);
 
         // won't need new instance after we have the singleton ingredient storage initialized in
         // main class
@@ -99,18 +98,19 @@ public class IngredientViewActivity extends AppCompatActivity {
     }
 
     private void populateSpinners() {
+        IngredientStorage ingredientStorage = IngredientStorage.getInstance();
 
-        ArrayAdapter<Constants.AmountUnit> unitAdapter = new ArrayAdapter<>( this,
+        ArrayAdapter<String> unitAdapter = new ArrayAdapter<>( this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                Constants.AmountUnit.values() );
+                ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.AMOUNT_UNIT) );
 
-        ArrayAdapter<Constants.Location> locationAdapter = new ArrayAdapter<>( this,
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>( this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                Constants.Location.values() );
+                ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.LOCATION) );
 
-        ArrayAdapter<Constants.IngredientCategory> categoryAdapter = new ArrayAdapter<>( this,
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>( this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                Constants.IngredientCategory.values() );
+                ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY ) );
 
         unitSpinner.setAdapter( unitAdapter );
         locationSpinner.setAdapter( locationAdapter );
@@ -126,9 +126,12 @@ public class IngredientViewActivity extends AppCompatActivity {
         description.setText( ingredient.getDescription() );
         date.setText( ingredient.getBestBeforeDate().toString() );
         quantity.setText( Integer.toString(ingredient.getAmount()) );
-        unitSpinner.setSelection(Arrays.asList( Constants.AmountUnit.values() ).indexOf( ingredient.getUnit() ) );
-        locationSpinner.setSelection( Arrays.asList( Constants.Location.values() ).indexOf( ingredient.getLocation() ) );
-        categorySpinner.setSelection( Arrays.asList( Constants.IngredientCategory.values() ).indexOf( ingredient.getCategory() ) );
+        unitSpinner.setSelection(ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.AMOUNT_UNIT)
+                .indexOf( ingredient.getUnit()));
+        locationSpinner.setSelection( ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.LOCATION)
+                .indexOf( ingredient.getLocation()));
+        categorySpinner.setSelection( ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY )
+                .indexOf( ingredient.getCategory()) );
     }
 
     private void checkInput() {
@@ -170,10 +173,10 @@ public class IngredientViewActivity extends AppCompatActivity {
                 String descriptionArg = description.getText().toString();
                 // <todo> Change date to a fragment
                 Date dateArg = new Date();
-                Constants.Location locationArg = (Constants.Location) locationSpinner.getSelectedItem();
+                String locationArg = (String) locationSpinner.getSelectedItem();
                 int amountArg = Integer.parseInt(quantity.getText().toString());
-                Constants.AmountUnit amountUnitArg = (Constants.AmountUnit) unitSpinner.getSelectedItem();
-                Constants.IngredientCategory categoryArg = (Constants.IngredientCategory) categorySpinner.getSelectedItem();
+                String amountUnitArg = (String) unitSpinner.getSelectedItem();
+                String categoryArg = (String) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
                     ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);

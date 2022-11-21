@@ -14,7 +14,7 @@ import com.example.happymeals.R;
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,7 +117,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
-    public void onSpinnerFetchSuccess(Map<String, Object> data) {
+    public <T> void onSpinnerFetchSuccess( T map ) {
 
     }
 }

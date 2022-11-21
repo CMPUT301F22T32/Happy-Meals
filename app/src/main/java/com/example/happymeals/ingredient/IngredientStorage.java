@@ -254,9 +254,11 @@ public class IngredientStorage implements DatabaseListener {
      */
     @Override
     public <T> void onSpinnerFetchSuccess( T mapOfSpinners ) {
-        if( mapOfSpinners.getClass() == HashMap.class ) {
-            System.out.println( mapOfSpinners);
-            spinnerMap = (HashMap<String, ArrayList<String>>) mapOfSpinners;
+        if( mapOfSpinners != null ) {
+            if( mapOfSpinners.getClass() == HashMap.class ) {
+                System.out.println( mapOfSpinners);
+                spinnerMap = (HashMap<String, ArrayList<String>>) mapOfSpinners;
+            }
         }
     }
 }

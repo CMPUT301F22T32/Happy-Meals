@@ -43,6 +43,7 @@ public class FireStoreManager {
     private static FireStoreManager instance = null;
 
     private DocumentReference userDocument;
+    private FirebaseFirestore database;
 
     private static final String IP_TAG = "IpFetcher";
     private final String GET_DATA_TAG = "Data Request";
@@ -54,11 +55,7 @@ public class FireStoreManager {
      * of the device being used as the document name that will hold user's collections.
      */
     private FireStoreManager() {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        // Get the local IP address to identify the user.
-        String ipAddress = getLocalIpAddress();
-        CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
-        userDocument = collectionReference.document( ipAddress );
+        database = FirebaseFirestore.getInstance();
     }
 
     /**
@@ -315,9 +312,17 @@ public class FireStoreManager {
     }
 
     /**
+     * Sets the document which will be queried for this users data.
+     * @param user The {@link String} of the username.
+     */
+    public void setUser( String user ) {
+        CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
+        userDocument = collectionReference.document( user );
+    }
+
+    /**
      * Will update the spinner document in the DB with the given {@link ArrayList}.
-     * @param spinner The {@link String} category of requested spinner.
-     * @param listToStore The {@link ArrayList} to be stored in the DB.
+     * @param data The {@link HashMap} of spinners to be stored.
      */
     public void storeSpinners( HashMap< String, ArrayList< String > > data ) {
         userDocument.collection(Constants.SPINNER).document(Constants.SPINNER_ING_DOC)

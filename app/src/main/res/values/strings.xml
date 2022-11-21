@@ -4,14 +4,47 @@
     <string name="user_greeting">Hello User,</string>
     <string name="meal_planner_prompt"><b>Your Meal Planner</b></string>
 
+    <!-- Variables -->
+    <string name="description">Description</string>
+    <string name="name">Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="unit_cost">Unit</string>
+    <string name="location">Location</string>
+    <string name="category">Category</string>
+    <string name="ingredient_information">Ingredient Information</string>
+    <string name="best_before_date">Best Before Date</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="select_one">Select One</string>
+
     <!-- LoginScreen -->
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="forgot_password_prompt"><u>Forgot your password?</u>.</string>
+    <string name="forgot_password_prompt"><u>Forgot your password?</u></string>
     <string name="ingredient_storage">Ingredient Storage</string>
     <string name="recipes">Recipes</string>
     <string name="shopping_list">Shopping List</string>
     <string name="meal_plan">Meal Plan</string>
+
+    <!-- IngredientStorage -->
+    <string-array name="ingredient_options">
+        <item>Description</item>
+        <item>Best Before Date</item>
+        <item>Location</item>
+        <item>Ingredient Category</item>
+
+
+    </string-array>
+
+    <!-- RecipeStorage -->
+    <string-array name="recipe_options">
+        <item>Type</item>
+        <item>Available Ingredients</item>
+        <item>Unavailable Ingredients</item>
+        <item>Recently Added</item>
+
+
+    </string-array>
 
 </resources>

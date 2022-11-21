@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private ListView ingredientsListField;
     private TextView instructionsField;
     private TextView commendsField;
+    private ImageView imageView;
 
     private TextView editButton;
 
@@ -67,6 +69,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField = findViewById( R.id.recipe_servings_field );
         instructionsField = findViewById( R.id.recipe_instructions_field );
         commendsField = findViewById( R.id.recipe_comment_field );
+        imageView = findViewById(R.id.recpie_details_image);
 
         // Get the recipe and ingredient list
         recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
@@ -93,6 +96,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField.setText( String.valueOf( recipe.getServings() ) );
         instructionsField.setText( recipe.getInstructions() );
         commendsField.setText( recipe.getCommentsAsString() );
+        imageView.setImageBitmap( recipe.getImage() );
 
         ingredientsListField.setAdapter( adapter );
 

@@ -1,5 +1,7 @@
 package com.example.happymeals.recipe;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 
 import com.example.happymeals.database.*;
@@ -28,7 +30,7 @@ public class Recipe extends DatabaseObject {
     private String instructions;
     private double prepTime;
     private double servings;
-    private Image image;
+    private Bitmap image;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}
@@ -50,11 +52,12 @@ public class Recipe extends DatabaseObject {
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
+     * @param image {@link Bitmap} the image of the recipe
      */
     public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
-                   double prepTime, double servings ) {
+                   double prepTime, double servings, Bitmap image ) {
         super(name);
         this.cookTime = cookTime;
         this.description = description;
@@ -63,6 +66,7 @@ public class Recipe extends DatabaseObject {
         this.instructions = instructions;
         this.prepTime = prepTime;
         this.servings = servings;
+        this.image = image;
     }
 
     /**
@@ -136,4 +140,6 @@ public class Recipe extends DatabaseObject {
     public double getServings() {
         return servings;
     }
+
+    public Bitmap getImage() { return image; }
 }

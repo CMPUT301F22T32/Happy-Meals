@@ -3,6 +3,7 @@ package com.example.happymeals.recipe;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -32,6 +33,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+// sources for adding image:
+// https://www.youtube.com/watch?v=YLUmfyGFjnU
+// https://www.youtube.com/watch?v=qO3FFuBrT2E
+
 public class RecipeAddActivity extends AppCompatActivity  implements SearchIngredientFragment.SearchIngredientsFragmentListener,
         InputStringFragment.InputStringFragmentListener {
 
@@ -59,6 +64,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
     private Context context;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     public static final int CAMERA_ACTION_CODE = 1;
+    private Bitmap image;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -124,7 +130,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                         RecipeStorage.getInstance().makeIngredientMapForRecipe(
                                 countMap
                         ),
-                        newInstructions, newPrepTime, newServings
+                        newInstructions, newPrepTime, newServings, image
                         ));
                 finish();
             }
@@ -135,8 +141,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
             public void onActivityResult(ActivityResult result) {
                 if(result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Bundle bundle = result.getData().getExtras();
-                    Bitmap finalImage = (Bitmap) bundle.get("data");
-                    imageView.setImageBitmap(finalImage);
+                    image = (Bitmap) bundle.get("data");
+                    imageView.setImageBitmap(image);
                 }
             }
         });

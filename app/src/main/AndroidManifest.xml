@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.happymeals">
+    package="com.example.happymeals" >
 
     <application
         android:allowBackup="true"
@@ -12,25 +12,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyMeals"
-        tools:targetApi="31">
-        <activity android:name=".ingredient.IngredientViewActivity"
-            android:parentActivityName=".ingredient.IngredientStorageActivity">
+        tools:targetApi="31" >
+        <activity
+            android:name=".mealplan.CreateMealPlanActivity"
+            android:exported="true"
+            />
+        <activity
+            android:name=".mealplan.MealPlanListViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".mealplan.SelectMealsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".mealplan.MealPlanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ingredient.IngredientViewActivity"
+            android:parentActivityName=".ingredient.IngredientStorageActivity" >
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ingredient.IngredientStorageActivity" />
         </activity>
-        <activity android:name=".ingredient.IngredientStorageActivity"
-            android:parentActivityName=".MainActivity">
+        <activity
+            android:name=".ingredient.IngredientStorageActivity"
+            android:parentActivityName=".MainActivity" >
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,9 +55,8 @@
         </activity>
         <activity
             android:name=".recipe.RecipeDetailsActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".recipe.RecipeStorageActivity"></activity>
+            android:exported="true" />
+        <activity android:name=".recipe.RecipeStorageActivity" />
     </application>
 
 </manifest>

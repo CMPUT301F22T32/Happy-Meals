@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.recipe;
 
 import android.content.Intent;
 import android.os.Bundle;

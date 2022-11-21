@@ -3,10 +3,11 @@ package com.example.happymeals.mealplan;
 import com.example.happymeals.Constants;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.FireStoreManager;
-import com.google.firebase.firestore.DocumentReference;
+import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.recipe.Recipe;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,16 @@ import java.util.Map;
  * means that the meal plan should be defined with the date as a Sunday value otherwise the
  * data will not turn out.
  */
-public class MealPlan extends DatabaseObject implements Serializable {
+public class MealPlan extends DatabaseObject {
+
+    private static MealPlan instance = null;
 
     public final static String IS_MADE_FIELD = "made";
+    public final static String TYPE_OF_MEAL = "type";
+    public final static String MEAL_FIELD = "meal";
 
     // Hashmap which can be mapped to the database
-    private HashMap< String, HashMap< String, HashMap< String, Object > > > plans;
+    private HashMap< String, HashMap< String, HashMap<String, Object> > > plans;
 
     /**
      * Empty constructor which is required by {@link FireStoreManager} to store
@@ -37,9 +42,6 @@ public class MealPlan extends DatabaseObject implements Serializable {
         plans = new HashMap<>();
         createMapForWeekday();
     }
-
-    // <todo> Add checking to ensure that the given date is a Monday value, this should
-    // be handled by other classes but could also be here. </todo>
 
     /**
      * Constructor that will define the Meal Plan but a sunday date.
@@ -62,6 +64,12 @@ public class MealPlan extends DatabaseObject implements Serializable {
         this.name = new SimpleDateFormat("yyyy-MM-dd").format( date );
     }
 
+    public static MealPlan getInstance() {
+        if (instance == null)
+            instance = new MealPlan();
+        return instance;
+    }
+
     /**
      * Used for the constructor to create a fully defined object to be stored in the database.
      * Meals can be added at a later time.
@@ -80,6 +88,17 @@ public class MealPlan extends DatabaseObject implements Serializable {
         }
     }
 
+    // given a list of recipes or list of ingredients, creates a meal plan.
+    private void createMealPlan(ArrayList<?> list, Constants.COLLECTION_NAME listType) {
+        if (listType == Constants.COLLECTION_NAME.INGREDIENTS) {
+
+        }
+        else if (listType == Constants.COLLECTION_NAME.RECIPES) {
+
+        }
+    }
+
+
     /**
      * Checks to see if the specified meal has been made. The meal is specified by the meal of the
      * day enumeration.
@@ -89,8 +108,7 @@ public class MealPlan extends DatabaseObject implements Serializable {
      * @return The {@link Boolean} value stored in the made field of requested meal.
      */
     public boolean isMealMade( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        boolean isMade = ( Boolean ) plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).get( IS_MADE_FIELD );
-        return isMade;
+        return (boolean) plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).get( IS_MADE_FIELD );
     }
 
     /**

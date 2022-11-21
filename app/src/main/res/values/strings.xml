@@ -27,6 +27,17 @@
     <string name="shopping_list">Shopping List</string>
     <string name="meal_plan">Meal Plan</string>
 
+    <!-- Meal Plan -->
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+    <string name="your_mealplans">Your Meal Plans</string>
+    <string name="add_mealplan">Make a new mealplan</string>
+    <string name="edit_mealplan">Edit an existing meal plan</string>
+    <string name="delete_mealplan">Delete an existing meal plan</string>
+    <string name="view_mealplan">View my meal plans</string>
+    <string name="meal_plan_description">You can build a meal plan using either your stored ingredients or stored recipes. You can choose any number of ingredients or recipes; a meal plan will be curated based on your selections.</string>
+
     <!-- Shopping List -->
     <string name="sort_by">Sort By:</string>
     <string name="filter">Filter:</string>

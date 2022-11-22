@@ -61,7 +61,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String itemSelected = adapterView.getItemAtPosition(i).toString();
 
-                //if sort by "Amount" is selected
+                //if sort by "Total Time" is selected
                  if(itemSelected.equals("Total Time")){
                     adapter.sort(new Comparator<Recipe>() {
                         @Override
@@ -87,15 +87,10 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                     adapter.sort(new Comparator<Recipe>() {
                         @Override
                         public int compare(Recipe r1, Recipe r2) {
-                            if (r1.getServings() < r2.getServings())
-                                return 1;
-
-                            else if (r1.getServings() < r2.getServings())
-                                return -1;
-                            else
-                                return 0;
+                            return Double.compare(r2.getServings(), r1.getServings());
                         }
                     });
+                    signalChangeToAdapter();
                 }
             }
             @Override
@@ -104,6 +99,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
             }
         });
 
+        signalChangeToAdapter();
         recipeListView.setAdapter( adapter );
         newRecipeButton = findViewById( R.id.recipe_storage_add_button );
 

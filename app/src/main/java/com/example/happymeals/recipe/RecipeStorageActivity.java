@@ -92,22 +92,12 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
 
                             else if (r1.getServings() < r2.getServings())
                                 return -1;
-
                             else
                                 return 0;
-
-
                         }
                     });
-
-
                 }
-
-
             }
-
-
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 return;
@@ -124,8 +114,6 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                 startActivity( intent );
             }
         });
-
-
     }
 
     public void signalChangeToAdapter() {

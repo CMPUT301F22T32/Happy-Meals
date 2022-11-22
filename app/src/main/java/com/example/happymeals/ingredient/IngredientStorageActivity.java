@@ -104,8 +104,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                                 return 0;
                         }
                     });
-
-
                 }
                 if(itemSelected.equals("Location")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
@@ -115,8 +113,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                             return i1.getLocation().compareTo(i2.getLocation());
                         }
                     });
-
-
                 }
                 if(itemSelected.equals("Ingredient Category")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
@@ -125,11 +121,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                            return i1.getCategory().compareTo(i2.getCategory());
                         }
                     });
-
-
                 }
-
-
             }
 
             @Override
@@ -153,12 +145,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
             }
         }) ;
     }
-
-    /**
-     * This function does the sorting based on which spinner item is selected.
-     */
-
-
 
 
     /**

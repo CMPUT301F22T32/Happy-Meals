@@ -14,14 +14,13 @@ import com.example.happymeals.R;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientSpecificArrayAdapter;
 import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.recipe.RecipeAddActivity;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

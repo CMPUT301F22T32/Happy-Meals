@@ -1,11 +1,16 @@
 package com.example.happymeals;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -30,6 +35,7 @@ import java.util.HashMap;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private Context context;
     /**
      * This is the function called whenever the MainActivity is created -- in our
      * case, this is on the launch of the app or when navigating back to the home page.
@@ -40,13 +46,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-
+        Toolbar toolbar = findViewById( R.id.appbar);
+        setSupportActionBar(toolbar);
         // Create the firebase manager connection along with all the storage classes.
         FireStoreManager.getInstance();
         RecipeStorage.getInstance();
         IngredientStorage.getInstance();
 
-        Context context = this;
+        context = this;
 
         // The 4 buttons to access the other activities
         Button ingredientStorageButton = findViewById( R.id.ingredient_storage_button );
@@ -88,5 +95,21 @@ public class MainActivity extends AppCompatActivity {
                 //TODO: Send intent for Shopping List Activity
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate( R.menu.menu, menu );
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if( item.getItemId() == R.id.action_settings ) {
+            Intent intent = new Intent(context, SpinnerSettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

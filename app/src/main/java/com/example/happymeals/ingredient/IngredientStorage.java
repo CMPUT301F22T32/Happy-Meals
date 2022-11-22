@@ -10,7 +10,6 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author jeastgaa
@@ -28,6 +27,7 @@ public class IngredientStorage implements DatabaseListener {
     private CollectionReference ingredientCollection;
 
     private ArrayList<Ingredient> ingredients;
+    private HashMap< String, ArrayList< String > > spinnerMap;
     private FireStoreManager fsm;
 
     /**
@@ -36,8 +36,10 @@ public class IngredientStorage implements DatabaseListener {
      */
     private IngredientStorage() {
         this.ingredients = new ArrayList<>();
+        this.spinnerMap = new HashMap<>();
         this.listeningActivity = null;
         this.fsm = FireStoreManager.getInstance();
+        fsm.getAllSpinners( this );
         this.ingredientCollection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS );
         updateIngredientsFromDatabase();
     }
@@ -55,6 +57,22 @@ public class IngredientStorage implements DatabaseListener {
     }
 
     /**
+     * Adds a {@link String} as a spinner to the list of spinners as well as updates the
+     * database with the addition.
+     * @param choice {@link Constants.StoredSpinnerChoices} which will define the key to the
+     *                                                     spinner map.
+     * @param spinner {@link String} the string being added to the Spinner DB.
+     */
+    public void addSpinner( Constants.StoredSpinnerChoices choice, String spinner ) {
+        if( spinnerMap.get( choice.toString() ) == null ) {
+            spinnerMap.put( choice.toString(), new ArrayList<String >());
+        }
+
+        spinnerMap.get( choice.toString() ).add( spinner );
+        fsm.storeSpinners( spinnerMap );
+    }
+
+    /**
      * Converts a {@link ArrayList} of {@link Ingredient} to a {@link HashMap} which will can
      * be stored in the database via {@link com.example.happymeals.recipe.Recipe}'s.
      * @param ingredientList The {@link ArrayList} which is being converted.
@@ -69,6 +87,31 @@ public class IngredientStorage implements DatabaseListener {
         }
 
         return mapToReturn;
+    }
+
+    /**
+     * Removes a {@link String} from the {@link ArrayList} holding all the spinners as well as
+     * updates the DB with the removal.
+     * @param choice {@link Constants.StoredSpinnerChoices} that defines where the spinner
+     *                                                     is being removed from.
+     * @param i The {@link Integer} of the index where the requested {@link String} is to be
+     *          removed from.
+     */
+    public void removeSpinner( Constants.StoredSpinnerChoices choice, int i ) {
+        spinnerMap.get( choice.toString() ).remove( i );
+        fsm.storeSpinners( spinnerMap );
+    }
+
+    /**
+     * Standard getter for spinners.
+     * @return {@link Constants.StoredSpinnerChoices} which defines the key to fetch the strings.
+     */
+    public ArrayList<String> getSpinners( Constants.StoredSpinnerChoices choice ) {
+        ArrayList< String > temp = new ArrayList<>();
+        if( spinnerMap.get( choice.toString()) != null ) {
+            temp.addAll( spinnerMap.get(choice.toString() ));
+        }
+        return temp;
     }
 
     /**
@@ -206,8 +249,16 @@ public class IngredientStorage implements DatabaseListener {
         updateStorage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void onSpinnerFetchSuccess(Map<String, Object> data) {
-
+    public <T> void onSpinnerFetchSuccess( T mapOfSpinners ) {
+        if( mapOfSpinners != null ) {
+            if( mapOfSpinners.getClass() == HashMap.class ) {
+                System.out.println( mapOfSpinners);
+                spinnerMap = (HashMap<String, ArrayList<String>>) mapOfSpinners;
+            }
+        }
     }
 }

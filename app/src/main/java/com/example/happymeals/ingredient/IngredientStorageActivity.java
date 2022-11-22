@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.database.DatasetWatcher;
-import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.R;
 import com.example.happymeals.recipe.RecipeStorageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -101,6 +101,9 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         startActivity( ingredientIntent ) ;
     }
 
+    /**
+     * Tells the adapter that the data set has been updated.
+     */
     @Override
     public void signalChangeToAdapter() {
         storageAdapter.notifyDataSetChanged();

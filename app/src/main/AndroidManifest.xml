@@ -14,7 +14,8 @@
         android:theme="@style/Theme.HappyMeals"
         tools:targetApi="31">
         <activity android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.HappyMeals.Main">
             <!--Default Intent Filter-->
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -55,6 +56,13 @@
         </activity>
         <activity android:name=".recipe.RecipeStorageActivity"></activity>
         <activity android:name=".recipe.RecipeAddActivity"></activity>
+        <activity android:name=".SpinnerSettingsActivity">
+            android:parentActivityName=".MainActivity">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

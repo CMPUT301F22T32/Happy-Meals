@@ -1,4 +1,4 @@
-package com.example.happymeals.ingredient;
+package com.example.happymeals.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
+import com.example.happymeals.ingredient.Ingredient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.ingredient_storage_content, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.content_ingredient_storage, parent, false);
         }
 
             Ingredient ingredient = storageList.get(position);

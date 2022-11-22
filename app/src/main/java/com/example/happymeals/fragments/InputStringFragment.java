@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -44,6 +45,15 @@ public class InputStringFragment extends DialogFragment {
     private EditText inputTextView;
     private InputStringFragment.InputStringFragmentListener listener;
 
+    private int maxCharLength;
+
+    private String message;
+
+    public InputStringFragment( String message, int maxCharLength ) {
+        super();
+        this.maxCharLength = maxCharLength;
+        this.message = message;
+    }
     /**
      * {@inheritDoc}
      */
@@ -66,11 +76,12 @@ public class InputStringFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.input_string_fragment, null);
 
         inputTextView = view.findViewById( R.id.edit_text_empty_field );
+        inputTextView.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxCharLength)});
 
         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
         return builder
                 .setView( view )
-                .setTitle( "Comment To Add To Recipe" )
+                .setTitle( message )
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick( DialogInterface dialogInterface, int i ) {

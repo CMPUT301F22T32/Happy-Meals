@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
 
 /** Initial UI layer for user login
@@ -84,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 fireAuth.getFireAuth().userLogin(inputUser,inputPass, new OutputListener() {
                     @Override
                     public void onSuccess() {
+                        FireStoreManager.getInstance().setUser( inputUser );
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
 

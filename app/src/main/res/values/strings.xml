@@ -47,4 +47,6 @@
 
     </string-array>
 
+    <!-- Action Bar Menu -->
+    <string name="spinner_settings">Edit Spinners</string>
 </resources>

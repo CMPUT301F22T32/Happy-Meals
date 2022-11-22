@@ -50,6 +50,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
      * and {@link #storageListView} to properly display the polled data. Action listeners are also set
      * in this step; clicking on an {@link Ingredient} will open a view containing ingredient details
      * while clicking the plus button in the corner will open a view to add a new ingredient.
+     * Also deals with sorting the ingredients.
      * @param savedInstanceState The state to restore the view to (if applicable).
      */
     @Override
@@ -81,16 +82,15 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
                         public int  compare(Ingredient i1, Ingredient i2) {
-                            if (i1.getAmount() < i2.getAmount())
+                            if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() < i2.getAmount()) )
                                 return 1;
-                            else if (i1.getAmount() > i2.getAmount())
+                            else if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() > i2.getAmount()) )
                                 return -1;
                             else
                                 return 0;
                         }
                     });
-                    signalChangeToAdapter();
-                    dataAdapter.notifyDataSetChanged();
+
                 }
                 if(itemSelected.equals("Best Before Date")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
@@ -131,8 +131,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
 
 
             }
-
-
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {

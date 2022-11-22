@@ -39,6 +39,8 @@
 
     </string-array>
 
+    <!-- Recipe Add Activity -->
+    <string name="click_to_add">Click to add Ingredient To Recipe</string>
     <!-- RecipeStorage -->
     <string-array name="recipe_options">
         <item>Type</item>

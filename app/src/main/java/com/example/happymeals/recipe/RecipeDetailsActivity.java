@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener {
 
     private Recipe recipe;
@@ -48,8 +49,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_details_activity);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.recipe_details_activity );
 
         Intent intent = getIntent();
         if( !intent.hasExtra("recipe") ) {
@@ -69,7 +70,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField = findViewById( R.id.recipe_servings_field );
         instructionsField = findViewById( R.id.recipe_instructions_field );
         commendsField = findViewById( R.id.recipe_comment_field );
-        imageView = findViewById(R.id.recpie_details_image);
+        imageView = findViewById( R.id.recpie_details_image );
 
         // Get the recipe and ingredient list
         recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
@@ -96,7 +97,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField.setText( String.valueOf( recipe.getServings() ) );
         instructionsField.setText( recipe.getInstructions() );
         commendsField.setText( recipe.getCommentsAsString() );
-        imageView.setImageBitmap( recipe.getImage() );
+        imageView.setImageURI( recipe.getImage() );
 
         ingredientsListField.setAdapter( adapter );
 
@@ -116,12 +117,12 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
-    public void onDataFetchSuccess(DatabaseObject data) {
+    public void onDataFetchSuccess( DatabaseObject data ) {
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onSpinnerFetchSuccess(Map<String, Object> data) {
+    public void onSpinnerFetchSuccess( Map<String, Object> data ) {
 
     }
 }

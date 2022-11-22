@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.MediaCodec;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +23,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputStringFragment;
@@ -29,6 +33,11 @@ import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +45,7 @@ import java.util.Map;
 // sources for adding image:
 // https://www.youtube.com/watch?v=YLUmfyGFjnU
 // https://www.youtube.com/watch?v=qO3FFuBrT2E
+// https://www.youtube.com/watch?v=XRdzAWIt8rw
 
 public class RecipeAddActivity extends AppCompatActivity  implements SearchIngredientFragment.SearchIngredientsFragmentListener,
         InputStringFragment.InputStringFragmentListener {
@@ -64,7 +74,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
     private Context context;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     public static final int CAMERA_ACTION_CODE = 1;
-    private Bitmap image;
+    private Uri imagePath;
+    private String imageFilePath;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -130,7 +141,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                         RecipeStorage.getInstance().makeIngredientMapForRecipe(
                                 countMap
                         ),
-                        newInstructions, newPrepTime, newServings, image
+                        newInstructions, newPrepTime, newServings, imagePath
                         ));
                 finish();
             }
@@ -141,8 +152,16 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
             public void onActivityResult(ActivityResult result) {
                 if(result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Bundle bundle = result.getData().getExtras();
-                    image = (Bitmap) bundle.get("data");
-                    imageView.setImageBitmap(image);
+                    Bitmap bitmap = (Bitmap) bundle.get("data");
+                    //imageView.setImageBitmap(bitmap);
+
+                    WeakReference<Bitmap> result1 = new WeakReference<>(Bitmap.createScaledBitmap(bitmap, bitmap.getHeight(), bitmap.getWidth(), false).copy(Bitmap.Config.RGB_565, true));
+
+                    Bitmap bm = result1.get();
+
+                    imagePath = saveImage(bm, RecipeAddActivity.this);
+                    imageView.setImageURI(imagePath);
+
                 }
             }
         });
@@ -162,6 +181,26 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
             }
         });
 
+    }
+
+    private Uri saveImage(Bitmap image, RecipeAddActivity recipeAddActivity) {
+        File imagesFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+
+        try {
+            imagesFolder.mkdir();
+            File file = new File(imagesFolder, "captured_image.jpg");
+            FileOutputStream stream = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context.getApplicationContext(), "com.example.happymeals"+".provider", file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uri;
     }
 
     @Override
@@ -187,5 +226,13 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         }
         commentsField.setText( commentsSoFar );
 
+    }
+
+    private File createImageFile() throws IOException {
+        String fileName = "Test.jpg";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(fileName, String.valueOf(storageDir));
+        imageFilePath = image.getAbsolutePath();
+        return image;
     }
 }

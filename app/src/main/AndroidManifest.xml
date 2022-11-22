@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.happymeals">
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyMeals"
         tools:targetApi="31">
+
+        <provider
+            android:authorities="${applicationId}.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <activity android:name=".ingredient.IngredientViewActivity"
             android:parentActivityName=".ingredient.IngredientStorageActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -44,5 +56,6 @@
         <activity android:name=".recipe.RecipeStorageActivity"></activity>
         <activity android:name=".recipe.RecipeAddActivity"></activity>
     </application>
+
 
 </manifest>

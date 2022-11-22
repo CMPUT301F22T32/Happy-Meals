@@ -1,5 +1,6 @@
 package com.example.happymeals.database;
 
+import android.net.Uri;
 import android.text.format.Formatter;
 import android.util.Log;
 
@@ -16,6 +17,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -40,6 +44,7 @@ public class FireStoreManager {
     private final String GET_DATA_TAG = "Data Request";
     private final String DATA_STORE_TAG = "Data Store";
     private final String DATA_DELETE_TAG = "Data Removal";
+    private final String IMAGE_UPLOAD_TAG = "Image Upload";
 
     /**
      * Class constructor. This will connect to the Firebase database. Finding the local IP address
@@ -285,5 +290,24 @@ public class FireStoreManager {
      */
     public void updateData( CollectionReference collection, DatabaseObject data ) {
         addData( collection, data );
+    }
+
+    public void uploadImage( Uri imageUri, String fileName) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference("images/"+fileName);
+
+        storageReference.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d( IMAGE_UPLOAD_TAG, "Image has been uploaded." );
+                    }
+                })
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be uploaded." );
+                    }
+                });
     }
 }

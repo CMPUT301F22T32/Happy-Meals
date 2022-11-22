@@ -61,6 +61,7 @@ public class RecipeStorage implements DatabaseListener {
     public void addRecipe(Recipe recipe) {
         recipes.add(recipe);
         fsm.addData( collection, recipe );
+        fsm.uploadImage( recipe.getImage(), recipe.getName() );
         updateStorage();
     }
 

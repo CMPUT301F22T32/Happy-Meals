@@ -1,16 +1,17 @@
 package com.example.happymeals.mealplan;
 
+import android.util.Log;
+
 import com.example.happymeals.Constants;
+import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
-import com.example.happymeals.ingredient.Ingredient;
 import com.google.firebase.firestore.CollectionReference;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,34 +24,22 @@ import java.util.Map;
  * means that the meal plan should be defined with the date as a Sunday value otherwise the
  * data will not turn out.
  */
-public class MealPlanStorage extends DatabaseObject {
+public class MealPlanStorage implements DatabaseListener {
 
     private static MealPlanStorage instance = null;
 
-    public final static String IS_MADE_FIELD = "made";
-    public final static String TYPE_OF_MEAL = "type";
-    public final static String MEAL_FIELD = "meal";
-
-    // Hashmap which can be mapped to the database
-    private HashMap< String, HashMap< String, HashMap<String, Object> > > plans;
+    private ArrayList<MealPlan> mealPlans;
 
     private DatasetWatcher listeningActivity;
     private CollectionReference mealPlanCollection;
-
-    private ArrayList<Ingredient> ingredients;
     private FireStoreManager fsm;
-
-    /**
-     * Empty constructor which is required by {@link FireStoreManager} to store
-     * object in the database.
-     * Creates empty HashMap fields for the database that can later be populated.
-     */
+    
     public MealPlanStorage() {
-        plans = new HashMap<>();
-        createMapForWeekday();
+        mealPlans = new ArrayList<>();
         this.listeningActivity = null;
         this.fsm = FireStoreManager.getInstance();
         this.mealPlanCollection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.MEAL_PLANS );
+        updateMealPlansFromDatabase();
     }
 
     public static MealPlanStorage getInstance() {
@@ -59,145 +48,133 @@ public class MealPlanStorage extends DatabaseObject {
         return instance;
     }
 
-    public String getName() {
-        return this.name;
+    /**
+     * This will grab all the MealPlan values stored in the database.
+     * This classes OnDataFetchSuccess method will handle the response on a successful data fetch.
+     */
+    public void updateMealPlansFromDatabase() {
+        fsm.getAllFrom( mealPlanCollection, this, new MealPlan() );
     }
 
     /**
-     * Used for the constructor to create a fully defined object to be stored in the database.
-     * Meals can be added at a later time.
-     * Meals are constructed by looping through two different enumerations and can be changed
-     * accordingly.
+     * Links a {@link DatasetWatcher} instance to this class so data fetching can return results.
+     * This should be set/called any time a new class is watching the storage contents and need
+     * to be updated on a change.
+     * @param listener The {@link DatasetWatcher} implementation responsible for dealing with
+     *                 a change in the dataset.
      */
-    private void createMapForWeekday() {
-        for( Constants.DAY_OF_WEEK week : Constants.DAY_OF_WEEK.values() ) {
-            HashMap< String, HashMap< String, Object> > mealsOfDay = new HashMap<>();
-            for( Constants.MEAL_OF_DAY meal : Constants.MEAL_OF_DAY.values() ) {
-                HashMap< String, Object > details = new HashMap<>();
-                details.put( IS_MADE_FIELD, false );
-                mealsOfDay.put( meal.toString(), details);
-            }
-            plans.put( week.toString(), mealsOfDay );
-        }
-    }
-
-    // given a list of recipes or list of ingredients, creates a meal plan.
-    private void createMealPlan(ArrayList<?> list, Constants.COLLECTION_NAME listType) {
-        if (listType == Constants.COLLECTION_NAME.INGREDIENTS) {
-
-        }
-        else if (listType == Constants.COLLECTION_NAME.RECIPES) {
-
-        }
-    }
-
-
-    /**
-     * Checks to see if the specified meal has been made. The meal is specified by the meal of the
-     * day enumeration.
-     * @param dayOfWeek The {@link Enum} DAY_OF_WEEK inside meal plan specifying which day of the
-     *                  week we are looking for the meal in.
-     * @param mealOfDay The {@link Enum} MEAL_OF_DAY we are looking for.
-     * @return The {@link Boolean} value stored in the made field of requested meal.
-     */
-    public boolean isMealMade( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        return (boolean) plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).get( IS_MADE_FIELD );
+    public void setListeningActivity( DatasetWatcher listener ) {
+        this.listeningActivity = listener;
     }
 
     /**
-     * Checks to see if the specified meal has eben made. The meal is specified by the day of the
-     * week such as Tuesday, and the recipe. If there are multiple of the same recipe it will
-     * return the first one found.
-     * @param dayOfWeek The {@link Enum} DAY_OF_WEEK value which represents the day of the week
-     *                  we are querying
-     * @param recipe The {@link String} name of the recipe we are looking for.
-     * @return A {@link Boolean} value of the "made" value attached to the requested recipe.
+     * This will send a signal to the class which is currently linked to the storage
+     * that the dataset has changed.
      */
-    public boolean isMealMade( Constants.DAY_OF_WEEK dayOfWeek, String recipe ) {
-        for( Map.Entry< String, HashMap< String, Object > > map : plans.get( dayOfWeek.toString() ).entrySet() ){
-            for( Map.Entry< String, Object> detailsMap : map.getValue().entrySet() ) {
-                if( detailsMap.getValue() == recipe ) {
-                    return ( Boolean ) map.getValue().get( IS_MADE_FIELD );
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Removes a meal from the day of a week and sets the "made" value to false.
-     * @param dayOfWeek The {@link Enum} of the week day the meal is being removed from.
-     * @param mealOfDay The {@link Enum} of the meal of the day for which the meal is being
-     *                  removed from.
-     */
-    public void removeMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).remove( "meal" );
-        setMealMade( dayOfWeek, mealOfDay, false );
-    }
-
-    /**
-     * Allows other classes to add a meal from the {@link FireStoreManager}'s database into this
-     * plan.
-     * @param dayOfWeek The {@link Enum} which holds which day of the week this meal is being
-     *                  planned for.
-     * @param mealOfDay The {@link Enum} which holds the meal of the day this recipe is being planned
-     *             for.
-     *
-     */
-    public void setMealOfDay( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<String> recipes ) {
-        HashMap< String, HashMap< String, Object >> temp = plans.get( dayOfWeek.toString() );
-        HashMap< String, Object > temp2 = temp.get( mealOfDay.toString() );
-        temp2.put( "meal", recipes );
-        plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).put( "meal", recipes );
-    }
-
-    /**
-     * Set the value for a meal being made to a {@link Boolean} value of true or false. This can be
-     * done for a day of the week, at a specific meal of the day such as lunch or dinner.
-     * @param dayOfWeek The {@link Enum} representing the day of the week where the recipe is
-     *                  stored.
-     * @param mealOfDay The {@link Enum} representing the meal of the day such as breakfast for
-     *                  which the "made" value is being set.
-     * @param isMade The {@link Boolean} that the "made" value is being set to.
-     */
-    public void setMealMade( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, boolean isMade ) {
-        plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).put( IS_MADE_FIELD, isMade);
-    }
-
-    /**
-     * This will set the required meal's made value to be a {@link Boolean} value of true or false.
-     * This value is false by default and can only be updated through this method.
-     * @param dayOfWeek The {@link Enum} of the requested day which we are making a meal.
-     * @param recipe The {@link String} of the recipe path that is being made.
-     * @param isMade The {@link Boolean} value which will represent if the recipe has been made.
-     */
-    public void setMealMade( Constants.DAY_OF_WEEK dayOfWeek, String recipe, boolean isMade ) {
-        for( Map.Entry< String, HashMap< String, Object > > map : plans.get( dayOfWeek.toString() ).entrySet() ){
-            for( Map.Entry< String, Object> detailsMap : map.getValue().entrySet() ) {
-                if( detailsMap.getValue() == recipe ) {
-                    map.getValue().put( IS_MADE_FIELD, isMade );
-                }
-            }
+    public void updateStorage() {
+        if (listeningActivity != null) {
+            listeningActivity.signalChangeToAdapter();
+        } else {
+            Log.d( "MealPlan Storage Error: ", "No listening activity was defined"
+                    + "Cannot update adapter.", null );
         }
     }
 
     /**
-     * Gets the whole week of plans held in the meal plan. This will include all days
-     * Sunday-Saturday, with 3 meals defined a day.
+     * This returns an ArrayList of the MealPlans
      * @return
+     * Returns the ArrayList of MealPlans that the MealPlanStorage has
      */
-    public HashMap<String, HashMap<String, HashMap< String, Object > > > getPlans() {
-        return plans;
+    public ArrayList< MealPlan > getMealPlans() {
+        return mealPlans;
     }
 
     /**
-     * Navigates through the plans {@link HashMap} to the meal requeted. This meal will then be
-     * returned as a {@link String} representing the path to the meal inside the database.
-     * @param dayOfWeek The {@link Enum} which will define the day of the week we are requesting.
-     * @param mealOfDay The {@link Enum} which will define the meal of the day we are requesting.
-     * @return The {@link String} value of the path to the recipe requested.
+     * This add and MealPlan to MealPlans and adds the MealPlan to the Firebase database
+     * @param mealPlan
      */
-    public String getRecipePathAt( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        return plans.get( dayOfWeek.toString() ).get( mealOfDay.toString() ).get( "meal" ).toString();
+    public void addMealPlan( MealPlan mealPlan ) {
+        mealPlans.add( mealPlan );
+        updateStorage();
+        fsm.addData(mealPlanCollection, mealPlan);
+    }
+
+    /**
+     * This will return a specific {@link MealPlan} given the name.
+     * @param mealPlanName The {@link String} which holds the name of the requested
+     * {@link MealPlan}.
+     * @return The {@link MealPlan} object.
+     */
+    public MealPlan getMealPlan( String mealPlanName ) {
+        for( MealPlan mealPlan : mealPlans ) {
+            if ( mealPlan.getName().equals( mealPlanName ) ) {
+                return mealPlan;
+            }
+        }
+        return null;
+    }
+
+    public MealPlan getMealPlanForDay(Date date) {
+        MealPlan mealplan = null;
+        for (MealPlan mp : mealPlans) {
+            if (mp.isWithinDate(date))
+                return mp;
+        }
+        return null;
+    }
+
+    /**
+     * This will remove the provided {@link MealPlan} from the database and this classes
+     * storage {@link ArrayList}.
+     * @param mealPlan The {@link MealPlan} that is being removed form storage.
+     */
+    public void removeMealPlan( MealPlan mealPlan ) {
+        mealPlans.remove( mealPlan );
+        updateStorage();
+        fsm.deleteDocument( mealPlanCollection, mealPlan );
+    }
+
+    /**
+     * Given an {@link MealPlan} this will go through all the stored MealPlans and upon
+     * matching the name of the passed {@link MealPlan} it will replace that object with
+     * the given one. If it cannot be found then a Log message will be produced.
+     * @param mealPlan The {@link MealPlan} which is being updated in the storage.
+     */
+    public void updateMealPlan( MealPlan mealPlan ) {
+        for( MealPlan storedMealPlan : mealPlans ) {
+            if( storedMealPlan.getName().equals(mealPlan.getName() ) ){
+                storedMealPlan = mealPlan;
+                updateStorage();
+                fsm.updateData( mealPlanCollection, mealPlan );
+                return;
+            }
+        }
+        Log.d("MealPlan Storage:", "An MealPlan update was requested on:\n"
+                + mealPlan.getName() + ", but no stored MealPlan could be found", null );
+
+    }
+
+    @Override
+    public void onDataFetchSuccess(DatabaseObject data) {
+        MealPlan mealPlan = ( MealPlan ) data;
+        Boolean replace = Boolean.FALSE;
+        // Loop through the list of MealPlans and see if we are adding a new one
+        // or updating a pre-existing one.
+        for( MealPlan storedMealPlan : mealPlans ) {
+            if(storedMealPlan.getName().equals(mealPlan.getName())){
+                storedMealPlan = mealPlan;
+                replace = Boolean.TRUE;
+                break;
+            }
+        }
+        if( !replace ){
+            mealPlans.add( mealPlan );
+        }
+        updateStorage();
+    }
+
+    @Override
+    public void onSpinnerFetchSuccess(Map<String, Object> data) {
+
     }
 }

@@ -58,6 +58,8 @@
     <string name="shopping_list_adapter_unit">Unit:</string>
     <string name="shopping_list_adapter_category">Ingredient Category:</string>
     <string name="buy_prompt">I have picked up this item</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 
 </resources>

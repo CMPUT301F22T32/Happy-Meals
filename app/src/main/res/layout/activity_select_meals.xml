@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".mealplan.SelectMealsActivity">
 
     <TextView
@@ -43,24 +43,27 @@
         app:layout_constraintStart_toEndOf="@+id/button6" />
 
     <ListView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:drawable/editbox_dropdown_light_frame"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/meal_plan_item_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:checkedButton="@id/radioButton"
+        android:layout_marginBottom="16dp"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:choiceMode="multipleChoice"
+        android:listSelector="@color/black_overlay"
+        app:layout_constraintBottom_toTopOf="@+id/button6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mp_type_of_item" />
+
+    <RadioGroup
+        android:id="@+id/mp_type_of_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:checkedButton="@id/ingredient_radio"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -68,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView11">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/ingredient_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ingredient_storage"
@@ -78,10 +81,10 @@
             tools:layout_editor_absoluteY="107dp" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/recipe_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="110dp"
+            android:layout_marginStart="32dp"
             android:text="@string/recipes"
             tools:layout_conversion_absoluteHeight="48dp"
             tools:layout_conversion_absoluteWidth="109dp"

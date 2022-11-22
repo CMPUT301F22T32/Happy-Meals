@@ -29,6 +29,7 @@ import java.util.Comparator;
  * This activity will show all the recipes saved by the user and allow for the start
  * of new activities. It will display simple details of the recipe and allow the user to launch
  * activity to create a new recipe.
+ * Also deals with sorting the recipes.
  */
 public class RecipeStorageActivity extends AppCompatActivity implements DatasetWatcher {
 

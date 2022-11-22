@@ -1,9 +1,7 @@
 package com.example.happymeals.userlogin;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,45 +16,37 @@ import com.example.happymeals.database.FirebaseAuthenticationHandler;
 public class RegisterActivity extends AppCompatActivity{
     private Button registerBtn;
     private TextView returnLogin;
-    private EditText userinputField, passinputField;
+    private EditText emailField, passwordField, confirmPasswordField, usernameField;
     private FirebaseAuthenticationHandler fireAuth;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_screen);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_register_screen );
 
         // initialize all used objects
 
-        registerBtn = findViewById(R.id.register_button);
-        userinputField = findViewById(R.id.create_username);
-        passinputField = findViewById(R.id.create_password);
-        returnLogin = findViewById(R.id.return_login);
+        registerBtn = findViewById( R.id.register_button );
+
+        emailField = findViewById( R.id.register_email_field );
+        passwordField = findViewById( R.id.register_password_field );
+        confirmPasswordField = findViewById( R.id.register_confirm_pass_field );
+        usernameField = findViewById( R.id.register_username_field );
+        returnLogin = findViewById( R.id.return_login );
 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newUser = userinputField.getText().toString();
-                String newPass = passinputField.getText().toString();
-                //1 empty user passed
+                String userEmail = emailField.getText().toString();
+                String newPass = passwordField.getText().toString();
+                String userName = usernameField.getText().toString();
 
-                if (TextUtils.isEmpty(newUser)) {
-                    userinputField.setError("User cannot be empty");
+                if( !checkValidEntries() ){
+                    return;
                 }
-
-                //2 empty password passed
-
-                if (TextUtils.isEmpty(newPass)) {
-                    passinputField.setError("Password cannot be empty");
-                }
-                //3 Password length cannot be less than 8 chars
-
-                if (newPass.length() < 8) {
-                    passinputField.setError("Password must be greater than 8 characters");
-                }
-                fireAuth.getFireAuth().userRegister(newUser, newPass, new OutputListener() {
+                fireAuth.getFireAuth().userRegister(userEmail, newPass, userName, new OutputListener() {
                     @Override
                     public void onSuccess() {
                         Log.d("RegisterActivity", "User was created.");
@@ -71,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity{
 
                 }
             });
+
             returnLogin.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -82,10 +73,28 @@ public class RegisterActivity extends AppCompatActivity{
 
         }
 
+    /**
+     * Checks to see if all the registration information is valid.
+     * @return The {@link Boolean} True if the information is valid, false otherwise.
+     */
+    private boolean checkValidEntries() {
+            String userEmail = emailField.getText().toString();
+            String newPass = passwordField.getText().toString();
+            String userName = usernameField.getText().toString();
 
-
-
-
-
-
+            if ( userName.length() < 1 || userEmail.length() < 1 ) {
+                emailField.setError( "Username and Email cannot be empty" );
+                return false;
+            } else if ( !userEmail.contains("@") ) {
+                emailField.setError( "Must be a valid Email" );
+                return false;
+            } else if ( newPass.length() < 8 ) {
+                passwordField.setError( "Password must be greater than 8 characters" );
+                return false;
+            } else if ( !confirmPasswordField.getText().toString().equals(newPass) ) {
+                confirmPasswordField.setError( "Passwords must match" );
+                return false;
+            }
+            return true;
+        }
     }

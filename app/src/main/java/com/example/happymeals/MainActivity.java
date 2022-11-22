@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,8 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.database.FirebaseAuthenticationHandler;
+import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.google.firebase.firestore.DocumentReference;
@@ -55,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
 
+        // Display the username of user
+        TextView welcomeMessage = findViewById( R.id.user_welcome );
+        welcomeMessage.setText("Enjoy a Happy Meal "
+                + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName() );
         // The 4 buttons to access the other activities
         Button ingredientStorageButton = findViewById( R.id.ingredient_storage_button );
         Button recipesButton = findViewById( R.id.recipes_button );
@@ -111,5 +119,26 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * When the user clicks log out a {@link ModifyConfirmationFragment} will be launched.
+     * If the user clicks "confirm" they will be brough back to the login page.
+     * @param view
+     */
+    public void confirmLogOut( View view ) {
+        ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
+                "Log Out",
+                "Are you sure you want to log out?",
+                context,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseAuthenticationHandler.getFireAuth().authenticate.signOut();
+                        finish();
+                    }
+                } );
+        deleteFragment.display();
     }
 }

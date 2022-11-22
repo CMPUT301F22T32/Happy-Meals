@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.example.happymeals.userlogin.OutputListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,18 +46,14 @@ public class FirebaseAuthenticationHandler {
         return fireAuth;
     }
 
-
-
-
-
-    /** 1) Authenticate user Login -- Checks with data to see if userinput is valid and in Firestore
-     * @param: user - email/username
-     * @param: password - user password
-     * @param: listener - checks if UI works as expected
+    /**
+     * Tries to log the user in.
+     * @param email The {@link String} value that was passed in as the email.
+     * @param password The {@link String } that was passed in as the password.
+     * @param listener The {@link OutputListener } which will listen for the successful login.
      */
-
-    public void userLogin(String user, String password, OutputListener listener){
-        fireAuth.authenticate.signInWithEmailAndPassword(user, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public void userLogin(String email, String password, OutputListener listener){
+        fireAuth.authenticate.signInWithEmailAndPassword( email, password ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             // test
             public void onComplete(@NonNull Task<AuthResult> action) {
@@ -90,18 +87,22 @@ public class FirebaseAuthenticationHandler {
      * @param: listener - checks if UI works as expected
      */
 
-    public void userRegister(String user, String password, OutputListener listener) {
-        fireAuth.authenticate.createUserWithEmailAndPassword(user, password).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+    public void userRegister(String email, String password, String username, OutputListener listener) {
+        fireAuth.authenticate.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
             @Override
             public void onComplete(@NonNull Task<AuthResult> action) {
                 if(action.isSuccessful()) {
+                    UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                            .setDisplayName( username ).build();
+                    fireAuth.authenticate.getCurrentUser().updateProfile( profileUpdate );
+
                     String IdUser = fireAuth.authenticate.getCurrentUser().getUid();
                     DocumentReference documentReference = fireAuth.fireStore.collection("Users").document(IdUser);
 
                     //store every user in a hashmap into Firestore
 
                     Map<String, Object> userData = new HashMap<>();
-                    userData.put("User", user);
+                    userData.put("User", email);
 
                     // add to Firestore
 

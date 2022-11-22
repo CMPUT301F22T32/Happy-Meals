@@ -19,7 +19,9 @@
 
     <!-- LoginScreen -->
     <string name="login">Login</string>
+    <string name="email">Email</string>
     <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="password">Password</string>
     <string name="forgot_password_prompt"><u>Forgot your password?</u></string>
     <string name="ingredient_storage">Ingredient Storage</string>
@@ -37,6 +39,8 @@
 
     </string-array>
 
+    <!-- Recipe Add Activity -->
+    <string name="click_to_add">Click to add Ingredient To Recipe</string>
     <!-- RecipeStorage -->
     <string-array name="recipe_options">
         <item>Total Time</item>

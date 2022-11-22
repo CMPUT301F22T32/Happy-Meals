@@ -1,25 +1,46 @@
-package com.example.happymeals;
+package com.example.happymeals.ingredient;
+
+import com.example.happymeals.Constants;
+import com.example.happymeals.database.DatabaseObject;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * This is a class defines an Ingredient
+ * @author kstark jeastgaa sruduke
  */
-public class Ingredient extends DatabaseObject{
 
-    private String name;
+public class Ingredient extends DatabaseObject {
+
     private String description;
-    private String bestBeforeDate;
-    private Constants.Location location;
+    private Date bestBeforeDate;
+    private String location;
     private int amount;
-    private Constants.AmountUnit unit;
-    private Constants.IngredientCategory category;
+    private String unit;
+    private String category;
 
+    /**
+     * This is an empty constructor needed for Firestore construction.
+     */
     public Ingredient() {
 
     }
 
-    public Ingredient( String name, String description, String bestBeforeDate,
-                       Constants.Location location, Integer amount, Constants.AmountUnit unit,
-                       Constants.IngredientCategory category ) {
+    /**
+     * This is the loaded constructor for an {@link Ingredient} object. It contains all of the
+     * necessary parameters for instantiation.
+     * @param name The name of the ingredient ({@link String}).
+     * @param description An optional description of the ingredient ({@link String}).
+     * @param bestBeforeDate The expiry date in YYYY-MM-DD ISO Format ({@link Date}).
+     * @param location The location where the ingredient is stored ({@link Constants.Location}).
+     * @param amount The positive integer amount of the ingredient ({@link Integer}.
+     * @param unit The unit the ingredient is stored by ({@link Constants.AmountUnit}).
+     * @param category The food category that the ingredient falls under ({@link Constants.IngredientCategory}).
+     */
+    public Ingredient( String name, String description, Date bestBeforeDate,
+                       String location, Integer amount, String unit,
+                       String category ) {
         this.name = name;
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
@@ -41,7 +62,7 @@ public class Ingredient extends DatabaseObject{
      * This returns the Best Before Date of the Ingredient
      * @return bestBeforeDate
      */
-    public String getBestBeforeDate() {
+    public Date getBestBeforeDate() {
         return bestBeforeDate;
     }
 
@@ -49,7 +70,7 @@ public class Ingredient extends DatabaseObject{
      * This returns the enum Location of the Ingredient
      * @return location
      */
-    public Constants.Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
@@ -65,7 +86,7 @@ public class Ingredient extends DatabaseObject{
      * This returns the units of the amount of the Ingredient
      * @return unit
      */
-    public Constants.AmountUnit getUnit() {
+    public String getUnit() {
         return unit;
     }
 
@@ -73,8 +94,17 @@ public class Ingredient extends DatabaseObject{
      * This returns the enum IngredientCategory of the Ingredient
      * @return category
      */
-    public Constants.IngredientCategory getCategory() {
+    public String getCategory() {
         return category;
+    }
+
+    /**
+     * This sets the name of the Ingredient
+     * @param name {@link String}
+     * This is the name of the Ingredient
+     */
+    public void setName( String name ) {
+        this.name = name;
     }
 
     /**
@@ -91,7 +121,7 @@ public class Ingredient extends DatabaseObject{
      * @param bestBeforeDate {@link String}
      * This is the best before date of the Ingredient
      */
-    public void setBestBeforeDate( String bestBeforeDate ) {
+    public void setBestBeforeDate( Date bestBeforeDate ) {
         this.bestBeforeDate = bestBeforeDate;
     }
 
@@ -100,7 +130,7 @@ public class Ingredient extends DatabaseObject{
      * @param location {@link Constants.Location}
      * This is the location of the Ingredient
      */
-    public void setLocation( Constants.Location location ) {
+    public void setLocation( String location ) {
         this.location = location;
     }
 
@@ -118,7 +148,7 @@ public class Ingredient extends DatabaseObject{
      * @param unit {@link Constants.AmountUnit}
      * This is the unit for the amount for the Ingredient
      */
-    public void setUnit( Constants.AmountUnit unit ) {
+    public void setUnit( String unit ) {
         this.unit = unit;
     }
 
@@ -127,7 +157,7 @@ public class Ingredient extends DatabaseObject{
      * @param category {@link Constants.IngredientCategory}
      * This is the category for the Ingredient
      */
-    public void setCategory( Constants.IngredientCategory category ) {
+    public void setCategory( String category ) {
         this.category = category;
     }
 }

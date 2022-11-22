@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#FFEE00</color>
     <color name = "blue">#00B7FF</color>
+    <color name= "blue_menu">#00ABED</color>
     <color name = "dark_blue">#0015FF</color>
 </resources>

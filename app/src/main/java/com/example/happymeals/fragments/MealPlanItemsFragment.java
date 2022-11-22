@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -22,8 +23,10 @@ import androidx.fragment.app.Fragment;
 import com.example.happymeals.R;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.DatasetWatcher;
+import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.example.happymeals.recipe.RecipeStorageAdapter;
 
@@ -35,7 +38,7 @@ import java.util.HashSet;
  * Use the {@link MealPlanItemsFragment} factory method to
  * create an instance of this fragment.
  */
-public class MealPlanItemsFragment extends DialogFragment implements DatasetWatcher {
+public class MealPlanItemsFragment extends DialogFragment {
 
     private boolean showIngredients;
 
@@ -45,7 +48,18 @@ public class MealPlanItemsFragment extends DialogFragment implements DatasetWatc
     private Context context;
 
     private ListView list;
+    private RadioGroup radioGroup;
+    private Button save;
+    private Button cancel;
+
     private HashSet<Integer> selected;
+
+    private OnFragmentInteractionListener listener;
+
+    public interface OnFragmentInteractionListener {
+        void selectionIngredients(ArrayList<Ingredient> ingredients);
+        void selectionRecipes(ArrayList<Recipe> recipes);
+    }
 
     public MealPlanItemsFragment() {
         // Required empty public constructor
@@ -55,6 +69,7 @@ public class MealPlanItemsFragment extends DialogFragment implements DatasetWatc
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+        listener = (OnFragmentInteractionListener) context;
     }
 
     @Override
@@ -69,23 +84,26 @@ public class MealPlanItemsFragment extends DialogFragment implements DatasetWatc
         ingredientStorage = IngredientStorage.getInstance();
         recipeStorage = RecipeStorage.getInstance();
 
-        RadioGroup radioGroup = view.findViewById(R.id.mp_type_of_item);
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                showIngredients = !showIngredients;
-                switchList();
-            }
-        });
+        RadioButton ingredientRadio = view.findViewById(R.id.ingredient_radio);
+        radioGroup = view.findViewById(R.id.mp_type_of_item);
+        list = view.findViewById(R.id.meal_plan_item_list);
+        save = view.findViewById(R.id.mp_items_save);
+        cancel = view.findViewById(R.id.mp_items_cancel);
 
         int checked = radioGroup.getCheckedRadioButtonId();
-        RadioButton ingredients = view.findViewById(R.id.ingredient_radio);
-        int ingredientID = ingredients.getId();
+        int ingredientID = ingredientRadio.getId();
 
         showIngredients = (ingredientID == checked);
 
-        list = view.findViewById(R.id.meal_plan_item_list);
+        setListeners();
+        switchList();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        return builder.setView(view).create();
+    }
+
+    private void setListeners() {
+        Fragment fragment = this;
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,16 +120,46 @@ public class MealPlanItemsFragment extends DialogFragment implements DatasetWatc
             }
         });
 
-        switchList();
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                showIngredients = !showIngredients;
+                switchList();
+            }
+        });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (showIngredients) {
+                    ArrayList<Ingredient> items = new ArrayList<>();
+                    for (Integer index : selected) {
+                        items.add(ingredientStorage.getIngredientByIndex(index));
+                    }
+                    listener.selectionIngredients(items);
+                }
+                else {
+                    ArrayList<Recipe> items = new ArrayList<>();
+                    for (Integer index : selected) {
+                        items.add(recipeStorage.getRecipeByIndex(index));
+                    }
+                    listener.selectionRecipes(items);
+                }
+                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+        });
 
-        return builder.setView(view).create();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+        });
     }
 
     private void switchList() {
+        selected.clear();
         if (showIngredients) {
-            //ingredientStorage.setListeningActivity(this);
             IngredientStorageArrayAdapter adapter = new IngredientStorageArrayAdapter( context, ingredientStorage.getIngredients() ) ;
             list.setAdapter( adapter ) ;
         }
@@ -119,10 +167,5 @@ public class MealPlanItemsFragment extends DialogFragment implements DatasetWatc
             RecipeStorageAdapter adapter = new RecipeStorageAdapter( context, recipeStorage.getRecipes() );
             list.setAdapter( adapter );
         }
-    }
-
-    @Override
-    public void signalChangeToAdapter() {
-
     }
 }

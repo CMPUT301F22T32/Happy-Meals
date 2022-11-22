@@ -153,7 +153,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/mp_breakfast_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clear"
@@ -169,14 +169,14 @@
                     android:layout_marginStart="78dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/add"
-                    app:layout_constraintEnd_toStartOf="@+id/button3"
+                    app:layout_constraintEnd_toStartOf="@+id/mp_breakfast_clear"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@+id/textView20"
                     tools:layout_editor_absoluteY="0dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <GridView
+            <ListView
                 android:id="@+id/mp_breakfast_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/mp_lunch_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clear"
@@ -217,13 +217,13 @@
                     android:layout_marginEnd="8dp"
                     android:text="@string/add"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView21"
-                    app:layout_constraintEnd_toStartOf="@+id/button5"
+                    app:layout_constraintEnd_toStartOf="@+id/mp_lunch_clear"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@+id/textView21" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <GridView
+            <ListView
                 android:id="@+id/mp_lunch_items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -231,7 +231,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp">
 
-            </GridView>
+            </ListView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -249,7 +249,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button9"
+                    android:id="@+id/mp_dinner_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clear"
@@ -265,14 +265,14 @@
                     android:layout_marginStart="100dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/add"
-                    app:layout_constraintEnd_toStartOf="@+id/button9"
+                    app:layout_constraintEnd_toStartOf="@+id/mp_dinner_clear"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@+id/textView19"
                     tools:layout_editor_absoluteY="0dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <GridView
+            <ListView
                 android:id="@+id/mp_dinner_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp">
 
-            </GridView>
+            </ListView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

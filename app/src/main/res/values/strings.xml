@@ -29,7 +29,7 @@
 
     <!-- IngredientStorage -->
     <string-array name="ingredient_options">
-        <item>Description</item>
+        <item>Amount</item>
         <item>Best Before Date</item>
         <item>Location</item>
         <item>Ingredient Category</item>
@@ -39,10 +39,9 @@
 
     <!-- RecipeStorage -->
     <string-array name="recipe_options">
-        <item>Type</item>
-        <item>Available Ingredients</item>
-        <item>Unavailable Ingredients</item>
-        <item>Recently Added</item>
+        <item>Total Time</item>
+        <item>Serving</item>
+        <item>Description</item>
 
 
     </string-array>

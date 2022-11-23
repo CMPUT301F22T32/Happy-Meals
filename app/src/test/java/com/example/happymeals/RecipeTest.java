@@ -46,7 +46,7 @@ public class RecipeTest {
         }
         Recipe recipe = new Recipe("Tacos", 2, "The best tacos ever",
                 comments, recipeStorage.makeIngredientMapForRecipe(ingredientMap),
-                strInstructions, 15, 6, new Uri());
+                strInstructions, 15, 6, "images/HelloWorld");
 
         // Test getters
         assertEquals("Tacos", recipe.getName());

@@ -1,5 +1,7 @@
 package com.example.happymeals.recipe;
 
+import android.net.Uri;
+
 import com.example.happymeals.Constants;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.DatabaseListener;
@@ -61,7 +63,6 @@ public class RecipeStorage implements DatabaseListener {
     public void addRecipe(Recipe recipe) {
         recipes.add(recipe);
         fsm.addData( collection, recipe );
-        fsm.uploadImage( recipe.getImage(), recipe.getName() );
         updateStorage();
     }
 
@@ -297,5 +298,9 @@ public class RecipeStorage implements DatabaseListener {
     @Override
     public void onSpinnerFetchSuccess(Map<String, Object> data) {
 
+    }
+
+    public String addImage(Uri uri, String name) {
+        return this.fsm.uploadImage(uri, name);
     }
 }

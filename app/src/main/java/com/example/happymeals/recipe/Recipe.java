@@ -31,7 +31,7 @@ public class Recipe extends DatabaseObject {
     private String instructions;
     private double prepTime;
     private double servings;
-    private String imagePath;
+    private String imageFilePath;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}
@@ -53,12 +53,12 @@ public class Recipe extends DatabaseObject {
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
-     * @param imagePath {@link String} the image of the recipe
+     * @param imageFilePath {@link String} the image of the recipe
      */
     public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
-                   double prepTime, double servings, Uri imagePath ) {
+                   double prepTime, double servings, String imageFilePath ) {
         super(name);
         this.cookTime = cookTime;
         this.description = description;
@@ -67,7 +67,7 @@ public class Recipe extends DatabaseObject {
         this.instructions = instructions;
         this.prepTime = prepTime;
         this.servings = servings;
-        this.imagePath = imagePath.toString();
+        this.imageFilePath = imageFilePath;
     }
 
     /**
@@ -142,5 +142,4 @@ public class Recipe extends DatabaseObject {
         return servings;
     }
 
-    public Uri getImage() { return Uri.parse(imagePath); }
 }

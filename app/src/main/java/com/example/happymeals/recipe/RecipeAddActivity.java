@@ -137,11 +137,12 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 double newCookTime = new Double( cookTimeField.getText().toString() );
                 String newInstructions = instructionsField.getText().toString();
                 double newServings = new Double( servingsField.getText().toString() );
+                imageFilePath = storage.addImage(imagePath, newName);
                 storage.addRecipe( new Recipe( newName, newCookTime, newDescription, comments,
                         RecipeStorage.getInstance().makeIngredientMapForRecipe(
                                 countMap
                         ),
-                        newInstructions, newPrepTime, newServings, imagePath
+                        newInstructions, newPrepTime, newServings, imageFilePath
                         ));
                 finish();
             }
@@ -155,11 +156,11 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                     Bitmap bitmap = (Bitmap) bundle.get("data");
                     //imageView.setImageBitmap(bitmap);
 
-                    WeakReference<Bitmap> result1 = new WeakReference<>(Bitmap.createScaledBitmap(bitmap, bitmap.getHeight(), bitmap.getWidth(), false).copy(Bitmap.Config.RGB_565, true));
+                    //WeakReference<Bitmap> result1 = new WeakReference<>(Bitmap.createScaledBitmap(bitmap, bitmap.getHeight(), bitmap.getWidth(), false).copy(Bitmap.Config.RGB_565, true));
 
-                    Bitmap bm = result1.get();
+                    //Bitmap bm = result1.get();
 
-                    imagePath = saveImage(bm, RecipeAddActivity.this);
+                    imagePath = saveImage(bitmap, RecipeAddActivity.this);
                     imageView.setImageURI(imagePath);
 
                 }
@@ -228,11 +229,4 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
 
     }
 
-    private File createImageFile() throws IOException {
-        String fileName = "Test.jpg";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(fileName, String.valueOf(storageDir));
-        imageFilePath = image.getAbsolutePath();
-        return image;
-    }
 }

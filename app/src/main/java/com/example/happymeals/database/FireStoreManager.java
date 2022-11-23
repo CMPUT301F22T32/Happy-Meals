@@ -1,12 +1,16 @@
 package com.example.happymeals.database;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.recipe.Recipe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,10 +21,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -45,6 +52,7 @@ public class FireStoreManager {
     private final String DATA_STORE_TAG = "Data Store";
     private final String DATA_DELETE_TAG = "Data Removal";
     private final String IMAGE_UPLOAD_TAG = "Image Upload";
+    private String ipAddress;
 
     /**
      * Class constructor. This will connect to the Firebase database. Finding the local IP address
@@ -53,7 +61,7 @@ public class FireStoreManager {
     private FireStoreManager() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         // Get the local IP address to identify the user.
-        String ipAddress = getLocalIpAddress();
+        ipAddress = getLocalIpAddress();
         CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
         userDocument = collectionReference.document( ipAddress );
     }
@@ -292,11 +300,14 @@ public class FireStoreManager {
         addData( collection, data );
     }
 
-    public void uploadImage( Uri imageUri, String fileName) {
+    public String uploadImage( Uri imageUri, String name) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference("images/"+fileName);
+        StorageReference storageReference = storage.getReference();
 
-        storageReference.putFile(imageUri)
+        String filename = "images/"+ipAddress+"/"+name;
+        StorageReference ref = storageReference.child(filename);
+
+        ref.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -309,5 +320,52 @@ public class FireStoreManager {
                         Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be uploaded." );
                     }
                 });
+        return filename;
     }
+
+    public File getImage( DatabaseObject data ) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+
+        StorageReference ref = storageReference.child("images/"+ipAddress+"/"+data.getName());
+
+        File localFile = null;
+
+        try {
+            localFile = File.createTempFile(data.getName(), "jpg");
+            ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d( IMAGE_UPLOAD_TAG, "Image has been downloaded." );
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be downloaded." );
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return localFile;
+
+        /*
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.d(IMAGE_UPLOAD_TAG, uri.toString());
+                Recipe recipe = (Recipe) data;
+                recipe.setImageUri( uri );
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be downloaded." );
+            }
+        }); */
+    }
+
+
 }

@@ -1,17 +1,22 @@
 package com.example.happymeals;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.RecipeStorage;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentReference;
 
 import com.example.happymeals.ingredient.IngredientStorageActivity;
@@ -36,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
      * It it responsible for sending the intents to access all the other main views.
      * @param savedInstanceState The instance state to restore the activity to (if applicable) {@link Bundle}
      */
+
+    BottomNavigationView bottomNavMenu;
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -49,44 +57,45 @@ public class MainActivity extends AppCompatActivity {
         Context context = this;
 
         // The 4 buttons to access the other activities
-        Button ingredientStorageButton = findViewById( R.id.ingredient_storage_button );
-        Button recipesButton = findViewById( R.id.recipes_button );
-        Button mealPlannerButton = findViewById( R.id.meal_planner_button );
-        Button shoppingListButton = findViewById( R.id.shopping_list_button );
 
-        // Intent to open Ingredient Storage Activity
-        ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
+
+        // Navigation
+        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+
+
+        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick( View view ) {
-                Intent intent = new Intent(context, IngredientStorageActivity.class);
-                startActivity(intent);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.recipe_menu:
+                        Toast.makeText(MainActivity.this, "Recipes", Toast.LENGTH_LONG).show();
+                        Intent recipe_intent = new Intent( context, RecipeStorageActivity.class );
+                        startActivity( recipe_intent );
+                        break;
+
+                    case R.id.ingredient_menu:
+                        Toast.makeText(MainActivity.this, "Ingredients", Toast.LENGTH_LONG).show();
+                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
+                        startActivity(ingredient_intent);
+                        break;
+
+                    case R.id.mealplan_menu:
+                        Toast.makeText(MainActivity.this, "Meal Plan", Toast.LENGTH_LONG).show();
+                        break;
+
+                    case R.id.shopping_menu:
+                        Toast.makeText(MainActivity.this, "Shopping List", Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                }
+
+                return true;
+
             }
         });
 
-        // Intent to open Recipe Storage Activity
-        recipesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                //TODO: Send intent for Recipe View Activity
-                Intent intent = new Intent( context, RecipeStorageActivity.class );
-                startActivity( intent );
-            }
-        });
 
-        // Intent to open MealPlanner Activity
-        mealPlannerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                //TODO: Send intent for Meal Planner Activity
-            }
-        });
-
-        // Intent to open Shopping List Activity
-        shoppingListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                //TODO: Send intent for Shopping List Activity
-            }
-        });
     }
 }

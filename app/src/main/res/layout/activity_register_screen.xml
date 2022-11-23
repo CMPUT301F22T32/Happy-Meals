@@ -4,18 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background = "@drawable/background__4_"
     tools:context=".LoginScreen">
+
+    <ImageView
+
+        android:layout_width="381dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="85dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_register_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo_png" />
 
     <TextView
         android:id="@+id/text_register_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        android:text="Register for Happy Meals"
+        android:layout_marginTop="244dp"
         android:fontFamily="@font/avenir_black"
+        android:text="Register a new account"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,8 +38,8 @@
         android:id="@+id/title_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
         android:text="@string/username"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textSize="18sp"
@@ -93,7 +108,7 @@
         android:clickable="true"
         android:fontFamily="@font/avenir_roman"
         android:text="Log in."
-        android:textColor="@color/blue"
+        android:textColor="@color/red"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/return_login_txt"

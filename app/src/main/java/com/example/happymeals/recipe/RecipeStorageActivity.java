@@ -44,43 +44,39 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         recipeListView = findViewById(R.id.recipe_list);
         recipeStorage = RecipeStorage.getInstance();
         recipeStorage.setListeningActivity(this);
-        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
+        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes());
         recipeListView.setAdapter(adapter);
-
 
 
         Spinner RecipeSort = findViewById(R.id.recipe_filter);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(RecipeStorageActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.recipe_options));
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         RecipeSort.setAdapter(dataAdapter);
-    }
 
-        newRecipeButton = findViewById( R.id.recipe_storage_add_button );
+
+        newRecipeButton = findViewById(R.id.recipe_storage_add_button);
 
         newRecipeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent( context, RecipeAddActivity.class );
-                startActivity( intent );
+                Intent intent = new Intent(RecipeStorageActivity.this, RecipeAddActivity.class);
+                startActivity(intent);
             }
         });
-
-
-
-    
-
-    public void signalChangeToAdapter() {
-        adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void finish() {
-        super.finish();
+        public void signalChangeToAdapter () {
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void finish () {
+            super.finish();
+        }
+
+        public void onGoBack (View view ){
+            finish();
+        }
+
+
     }
-
-    public void onGoBack( View view ) {
-        finish();
-    }
-
-
-}

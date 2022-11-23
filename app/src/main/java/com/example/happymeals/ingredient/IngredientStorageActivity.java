@@ -3,6 +3,7 @@ package com.example.happymeals.ingredient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
+import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.recipe.RecipeStorageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,6 +31,7 @@ import java.util.Comparator;
  */
 public class IngredientStorageActivity extends AppCompatActivity implements DatasetWatcher {
 
+    private Context context;
     /**
      * The {@link ListView} that displays the {@link Ingredient} objects currently stored.
      */
@@ -57,6 +60,8 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     protected void onCreate( Bundle savedInstanceState)  {
         super.onCreate( savedInstanceState) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
+
+        context = this;
 
         ingredientStorage = IngredientStorage.getInstance();
 
@@ -137,6 +142,29 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                 startIngredientActivity( false, i) ;
             }
         }) ;
+
+        storageListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Ingredient ingredient = ingredientStorage.getIngredients().get( i );
+                ModifyConfirmationFragment modifyConfirmationFragment =
+                        new ModifyConfirmationFragment(
+                        "Remove Ingredient",
+                    "Are you sure you want to remove " +
+                            ingredient.getName() + " as an Ingredient",
+                            context,
+                            new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    IngredientStorage.getInstance().removeIngredient( ingredient );
+                                }
+                            }
+                        );
+                modifyConfirmationFragment.display();
+                return true;
+            }
+        });
 
         add_button.setOnClickListener( new View.OnClickListener( )  {
             @Override

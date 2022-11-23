@@ -73,4 +73,15 @@
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/ingredient_storage_ins_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/press_and_hold"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/divider2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_filter" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

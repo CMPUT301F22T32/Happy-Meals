@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
@@ -27,6 +28,11 @@ public class MealPlanListViewActivity extends AppCompatActivity implements MealP
         setContentView(R.layout.activity_meal_plan_list_view);
 
         //TODO set listening activity here
+        mps = MealPlanStorage.getInstance();
+
+        ListView mealPlanStorage = findViewById(R.id.meal_plan_storage_list);
+        MealPlanListAdapter adapter = new MealPlanListAdapter(this, mps.getMealPlans());
+        mealPlanStorage.setAdapter(adapter);
 
         makeNewMP = findViewById(R.id.add_meal_plan_btn);
         makeNewMP.setOnClickListener(new View.OnClickListener() {

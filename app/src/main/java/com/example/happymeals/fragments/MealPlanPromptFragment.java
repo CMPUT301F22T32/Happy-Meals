@@ -51,10 +51,13 @@ public class MealPlanPromptFragment extends DialogFragment {
         Button autogen = view.findViewById(R.id.autogenerate_button);
         Button selfmade = view.findViewById(R.id.selfmade_button);
 
+        Fragment fragment = this;
+
         autogen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.makeSelfPressed();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
         });
 
@@ -62,6 +65,7 @@ public class MealPlanPromptFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 listener.autoGeneratePressed();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
         });
 

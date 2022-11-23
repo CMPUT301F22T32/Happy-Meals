@@ -11,10 +11,14 @@ import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.lang.ref.Reference;
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MealPlan extends DatabaseObject implements DatabaseListener {
@@ -39,6 +43,8 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
      */
     public MealPlan() {
         this.fsm = FireStoreManager.getInstance();
+        plans = new HashMap<>();
+        createMapForWeekday();
     }
 
     // constructor for autogeneration
@@ -75,12 +81,20 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         return endDate;
     }
 
+    public void setStartDate(Date date) {
+        startDate = date;
+    }
+
+    public void setEndDate(Date date) {
+        endDate = date;
+    }
+
     public String getStartDateString() {
-        return startDate.toString();
+        return new SimpleDateFormat("EEEE, MMM d", Locale.CANADA).format(startDate);
     }
 
     public String getEndDateString() {
-        return endDate.toString();
+        return new SimpleDateFormat("EEEE, MMM d", Locale.CANADA).format(endDate);
     }
     /*
 
@@ -124,8 +138,9 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         for (Constants.DAY_OF_WEEK day : Constants.DAY_OF_WEEK.values()) {
             for (Constants.MEAL_OF_DAY mealTime : Constants.MEAL_OF_DAY.values()) {
 
+                Meal meal = getMeal(day, mealTime);
                 Constants.COLLECTION_NAME type = getMealType(day, mealTime);
-                ArrayList<DocumentReference> items = getMealItems(day, mealTime);
+                ArrayList<DocumentReference> items = getMealDocReferences(day, mealTime);
 
                 if (type == Constants.COLLECTION_NAME.RECIPES) {
                     for (DocumentReference recipe : items)
@@ -143,7 +158,6 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
     public boolean isWithinDate(Date date) {
         Date start = getStartDate();
         Date end = getEndDate();
-
         return !(date.before(start) || date.after(end));
     }
 
@@ -190,7 +204,7 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
             }
         }
     }
-    
+
     private Meal getMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
         // verbose null checking
         HashMap<String, Meal> days = plans.get(dayOfWeek.toString());
@@ -220,37 +234,33 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         return true;
     }
 
+    /*
     public ArrayList<DocumentReference> getMealItems( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
         return (getMeal(dayOfWeek, mealOfDay) == null)? null : getMeal(dayOfWeek, mealOfDay).getItems();
     }
 
-    public boolean setMealItemsRecipe( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<DocumentReference> refs) {
+     */
+
+    public void setMealItemsRecipe( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<Recipe> recipes) {
         if (getMeal(dayOfWeek, mealOfDay) == null)
-            return false;
+            addMeal(dayOfWeek, mealOfDay);
         Meal meal = getMeal(dayOfWeek, mealOfDay);
-        meal.setItems(refs);
-        meal.setType(Constants.COLLECTION_NAME.RECIPES);
-        return true;
+        meal.setRecipes(recipes);
     }
 
-    public boolean setMealItemsIngredients( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<DocumentReference> refs) {
+    public void setMealItemsIngredients( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<Ingredient> ingredients) {
         if (getMeal(dayOfWeek, mealOfDay) == null)
-            return false;
+            addMeal(dayOfWeek, mealOfDay);
         Meal meal = getMeal(dayOfWeek, mealOfDay);
-        meal.setItems(refs);
-        meal.setType(Constants.COLLECTION_NAME.INGREDIENTS);
-        return true;
+        meal.setIngredients(ingredients);
     }
 
     public Constants.COLLECTION_NAME getMealType( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
         return (getMeal(dayOfWeek, mealOfDay) == null)? null : getMeal(dayOfWeek, mealOfDay).getType();
     }
 
-    public boolean setMealType(Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, Constants.COLLECTION_NAME type) {
-        if (getMeal(dayOfWeek, mealOfDay) == null)
-            return false;
-        getMeal(dayOfWeek, mealOfDay).setType(type);
-        return true;
+    public ArrayList<DocumentReference> getMealDocReferences( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
+        return (getMeal(dayOfWeek, mealOfDay) == null)? null : getMeal(dayOfWeek, mealOfDay).getReferences();
     }
 
     /**
@@ -269,6 +279,10 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         return false;
     }
 
+    public void addMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
+        plans.get(dayOfWeek.toString()).put(mealOfDay.toString(), new Meal());
+    }
+
     /**
      * Gets the whole week of plans held in the meal plan. This will include all days
      * Sunday-Saturday, with 3 meals defined a day.
@@ -280,6 +294,7 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
 
     @Override
     public void onDataFetchSuccess(DatabaseObject data) {
+        /*
         if( data.getClass() == Recipe.class ) {
             Recipe recipe = (Recipe) data;
             for (Map.Entry<String, HashMap<String, Object>> ingredients : recipe.getIngredients().entrySet()) {
@@ -326,6 +341,8 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
                 this.ingredients.put(ingredientName, entry);
             }
         }
+
+         */
     }
 
     @Override

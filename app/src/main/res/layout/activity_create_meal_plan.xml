@@ -40,7 +40,7 @@
                 android:textStyle="bold" />
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendarView"
+                android:id="@+id/mp_week_calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"

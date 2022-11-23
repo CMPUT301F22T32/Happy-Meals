@@ -8,22 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.example.happymeals.R;
 
 import java.util.ArrayList;
 
-public class MealPlanListAdapter extends ArrayAdapter<MealPlanStorage> {
+public class MealPlanListAdapter extends ArrayAdapter<MealPlan> {
         private Context context;
-        private ArrayList<MealPlanStorage> mealplans;
+        private ArrayList<MealPlan> mealplans;
         //private Button addRecipesButton;
 
-        public MealPlanListAdapter(@NonNull Context context, ArrayList<MealPlanStorage> mealplans) {
+        public MealPlanListAdapter(@NonNull Context context, ArrayList<MealPlan> mealplans) {
                 super(context, 0, mealplans);
                 this.context = context;
                 this.mealplans = mealplans;
-                //this.addRecipesButton = (Button) addButton();
-
         }
 
         @NonNull
@@ -32,8 +31,18 @@ public class MealPlanListAdapter extends ArrayAdapter<MealPlanStorage> {
                 View view = convertView;
 
                 if (view == null) {
-                        view = LayoutInflater.from(context).inflate(R.layout.meal_recipe_content, parent, false);
+                        view = LayoutInflater.from(context).inflate(R.layout.meal_plan_list_adapter, parent, false);
                 }
+
+                MealPlan mealplan = mealplans.get(position);
+
+                TextView start = view.findViewById(R.id.mp_adapter_start_date);
+                TextView end = view.findViewById(R.id.mp_adapter_end_date);
+
+                start.setText(mealplan.getStartDateString());
+                end.setText(mealplan.getEndDateString());
+
+                //TODO set buttons
 
                 return view;
         }

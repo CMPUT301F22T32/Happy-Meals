@@ -96,7 +96,6 @@ public class MealPlanActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void setMeals(Date date) {

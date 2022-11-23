@@ -100,7 +100,6 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         });
 
         signalChangeToAdapter();
-        recipeListView.setAdapter( adapter );
         newRecipeButton = findViewById( R.id.recipe_storage_add_button );
 
         newRecipeButton.setOnClickListener(new View.OnClickListener() {

@@ -167,6 +167,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                     return;
                 }
 
+                imageFilePath = storage.addImage(imagePath, newName);
                 storage.addRecipe( new Recipe(
                         newName,
                         new Double( newCookTime ),
@@ -187,12 +188,6 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 if(result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Bundle bundle = result.getData().getExtras();
                     Bitmap bitmap = (Bitmap) bundle.get("data");
-                    //imageView.setImageBitmap(bitmap);
-
-                    //WeakReference<Bitmap> result1 = new WeakReference<>(Bitmap.createScaledBitmap(bitmap, bitmap.getHeight(), bitmap.getWidth(), false).copy(Bitmap.Config.RGB_565, true));
-
-                    //Bitmap bm = result1.get();
-
                     imagePath = saveImage(bitmap, RecipeAddActivity.this);
                     imageView.setImageURI(imagePath);
 
@@ -205,13 +200,6 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
             public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 activityResultLauncher.launch(intent);
-                /*
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    activityResultLauncher.launch(intent);
-                }
-                else {
-                    Toast.makeText(RecipeAddActivity.this, "There is no app that supports this action", Toast.LENGTH_LONG).show();
-                }*/
             }
         });
 

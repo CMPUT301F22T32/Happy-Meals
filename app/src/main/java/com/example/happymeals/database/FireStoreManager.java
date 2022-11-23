@@ -3,6 +3,7 @@ package com.example.happymeals.database;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static android.view.View.X;
 
+import android.net.Uri;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -56,7 +57,7 @@ public class FireStoreManager {
     private final String DATA_STORE_TAG = "Data Store";
     private final String DATA_DELETE_TAG = "Data Removal";
     private final String IMAGE_UPLOAD_TAG = "Image Upload";
-    private String ipAddress;
+    private String user;
 
     /**
      * Class constructor. This will connect to the Firebase database. Finding the local IP address
@@ -324,6 +325,7 @@ public class FireStoreManager {
      * @param user The {@link String} of the username.
      */
     public void setUser( String user ) {
+        this.user = user;
         CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
         userDocument = collectionReference.document( user );
     }
@@ -367,11 +369,11 @@ public class FireStoreManager {
         addData( collection, data );
     }
 
-    public String uploadImage( Uri imageUri, String name) {
+    public String uploadImage(Uri imageUri, String name) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
 
-        String filename = "images/"+ipAddress+"/"+name;
+        String filename = "images/"+user+"/"+name;
         StorageReference ref = storageReference.child(filename);
 
         ref.putFile(imageUri)
@@ -389,50 +391,5 @@ public class FireStoreManager {
                 });
         return filename;
     }
-
-    public File getImage( DatabaseObject data ) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference();
-
-        StorageReference ref = storageReference.child("images/"+ipAddress+"/"+data.getName());
-
-        File localFile = null;
-
-        try {
-            localFile = File.createTempFile(data.getName(), "jpg");
-            ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Log.d( IMAGE_UPLOAD_TAG, "Image has been downloaded." );
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be downloaded." );
-
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return localFile;
-
-        /*
-        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Log.d(IMAGE_UPLOAD_TAG, uri.toString());
-                Recipe recipe = (Recipe) data;
-                recipe.setImageUri( uri );
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be downloaded." );
-            }
-        }); */
-    }
-
 
 }

@@ -1,16 +1,16 @@
 package com.example.happymeals.database;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static android.view.View.X;
+
 import android.text.format.Formatter;
 import android.util.Log;
-import android.widget.ImageView;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
 import com.example.happymeals.Constants;
-import com.example.happymeals.recipe.Recipe;
+import com.example.happymeals.SpinnerSettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,10 +28,13 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 /**
  * @author jeastgaa
@@ -46,6 +49,7 @@ public class FireStoreManager {
     private static FireStoreManager instance = null;
 
     private DocumentReference userDocument;
+    private FirebaseFirestore database;
 
     private static final String IP_TAG = "IpFetcher";
     private final String GET_DATA_TAG = "Data Request";
@@ -59,13 +63,14 @@ public class FireStoreManager {
      * of the device being used as the document name that will hold user's collections.
      */
     private FireStoreManager() {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        // Get the local IP address to identify the user.
-        ipAddress = getLocalIpAddress();
-        CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
-        userDocument = collectionReference.document( ipAddress );
+        database = FirebaseFirestore.getInstance();
     }
 
+    /**
+     * Will return the instantiated class. If this class has not been instantiated yet it will
+     * be done here. This method is the only way to instantiate this class.
+     * @return The {@link FireStoreManager} instance that has been created.
+     */
     public static FireStoreManager getInstance() {
         if( instance == null ) {
             instance = new FireStoreManager();
@@ -178,6 +183,29 @@ public class FireStoreManager {
                 });
 
     }
+
+    /**
+     * Going to the database and gets the list of Strings representing the current spinners.
+     * @param listener The {@link DatabaseListener} which will deal with the fetch of data.
+     */
+    public void getAllSpinners( DatabaseListener listener ) {
+        userDocument.collection(Constants.SPINNER).document(Constants.SPINNER_ING_DOC)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if( task.isSuccessful() ) {
+                            listener.onSpinnerFetchSuccess(
+                                    (HashMap)
+                                    task.getResult().getData()
+                            );
+                        } else {
+                            Log.d("TT", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
     /**
      * Finds the document located in the given path and calls the listener function. At this time
      * the proper class will be created from the fetched data and passed as a parameter.
@@ -247,6 +275,15 @@ public class FireStoreManager {
         return collection.document( data.getName() );
     }
 
+    /**
+     * This will return a reference to a document which can then be used in other classes. The
+     * intended purpose of thi sis to allow for references to be made as attributes for specific
+     * classes.
+     * @param collection The {@link Constants.COLLECTION_NAME} which will hold the value of which
+     *                   collection that holds the requested document.
+     * @param objectName The {@link String} which holds the document name requested.
+     * @return The {@link DocumentReference} found in the DB.
+     */
     public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collection, String objectName ) {
         return userDocument.collection( collection.toString() ).document( objectName );
     }
@@ -282,6 +319,36 @@ public class FireStoreManager {
         return null;
     }
 
+    /**
+     * Sets the document which will be queried for this users data.
+     * @param user The {@link String} of the username.
+     */
+    public void setUser( String user ) {
+        CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
+        userDocument = collectionReference.document( user );
+    }
+
+    /**
+     * Will update the spinner document in the DB with the given {@link ArrayList}.
+     * @param data The {@link HashMap} of spinners to be stored.
+     */
+    public void storeSpinners( HashMap< String, ArrayList< String > > data ) {
+        userDocument.collection(Constants.SPINNER).document(Constants.SPINNER_ING_DOC)
+                .set( data )
+                .addOnSuccessListener( new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d( DATA_STORE_TAG, "Data has been created." );
+                    }
+                })
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(DATA_STORE_TAG, "Data could not be created.");
+                    }
+                }
+               );
+    }
     /**
      * This performs the same function as addData(), created to create clarity on use.
      * @param collectionName The {@link Enum} of the collection which holds desired document.

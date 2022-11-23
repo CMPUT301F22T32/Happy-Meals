@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -162,7 +163,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
-    public void onSpinnerFetchSuccess( Map<String, Object> data ) {
+    public <T> void onSpinnerFetchSuccess( T map ) {
 
     }
 }

@@ -1,6 +1,7 @@
 package com.example.happymeals.recipe;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,11 +18,14 @@ import com.example.happymeals.adapters.RecipeStorageAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
 
+import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorageActivity;
 
+import com.example.happymeals.ingredient.IngredientViewActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 
@@ -48,9 +52,38 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         recipeListView = findViewById(R.id.recipe_list);
         recipeStorage = RecipeStorage.getInstance();
         recipeStorage.setListeningActivity(this);
-        adapter = new RecipeStorageAdapter(this, recipeStorage.getRecipes() );
-        recipeListView.setAdapter(adapter);
+        ArrayList< Recipe > storedRecipes = recipeStorage.getRecipes();
+        adapter = new RecipeStorageAdapter(this, storedRecipes );
 
+        recipeListView.setAdapter(adapter);
+        recipeListView.setOnItemClickListener( new AdapterView.OnItemClickListener( )  {
+            @Override
+            public void onItemClick( AdapterView<?> adapterView, View view, int i, long l )  {
+                Intent intent = new Intent(  context, RecipeDetailsActivity.class ) ;
+                intent.putExtra( "Index", i ) ;
+                startActivity( intent ) ;
+            }
+        }) ;
+
+        recipeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Recipe recipe = storedRecipes.get( i );
+                ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
+                        "Remove Recipe",
+                        String.format("Are you sure you want to remove %s?",
+                        storedRecipes.get( i ).getName() ),
+                        context,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int in) {
+                                recipeStorage.removeRecipe( recipe );
+                            }
+                        });
+                deleteFragment.display();
+                return true;
+            }
+        });
 
 
         Spinner RecipeSort = findViewById(R.id.recipe_filter);

@@ -1,8 +1,10 @@
 package com.example.happymeals.recipe;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import com.example.happymeals.R;
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.fragments.InputErrorFragment;
+import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.google.android.gms.common.ErrorDialogFragment;
@@ -22,9 +25,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RecipeDetailsActivity extends AppCompatActivity {
+public class SharedRecipeDetailsActivity extends AppCompatActivity {
 
     private Recipe recipe;
+    private Context context;
 
     private ArrayList<Ingredient> ingredients;
     private HashMap< String, HashMap< String, Object > > ingredientMap;
@@ -38,7 +42,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView instructionsField;
     private TextView commendsField;
 
-    private TextView editButton;
+    private Button addButton;
 
     private RecipeStorage storage;
 
@@ -51,7 +55,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_details_activity);
+        setContentView( R.layout.activity_shared_recipe_details );
+
+        context = this;
 
         Intent intent = getIntent();
         if( !intent.hasExtra("Index") ) {
@@ -64,7 +70,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         storage = RecipeStorage.getInstance();
 
-        editButton = findViewById( R.id.edit_recipe_button );
+        addButton = findViewById( R.id.shared_recipe_details_add_button );
+
         nameField = findViewById( R.id.recipe_name_field );
         descriptionField = findViewById( R.id.recipe_description_field );
         prepTimeField = findViewById( R.id.recipe_preptime_field );
@@ -75,7 +82,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         commendsField = findViewById( R.id.recipe_comment_field );
 
         // Get the recipe and ingredient list
-        recipe = storage.getRecipes().get( recipeIndex );
+        recipe = storage.getSharedRecipes().get( recipeIndex );
         // Get the array reference so that we can pass it into the adapter.
         ingredients = storage.getIngredientListReference();
         // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
@@ -86,6 +93,20 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             ingredients = storage.getIngredientsAsList( recipe, adapter );
             setAllValues();
         }
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                storage.addRecipe( recipe );
+                InputErrorFragment inputErrorFragment =
+                        new InputErrorFragment(
+                            "Added Shared Recipe",
+                            "You have added " + recipe.getName() + " into your inventory",
+                            context
+                        );
+                inputErrorFragment.display();
+            }
+        });
     }
 
     /**
@@ -103,30 +124,4 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ingredientsListField.setAdapter( adapter );
 
     }
-
-    /**
-     * On the edit button click all fields become editable so that the user can change values.
-     * @param view {@link View} of the view calling the functino.
-     */
-    public void onEditClick( View view ){
-        editButton.setEnabled( false );
-
-        descriptionField.setFocusable( true );
-        prepTimeField.setFocusable( true );
-        cookTimeField.setFocusable( true );
-        servingsField.setFocusable( true );
-    }
-
-    public void onPublishClick( View view ) {
-        Recipe newRecipe = recipe.clone();
-        newRecipe.setName(  storage.getCurrentUser() + "_" + newRecipe.getName() );
-        storage.publishRecipe( newRecipe );
-        InputErrorFragment notifyFragment = new InputErrorFragment(
-                "Recipe Published",
-                "Your recipe has been sent off. Please confirm you see it published!",
-                this
-        );
-        notifyFragment.display();
-    }
-
 }

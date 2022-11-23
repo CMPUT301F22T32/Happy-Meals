@@ -64,6 +64,20 @@ public class Recipe extends DatabaseObject {
         this.servings = servings;
     }
 
+    public Recipe clone() {
+        return new Recipe(
+                this.name,
+                this.cookTime,
+                this.description,
+                this.creator,
+                this.comments,
+                this.ingredients,
+                this.instructions,
+                this.prepTime,
+                this.servings
+        );
+    }
+
     /**
      * Gets the cook time of the recipe.
      * @return {@link Double} cookTime measured in hrs.
@@ -143,4 +157,9 @@ public class Recipe extends DatabaseObject {
     public double getServings() {
         return servings;
     }
+
+    public void setName( String name ) {
+        this.name = name;
+    }
 }
+

@@ -30,7 +30,7 @@
         android:maxWidth="50dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/shared_recipes_content_details_button"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"

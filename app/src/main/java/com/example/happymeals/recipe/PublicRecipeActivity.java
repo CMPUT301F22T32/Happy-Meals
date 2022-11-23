@@ -30,7 +30,7 @@ public class PublicRecipeActivity extends AppCompatActivity implements DatasetWa
         RecyclerView listOfRecipesView = findViewById( R.id.public_recipes_results_list );
 
         allRecipes = recipeStorage.getSharedRecipes();
-        adapter = new GlobalRecipesAdapter( allRecipes );
+        adapter = new GlobalRecipesAdapter( allRecipes, this );
         listOfRecipesView.setAdapter( adapter );
         listOfRecipesView.setLayoutManager( new LinearLayoutManager(this));
 

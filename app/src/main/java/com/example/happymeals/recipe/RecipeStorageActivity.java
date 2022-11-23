@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -96,6 +97,15 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 return;
+            }
+        });
+
+        TextView exploreRecipesText = findViewById( R.id.recipe_storage_explore_label );
+        exploreRecipesText.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( context, PublicRecipeActivity.class );
+                startActivity( intent );
             }
         });
 

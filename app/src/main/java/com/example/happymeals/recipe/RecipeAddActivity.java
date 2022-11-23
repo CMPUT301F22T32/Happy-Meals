@@ -134,10 +134,12 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                     return;
                 }
 
+                String creatorName = storage.getCurrentUser();
                 storage.addRecipe( new Recipe(
                         newName,
                         new Double( newCookTime ),
                         newDescription,
+                        creatorName,
                         comments,
                         RecipeStorage.getInstance().makeIngredientMapForRecipe( countMap ),
                         newInstructions,

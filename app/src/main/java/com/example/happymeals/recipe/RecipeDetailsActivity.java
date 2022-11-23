@@ -13,14 +13,16 @@ import com.example.happymeals.R;
 
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
+import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
+import com.google.android.gms.common.ErrorDialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener {
+public class RecipeDetailsActivity extends AppCompatActivity {
 
     private Recipe recipe;
 
@@ -111,13 +113,14 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField.setFocusable( true );
     }
 
-    @Override
-    public void onDataFetchSuccess(DatabaseObject data) {
-        adapter.notifyDataSetChanged();
+    public void onPublishClick( View view ) {
+        RecipeStorage.getInstance().publishRecipe( recipe );
+        InputErrorFragment notifyFragment = new InputErrorFragment(
+                "Recipe Published",
+                "Your recipe has been sent off. Please confirm you see it published!",
+                this
+        );
+        notifyFragment.display();
     }
 
-    @Override
-    public <T> void onSpinnerFetchSuccess( T map ) {
-
-    }
 }

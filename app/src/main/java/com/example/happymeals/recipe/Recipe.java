@@ -21,6 +21,7 @@ public class Recipe extends DatabaseObject {
 
     private double cookTime;
     private String description;
+    private String creator;
     private ArrayList< String > comments;
     private HashMap< String, HashMap< String, Object > > ingredients;
     private String instructions;
@@ -48,13 +49,14 @@ public class Recipe extends DatabaseObject {
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
      */
-    public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
+    public Recipe( String name, double cookTime, String description, String creator, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
                    double prepTime, double servings ) {
         super(name);
         this.cookTime = cookTime;
         this.description = description;
+        this.creator = creator;
         this.comments = comments;
         this.ingredients = ingredients;
         this.instructions = instructions;
@@ -76,6 +78,14 @@ public class Recipe extends DatabaseObject {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * gets the username of who created the recipe.
+     * @return The {@link String} representing the creator.
+     */
+    public String getCreator() {
+        return creator;
     }
 
     /**

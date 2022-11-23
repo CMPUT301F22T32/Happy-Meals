@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.example.happymeals.Constants;
 import com.example.happymeals.SpinnerSettingsActivity;
+import com.example.happymeals.recipe.Recipe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +44,7 @@ public class FireStoreManager {
     private static FireStoreManager instance = null;
 
     private DocumentReference userDocument;
+    private CollectionReference sharedRecipesCollection;
     private FirebaseFirestore database;
 
     private static final String IP_TAG = "IpFetcher";
@@ -56,6 +58,8 @@ public class FireStoreManager {
      */
     private FireStoreManager() {
         database = FirebaseFirestore.getInstance();
+        sharedRecipesCollection = database.collection(
+                Constants.COLLECTION_NAME.GLOBAL_USERS.toString() );
     }
 
     /**
@@ -79,7 +83,11 @@ public class FireStoreManager {
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
     public void addData(Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
-        addData( userDocument.collection( collectionName.toString() ), data );
+        if( collectionName == Constants.COLLECTION_NAME.GLOBAL_USERS ) {
+            addData( sharedRecipesCollection, data);
+        } else {
+            addData( userDocument.collection( collectionName.toString() ), data );
+        }
     }
 
     /**
@@ -174,6 +182,23 @@ public class FireStoreManager {
                     }
                 });
 
+    }
+
+    public void getAllSharedRecipes( DatabaseListener listener ) {
+        sharedRecipesCollection.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                listener.onSharedDataFetchSuccess(
+                                        document.toObject( Recipe.class ) );
+                            }
+                        } else {
+                            Log.d("TT", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**

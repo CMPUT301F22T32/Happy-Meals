@@ -5,6 +5,7 @@ import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.database.FirebaseAuthenticationHandler;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
@@ -31,9 +32,12 @@ public class RecipeStorage implements DatabaseListener {
     private DatasetWatcher listeningActivity;
 
     private ArrayList<Recipe> recipes;
+    private ArrayList< Recipe > sharedRecipes;
     private IngredientStorage ingredientStorage;
     private FireStoreManager fsm;
     private CollectionReference collection;
+
+    private DatasetWatcher sharedListener;
 
     private ArrayList< Ingredient > ingredientHolderForReturn;
     private IngredientStorageArrayAdapter ingredientListener;
@@ -45,12 +49,15 @@ public class RecipeStorage implements DatabaseListener {
      */
     private RecipeStorage() {
         this.recipes = new ArrayList<>();
+        this.sharedRecipes = new ArrayList<>();
         this.ingredientStorage = IngredientStorage.getInstance();
         this.ingredientHolderForReturn = new ArrayList<>();
         this.fsm = FireStoreManager.getInstance();
         this.collection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.RECIPES );
         this.fsm.getAllFrom( collection, this, new Recipe() );
+        this.fsm.getAllSharedRecipes( this );
         this.listeningActivity = null;
+        this.sharedListener = null;
     }
 
     /**
@@ -190,6 +197,13 @@ public class RecipeStorage implements DatabaseListener {
         return recipes;
     }
 
+    public ArrayList< Recipe > getSharedRecipes() {
+        return sharedRecipes;
+    }
+    public String getCurrentUser() {
+        return FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName();
+    }
+
     /**
      * This will create a {@link HashMap} which follows the correct data structure
      * which can be stored in the database. It required a Map which holds only the amount for
@@ -213,6 +227,10 @@ public class RecipeStorage implements DatabaseListener {
         return givenMap;
     }
 
+    public void publishRecipe( Recipe recipe ) {
+        fsm.addData( Constants.COLLECTION_NAME.GLOBAL_USERS, recipe);
+    }
+
     /**
      * This will remove the provided recipe from both the storage and database. It then calls
      * the updateStorage() method in order to update the current listener.
@@ -232,6 +250,9 @@ public class RecipeStorage implements DatabaseListener {
         this.listeningActivity = context;
     }
 
+    public void setSharedListeningActivity( DatasetWatcher listener ) {
+        this.sharedListener = listener;
+    }
     /**
      * This method sets all the stored recipes to the given {@link ArrayList}. This should ONLY
      * be used for DEBUG and TESTING. It will NOT interact with the database. The database should
@@ -242,25 +263,11 @@ public class RecipeStorage implements DatabaseListener {
         this.recipes = recipes;
         updateStorage();
     }
-//    public List<Recipe> getRecipesByType(String type) {
-//        List<Recipe> result = new ArrayList<Recipe>();
-//        for (Recipe recipe : recipes) {
-//            if (recipe.getType().equals(type)) {
-//                result.add(recipe);
-//            }
-//        }
-//        return result;
 
-
-//    public List<Recipe> getRecipesByIngredient(Ingredient ingredient) {
-//        List<Recipe> result = new ArrayList<Recipe>();
-//        for (Recipe recipe : recipes) {
-//            if (recipe.getIngredients().contains(ingredient)) {
-//                result.add(recipe);
-//            }
-//        }
-//        return result;
-//    }
+    public void updateSharedRecipes() {
+        this.sharedRecipes.clear();
+        this.fsm.getAllSharedRecipes( this );
+    }
 
     /**
      * Notifies the current listening class of a dataset change.
@@ -290,6 +297,14 @@ public class RecipeStorage implements DatabaseListener {
             if( ingredientListener != null ) {
                 ingredientListener.notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public void onSharedDataFetchSuccess(Recipe data) {
+        sharedRecipes.add( data );
+        if( sharedListener != null ) {
+            sharedListener.signalChangeToAdapter();
         }
     }
 

@@ -4,14 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_edit_spinners.xml" value="0.25" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_ingredient_storage.xml" value="0.25" />
+        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_ingredient_storage.xml" value="0.55" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_login_screen.xml" value="0.19610507246376813" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_login_test.xml" value="0.19610507246376813" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_main.xml" value="0.375" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_recipe_storage.xml" value="0.26927083333333335" />
+        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_recipe_storage.xml" value="0.335" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_register_screen.xml" value="0.19610507246376813" />
+        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/activity_shared_recipes.xml" value="0.335" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/content_ingredient_view.xml" value="0.19610507246376813" />
-        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/content_recipe.xml" value="0.19610507246376813" />
+        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/content_recipe.xml" value="0.5" />
+        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/content_shared_recipe.xml" value="0.25" />
+        <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/content_shared_recipes.xml" value="0.19610507246376813" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/content_string.xml" value="0.45" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/ingredient_content_view.xml" value="0.13095238095238096" />
         <entry key="..\:/Users/joshe/AndroidStudioProjects/Happy-Meals/app/src/main/res/layout/ingredient_specific_content.xml" value="0.45" />

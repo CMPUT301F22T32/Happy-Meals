@@ -160,4 +160,16 @@ public class Ingredient extends DatabaseObject {
     public void setCategory( String category ) {
         this.category = category;
     }
+
+    /**
+     * Returns true if the ingredient is missing information and false if the ingredient is not
+     * missing information
+     * @return {@link Boolean}
+     */
+    public Boolean getIsMissingInfo() {
+        if ( location == null || unit == null || category == null || bestBeforeDate == null ) {
+            return true;
+        }
+        return false;
+    }
 }

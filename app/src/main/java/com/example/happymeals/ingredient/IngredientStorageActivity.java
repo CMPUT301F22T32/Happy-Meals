@@ -11,6 +11,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -47,6 +48,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
      * //TODO: fill in after singleton impl
      */
     private IngredientStorage ingredientStorage;
+    private CheckBox viewMissingInfo;
 
     /**
      * This function is called whenever the activity is spawned; it initializes the {@link #storageAdapter}
@@ -69,6 +71,16 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         ingredientStorage.setListeningActivity(this);
         storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() ) ;
         storageListView.setAdapter( storageAdapter );
+
+        viewMissingInfo = findViewById( R.id.missing_ingredients_check);
+
+        Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
+        if ( missingInfo ) {
+            viewMissingInfo.setVisibility(View.VISIBLE);
+        }
+        else {
+            viewMissingInfo.setVisibility(View.GONE);
+        }
 
         FloatingActionButton add_button = findViewById( R.id.add_new_ingredient_button) ;
 
@@ -172,6 +184,24 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                 startIngredientActivity( true ) ;
             }
         }) ;
+
+        viewMissingInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( viewMissingInfo.isChecked() ) {
+                    System.out.println( ingredientStorage.getIngredientsMissingInfo().size());
+                    System.out.println( ingredientStorage.getIngredientsMissingInfo().get(0).getName());
+                    //storageAdapter.clear();
+                    //storageAdapter.addAll( ingredientStorage.getIngredientsMissingInfo() );
+                    storageAdapter.updateList( ingredientStorage.getIngredientsMissingInfo() );
+                    signalChangeToAdapter();
+                }
+                else {
+                    storageAdapter.updateList( ingredientStorage.getIngredients() );
+                    signalChangeToAdapter();
+                }
+            }
+        });
     }
 
 

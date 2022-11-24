@@ -70,7 +70,9 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
 
         name.setText( ingredient.getName() );
         description.setText(ingredient.getDescription());
-        location.setText(ingredient.getLocation().toString());
+        if ( ingredient.getLocation() != null) {
+            location.setText(ingredient.getLocation().toString());
+        }
         if( countMap != null ) {
             amount.setText(countMap.get( ingredient.getName()).get("count").toString());
         } else {
@@ -79,5 +81,15 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
         unit.setText(ingredient.getUnit().toString());
 
         return view;
+    }
+
+
+    public void updateList(ArrayList<Ingredient> ingredients) {
+        storageList = ingredients;
+    }
+
+    @Override
+    public int getCount() {
+        return storageList.size();
     }
 }

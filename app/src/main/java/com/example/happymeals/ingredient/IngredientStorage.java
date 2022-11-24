@@ -261,4 +261,27 @@ public class IngredientStorage implements DatabaseListener {
             }
         }
     }
+
+    /**
+     * This gets a list of ingredients that are missing information
+     * @return {@link ArrayList<Ingredient>} of ingredients that are missing information
+     */
+    public ArrayList<Ingredient> getIngredientsMissingInfo() {
+        ArrayList< Ingredient > ingredientsMissingInfo = new ArrayList<Ingredient>();
+        for ( Ingredient ingredient : ingredients ) {
+            if ( ingredient.getIsMissingInfo() ) {
+                ingredientsMissingInfo.add( ingredient );
+            }
+        }
+        return ingredientsMissingInfo;
+    }
+
+    public Boolean isIngredientsMissingInfo() {
+        for ( Ingredient ingredient : ingredients ) {
+            if ( ingredient.getIsMissingInfo() ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

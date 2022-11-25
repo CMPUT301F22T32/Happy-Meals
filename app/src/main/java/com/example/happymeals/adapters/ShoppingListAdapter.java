@@ -23,12 +23,22 @@ import com.example.happymeals.shoppinglist.ShoppingListItem;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to display a list of ShoppingListItems in the Storage activity.
+ * @author sruduke
+ */
 public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
 
     private ArrayList<ShoppingListItem> items;
     private ArrayList<Ingredient> selected;
     private Context context;
 
+    /**
+     * This initializes the ShoppingListAdapter
+     * @param context {@link Context}
+     * @param items {@link ArrayList<ShoppingListItem>}
+     * @param ingredients {@link ArrayList<Ingredient>}
+     */
     public ShoppingListAdapter(@NonNull Context context, ArrayList<ShoppingListItem> items, ArrayList<Ingredient> ingredients) {
         super(context, 0, ingredients);
         this.context = context;
@@ -36,6 +46,9 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
         selected = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -123,10 +136,19 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
         return view;
     }
 
+    /**
+     * Returns the selected Ingredients
+     * @return selected {@link ArrayList<Ingredient>}
+     */
     public ArrayList<Ingredient> getSelected() {
         return selected;
     }
 
+    /**
+     * Returns true if the selected size is greater than 0 and false if the selected size is less
+     * than or equal to 0
+     * @return {@link boolean}
+     */
     public boolean getChanged() {
         return selected.size() > 0;
     }

@@ -1,23 +1,17 @@
 package com.example.happymeals.shoppinglist;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.happymeals.R;
-import com.example.happymeals.fragments.ModifyConfirmationFragment;
-import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+import com.example.happymeals.R;
+import com.example.happymeals.adapters.ShoppingListAdapter;
+import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
 public class ShoppingListActivity extends AppCompatActivity {
 

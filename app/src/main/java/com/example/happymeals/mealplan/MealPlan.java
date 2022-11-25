@@ -369,7 +369,7 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
             Double oldCount = (Double) allIngredients.get(ingredient.getName()).get(COUNT);
             allIngredients.get(ingredient.getName()).put(COUNT, oldCount + ingredient.getAmount());
         } else {
-            HashMap<String, Object> ingredientDetails = ne HashMap<>();
+            HashMap<String, Object> ingredientDetails = new HashMap<>();
             ingredientDetails.put(REFERENCES, fsm.getDocReferenceTo(Constants.COLLECTION_NAME.INGREDIENTS, ingredient));
             ingredientDetails.put(COUNT, ingredient.getAmount());
             ingredientDetails.put(RECIPES, null);
@@ -559,6 +559,11 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
             ingredients.add(ingredient);
             updateStorage();
         }
+    }
+
+    @Override
+    public <T> void onSpinnerFetchSuccess(T listOfSpinners) {
+
     }
 
     @Override

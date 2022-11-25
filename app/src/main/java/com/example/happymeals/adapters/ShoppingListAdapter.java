@@ -1,4 +1,4 @@
-package com.example.happymeals.shoppinglist;
+package com.example.happymeals.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.shoppinglist.ShoppingListItem;
 
 import java.util.ArrayList;
 

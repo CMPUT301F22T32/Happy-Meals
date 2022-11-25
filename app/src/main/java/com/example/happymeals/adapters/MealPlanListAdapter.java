@@ -1,4 +1,4 @@
-package com.example.happymeals.mealplan;
+package com.example.happymeals.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
+import com.example.happymeals.mealplan.CreateMealPlanActivity;
+import com.example.happymeals.mealplan.MealPlan;
+import com.example.happymeals.mealplan.MealPlanStorage;
 
 import java.util.ArrayList;
 

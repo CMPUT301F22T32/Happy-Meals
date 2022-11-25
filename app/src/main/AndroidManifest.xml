@@ -15,34 +15,40 @@
         tools:targetApi="31">
 
         <!-- Main Activity -->
+        <activity android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HappyMeals.Main">
+            <!--Default Intent Filter-->
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Ingredient Storage -->
+        <activity android:name=".ingredient.IngredientViewActivity"
+            android:parentActivityName=".ingredient.IngredientStorageActivity">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ingredient.IngredientStorageActivity" />
+        </activity>
+        <activity android:name=".ingredient.IngredientStorageActivity"
+            android:parentActivityName=".MainActivity">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <!-- User Login -->
         <activity
-            android:name=".MainActivity"
+            android:name=".userlogin.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Ingredient Storage -->
-        <activity
-            android:name=".ingredient.IngredientViewActivity"
-            android:parentActivityName=".ingredient.IngredientStorageActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ingredient.IngredientStorageActivity" />
-        </activity>
-        <activity
-            android:name=".ingredient.IngredientStorageActivity"
-            android:parentActivityName=".MainActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
 
         <!-- Recipes -->
@@ -67,7 +73,19 @@
         <activity
             android:name=".shoppinglist.ShoppingListActivity"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".userlogin.RegisterActivity"
+            android:exported="true">
+        </activity>
 
+        <!-- Settings -->
+        <activity android:name=".SpinnerSettingsActivity">
+            android:parentActivityName=".MainActivity">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

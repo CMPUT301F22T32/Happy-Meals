@@ -219,6 +219,11 @@ public class MealPlanStorage implements DatabaseListener {
     }
 
     @Override
+    public <T> void onSpinnerFetchSuccess(T listOfSpinners) {
+
+    }
+
+    @Override
     public void onSpinnerFetchSuccess(Map<String, Object> data) {
 
     }

@@ -1,13 +1,7 @@
 package com.example.happymeals.mealplan;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
-
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.Gravity;
@@ -16,39 +10,33 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.happymeals.Constants;
 import com.example.happymeals.R;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
+import com.example.happymeals.adapters.RecipeStorageAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.MealPlanItemsFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
 import com.example.happymeals.recipe.Recipe;
-import com.example.happymeals.recipe.RecipeStorageAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.chrono.ChronoLocalDate;
-import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
 
 public class CreateMealPlanActivity extends AppCompatActivity implements MealPlanItemsFragment.OnFragmentInteractionListener, DatasetWatcher {
 

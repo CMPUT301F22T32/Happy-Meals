@@ -7,7 +7,7 @@ import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -279,6 +279,11 @@ public class RecipeStorage implements DatabaseListener {
                 ingredientListener.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public <T> void onSpinnerFetchSuccess( T map ) {
+
     }
 
     @Override

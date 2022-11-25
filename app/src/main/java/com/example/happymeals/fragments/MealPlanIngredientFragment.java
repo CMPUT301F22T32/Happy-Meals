@@ -16,9 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.happymeals.R;
 import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
-import com.example.happymeals.recipe.RecipeStorage;
-import com.example.happymeals.recipe.RecipeStorageAdapter;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 
 public class MealPlanIngredientFragment extends DialogFragment {
     private ListView ingredientListView;

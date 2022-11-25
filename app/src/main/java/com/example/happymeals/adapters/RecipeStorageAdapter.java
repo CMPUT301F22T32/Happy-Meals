@@ -1,4 +1,4 @@
-package com.example.happymeals.recipe;
+package com.example.happymeals.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,14 +14,29 @@ import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
+import com.example.happymeals.recipe.Recipe;
+import com.example.happymeals.recipe.RecipeDetailsActivity;
+import com.example.happymeals.recipe.RecipeStorage;
 
 import java.util.ArrayList;
 
+/**
+ * @author jeastgaa
+ * @version 1.00.01
+ * This allows the viewing of a list of {@link Recipe}s. The viewing will be defined through
+ * the content_recipe resource layout.
+ */
 public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private ArrayList<Recipe> recipeStorageList;
     private Context context;
     private Recipe currentRecipe;
 
+    /**
+     * Base constructor which will assign {@link Context} and the {@link ArrayList} which is being
+     * viewed and adapted.
+     * @param context The {@link Context} of the class which instantiates this adapter.
+     * @param recipeStorageList The {@link ArrayList} which is being adapted and viewed.
+     */
     public RecipeStorageAdapter(@NonNull Context context, ArrayList<Recipe> recipeStorageList ) {
         super(context, 0 , recipeStorageList );
         this.context = context;
@@ -29,13 +44,15 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         this.currentRecipe = null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
-
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null)
-            listItem = LayoutInflater.from(context).inflate(R.layout.recipe_content, parent, false);
+            listItem = LayoutInflater.from(context).inflate(R.layout.content_recipe, parent, false);
 
         currentRecipe = recipeStorageList.get(position);
 
@@ -74,6 +91,11 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         return listItem;
     }
 
+    /**
+     * This will listen for the removal of a recipe from the list. At this point
+     * the {@link RecipeStorage} will be updated along with the database.
+     * @return
+     */
     private DialogInterface.OnClickListener getDeleteListener() {
 
         return new DialogInterface.OnClickListener() {

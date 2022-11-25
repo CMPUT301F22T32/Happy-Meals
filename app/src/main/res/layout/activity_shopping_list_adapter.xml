@@ -5,7 +5,7 @@
     android:id="@+id/shopping_list_adapter_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".shoppinglist.ShoppingListAdapter">
+    tools:context=".adapters.ShoppingListAdapter">
 
     <Button
         android:id="@+id/show_list_recipe_button"

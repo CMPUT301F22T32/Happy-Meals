@@ -3,12 +3,12 @@ package com.example.happymeals.mealplan;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
 import com.example.happymeals.R;
+import com.example.happymeals.adapters.MealPlanListAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

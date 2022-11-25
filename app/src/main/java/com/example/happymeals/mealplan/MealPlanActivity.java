@@ -1,15 +1,10 @@
 package com.example.happymeals.mealplan;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,27 +13,23 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.happymeals.Constants;
 import com.example.happymeals.R;
-import com.example.happymeals.database.DatabaseListener;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
+import com.example.happymeals.adapters.RecipeStorageAdapter;
 import com.example.happymeals.database.DatasetWatcher;
-import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
-import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
-import com.example.happymeals.recipe.Recipe;
-import com.example.happymeals.recipe.RecipeStorage;
-import com.example.happymeals.recipe.RecipeStorageAdapter;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 

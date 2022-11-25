@@ -11,16 +11,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.R;
+import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.InputStringFragment;
 import com.example.happymeals.fragments.SearchIngredientFragment;
 import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class RecipeAddActivity extends AppCompatActivity  implements SearchIngredientFragment.SearchIngredientsFragmentListener,
         InputStringFragment.InputStringFragmentListener {
@@ -81,34 +80,69 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 new SearchIngredientFragment().show( getSupportFragmentManager(), "Edit Text");
             }
         });
+
+        findViewById( R.id.recipe_add_add_ingredient_label )
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SearchIngredientFragment().show( getSupportFragmentManager(), "Edit Text");
+            }
+        });
+
         addCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new InputStringFragment().show( getSupportFragmentManager(), "L E S F");
+                new InputStringFragment("Comment To Add To Recipe", 120).show( getSupportFragmentManager(), "L E S F");
             }
         });
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Create the new recipe object and add it to the storage.
-                // <todo> Validate all the fields before converting into a recipe object.
                 String newName = nameField.getText().toString();
                 String newDescription = descriptionField.getText().toString();
-                double newPrepTime = new Double( prepTimeField.getText().toString() );
-                double newCookTime = new Double( cookTimeField.getText().toString() );
+                String newPrepTime = prepTimeField.getText().toString();
+                String newCookTime = cookTimeField.getText().toString();
                 String newInstructions = instructionsField.getText().toString();
-                double newServings = new Double( servingsField.getText().toString() );
-                storage.addRecipe( new Recipe( newName, newCookTime, newDescription, comments,
-                        RecipeStorage.getInstance().makeIngredientMapForRecipe(
-                                countMap
-                        ),
-                        newInstructions, newPrepTime, newServings
+                String newServings = servingsField.getText().toString();
+
+                // Check and make sure that required fields have been filled out.
+                if( newName.length() < 1 || newPrepTime.length() < 1 || newCookTime.length() < 1 ) {
+                    if( newName.length() < 1 ){
+                        nameField.setError("Missing Field");
+                    }
+                    if( newPrepTime.length() < 1 ) {
+                        prepTimeField.setError("Missing Field");
+                    }
+                    if( newCookTime.length() < 1 ) {
+                        cookTimeField.setError("Missing Field");
+                    }
+                    InputErrorFragment inputErrorFragment = new InputErrorFragment(
+                            "Missing Information",
+                            "Please ensure you have all required information filled out.",
+                            context
+                    );
+                    inputErrorFragment.display();
+                    return;
+                }
+
+                storage.addRecipe( new Recipe(
+                        newName,
+                        new Double( newCookTime ),
+                        newDescription,
+                        comments,
+                        RecipeStorage.getInstance().makeIngredientMapForRecipe( countMap ),
+                        newInstructions,
+                        new Double( newPrepTime ),
+                        new Double( newServings )
                         ));
                 finish();
             }

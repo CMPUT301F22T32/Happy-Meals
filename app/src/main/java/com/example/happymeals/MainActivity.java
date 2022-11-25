@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-        Toolbar toolbar = findViewById( R.id.appbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById( R.id.appbar);
+        //setSupportActionBar(toolbar);
         // Create the firebase manager connection along with all the storage classes.
         FireStoreManager.getInstance();
         RecipeStorage.getInstance();

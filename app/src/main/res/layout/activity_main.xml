@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include
-        android:layout="@layout/main_action_bar"
-        android:id="@+id/appbar" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id ="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -25,31 +22,32 @@
         app:layout_constraintStart_toStartOf="parent"
 
         app:menu="@menu/menu_bar" />
+
+
+    =
+
     <TextView
         android:id="@+id/user_welcome"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="68dp"
         android:text="@string/user_greeting"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/meal_plan_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
         android:text="@string/meal_planner_prompt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_welcome" />
 
-
-   =
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"

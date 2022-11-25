@@ -3,6 +3,8 @@ package com.example.happymeals;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import android.net.Uri;
+
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.Recipe;
@@ -44,7 +46,7 @@ public class RecipeTest {
         }
         Recipe recipe = new Recipe("Tacos", 2, "The best tacos ever",
                 comments, recipeStorage.makeIngredientMapForRecipe(ingredientMap),
-                strInstructions, 15, 6);
+                strInstructions, 15, 6, "images/HelloWorld");
 
         // Test getters
         assertEquals("Tacos", recipe.getName());

@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if( item.getItemId() == R.id.action_settings ) {
-            Intent intent = new Intent(context, SpinnerSettingsActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent( context, SpinnerSettingsActivity.class );
+            startActivity( intent );
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected( item );
     }
 
     /**
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         FirebaseAuthenticationHandler.getFireAuth().authenticate.signOut();
-                        fsm.clearInstance();
+                        FireStoreManager.clearInstance();
                         finish();
                     }
                 } );

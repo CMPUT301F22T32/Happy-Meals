@@ -85,6 +85,10 @@ public class RecipeStorage implements DatabaseListener {
                 Integer.parseInt( String.valueOf( amount ) ) );
     }
 
+    public static void clearInstance() {
+        instance = null;
+    }
+
     /**
      * Given a {@link Recipe} and {@link IngredientStorageArrayAdapter} as a listener, this will
      * grab all the stored ingredients in the {@link Recipe} and add them to an arraylist.

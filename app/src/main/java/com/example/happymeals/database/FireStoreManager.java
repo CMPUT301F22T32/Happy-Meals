@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 
 import com.example.happymeals.Constants;
 import com.example.happymeals.SpinnerSettingsActivity;
+import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.Recipe;
+import com.example.happymeals.recipe.RecipeStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -116,8 +119,10 @@ public class FireStoreManager {
                 });
     }
 
-    public void clearInstance(){
+    public static void clearInstance(){
         instance = null;
+        IngredientStorage.clearInstance();
+        RecipeStorage.clearInstance();
     }
 
     /**

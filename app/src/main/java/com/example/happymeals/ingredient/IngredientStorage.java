@@ -45,6 +45,10 @@ public class IngredientStorage implements DatabaseListener {
         updateIngredientsFromDatabase();
     }
 
+    public static void clearInstance() {
+        instance = null;
+    }
+
     /**
      * Allows outside classes to access this instantiated class. If this class has not been
      * instantiated yet then it will be done here.

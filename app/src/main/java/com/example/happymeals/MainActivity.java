@@ -16,30 +16,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.RecipeStorage;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.happymeals.ingredient.IngredientStorageActivity;
-import com.example.happymeals.ingredient.IngredientViewActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 /**
  * This class is the entry point of the application and serves as the home
  * page for navigation. From this activity, all of the other main activities -- such as the
  * Ingredient Storage, Recipes, Meal Plan, and Shopping List -- can be viewed.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DatasetWatcher {
 
     private Context context;
+    private NotificationManagerClass notification;
     /**
      * This is the function called whenever the MainActivity is created -- in our
      * case, this is on the launch of the app or when navigating back to the home page.
@@ -57,7 +53,15 @@ public class MainActivity extends AppCompatActivity {
         RecipeStorage.getInstance();
         IngredientStorage.getInstance();
 
+        IngredientStorage ingredientStorage = IngredientStorage.getInstance();
+        ingredientStorage.setListeningActivity(this);
+
         context = this;
+
+        // Notification
+        notification = new NotificationManagerClass("Fill out missing information", "You have ingredients with missing information", context, "Missing Info", 0);
+
+
 
         // Display the username of user
         TextView welcomeMessage = findViewById( R.id.user_welcome );
@@ -69,11 +73,26 @@ public class MainActivity extends AppCompatActivity {
         Button mealPlannerButton = findViewById( R.id.meal_planner_button );
         Button shoppingListButton = findViewById( R.id.shopping_list_button );
 
+        FloatingActionButton ingredientMissingInfoButton = findViewById( R.id.ingredient_missing_info_button);
+        Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
+        System.out.println(missingInfo);
+
+        notification.addNotification();
+
+        if ( ingredientStorage.isIngredientsMissingInfo() ) {
+            ingredientMissingInfoButton.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            ingredientMissingInfoButton.setVisibility(View.GONE);
+        }
+
         // Intent to open Ingredient Storage Activity
         ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
                 Intent intent = new Intent(context, IngredientStorageActivity.class);
+                intent.putExtra("MissingCheck", false);
                 startActivity(intent);
             }
         });
@@ -82,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         recipesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                //TODO: Send intent for Recipe View Activity
                 Intent intent = new Intent( context, RecipeStorageActivity.class );
                 startActivity( intent );
             }
@@ -103,6 +121,16 @@ public class MainActivity extends AppCompatActivity {
                 //TODO: Send intent for Shopping List Activity
             }
         });
+
+        ingredientMissingInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( context, IngredientStorageActivity.class );
+                intent.putExtra("MissingCheck", true);
+                startActivity( intent );
+            }
+        });
+
     }
 
     @Override
@@ -140,5 +168,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } );
         deleteFragment.display();
+    }
+
+    @Override
+    public void signalChangeToAdapter() {
+
     }
 }

@@ -63,16 +63,29 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         super.onCreate( savedInstanceState) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
 
+        Intent inIntent = getIntent();
+
         context = this;
 
         ingredientStorage = IngredientStorage.getInstance();
 
         storageListView = findViewById( R.id.storage_list) ;
         ingredientStorage.setListeningActivity(this);
-        storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() ) ;
-        storageListView.setAdapter( storageAdapter );
 
         viewMissingInfo = findViewById( R.id.missing_ingredients_check);
+        Boolean missingChecked = inIntent.getBooleanExtra("MissingCheck", false);
+        viewMissingInfo.setChecked( missingChecked );
+        if ( missingChecked ) {
+            storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredientsMissingInfo() ) ;
+        }
+        else {
+            storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() );
+        }
+
+
+        storageListView.setAdapter( storageAdapter );
+
+
 
         Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
         if ( missingInfo ) {
@@ -81,6 +94,11 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         else {
             viewMissingInfo.setVisibility(View.GONE);
         }
+
+
+
+
+
 
         FloatingActionButton add_button = findViewById( R.id.add_new_ingredient_button) ;
 

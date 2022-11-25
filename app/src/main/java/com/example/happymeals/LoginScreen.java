@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login_screen );
-
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         TextView forgetPassword = findViewById( R.id.forgot_password);
         Button login = findViewById( R.id.login_button );
 

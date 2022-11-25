@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.RecipeStorage;
+import com.example.happymeals.userlogin.StartScreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentReference;
@@ -66,19 +68,20 @@ public class MainActivity extends AppCompatActivity {
         bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
                 switch (item.getItemId()) {
 
                     case R.id.recipe_menu:
                         Toast.makeText(MainActivity.this, "Recipes", Toast.LENGTH_LONG).show();
+
                         Intent recipe_intent = new Intent( context, RecipeStorageActivity.class );
-                        startActivity( recipe_intent );
+                        startActivity( recipe_intent, bundle );
                         break;
 
                     case R.id.ingredient_menu:
                         Toast.makeText(MainActivity.this, "Ingredients", Toast.LENGTH_LONG).show();
                         Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                        startActivity(ingredient_intent);
+                        startActivity(ingredient_intent, bundle);
                         break;
 
                     case R.id.mealplan_menu:

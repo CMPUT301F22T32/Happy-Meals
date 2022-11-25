@@ -88,11 +88,16 @@ public class RegisterActivity extends AppCompatActivity{
             } else if ( !userEmail.contains("@") ) {
                 emailField.setError( "Must be a valid Email" );
                 return false;
-            } else if ( newPass.length() < 8 ) {
+            }
+            if ( newPass.length() < 8 ) {
                 passwordField.setError( "Password must be greater than 8 characters" );
                 return false;
             } else if ( !confirmPasswordField.getText().toString().equals(newPass) ) {
                 confirmPasswordField.setError( "Passwords must match" );
+                return false;
+            }
+            if( userName.contains("_") ) {
+                usernameField.setError( "Contains Illegal Character '_'" );
                 return false;
             }
             return true;

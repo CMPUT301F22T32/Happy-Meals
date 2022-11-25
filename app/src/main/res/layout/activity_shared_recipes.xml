@@ -12,6 +12,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:text="@string/public_recipes"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,13 +27,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shared_recipes_title_label" />
 
-    <EditText
+    <SearchView
         android:id="@+id/search_recipes_search_field"
         android:layout_width="315dp"
         android:layout_height="45dp"
         android:layout_marginTop="-10dp"
-        android:ems="10"
-        android:hint="Search By User or Recipe Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/public_recipes_search_label"
@@ -84,7 +83,6 @@
             android:id="@+id/shared_recipe_creator_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:maxWidth="50dp"
             android:text="@string/creator" />
@@ -97,5 +95,16 @@
             android:layout_weight="1"
             android:text="@string/servings" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/public_recipes_see_user_recipes_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="toggleUserRecipes"
+        android:text="See my Recipes Only"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/shared_recipes_title_label"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

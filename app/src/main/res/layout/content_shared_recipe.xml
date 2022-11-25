@@ -8,15 +8,14 @@
 
     <TextView
         android:id="@+id/shared_recipes_content_name"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:maxWidth="50dp"
         android:minWidth="30sp" />
 
     <TextView
         android:id="@+id/shared_recipes_content_creator"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_weight="1"
@@ -24,17 +23,20 @@
 
     <TextView
         android:id="@+id/shared_recipe_content_servings"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
         android:layout_weight="1"
-        android:maxWidth="50dp" />
+        android:maxWidth="20dp" />
 
     <Button
         android:id="@+id/shared_recipes_content_details_button"
-        android:layout_width="60dp"
+        android:layout_width="77dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
+        android:width="60dp"
+        android:maxWidth="60dp"
         android:minWidth="60dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -42,9 +44,10 @@
 
     <Button
         android:id="@+id/shared_recipes_content_add_recipe_button"
-        android:layout_width="40dp"
+        android:layout_width="77dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:minWidth="40dp"
+        android:maxWidth="77dp"
+        android:minWidth="77dp"
         android:text="@string/add" />
 </LinearLayout>

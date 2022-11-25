@@ -81,7 +81,7 @@ public class IngredientViewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
                         "Remove Ingredient",
-                        String.format("Are you sure you want to remove %s?", ingredient.getDescription()),
+                        String.format("Are you sure you want to remove %s?", ingredient.getName()),
                         context,
                         getDeleteListener());
                 deleteFragment.display();
@@ -139,7 +139,6 @@ public class IngredientViewActivity extends AppCompatActivity {
         String errorString = "The ingredient couldn't be saved for the following reasons:\n";
 
         validator.checkText( name, "Name");
-        validator.checkText( description, "Description" );
 //        validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
         validator.checkSpinner( unitSpinner, "Quantity Unit" );
@@ -179,7 +178,8 @@ public class IngredientViewActivity extends AppCompatActivity {
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
+                    String user = ingredientStorage.getCurrentUser();
+                    ingredient = new Ingredient(nameArg, user, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
                     ingredientStorage.addIngredient(ingredient);
                 }
 

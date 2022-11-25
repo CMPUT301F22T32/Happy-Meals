@@ -61,12 +61,16 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         TextView description = listItem.findViewById( R.id.recipe_list_description_field );
         TextView prepTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
         TextView cookTime = listItem.findViewById( R.id.recipe_content_cook_time_field );
+        TextView creatorName = listItem.findViewById( R.id.recipe_content_creator_field );
 
         name.setText( currentRecipe.getName() );
         servings.setText( String.valueOf( currentRecipe.getServings() ) );
-        description.setText( currentRecipe.getDescription() );
-        prepTime.setText( "Prep Time: " + currentRecipe.getPrepTime() );
-        cookTime.setText( "Cook Time: " + currentRecipe.getCookTime() );
+        description.setText(
+                currentRecipe.getDescription().equals("") ?
+                        "No Description" : currentRecipe.getDescription() );
+        prepTime.setText( "Prep Time: " + currentRecipe.getPrepTime() + " mins" );
+        cookTime.setText( "Cook Time: " + currentRecipe.getCookTime() + " mins" );
+        creatorName.setText( currentRecipe.getCreator() );
 
 //        listItem.setOnClickListener(new View.OnClickListener() {
 //            @Override

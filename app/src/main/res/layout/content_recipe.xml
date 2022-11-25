@@ -37,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:textAlignment="center" />
     </LinearLayout>
@@ -71,6 +72,24 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="0" />
+
+        <TextView
+            android:id="@+id/recipe_content_creator_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="@string/creator" />
+
+        <TextView
+            android:id="@+id/recipe_content_creator_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="None" />
     </LinearLayout>
 
 </LinearLayout>

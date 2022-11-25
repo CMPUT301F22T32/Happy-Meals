@@ -27,6 +27,7 @@ public class Recipe extends DatabaseObject {
     private String instructions;
     private double prepTime;
     private double servings;
+    private String id;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}
@@ -49,11 +50,12 @@ public class Recipe extends DatabaseObject {
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
      */
-    public Recipe( String name, double cookTime, String description, String creator, ArrayList< String > comments,
+    public Recipe( String name, String creator, double cookTime, String description, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
                    double prepTime, double servings ) {
-        super(name);
+        super(name, creator);
+        this.id = creator + "_" + name;
         this.cookTime = cookTime;
         this.description = description;
         this.creator = creator;
@@ -67,9 +69,9 @@ public class Recipe extends DatabaseObject {
     public Recipe clone() {
         return new Recipe(
                 this.name,
+                this.creator,
                 this.cookTime,
                 this.description,
-                this.creator,
                 this.comments,
                 this.ingredients,
                 this.instructions,
@@ -158,8 +160,9 @@ public class Recipe extends DatabaseObject {
         return servings;
     }
 
-    public void setName( String name ) {
-        this.name = name;
+    public String getId() {
+        return this.id;
     }
+
 }
 

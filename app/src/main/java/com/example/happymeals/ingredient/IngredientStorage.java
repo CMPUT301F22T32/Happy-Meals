@@ -103,6 +103,9 @@ public class IngredientStorage implements DatabaseListener {
         fsm.storeSpinners( spinnerMap );
     }
 
+    public String getCurrentUser() {
+        return FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName();
+    }
     /**
      * Standard getter for spinners.
      * @return {@link Constants.StoredSpinnerChoices} which defines the key to fetch the strings.

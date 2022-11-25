@@ -118,8 +118,16 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     }
 
     public void onPublishClick( View view ) {
+        if( !recipe.getCreator().equals( storage.getCurrentUser() ) ) {
+            InputErrorFragment notifyFragment = new InputErrorFragment(
+                    "Recipe Not Published",
+                    "You cannot publish an already published recipe!",
+                    this
+            );
+            notifyFragment.display();
+            return;
+        }
         Recipe newRecipe = recipe.clone();
-        newRecipe.setName(  storage.getCurrentUser() + "_" + newRecipe.getName() );
         storage.publishRecipe( newRecipe );
         InputErrorFragment notifyFragment = new InputErrorFragment(
                 "Recipe Published",

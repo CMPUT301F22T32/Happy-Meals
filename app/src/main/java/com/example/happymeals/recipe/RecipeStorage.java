@@ -1,5 +1,7 @@
 package com.example.happymeals.recipe;
 
+import android.util.Log;
+
 import com.example.happymeals.Constants;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.DatabaseListener;
@@ -200,6 +202,7 @@ public class RecipeStorage implements DatabaseListener {
     public ArrayList< Recipe > getSharedRecipes() {
         return sharedRecipes;
     }
+
     public String getCurrentUser() {
         return FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName();
     }
@@ -242,6 +245,12 @@ public class RecipeStorage implements DatabaseListener {
         updateStorage();
     }
 
+    public void removeSharedRecipe( Recipe recipe ) {
+        sharedRecipes.remove( recipe );
+        fsm.deleteSharedRecipe( recipe );
+        updateStorage();
+    }
+
     /**
      * Re-assigns the current {@link DatasetWatcher} class to listen to storage changes.
      * @param context The {@link DatasetWatcher} to be set.
@@ -276,6 +285,9 @@ public class RecipeStorage implements DatabaseListener {
         if( listeningActivity != null ) {
             listeningActivity.signalChangeToAdapter();
         }
+        if( sharedListener != null ) {
+            listeningActivity.signalChangeToAdapter();
+        }
     }
 
     //*******************************************
@@ -289,6 +301,10 @@ public class RecipeStorage implements DatabaseListener {
      */
     @Override
     public void onDataFetchSuccess(DatabaseObject data) {
+        if( data == null ) {
+            Log.e("DATA FETCH SUCCESS: ", "Database object returned as null");
+            return;
+        }
         if( data.getClass() == Recipe.class ) {
             recipes.add( (Recipe) data );
             updateStorage();

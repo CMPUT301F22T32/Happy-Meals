@@ -100,7 +100,7 @@ public class FireStoreManager {
      */
     public void addData( CollectionReference collection, DatabaseObject data ) {
         collection
-                .document( data.getName() )
+                .document( data.getId() )
                 .set( data )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -116,6 +116,10 @@ public class FireStoreManager {
                 });
     }
 
+    public void clearInstance(){
+        instance = null;
+    }
+
     /**
      * Requires a collection name and document name which will lead to a specific dataset.
      * deleteDocument() will remove the requested document and all it's entries from the database.
@@ -126,7 +130,6 @@ public class FireStoreManager {
      */
     public void deleteDocument( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
         deleteDocument( userDocument.collection( collectionName.toString() ), data );
-
     }
 
     /**
@@ -138,7 +141,7 @@ public class FireStoreManager {
      * @param data The {@link DatabaseObject} holding the data that is being removed.
      */
     public void deleteDocument( CollectionReference  collection, DatabaseObject data ) {
-        collection.document( data.getName() )
+        collection.document( data.getId() )
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -153,6 +156,23 @@ public class FireStoreManager {
                     }
                 });
 
+    }
+
+    public void deleteSharedRecipe( DatabaseObject data ) {
+        sharedRecipesCollection.document( data.getId() )
+                .delete()
+                .addOnSuccessListener( new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d( DATA_DELETE_TAG, "Data has been removed." );
+                    }
+                })
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d( DATA_DELETE_TAG, "Data was unable to be removed." );
+                    }
+                });
     }
 
     /**
@@ -277,7 +297,7 @@ public class FireStoreManager {
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
     public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
-        return userDocument.collection( collectionName.toString() ).document( data.getName() );
+        return userDocument.collection( collectionName.toString() ).document( data.getId() );
     }
 
     /**
@@ -289,7 +309,7 @@ public class FireStoreManager {
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
     public DocumentReference getDocReferenceTo( CollectionReference collection, DatabaseObject data ) {
-        return collection.document( data.getName() );
+        return collection.document( data.getId() );
     }
 
     /**

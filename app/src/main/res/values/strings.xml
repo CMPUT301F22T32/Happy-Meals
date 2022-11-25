@@ -87,4 +87,7 @@
 
     <!-- Action Bar Menu -->
     <string name="spinner_settings">Edit Spinners</string>
+
+    <!--- Miscellaneous -->
+    <string name="press_and_hold">Press and Hold To Remove From List</string>
 </resources>

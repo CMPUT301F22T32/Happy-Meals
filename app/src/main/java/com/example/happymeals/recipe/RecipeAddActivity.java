@@ -77,7 +77,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         addIngredientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SearchIngredientFragment().show( getSupportFragmentManager(), "Edit Text");
+                new SearchIngredientFragment( countMap ).show( getSupportFragmentManager(), "Edit Text");
             }
         });
 
@@ -85,7 +85,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SearchIngredientFragment().show( getSupportFragmentManager(), "Edit Text");
+                new SearchIngredientFragment( countMap ).show( getSupportFragmentManager(), "Edit Text");
             }
         });
 
@@ -153,6 +153,9 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
     @Override
     public void onConfirmClick( ArrayList<Ingredient> ingredientsToAdd,
                                 HashMap< String, Double > countMap ) {
+        this.ingredientsInRecipe.clear();
+        this.countMap.clear();
+
         for( Ingredient i : ingredientsToAdd ) {
             ingredientsInRecipe.add( i );
             HashMap< String, Object > tempMap = new HashMap<>();

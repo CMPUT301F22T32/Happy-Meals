@@ -133,4 +133,31 @@ public class Recipe extends DatabaseObject {
     public double getServings() {
         return servings;
     }
+
+    public void setDescription( String description ) {
+        this.description = description;
+    }
+    public void setPrepTime( double prepTime ) {
+        this.prepTime = prepTime;
+    }
+
+    public void setCookTime( double cookTime ) {
+        this.cookTime = cookTime;
+    }
+
+    public void setServings( double servings ) {
+        this.servings = servings;
+    }
+
+    public void setIngredients( HashMap< String, HashMap< String, Object > > ingredients ) {
+        this.ingredients = ingredients;
+    }
+
+    public void setComments( ArrayList< String> comments ) {
+        this.comments = comments;
+    }
+
+    public void setInstructions( String instructions ) {
+        this.instructions = instructions;
+    }
 }

@@ -59,7 +59,9 @@ public class RecipeStorage implements DatabaseListener {
      * @param recipe The {@link Recipe} which is being added.
      */
     public void addRecipe(Recipe recipe) {
-        recipes.add(recipe);
+        if(! recipes.contains( recipe ) ) {
+            recipes.add(recipe);
+        }
         fsm.addData( collection, recipe );
         updateStorage();
     }
@@ -282,6 +284,7 @@ public class RecipeStorage implements DatabaseListener {
      */
     @Override
     public void onDataFetchSuccess(DatabaseObject data) {
+        if( data == null ) return;
         if( data.getClass() == Recipe.class ) {
             recipes.add( (Recipe) data );
             updateStorage();

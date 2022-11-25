@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,8 @@ import com.example.happymeals.ingredient.IngredientSpecificArrayAdapter;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.recipe.RecipeAddActivity;
+import com.example.happymeals.recipe.RecipeDetailsActivity;
+import com.google.common.collect.Multiset;
 
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,7 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jeastgaa
@@ -83,6 +87,20 @@ public class SearchIngredientFragment extends DialogFragment implements
 
     private IngredientStorage storage;
 
+    public SearchIngredientFragment( HashMap< String, HashMap< String, Object > > ingredientCountMap ) {
+        this.ingredientCountMap = new HashMap<>();
+        addedIngredientsList = new ArrayList<>();
+
+        for (HashMap.Entry<String, HashMap<String, Object>> mapElement : ingredientCountMap.entrySet()) {
+            this.ingredientCountMap.put(
+                    mapElement.getKey(),
+                    Double.parseDouble(( mapElement.getValue().get("count")).toString()));
+            addedIngredientsList.add( IngredientStorage.getInstance().getIngredient(
+                    mapElement.getKey()
+            ));
+        }
+
+    }
     /**
      * {@inheritDoc}
      */
@@ -107,8 +125,6 @@ public class SearchIngredientFragment extends DialogFragment implements
         View view = LayoutInflater.from( getActivity() ).inflate( R.layout.search_ingredients_fragment, null );
 
         storage = IngredientStorage.getInstance();
-        addedIngredientsList = new ArrayList<>();
-        ingredientCountMap = new HashMap<>();
 
         allIngredients = view.findViewById( R.id.recipe_add_all_ingredients_list );
         addedIngredients = view.findViewById( R.id.recipe_add_added_ingredients_list );
@@ -119,15 +135,23 @@ public class SearchIngredientFragment extends DialogFragment implements
                                                                     addedIngredientsList,
                                                                     ingredientCountMap );
 
+
         allIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 GetCountFragment frag = new GetCountFragment( countListener,
                         (Ingredient) allIngredients.getItemAtPosition( i ) );
+                if( context.getClass() == RecipeAddActivity.class ) {
+                    frag.show( ((RecipeAddActivity)context).getSupportFragmentManager(), "L E S F");
+                } else if(context.getClass() == RecipeDetailsActivity.class){
+                    frag.show( ((RecipeDetailsActivity)context).getSupportFragmentManager(), "L E S F");
+                } else {
+                    Log.e("Search Ingredient Frag:", "Incorrect Context Passed To Fragment.");
+                }
 
-                frag.show(((RecipeAddActivity) context).getSupportFragmentManager(), "L E S F");
             }
         });
+
         allIngredients.setAdapter( allIngredientsAdapter );
 
         addedIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {

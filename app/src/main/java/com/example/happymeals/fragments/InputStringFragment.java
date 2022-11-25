@@ -85,7 +85,9 @@ public class InputStringFragment extends DialogFragment {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick( DialogInterface dialogInterface, int i ) {
-                        listener.onConfirmClick( inputTextView.getText().toString() );
+                        if( !inputTextView.getText().toString().equals("") ){
+                            listener.onConfirmClick( inputTextView.getText().toString() );
+                        }
                     }
                 })
                 .setNegativeButton( "Cancel", null )

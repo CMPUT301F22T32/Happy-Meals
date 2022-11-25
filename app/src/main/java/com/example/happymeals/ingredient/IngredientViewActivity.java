@@ -1,5 +1,6 @@
 package com.example.happymeals.ingredient;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -19,13 +21,15 @@ import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
-public class IngredientViewActivity extends AppCompatActivity {
+public class IngredientViewActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private EditText name;
     private EditText description;
     private EditText date;
+    private Date dateArg;
     private EditText quantity;
     private Spinner unitSpinner;
     private Spinner locationSpinner;
@@ -33,6 +37,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
     private Button saveButton;
     private Button deleteButton;
+    private Button datePickerButton;
 
     private Context context;
 
@@ -66,6 +71,7 @@ public class IngredientViewActivity extends AppCompatActivity {
 
         saveButton = findViewById(R.id.ing_view_save_button);
         deleteButton = findViewById(R.id.ing_view_delete_button);
+        datePickerButton = findViewById(R.id.ingredient_date_button);
 
         // Populate the spinners
         populateSpinners();
@@ -92,6 +98,31 @@ public class IngredientViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checkInput();
+            }
+        });
+
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                dateArg = new Date(year, month, day);
+                                date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, year, month, day);
+                datePickerDialog.show();
             }
         });
 
@@ -124,7 +155,7 @@ public class IngredientViewActivity extends AppCompatActivity {
         name.setText( ingredient.getName() );
         name.setEnabled( false );
         description.setText( ingredient.getDescription() );
-        date.setText( ingredient.getBestBeforeDate().toString() );
+        date.setText( ingredient.getBestBeforeDateAsString() );
         quantity.setText( Integer.toString(ingredient.getAmount()) );
         unitSpinner.setSelection(ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.AMOUNT_UNIT)
                 .indexOf( ingredient.getUnit()));
@@ -214,4 +245,9 @@ public class IngredientViewActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        dateArg = new Date(year, month, day);
+        date.setText(String.format("%04d-%02d-%02d", year, month, day));
+    }
 }

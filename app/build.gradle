@@ -51,4 +51,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
 
     implementation "androidx.core:core:1.6.0"
+    implementation 'com.google.firebase:firebase-storage:20.1.0'
 }

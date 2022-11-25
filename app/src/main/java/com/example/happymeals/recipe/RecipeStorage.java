@@ -284,13 +284,15 @@ public class RecipeStorage implements DatabaseListener {
      */
     @Override
     public void onDataFetchSuccess(DatabaseObject data) {
-        if( data.getClass() == Recipe.class ) {
-            recipes.add( (Recipe) data );
-            updateStorage();
-        } else if( data.getClass() == Ingredient.class ) {
-            this.ingredientHolderForReturn.add( (Ingredient) data );
-            if( ingredientListener != null ) {
-                ingredientListener.notifyDataSetChanged();
+        if( data != null ) {
+            if( data.getClass() == Recipe.class ) {
+                recipes.add( (Recipe) data );
+                updateStorage();
+            } else if( data.getClass() == Ingredient.class ) {
+                this.ingredientHolderForReturn.add( (Ingredient) data );
+                if( ingredientListener != null ) {
+                    ingredientListener.notifyDataSetChanged();
+                }
             }
         }
     }

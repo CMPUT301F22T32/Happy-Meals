@@ -10,12 +10,11 @@
         android:id="@+id/recipe_list"
         android:layout_width="383dp"
         android:layout_height="535dp"
-        android:layout_marginTop="70dp"
         app:layout_constraintBottom_toTopOf="@+id/return_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/SortType" />
+        app:layout_constraintTop_toBottomOf="@+id/recipe_filter" />
 
     <TextView
         android:id="@+id/recipe_title"

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id = "@+id/recipe_menu"
+        android:icon = "@drawable/recipe_icon"
+        android:title = "Recipe"
+
+
+        />
+
+    <item
+        android:id = "@+id/ingredient_menu"
+        android:icon = "@drawable/ingredients_icon"
+        android:title = "Ingredient"
+
+
+        />
+    <item
+        android:id = "@+id/mealplan_menu"
+        android:icon = "@drawable/meal_plan_icon"
+        android:title = "Meal Plan"
+
+
+        />
+    <item
+        android:id = "@+id/shopping_menu"
+        android:icon = "@drawable/shopping_list_icon"
+        android:title = "Shopping List"
+
+
+        />
+</menu>

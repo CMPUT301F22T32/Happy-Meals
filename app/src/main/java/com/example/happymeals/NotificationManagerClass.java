@@ -52,7 +52,9 @@ public class NotificationManagerClass {
                 .setSmallIcon(R.drawable.ingredients_icon)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+                // ingredient icon is temporary. To be updated with app's logo
         Intent notificationIntent = new Intent(context, IngredientStorageActivity.class);
+        notificationIntent.putExtra("MissingCheck", true);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);

@@ -174,7 +174,9 @@ public class Ingredient extends DatabaseObject {
      * @return {@link Boolean}
      */
     public Boolean getIsMissingInfo() {
-        if ( location == null || unit == null || category == null || bestBeforeDate == null ) {
+        if ( location == null || location == "" || unit == null || unit == "" || category == null
+                || category == "" || bestBeforeDate == null ||
+                bestBeforeDate == new Date(01, 01, 1900) || amount == -1) {
             return true;
         }
         return false;

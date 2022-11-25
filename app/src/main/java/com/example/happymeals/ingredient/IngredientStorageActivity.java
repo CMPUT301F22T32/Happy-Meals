@@ -207,10 +207,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
             @Override
             public void onClick(View view) {
                 if ( viewMissingInfo.isChecked() ) {
-                    System.out.println( ingredientStorage.getIngredientsMissingInfo().size());
-                    System.out.println( ingredientStorage.getIngredientsMissingInfo().get(0).getName());
-                    //storageAdapter.clear();
-                    //storageAdapter.addAll( ingredientStorage.getIngredientsMissingInfo() );
                     storageAdapter.updateList( ingredientStorage.getIngredientsMissingInfo() );
                     signalChangeToAdapter();
                 }

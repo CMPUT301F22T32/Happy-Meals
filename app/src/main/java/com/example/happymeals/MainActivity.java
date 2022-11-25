@@ -51,10 +51,12 @@ public class MainActivity extends AppCompatActivity implements DatasetWatcher {
         // Create the firebase manager connection along with all the storage classes.
         FireStoreManager.getInstance();
         RecipeStorage.getInstance();
-        IngredientStorage.getInstance();
+        //IngredientStorage.getInstance();
 
         IngredientStorage ingredientStorage = IngredientStorage.getInstance();
         ingredientStorage.setListeningActivity(this);
+
+        System.out.println(ingredientStorage.getIngredients().size());
 
         context = this;
 
@@ -77,10 +79,11 @@ public class MainActivity extends AppCompatActivity implements DatasetWatcher {
         Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
         System.out.println(missingInfo);
 
-        notification.addNotification();
+
 
         if ( ingredientStorage.isIngredientsMissingInfo() ) {
             ingredientMissingInfoButton.setVisibility(View.VISIBLE);
+            notification.addNotification();
 
         }
         else {

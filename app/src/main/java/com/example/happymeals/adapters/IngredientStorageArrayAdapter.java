@@ -60,13 +60,13 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
             view = LayoutInflater.from(context).inflate(R.layout.content_ingredient_storage, parent, false);
         }
 
-            Ingredient ingredient = storageList.get(position);
+        Ingredient ingredient = storageList.get(position);
 
-            TextView name = view.findViewById( R.id.ingredient_storage_list_name_field);
-            TextView description = view.findViewById(R.id.recipe_list_description_field);
-            TextView location = view.findViewById(R.id.recipe_list_servings_field);
-            TextView amount = view.findViewById(R.id.ingredient_storage_amount_text);
-            TextView unit = view.findViewById(R.id.ingredient_storage_amount_unit_text);
+        TextView name = view.findViewById( R.id.ingredient_storage_list_name_field);
+        TextView description = view.findViewById(R.id.recipe_list_description_field);
+        TextView location = view.findViewById(R.id.recipe_list_servings_field);
+        TextView amount = view.findViewById(R.id.ingredient_storage_amount_text);
+        TextView unit = view.findViewById(R.id.ingredient_storage_amount_unit_text);
 
             name.setText( ingredient.getName() );
             description.setText(

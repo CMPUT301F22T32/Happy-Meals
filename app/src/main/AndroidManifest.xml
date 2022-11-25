@@ -62,13 +62,6 @@
         <activity
             android:name=".mealplan.CreateMealPlanActivity"
             android:parentActivityName=".mealplan.MealPlanListViewActivity" />
-        <activity
-            android:name=".mealplan.MealPlanDetailsActivity"
-            android:parentActivityName=".mealplan.MealPlanListViewActivity">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
 
         <!-- Shopping List -->
         <activity

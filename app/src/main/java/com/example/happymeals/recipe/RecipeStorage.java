@@ -76,7 +76,7 @@ public class RecipeStorage implements DatabaseListener {
     public void consumeIngredientInRecipe( Ingredient ingredient, Double amount ) {
         ingredientStorage.requestConsumptionOfIngredient(
                 ingredient,
-                Integer.parseInt( String.valueOf( amount ) ) );
+                Double.parseDouble( String.valueOf( amount ) ) );
     }
 
     /**
@@ -249,25 +249,6 @@ public class RecipeStorage implements DatabaseListener {
         this.recipes = recipes;
         updateStorage();
     }
-//    public List<Recipe> getRecipesByType(String type) {
-//        List<Recipe> result = new ArrayList<Recipe>();
-//        for (Recipe recipe : recipes) {
-//            if (recipe.getType().equals(type)) {
-//                result.add(recipe);
-//            }
-//        }
-//        return result;
-
-
-//    public List<Recipe> getRecipesByIngredient(Ingredient ingredient) {
-//        List<Recipe> result = new ArrayList<Recipe>();
-//        for (Recipe recipe : recipes) {
-//            if (recipe.getIngredients().contains(ingredient)) {
-//                result.add(recipe);
-//            }
-//        }
-//        return result;
-//    }
 
     /**
      * Notifies the current listening class of a dataset change.

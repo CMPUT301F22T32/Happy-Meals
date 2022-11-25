@@ -68,6 +68,36 @@
                     android:paddingBottom="8dp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/current_mp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+                    android:backgroundTint="@color/teal_200"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/current_mp_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toStartOf="@+id/current_mp_end"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/current_mp_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/current_mp_start" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mp_legend"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -91,6 +121,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
+                    android:id="@+id/mp_breakfast_tab"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="4dp"
@@ -115,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:maxLength="36"
-                        android:paddingStart="6dp" />
+                        android:paddingStart="12dp" />
 
                     <CheckBox
                         android:id="@+id/breakfast_checkbox"
@@ -139,6 +170,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/mp_lunch_tab"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
@@ -185,6 +217,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/mp_dinner_tab"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
@@ -227,6 +260,14 @@
                         app:iconTint="@color/black" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/no_mp_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+                    android:gravity="center"
+                    android:text="There are no meals planned for this day." />
 
                 <Button
                     android:id="@+id/view_all_meal_plans"

@@ -52,5 +52,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore'
 
+    // Dependencies needed for Meal Plan
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+    //implementation 'org.threeten:threetenbp:1.6.4'
 }

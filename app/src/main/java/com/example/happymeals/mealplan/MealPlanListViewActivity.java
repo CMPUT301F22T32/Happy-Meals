@@ -9,17 +9,20 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.happymeals.R;
+import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MealPlanListViewActivity extends AppCompatActivity implements MealPlanPromptFragment.OnFragmentInteractionListener{
+public class MealPlanListViewActivity extends AppCompatActivity implements DatasetWatcher {
 
     private FloatingActionButton makeNewMP;
 
     private Context context = this;
     private MealPlanStorage mps;
+
+    private MealPlanListAdapter adapter;
     private ArrayList<MealPlan> mealPlans;
 
     @Override
@@ -27,11 +30,11 @@ public class MealPlanListViewActivity extends AppCompatActivity implements MealP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_plan_list_view);
 
-        //TODO set listening activity here
         mps = MealPlanStorage.getInstance();
+        mps.setListeningActivity(this);
 
         ListView mealPlanStorage = findViewById(R.id.meal_plan_storage_list);
-        MealPlanListAdapter adapter = new MealPlanListAdapter(this, mps.getMealPlans());
+        adapter = new MealPlanListAdapter(this, mps.getMealPlans());
         mealPlanStorage.setAdapter(adapter);
 
         makeNewMP = findViewById(R.id.add_meal_plan_btn);
@@ -45,14 +48,9 @@ public class MealPlanListViewActivity extends AppCompatActivity implements MealP
     }
 
     @Override
-    public void autoGeneratePressed() {
-        Intent intent = new Intent(context, CreateMealPlanActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void makeSelfPressed() {
-        Intent intent = new Intent(context, CreateMealPlanActivity.class);
-        startActivity(intent);
+    public void signalChangeToAdapter() {
+        adapter.notifyDataSetChanged();
+        if (mps.getMealPlans().size() == 0)
+            finish();
     }
 }

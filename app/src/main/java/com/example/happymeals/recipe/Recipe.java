@@ -66,6 +66,12 @@ public class Recipe extends DatabaseObject {
         this.description = description;
     }
 
+    /** Needed for RecipeStorageAdapter for MealPlan to properly function
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
     /**
      * Gets the cook time of the recipe.
      * @return {@link Double} cookTime measured in hrs.

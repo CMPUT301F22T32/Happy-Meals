@@ -1,5 +1,6 @@
 package com.example.happymeals.mealplan;
 
+import android.accessibilityservice.FingerprintGestureController;
 import android.util.Log;
 
 import com.example.happymeals.Constants;
@@ -7,11 +8,13 @@ import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.ingredient.Ingredient;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,6 +32,7 @@ public class MealPlanStorage implements DatabaseListener {
     private static MealPlanStorage instance = null;
 
     private ArrayList<MealPlan> mealPlans;
+    private HashMap<String, HashMap< String, Object>> allIngredients;
 
     private DatasetWatcher listeningActivity;
     private CollectionReference mealPlanCollection;
@@ -36,6 +40,7 @@ public class MealPlanStorage implements DatabaseListener {
     
     public MealPlanStorage() {
         mealPlans = new ArrayList<>();
+        allIngredients = new HashMap<>();
         this.listeningActivity = null;
         this.fsm = FireStoreManager.getInstance();
         this.mealPlanCollection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.MEAL_PLANS );
@@ -54,6 +59,42 @@ public class MealPlanStorage implements DatabaseListener {
      */
     public void updateMealPlansFromDatabase() {
         fsm.getAllFrom( mealPlanCollection, this, new MealPlan() );
+    }
+
+    public HashMap<String, HashMap< String, Object>> getAllIngredients() {
+        allIngredients.clear();
+
+        for (MealPlan mp : mealPlans) {
+            for (Map.Entry<String, HashMap<String, Object>> ingredient : mp.getAllIngredients().entrySet()) {
+                String ingredientName = ingredient.getKey();
+                HashMap<String, Object> details = ingredient.getValue();
+
+                if (allIngredients.containsKey(ingredientName)) {
+                    ArrayList<String> recipeNames = (ArrayList<String>) allIngredients.get(ingredientName).get(MealPlan.RECIPES);
+                    Double count = (Double) allIngredients.get(ingredientName).get(MealPlan.COUNT);
+
+                    if (recipeNames == null && details.get(MealPlan.RECIPES) != null) {
+                        recipeNames = new ArrayList<>((ArrayList<String>) details.get(MealPlan.RECIPES));
+                        details.put(MealPlan.RECIPES, recipeNames);
+                    }
+
+                    else if (recipeNames != null && details.get(MealPlan.RECIPES) != null){
+                        ArrayList<String> newRecipes = (ArrayList<String>) details.get(MealPlan.RECIPES);
+                        // Must check duplicates
+                        for (String recipe : newRecipes) {
+                            if (!recipeNames.contains(recipe))
+                                recipeNames.add(recipe);
+                        }
+                        details.put(MealPlan.RECIPES, recipeNames);
+                    }
+
+                    Double amoundToAdd = (Double) details.get(MealPlan.COUNT);
+                    details.put(MealPlan.COUNT, count + amoundToAdd);
+                }
+                allIngredients.put(ingredientName, details);
+            }
+        }
+        return allIngredients;
     }
 
     /**
@@ -114,11 +155,15 @@ public class MealPlanStorage implements DatabaseListener {
         return null;
     }
 
+    public MealPlan getMealPlanByIndex( Integer i ) {
+        return mealPlans.get(i);
+    }
+
     public MealPlan getMealPlanForDay(Date date) {
-        MealPlan mealplan = null;
         for (MealPlan mp : mealPlans) {
-            if (mp.isWithinDate(date))
+            if (mp.isWithinDate(date)) {
                 return mp;
+            }
         }
         return null;
     }
@@ -157,13 +202,13 @@ public class MealPlanStorage implements DatabaseListener {
     @Override
     public void onDataFetchSuccess(DatabaseObject data) {
         MealPlan mealPlan = ( MealPlan ) data;
-        Boolean replace = Boolean.FALSE;
-        // Loop through the list of MealPlans and see if we are adding a new one
+        boolean replace = false;
+        // Loop through the list of mealplans and see if we are adding a new one
         // or updating a pre-existing one.
-        for( MealPlan storedMealPlan : mealPlans ) {
-            if(storedMealPlan.getName().equals(mealPlan.getName())){
-                storedMealPlan = mealPlan;
-                replace = Boolean.TRUE;
+        for( MealPlan mp : this.mealPlans ) {
+            if( mp.getName() == mealPlan.getName() ){
+                mp = mealPlan;
+                replace = true;
                 break;
             }
         }

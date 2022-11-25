@@ -25,7 +25,7 @@ public class IngredientTest {
         emptyIngredient.setLocation(Constants.Location.FREEZER);
         assertEquals(Constants.Location.FREEZER, emptyIngredient.getLocation());
 
-        emptyIngredient.setAmount(5);
+        emptyIngredient.setAmount(5.0);
         assertEquals(new Integer(5), emptyIngredient.getAmount());
 
         emptyIngredient.setUnit(Constants.AmountUnit.COUNT);

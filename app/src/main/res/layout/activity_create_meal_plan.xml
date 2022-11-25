@@ -26,45 +26,114 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
+                android:paddingTop="32dp"
                 android:text="Meal Planner"
-                android:textSize="24sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/mp_week_of_mealplan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
+                android:paddingBottom="8dp"
                 android:text="@string/mealplan_week"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/mp_week_calendar"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/calendar_previous"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/white"
+                    android:backgroundTintMode="add"
+                    android:foregroundTintMode="screen"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    app:icon="@drawable/mcv_action_previous"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconTint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/calendar_next"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="40dp"
+                    android:backgroundTint="@color/white"
+                    android:backgroundTintMode="add"
+                    android:foregroundTintMode="screen"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    app:icon="@drawable/mcv_action_next"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconTint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/mp_week_calendar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@android:drawable/editbox_dropdown_light_frame"
+                    android:clickable="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:mcv_calendarMode="week"
+                    app:mcv_selectionColor="#FFFFFF"
+                    app:mcv_selectionMode="none"
+                    app:mcv_showOtherDates="all"
+                    app:mcv_showWeekDays="true">
+
+                </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/mp_duplicate_warning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="This week already has a meal plan assigned."
+                tools:layout_editor_absoluteY="214dp" />
+
+            <TextView
+                android:id="@+id/mp_day_of_week_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:background="@android:drawable/editbox_dropdown_light_frame"
-                android:clickable="false"
-                app:mcv_calendarMode="week"
-                app:mcv_selectionColor="#FFFFFF"
-                app:mcv_selectionMode="none"
-                app:mcv_showOtherDates="all" />
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="8dp"
+                android:text="Day of Week"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/week_tab"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:background="@color/blue"
-                app:tabIndicatorColor="#FFEB3B"
+                android:layout_marginBottom="16dp"
+                app:tabBackground="@android:drawable/radiobutton_off_background"
+                app:tabGravity="fill"
+                app:tabIndicator="@android:drawable/radiobutton_off_background"
+                app:tabIndicatorColor="@color/light_blue_A400"
                 app:tabIndicatorGravity="stretch"
-                app:tabSelectedTextColor="#00BCD4">
+                app:tabSelectedTextColor="@color/white">
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/sun_tab"
@@ -119,173 +188,177 @@
                     tools:layout_editor_absoluteY="90dp" />
             </com.google.android.material.tabs.TabLayout>
 
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="@string/selection"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="16dp"
-                android:text="@string/meal_plan_description" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:id="@+id/textView20"
-                    android:layout_width="wrap_content"
-                    android:layout_height="19dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/breakfast"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/mp_breakfast_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clear"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/mp_breakfast_add"
-                    tools:layout_editor_absoluteY="0dp" />
-
-                <Button
-                    android:id="@+id/mp_breakfast_add"
-                    android:layout_width="75dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="78dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/add"
-                    app:layout_constraintEnd_toStartOf="@+id/mp_breakfast_clear"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/textView20"
-                    tools:layout_editor_absoluteY="0dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ListView
-                android:id="@+id/mp_breakfast_items"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:id="@+id/textView21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="19dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/lunch"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/mp_lunch_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clear"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/mp_lunch_add"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/mp_lunch_add" />
-
-                <Button
-                    android:id="@+id/mp_lunch_add"
-                    android:layout_width="75dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/add"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView21"
-                    app:layout_constraintEnd_toStartOf="@+id/mp_lunch_clear"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/textView21" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ListView
-                android:id="@+id/mp_lunch_items"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="32dp">
-
-            </ListView>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="20dp">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
-                    android:layout_height="19dp"
+                    android:layout_height="0dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/dinner"
+                    android:layout_marginTop="11dp"
+                    android:text="Meal of Day"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/mp_help_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/mp_dinner_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clear"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/mp_dinner_add"
-                    tools:layout_editor_absoluteY="0dp" />
-
-                <Button
-                    android:id="@+id/mp_dinner_add"
-                    android:layout_width="75dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/add"
-                    app:layout_constraintEnd_toStartOf="@+id/mp_dinner_clear"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/mp_help_button"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    app:elevation="12dp"
+                    app:fabCustomSize="25dp"
+                    app:fabSize="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView19"
-                    tools:layout_editor_absoluteY="0dp" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:maxImageSize="20dp"
+                    app:srcCompat="@android:drawable/ic_menu_help" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ListView
-                android:id="@+id/mp_dinner_items"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/meal_tab"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp">
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="32dp"
+                app:tabBackground="@drawable/common_google_signin_btn_icon_dark_normal_background">
 
-            </ListView>
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/mp_breakfast_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/breakfast" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/mp_lunch_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lunch" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/mp_dinner_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dinner" />
+            </com.google.android.material.tabs.TabLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/mp_empty_prompt"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="32dp">
+                android:layout_gravity="end"
+                android:layout_marginStart="62dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="8dp"
+                android:text="Looks a little empty, add some ingredients or recipes to your meal plan." />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/mp_table_linear_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/mp_edit_buttons">
+
+                    <TextView
+                        android:id="@+id/mp_items_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/teal_200"
+                        android:gravity="center"
+                        android:text="Items for Breakfast on Sunday"
+                        android:textSize="18sp" />
+
+                    <ListView
+                        android:id="@+id/mp_items"
+                        android:layout_width="match_parent"
+                        android:layout_height="350dp"
+                        android:background="@android:drawable/editbox_dropdown_light_frame"
+                        android:minHeight="80dp"
+                        android:nestedScrollingEnabled="true">
+
+                    </ListView>
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mp_edit_buttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/mp_add_item"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        app:fabCustomSize="40dp"
+                        app:layout_constraintBottom_toTopOf="@+id/mp_edit_item"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="spread"
+                        app:srcCompat="@android:drawable/ic_input_add" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/mp_edit_item"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:clickable="true"
+                        app:fabCustomSize="40dp"
+                        app:layout_constraintBottom_toTopOf="@+id/mp_delete_items"
+                        app:layout_constraintTop_toBottomOf="@+id/mp_add_item"
+                        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/mp_delete_items"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        app:fabCustomSize="40dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/mp_edit_item"
+                        app:srcCompat="@android:drawable/ic_menu_delete" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mp_create_function_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="26dp">
 
                 <Button
                     android:id="@+id/mp_save"

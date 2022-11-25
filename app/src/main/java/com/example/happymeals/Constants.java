@@ -25,7 +25,7 @@ public class Constants {
     public enum COLLECTION_NAME {
         INGREDIENTS,
         RECIPES,
-        MEAL_PLANS
+        MEAL_PLANS,
     }
 
     public enum DAY_OF_WEEK {

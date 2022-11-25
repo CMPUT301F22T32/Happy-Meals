@@ -20,12 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.example.happymeals.Constants;
 import com.example.happymeals.R;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.ingredient.IngredientStorageArrayAdapter;
+import com.example.happymeals.mealplan.MealPlanStorage;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.example.happymeals.recipe.RecipeStorageAdapter;
@@ -52,6 +54,9 @@ public class MealPlanItemsFragment extends DialogFragment {
     private Button save;
     private Button cancel;
 
+    String type = null;
+    ArrayList<String> selectedNames = null;
+
     private HashSet<Integer> selected;
 
     private OnFragmentInteractionListener listener;
@@ -63,6 +68,15 @@ public class MealPlanItemsFragment extends DialogFragment {
 
     public MealPlanItemsFragment() {
         // Required empty public constructor
+    }
+
+    public static MealPlanItemsFragment newInstance(String type, ArrayList<String> selectedIndices) {
+        Bundle args = new Bundle();
+        args.putStringArrayList("selected", selectedIndices);
+        args.putString("type", type);
+        MealPlanItemsFragment fragment = new MealPlanItemsFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -85,6 +99,7 @@ public class MealPlanItemsFragment extends DialogFragment {
         recipeStorage = RecipeStorage.getInstance();
 
         RadioButton ingredientRadio = view.findViewById(R.id.ingredient_radio);
+        RadioButton recipeRadio = view.findViewById(R.id.recipe_radio);
         radioGroup = view.findViewById(R.id.mp_type_of_item);
         list = view.findViewById(R.id.meal_plan_item_list);
         save = view.findViewById(R.id.mp_items_save);
@@ -92,8 +107,19 @@ public class MealPlanItemsFragment extends DialogFragment {
 
         int checked = radioGroup.getCheckedRadioButtonId();
         int ingredientID = ingredientRadio.getId();
+        int recipeID = recipeRadio.getId();
 
         showIngredients = (ingredientID == checked);
+
+        Bundle inputBundle = getArguments();
+        if (inputBundle != null) {
+            type = inputBundle.getString("type");
+            selectedNames = inputBundle.getStringArrayList("selected");
+            if (type.equals(Constants.COLLECTION_NAME.RECIPES.toString())) {
+                showIngredients = false;
+                radioGroup.check(recipeID);
+            }
+        }
 
         setListeners();
         switchList();
@@ -162,10 +188,26 @@ public class MealPlanItemsFragment extends DialogFragment {
         if (showIngredients) {
             IngredientStorageArrayAdapter adapter = new IngredientStorageArrayAdapter( context, ingredientStorage.getIngredients() ) ;
             list.setAdapter( adapter ) ;
+            if (selectedNames != null) {
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    if (selectedNames.contains(adapter.getItem(i).getName())) {
+                        adapter.getView(i, null, list).setBackgroundColor(Color.LTGRAY);
+                        selected.add(i);
+                    }
+                }
+            }
         }
         else {
             RecipeStorageAdapter adapter = new RecipeStorageAdapter( context, recipeStorage.getRecipes() );
             list.setAdapter( adapter );
+            if (selectedNames != null) {
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    if (selectedNames.contains(adapter.getItem(i).getName()))
+                        adapter.getView(i, null, list).setBackgroundColor(Color.LTGRAY);
+                        selected.add(i);
+                        //adapter.notifyDataSetChanged();
+                    }
+                }
+            }
         }
     }
-}

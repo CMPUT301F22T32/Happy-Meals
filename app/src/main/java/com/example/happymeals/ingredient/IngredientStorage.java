@@ -78,7 +78,7 @@ public class IngredientStorage implements DatabaseListener {
      * @param count The {@link Double} representing the count to take away from the
      *              provided {@link Ingredient}.
      */
-    public void requestConsumptionOfIngredient( Ingredient ingredient, int count ) {
+    public void requestConsumptionOfIngredient( Ingredient ingredient, Double count ) {
         ingredient.setAmount( ingredient.getAmount() - count );
         updateIngredient( ingredient );
     }

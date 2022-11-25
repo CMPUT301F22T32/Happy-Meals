@@ -16,9 +16,10 @@ public class Ingredient extends DatabaseObject {
     private String description;
     private Date bestBeforeDate;
     private Constants.Location location;
-    private int amount;
+    private Double amount;
     private Constants.AmountUnit unit;
     private Constants.IngredientCategory category;
+    private Boolean needsUpdate = false;
 
     /**
      * This is an empty constructor needed for Firestore construction.
@@ -39,7 +40,7 @@ public class Ingredient extends DatabaseObject {
      * @param category The food category that the ingredient falls under ({@link Constants.IngredientCategory}).
      */
     public Ingredient( String name, String description, Date bestBeforeDate,
-                       Constants.Location location, Integer amount, Constants.AmountUnit unit,
+                       Constants.Location location, Double amount, Constants.AmountUnit unit,
                        Constants.IngredientCategory category ) {
         this.name = name;
         this.description = description;
@@ -78,7 +79,7 @@ public class Ingredient extends DatabaseObject {
      * This returns the number amount of the Ingredient
      * @return amount
      */
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -96,6 +97,10 @@ public class Ingredient extends DatabaseObject {
      */
     public Constants.IngredientCategory getCategory() {
         return category;
+    }
+
+    public Boolean getNeedsUpdate() {
+        return needsUpdate;
     }
 
     /**
@@ -139,7 +144,7 @@ public class Ingredient extends DatabaseObject {
      * @param amount {@link Integer}
      * This is the number amount of the Ingredient
      */
-    public void setAmount( int amount ) {
+    public void setAmount( Double amount ) {
         this.amount = amount;
     }
 
@@ -159,5 +164,9 @@ public class Ingredient extends DatabaseObject {
      */
     public void setCategory( Constants.IngredientCategory category ) {
         this.category = category;
+    }
+
+    public void setNeedsUpdate(Boolean update) {
+        this.needsUpdate = update;
     }
 }

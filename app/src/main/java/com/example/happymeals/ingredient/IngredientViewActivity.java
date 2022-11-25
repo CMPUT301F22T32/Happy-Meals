@@ -125,7 +125,7 @@ public class IngredientViewActivity extends AppCompatActivity {
         name.setEnabled( false );
         description.setText( ingredient.getDescription() );
         date.setText( ingredient.getBestBeforeDate().toString() );
-        quantity.setText( Integer.toString(ingredient.getAmount()) );
+        quantity.setText( Double.toString(ingredient.getAmount()) );
         unitSpinner.setSelection(Arrays.asList( Constants.AmountUnit.values() ).indexOf( ingredient.getUnit() ) );
         locationSpinner.setSelection( Arrays.asList( Constants.Location.values() ).indexOf( ingredient.getLocation() ) );
         categorySpinner.setSelection( Arrays.asList( Constants.IngredientCategory.values() ).indexOf( ingredient.getCategory() ) );
@@ -171,7 +171,7 @@ public class IngredientViewActivity extends AppCompatActivity {
                 // <todo> Change date to a fragment
                 Date dateArg = new Date();
                 Constants.Location locationArg = (Constants.Location) locationSpinner.getSelectedItem();
-                int amountArg = Integer.parseInt(quantity.getText().toString());
+                Double amountArg = Double.parseDouble(quantity.getText().toString());
                 Constants.AmountUnit amountUnitArg = (Constants.AmountUnit) unitSpinner.getSelectedItem();
                 Constants.IngredientCategory categoryArg = (Constants.IngredientCategory) categorySpinner.getSelectedItem();
 

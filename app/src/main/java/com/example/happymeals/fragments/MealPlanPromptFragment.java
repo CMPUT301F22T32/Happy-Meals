@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.happymeals.R;
+import com.example.happymeals.mealplan.CreateMealPlanActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,12 +26,7 @@ import com.example.happymeals.R;
  */
 public class MealPlanPromptFragment extends DialogFragment {
 
-    private OnFragmentInteractionListener listener;
-
-    public interface OnFragmentInteractionListener {
-        void autoGeneratePressed();
-        void makeSelfPressed();
-    }
+    Context context;
 
     public MealPlanPromptFragment() {
         // Required empty public constructor
@@ -38,7 +35,7 @@ public class MealPlanPromptFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        listener = (OnFragmentInteractionListener) context;
+        this.context = context;
     }
 
     @Override
@@ -56,7 +53,10 @@ public class MealPlanPromptFragment extends DialogFragment {
         autogen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.makeSelfPressed();
+                Intent intent = new Intent(context, CreateMealPlanActivity.class);
+                intent.putExtra(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true);
+                intent.putExtra(CreateMealPlanActivity.AUTOGEN_EXTRA, true);
+                startActivity(intent);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
         });
@@ -64,7 +64,10 @@ public class MealPlanPromptFragment extends DialogFragment {
         selfmade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.autoGeneratePressed();
+                Intent intent = new Intent(context, CreateMealPlanActivity.class);
+                intent.putExtra(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true);
+                intent.putExtra(CreateMealPlanActivity.AUTOGEN_EXTRA, false);
+                startActivity(intent);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
         });

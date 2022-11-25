@@ -5,7 +5,7 @@
         android:color = "#FFFFFF"
         android:state_selected="true"/>
     <item
-        android:color = "#C6C2C2"
+        android:color = "#E8E8E8"
         android:state_selected="false"/>
 
 </selector>

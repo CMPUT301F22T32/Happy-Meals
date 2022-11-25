@@ -110,7 +110,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                         }
                     });
                 }
-                if(itemSelected.equals("Location")){
+                if(itemSelected.equals("DefaultLocationSpinners")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
                         public int compare(Ingredient i1, Ingredient i2) {

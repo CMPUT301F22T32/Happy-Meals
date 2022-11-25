@@ -174,7 +174,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 //        validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
         validator.checkSpinner( unitSpinner, "Quantity Unit" );
-        validator.checkSpinner( locationSpinner, "Location" );
+        validator.checkSpinner( locationSpinner, "DefaultLocationSpinners" );
         validator.checkSpinner( categorySpinner, "Category" );
 
         String errors = validator.getErrors();

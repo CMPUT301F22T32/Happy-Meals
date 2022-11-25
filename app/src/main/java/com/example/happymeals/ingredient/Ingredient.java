@@ -3,7 +3,6 @@ package com.example.happymeals.ingredient;
 import com.example.happymeals.Constants;
 import com.example.happymeals.database.DatabaseObject;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -33,10 +32,10 @@ public class Ingredient extends DatabaseObject {
      * @param name The name of the ingredient ({@link String}).
      * @param description An optional description of the ingredient ({@link String}).
      * @param bestBeforeDate The expiry date in YYYY-MM-DD ISO Format ({@link Date}).
-     * @param location The location where the ingredient is stored ({@link Constants.Location}).
+     * @param location The location where the ingredient is stored ({@link Constants.DefaultLocationSpinners}).
      * @param amount The positive integer amount of the ingredient ({@link Integer}.
-     * @param unit The unit the ingredient is stored by ({@link Constants.AmountUnit}).
-     * @param category The food category that the ingredient falls under ({@link Constants.IngredientCategory}).
+     * @param unit The unit the ingredient is stored by ({@link Constants.DefaultAmountUnitSpinners}).
+     * @param category The food category that the ingredient falls under ({@link Constants.DefaultIngredientCategorySpinners}).
      */
     public Ingredient( String name, String description, Date bestBeforeDate,
                        String location, Integer amount, String unit,
@@ -74,7 +73,7 @@ public class Ingredient extends DatabaseObject {
     }
 
     /**
-     * This returns the enum Location of the Ingredient
+     * This returns the enum DefaultLocationSpinners of the Ingredient
      * @return location
      */
     public String getLocation() {
@@ -98,7 +97,7 @@ public class Ingredient extends DatabaseObject {
     }
 
     /**
-     * This returns the enum IngredientCategory of the Ingredient
+     * This returns the enum DefaultIngredientCategorySpinners of the Ingredient
      * @return category
      */
     public String getCategory() {
@@ -134,7 +133,7 @@ public class Ingredient extends DatabaseObject {
 
     /**
      * This sets the location of the Ingredient
-     * @param location {@link Constants.Location}
+     * @param location {@link Constants.DefaultLocationSpinners}
      * This is the location of the Ingredient
      */
     public void setLocation( String location ) {
@@ -151,8 +150,8 @@ public class Ingredient extends DatabaseObject {
     }
 
     /**
-     * This sets the enum AmountUnit for the amount of the Ingredient
-     * @param unit {@link Constants.AmountUnit}
+     * This sets the enum DefaultAmountUnitSpinners for the amount of the Ingredient
+     * @param unit {@link Constants.DefaultAmountUnitSpinners}
      * This is the unit for the amount for the Ingredient
      */
     public void setUnit( String unit ) {
@@ -161,7 +160,7 @@ public class Ingredient extends DatabaseObject {
 
     /**
      * This sets the category for the Ingredient
-     * @param category {@link Constants.IngredientCategory}
+     * @param category {@link Constants.DefaultIngredientCategorySpinners}
      * This is the category for the Ingredient
      */
     public void setCategory( String category ) {

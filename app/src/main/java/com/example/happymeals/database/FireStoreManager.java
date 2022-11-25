@@ -108,6 +108,18 @@ public class FireStoreManager {
                 });
     }
 
+    public void addDefaultSpinners() {
+//        storeSpinners( HashMap< String, ArrayList< String > > data )
+        HashMap< String, ArrayList< String > > mapToStore = new HashMap<>();
+        mapToStore.put(Constants.StoredSpinnerChoices.AMOUNT_UNIT.toString(),
+                Constants.DefaultAmountUnitSpinners );
+        mapToStore.put(Constants.StoredSpinnerChoices.LOCATION.toString(),
+                Constants.DefaultLocationSpinners );
+        mapToStore.put(Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY.toString(),
+                Constants.DefaultIngredientCategorySpiners);
+        storeSpinners( mapToStore );
+    }
+
     /**
      * Requires a collection name and document name which will lead to a specific dataset.
      * deleteDocument() will remove the requested document and all it's entries from the database.

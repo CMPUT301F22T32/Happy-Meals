@@ -9,13 +9,14 @@
     <ListView
         android:id="@+id/recipe_list"
         android:layout_width="383dp"
-        android:layout_height="535dp"
-        android:layout_marginTop="70dp"
-        app:layout_constraintBottom_toTopOf="@+id/return_text"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/SortType" />
+        app:layout_constraintTop_toBottomOf="@+id/view_divider" />
 
     <TextView
         android:id="@+id/recipe_title"
@@ -56,22 +57,11 @@
         android:id="@+id/view_divider"
         android:layout_width="409dp"
         android:layout_height="1dp"
+        android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipe_filter" />
-
-    <TextView
-        android:id="@+id/return_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:onClick="onGoBack"
-        android:text="Go Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/recipe_filter"
@@ -82,6 +72,19 @@
         android:text="Type"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/SortBy"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recipe_storage_explore_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/explore"
+        android:textColor="@color/design_default_color_secondary_variant"
+        android:textSize="18dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_filter"
+        app:layout_constraintEnd_toStartOf="@+id/recipe_storage_add_button"
+        app:layout_constraintStart_toEndOf="@+id/recipe_title"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

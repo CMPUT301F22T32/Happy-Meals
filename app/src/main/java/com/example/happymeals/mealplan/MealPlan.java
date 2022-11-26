@@ -1,6 +1,9 @@
 package com.example.happymeals.mealplan;
 
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
 import android.util.Pair;
 
 import com.example.happymeals.Constants;
@@ -30,6 +33,7 @@ import java.util.Random;
 
 public class MealPlan extends DatabaseObject implements DatabaseListener {
 
+    private static final String MAKE_MEAL_PLAN_TAG = "MealPlanMaker";
     private Date startDate;
     private Date endDate;
 
@@ -151,8 +155,10 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         StringBuilder sb = new StringBuilder();
         int size = items.size() - 1;
 
-        if (size < 0)
+        if (size < 0) {
+            Log.e(MAKE_MEAL_PLAN_TAG, "No recipe provided for meal.");
             return null;
+        }
 
         for (int i = 0; i < size; i++) {
             sb.append(items.get(i).getName());
@@ -364,7 +370,6 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
                 recipeStrings.add(recipe.getName());
                 details.put(RECIPES, recipeStrings);
             }
-            System.out.println(details.get(COUNT));
             allIngredients.put(ingredientName, details);
         }
     }

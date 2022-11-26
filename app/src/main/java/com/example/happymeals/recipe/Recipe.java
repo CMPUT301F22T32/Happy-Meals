@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,14 +27,12 @@ public class Recipe extends DatabaseObject {
 
     private double cookTime;
     private String description;
-    private String creator;
     private ArrayList< String > comments;
     private HashMap< String, HashMap< String, Object > > ingredients;
     private String instructions;
     private double prepTime;
     private double servings;
     private String imageFilePath;
-    private String id;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}
@@ -60,40 +59,16 @@ public class Recipe extends DatabaseObject {
     public Recipe( String name, String creator, double cookTime, String description, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
-                   double prepTime, double servings, String imageFilePath) {
+                   double prepTime, double servings, String imageFilePath ) {
         super(name, creator);
-        this.id = creator + "_" + name;
         this.cookTime = cookTime;
         this.description = description;
-        this.creator = creator;
         this.comments = comments;
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.prepTime = prepTime;
         this.servings = servings;
         this.imageFilePath = imageFilePath;
-    }
-
-    /** Needed for RecipeStorageAdapter for MealPlan to properly function
-     * @return
-     */
-    public String getName() {
-        return name;
-    }
-
-    public Recipe clone() {
-        return new Recipe(
-                this.name,
-                this.creator,
-                this.cookTime,
-                this.description,
-                this.comments,
-                this.ingredients,
-                this.instructions,
-                this.prepTime,
-                this.servings,
-                this.imageFilePath
-        );
     }
 
     /**
@@ -110,14 +85,6 @@ public class Recipe extends DatabaseObject {
      */
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * gets the username of who created the recipe.
-     * @return The {@link String} representing the creator.
-     */
-    public String getCreator() {
-        return creator;
     }
 
     /**
@@ -176,9 +143,36 @@ public class Recipe extends DatabaseObject {
         return servings;
     }
 
-    public String getId() {
-        return this.id;
+    public void setDescription( String description ) {
+        this.description = description;
+    }
+    public void setPrepTime( double prepTime ) {
+        this.prepTime = prepTime;
+    }
+
+    public void setCookTime( double cookTime ) {
+        this.cookTime = cookTime;
+    }
+
+    public void setServings( double servings ) {
+        this.servings = servings;
+    }
+
+    public void setIngredients( HashMap< String, HashMap< String, Object > > ingredients ) {
+        this.ingredients = ingredients;
+    }
+
+    public void setComments( ArrayList< String> comments ) {
+        this.comments = comments;
+    }
+
+    public void setInstructions( String instructions ) {
+        this.instructions = instructions;
+    }
+    public String getImageFilePath() { return imageFilePath; }
+
+    public void setImageFilePath(String imageFilePath) {
+        this.imageFilePath = imageFilePath;
     }
 
 }
-

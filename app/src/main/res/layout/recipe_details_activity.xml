@@ -90,7 +90,7 @@
                     android:focusable="false"
                     android:inputType="text"
                     android:textAlignment="center"
-                    android:textColor="@color/blue_menu"
+                    android:textColor="@color/red"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

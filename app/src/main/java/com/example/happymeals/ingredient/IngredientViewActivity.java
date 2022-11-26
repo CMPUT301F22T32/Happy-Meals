@@ -43,6 +43,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
     protected final static String ADD_INGREDIENT = "com.example.happymeals.addIngredientBooleanExtra";
     protected final static String INGREDIENT_EXTRA = "com.example.happymeals.ingredientExtra";
+    protected final static String INGREDIENT_INDEX = "INDEX";
 
     private Ingredient ingredient = null;
     private Boolean newIngredient;
@@ -149,9 +150,9 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
     }
 
     private void fillFields( Intent intent ) {
-        //Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
-        ingredient = (Ingredient) intent.getSerializableExtra(INGREDIENT_EXTRA);
-        //ingredient = ingredientStorage.getIngredients().get( ingredientIndex );
+
+        ingredient = ingredientStorage.getIngredientByIndex(
+                getIntent().getIntExtra(INGREDIENT_INDEX, 0));
 
         name.setText( ingredient.getName() );
         name.setEnabled( false );
@@ -202,15 +203,20 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
                 String nameArg = name.getText().toString();
                 String descriptionArg = description.getText().toString();
-                // <todo> Change date to a fragment
-
                 String locationArg = (String) locationSpinner.getSelectedItem();
                 int amountArg = Integer.parseInt(quantity.getText().toString());
                 String amountUnitArg = (String) unitSpinner.getSelectedItem();
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
+                    ingredient = new Ingredient(nameArg,
+                            ingredientStorage.getCurrentUser(),
+                            descriptionArg,
+                            dateArg ,
+                            locationArg,
+                            amountArg,
+                            amountUnitArg,
+                            categoryArg );
                     ingredientStorage.addIngredient(ingredient);
                 }
 

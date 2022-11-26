@@ -231,7 +231,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         Intent ingredientIntent = new Intent(  this, IngredientViewActivity.class ) ;
         ingredientIntent.putExtra( IngredientViewActivity.ADD_INGREDIENT, addingNewIngredient ) ;
         if ( index.length > 0 )
-            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_EXTRA, index[0] ) ;
+            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_INDEX, index[0] ) ;
         startActivity( ingredientIntent ) ;
     }
 

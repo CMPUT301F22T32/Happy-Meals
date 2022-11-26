@@ -118,7 +118,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 dateArg = new Date(year, month, day);
-                                date.setText(year + "-" + (monthOfYear + 1) + "-" + day);
+                                date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 
                             }
                         }, year, month, day);
@@ -172,7 +172,8 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
         String errorString = "The ingredient couldn't be saved for the following reasons:\n";
 
         validator.checkText( name, "Name");
-        validator.checkDate( date );
+        validator.checkText( description, "Description" );
+//        validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
         validator.checkSpinner( unitSpinner, "Quantity Unit" );
         validator.checkSpinner( locationSpinner, "DefaultLocationSpinners" );

@@ -68,8 +68,8 @@ public class Ingredient extends DatabaseObject {
     public String getBestBeforeDateAsString() {
         int year = bestBeforeDate.getYear();
         int month = bestBeforeDate.getMonth();
-        int day = bestBeforeDate.getDay();
-        return String.format("%04d-%02d-%02d", year, month, day);
+        int day = bestBeforeDate.getDate();
+        return String.format("%04d-%02d-%02d", year, month+1, day);
     }
 
     /**

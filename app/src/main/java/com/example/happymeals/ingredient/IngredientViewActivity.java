@@ -118,7 +118,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 dateArg = new Date(year, month, day);
-                                date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
 
                             }
                         }, year, month, day);
@@ -204,7 +204,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 String nameArg = name.getText().toString();
                 String descriptionArg = description.getText().toString();
                 // <todo> Change date to a fragment
-                Date dateArg = new Date();
+
                 String locationArg = (String) locationSpinner.getSelectedItem();
                 int amountArg = Integer.parseInt(quantity.getText().toString());
                 String amountUnitArg = (String) unitSpinner.getSelectedItem();
@@ -248,7 +248,6 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        dateArg = new Date(year, month, day);
         date.setText(String.format("%04d-%02d-%02d", year, month, day));
     }
 }

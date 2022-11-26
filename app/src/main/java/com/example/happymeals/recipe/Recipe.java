@@ -1,5 +1,10 @@
 package com.example.happymeals.recipe;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
+
 import com.example.happymeals.database.*;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -26,6 +31,7 @@ public class Recipe extends DatabaseObject {
     private String instructions;
     private double prepTime;
     private double servings;
+    private String imageFilePath;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}
@@ -47,11 +53,12 @@ public class Recipe extends DatabaseObject {
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
+     * @param imageFilePath {@link String} the image of the recipe
      */
     public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
-                   double prepTime, double servings ) {
+                   double prepTime, double servings, String imageFilePath ) {
         super(name);
         this.cookTime = cookTime;
         this.description = description;
@@ -60,6 +67,7 @@ public class Recipe extends DatabaseObject {
         this.instructions = instructions;
         this.prepTime = prepTime;
         this.servings = servings;
+        this.imageFilePath = imageFilePath;
     }
 
     /**
@@ -160,4 +168,10 @@ public class Recipe extends DatabaseObject {
     public void setInstructions( String instructions ) {
         this.instructions = instructions;
     }
+    public String getImageFilePath() { return imageFilePath; }
+
+    public void setImageFilePath(String imageFilePath) {
+        this.imageFilePath = imageFilePath;
+    }
+
 }

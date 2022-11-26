@@ -63,6 +63,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         servings.setText( String.valueOf( currentRecipe.getServings() ) );
         description.setText( currentRecipe.getDescription() );
 
+        /*
         listItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +85,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
                 return true;
 
             }
-        });
+        }); */
 
         return listItem;
     }

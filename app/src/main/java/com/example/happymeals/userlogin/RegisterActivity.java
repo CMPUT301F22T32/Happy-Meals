@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.R;
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
 
 public class RegisterActivity extends AppCompatActivity{
@@ -50,6 +51,19 @@ public class RegisterActivity extends AppCompatActivity{
                     @Override
                     public void onSuccess() {
                         Log.d("RegisterActivity", "User was created.");
+                        fireAuth.getFireAuth().userLogin(userEmail, newPass, new OutputListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d("RegisterActivity", "Login from registration success.");
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+                                Log.d("RegisterActivity", "Login from registration failure.");
+                            }
+                        });
+                        FireStoreManager.getInstance().setUser( userEmail );
+                        FireStoreManager.getInstance().addDefaultSpinners();
                         finish();
                     }
 

@@ -97,7 +97,7 @@ public class SpinnerSettingsActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 expecting = Constants.StoredSpinnerChoices.LOCATION;
-                new InputStringFragment("Input New Location Spinner", 10).show( getSupportFragmentManager(), "L E S F");
+                new InputStringFragment("Input New DefaultLocationSpinners Spinner", 10).show( getSupportFragmentManager(), "L E S F");
             }
         });
     }

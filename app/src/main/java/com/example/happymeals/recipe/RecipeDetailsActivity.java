@@ -1,10 +1,13 @@
 package com.example.happymeals.recipe;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +17,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.example.happymeals.R;
 
@@ -34,6 +42,8 @@ import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +76,13 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private FloatingActionButton addIngredientButton;
     private Button addCommentsButton;
 
+    private Context context;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    public static final int CAMERA_ACTION_CODE = 1;
+    private Uri imagePath;
+    private String imageFilePath;
+    private FloatingActionButton addImageButton;
+
     private RecipeStorage storage;
 
     /**
@@ -87,6 +104,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         }
 
         storage = RecipeStorage.getInstance();
+
+        context = this;
 
         editButton = findViewById( R.id.edit_recipe_button );
         cancelButton = findViewById( R.id.recipe_details_cancel_button );
@@ -131,6 +150,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField = findViewById( R.id.recipe_servings_field );
         instructionsField = findViewById( R.id.recipe_instructions_field );
         commentsField = findViewById( R.id.recipe_comment_field );
+        addImageButton = findViewById( R.id.recipe_edit_image_button );
+        addImageButton.setVisibility(View.GONE);
 
         disabledEditOnViews();
 
@@ -150,6 +171,27 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
 
             setAllValues();
         }
+
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Bundle bundle = result.getData().getExtras();
+                    Bitmap bitmap = (Bitmap) bundle.get("data");
+                    imagePath = saveImage(bitmap);
+                    imageView.setImageURI(imagePath);
+
+                }
+            }
+        });
+
+        addImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                activityResultLauncher.launch(intent);
+            }
+        });
     }
 
     /**
@@ -165,27 +207,29 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         commentsField.setText( recipe.getCommentsAsString() );
 
         comments = recipe.getComments();
-        System.out.println( recipe.getImageFilePath() );
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child( recipe.getImageFilePath() );
-        try {
-            final File localFile = File.createTempFile("Test Recipe", ".jpeg");
-            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Log.d( "Image Download", "Image has been downloaded." );
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    imageView.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d( "Image Download", "Image was unable to be downloaded." );
 
-                }
+        if ( recipe.getImageFilePath() != "" ) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(recipe.getImageFilePath());
+            try {
+                final File localFile = File.createTempFile("Test Recipe", ".jpeg");
+                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("Image Download", "Image has been downloaded.");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Image Download", "Image was unable to be downloaded.");
 
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+                    }
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -206,6 +250,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         saveButton.setVisibility( View.VISIBLE );
         cancelButton.setVisibility( View.VISIBLE );
         addIngredientButton.setVisibility( View.VISIBLE );
+        addImageButton.setVisibility( View.VISIBLE );
 
         descriptionField.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         prepTimeField.setInputType( InputType.TYPE_CLASS_NUMBER );
@@ -220,6 +265,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         saveButton.setVisibility( View.GONE );
         cancelButton.setVisibility( View.GONE );
         addIngredientButton.setVisibility( View.GONE );
+        addImageButton.setVisibility( View.GONE );
 
         descriptionField.setInputType( 0 );
         prepTimeField.setInputType( 0 );
@@ -229,6 +275,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     public void saveChanges() {
+
         String newDescription = descriptionField.getText().toString();
         String newPrepTime = prepTimeField.getText().toString();
         String newCookTime = cookTimeField.getText().toString();
@@ -252,6 +299,11 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
             return;
         }
 
+        if (imagePath != null) {
+            imageFilePath = storage.addImage( imagePath, recipe.getName() );
+        }
+
+
         recipe.setDescription( newDescription );
         recipe.setPrepTime( new Double( newPrepTime ));
         recipe.setCookTime( new Double( newCookTime ));
@@ -259,6 +311,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         recipe.setComments( comments );
         recipe.setInstructions( newInstructions );
         recipe.setIngredients(storage.makeIngredientMapForRecipe( ingredientMap ));
+        recipe.setImageFilePath(imageFilePath);
 
         storage.addRecipe( recipe );
         disabledEditOnViews();
@@ -297,5 +350,25 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
             this.ingredientMap.put( i.getName(), tempMap );
         }
         adapter.notifyDataSetChanged();
+    }
+
+    private Uri saveImage(Bitmap image) {
+        File imagesFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+
+        try {
+            imagesFolder.mkdir();
+            File file = new File(imagesFolder, "captured_image.jpg");
+            FileOutputStream stream = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context.getApplicationContext(), "com.example.happymeals"+".provider", file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uri;
     }
 }

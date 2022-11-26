@@ -3,11 +3,8 @@ package com.example.happymeals.recipe;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.media.MediaCodec;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -15,13 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -37,7 +32,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -82,6 +76,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         setContentView(R.layout.recipe_add_view);
 
         context = this;
+        imageFilePath = "";
 
         RecipeStorage storage = RecipeStorage.getInstance();
 
@@ -167,7 +162,9 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                     return;
                 }
 
-                imageFilePath = storage.addImage(imagePath, newName);
+                if ( imagePath != null ) {
+                    imageFilePath = storage.addImage(imagePath, newName);
+                }
                 storage.addRecipe( new Recipe(
                         newName,
                         new Double( newCookTime ),

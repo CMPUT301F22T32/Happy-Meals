@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 

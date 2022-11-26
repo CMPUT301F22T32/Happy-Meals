@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //Toolbar toolbar = findViewById( R.id.appbar);
-        //setSupportActionBar(toolbar);
-        // Create the firebase manager connection along with all the storage classes.
-        fsm = FireStoreManager.getInstance();
-        RecipeStorage.getInstance();
-        IngredientStorage ingredientStorage = IngredientStorage.getInstance();
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            Toolbar toolbar = findViewById( R.id.appbar);
+            setSupportActionBar(toolbar);
+            // Create the firebase manager connection along with all the storage classes.
+            fsm = FireStoreManager.getInstance();
+            RecipeStorage.getInstance();
+            IngredientStorage.getInstance();
 
         context = this;
         // Global Recipes Button

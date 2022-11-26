@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -82,7 +83,15 @@ public class GetCountFragment extends DialogFragment {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick( DialogInterface dialogInterface, int i ) {
-                        listener.onConfirmClick( Double.parseDouble( getCountField.getText().toString() ), ingredientToHold );
+                        String givenCount = getCountField.getText().toString();
+                        if( !givenCount.equals("") ) {
+                            try{
+                                listener.onConfirmClick( Double.parseDouble(
+                                        getCountField.getText().toString() ), ingredientToHold );
+                            } catch (Exception e ) {
+                                Log.e("Get Count", e.toString() );
+                            }
+                        }
                     }
                 })
                 .setNegativeButton( "Cancel", null )

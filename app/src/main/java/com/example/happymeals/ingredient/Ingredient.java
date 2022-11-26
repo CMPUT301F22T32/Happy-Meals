@@ -15,10 +15,10 @@ public class Ingredient extends DatabaseObject {
     private String description;
     private Date bestBeforeDate;
     private String location;
-    private Double amount;
+    private double amount;
     private String unit;
     private String category;
-    private Boolean needsUpdate = false;
+    private Boolean needsUpdate;
 
     /**
      * This is an empty constructor needed for Firestore construction.
@@ -38,16 +38,17 @@ public class Ingredient extends DatabaseObject {
      * @param unit The unit the ingredient is stored by ({@link Constants.DefaultAmountUnitSpinners}).
      * @param category The food category that the ingredient falls under ({@link Constants.DefaultIngredientCategorySpinners}).
      */
-    public Ingredient( String name, String creator, String description, Date bestBeforeDate,
-                       String location, Double amount, String unit,
+    public Ingredient( String name, String description, Date bestBeforeDate,
+                       String location, double amount, String unit,
                        String category ) {
-        super( name, creator );
+        this.name = name;
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
         this.amount = amount;
         this.unit = unit;
         this.category = category;
+        this.needsUpdate = false;
     }
 
     /**
@@ -69,8 +70,8 @@ public class Ingredient extends DatabaseObject {
     public String getBestBeforeDateAsString() {
         int year = bestBeforeDate.getYear();
         int month = bestBeforeDate.getMonth();
-        int day = bestBeforeDate.getDay();
-        return String.format("%04d-%02d-%02d", year, month, day);
+        int day = bestBeforeDate.getDate();
+        return String.format("%04d-%02d-%02d", year, month+1, day);
     }
 
     /**
@@ -105,10 +106,6 @@ public class Ingredient extends DatabaseObject {
         return category;
     }
 
-    public Boolean getNeedsUpdate() {
-        return needsUpdate;
-    }
-
     /**
      * This sets the name of the Ingredient
      * @param name {@link String}
@@ -116,6 +113,10 @@ public class Ingredient extends DatabaseObject {
      */
     public void setName( String name ) {
         this.name = name;
+    }
+
+    public Boolean getNeedsUpdate() {
+        return needsUpdate;
     }
 
     /**
@@ -150,7 +151,7 @@ public class Ingredient extends DatabaseObject {
      * @param amount {@link Integer}
      * This is the number amount of the Ingredient
      */
-    public void setAmount( Double amount ) {
+    public void setAmount( double amount ) {
         this.amount = amount;
     }
 

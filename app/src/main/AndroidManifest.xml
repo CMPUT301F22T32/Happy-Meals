@@ -89,19 +89,11 @@
         <!-- Shopping List -->
         <activity
             android:name=".shoppinglist.ShoppingListActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".userlogin.RegisterActivity"
             android:exported="true">
         </activity>
-
-        <activity android:name=".recipe.RecipeStorageActivity">
-
-        </activity>
-        <activity android:name=".recipe.RecipeAddActivity">
-
-        </activity>
-=
 
         <!-- Settings -->
         <activity android:name=".recipe.PublicRecipeActivity"

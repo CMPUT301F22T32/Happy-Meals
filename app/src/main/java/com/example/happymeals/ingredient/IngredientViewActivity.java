@@ -87,7 +87,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
             public void onClick(View view) {
                 ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
                         "Remove Ingredient",
-                        String.format("Are you sure you want to remove %s?", ingredient.getName()),
+                        String.format("Are you sure you want to remove %s?", ingredient.getDescription()),
                         context,
                         getDeleteListener());
                 deleteFragment.display();
@@ -118,7 +118,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 dateArg = new Date(year, month, day);
-                                date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
 
                             }
                         }, year, month, day);
@@ -149,15 +149,15 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
     }
 
     private void fillFields( Intent intent ) {
-        Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
-        ingredient = ingredientStorage.getIngredients().get( ingredientIndex );
+        //Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
+        ingredient = (Ingredient) intent.getSerializableExtra(INGREDIENT_EXTRA);
+        //ingredient = ingredientStorage.getIngredients().get( ingredientIndex );
 
         name.setText( ingredient.getName() );
         name.setEnabled( false );
         description.setText( ingredient.getDescription() );
-        date.setText( ingredient.getBestBeforeDate().toString() );
+        date.setText( ingredient.getBestBeforeDateAsString() );
         quantity.setText( Double.toString(ingredient.getAmount()) );
-
         unitSpinner.setSelection(ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.AMOUNT_UNIT)
                 .indexOf( ingredient.getUnit()));
         locationSpinner.setSelection( ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.LOCATION)
@@ -171,7 +171,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
         String errorString = "The ingredient couldn't be saved for the following reasons:\n";
 
         validator.checkText( name, "Name");
-//        validator.checkDate( date );
+        validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
         validator.checkSpinner( unitSpinner, "Quantity Unit" );
         validator.checkSpinner( locationSpinner, "DefaultLocationSpinners" );
@@ -203,16 +203,14 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 String nameArg = name.getText().toString();
                 String descriptionArg = description.getText().toString();
                 // <todo> Change date to a fragment
-                Date dateArg = new Date();
 
                 String locationArg = (String) locationSpinner.getSelectedItem();
-                Double amountArg = Double.parseDouble(quantity.getText().toString());
+                int amountArg = Integer.parseInt(quantity.getText().toString());
                 String amountUnitArg = (String) unitSpinner.getSelectedItem();
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    String user = ingredientStorage.getCurrentUser();
-                    ingredient = new Ingredient(nameArg, user, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
+                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
                     ingredientStorage.addIngredient(ingredient);
                 }
 
@@ -249,7 +247,6 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        dateArg = new Date(year, month, day);
         date.setText(String.format("%04d-%02d-%02d", year, month, day));
     }
 }

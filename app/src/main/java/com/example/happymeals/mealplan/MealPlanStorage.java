@@ -9,6 +9,7 @@ import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.recipe.Recipe;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
@@ -217,6 +218,11 @@ public class MealPlanStorage implements DatabaseListener {
             mealPlans.add( mealPlan );
         }
         updateStorage();
+    }
+
+    @Override
+    public void onSharedDataFetchSuccess(Recipe data) {
+
     }
 
     @Override

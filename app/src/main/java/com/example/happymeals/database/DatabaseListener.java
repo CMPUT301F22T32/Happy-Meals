@@ -1,5 +1,7 @@
 package com.example.happymeals.database;
 
+import com.example.happymeals.recipe.Recipe;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,14 @@ public interface DatabaseListener {
      * @param data {@link DatabaseObject} which holds the returned class.
      */
     void onDataFetchSuccess( DatabaseObject data );
+
+    /**
+     * To be used to fetch a collection of Recipe objects that have been shared globally
+     * with all users.
+     * @param data The {@link DatabaseObject} that holds the recipe. This is a {@link DatabaseObject}
+     *             in order to allow for future additions.
+     */
+    void onSharedDataFetchSuccess( Recipe data );
 
     /**
      * To be used when the Spinner values have been fetched from the database on request.

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.R;
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
 
 public class RegisterActivity extends AppCompatActivity{
@@ -50,6 +51,19 @@ public class RegisterActivity extends AppCompatActivity{
                     @Override
                     public void onSuccess() {
                         Log.d("RegisterActivity", "User was created.");
+                        fireAuth.getFireAuth().userLogin(userEmail, newPass, new OutputListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d("RegisterActivity", "Login from registration success.");
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+                                Log.d("RegisterActivity", "Login from registration failure.");
+                            }
+                        });
+                        FireStoreManager.getInstance().setUser( userEmail );
+                        FireStoreManager.getInstance().addDefaultSpinners();
                         finish();
                     }
 
@@ -88,11 +102,16 @@ public class RegisterActivity extends AppCompatActivity{
             } else if ( !userEmail.contains("@") ) {
                 emailField.setError( "Must be a valid Email" );
                 return false;
-            } else if ( newPass.length() < 8 ) {
+            }
+            if ( newPass.length() < 8 ) {
                 passwordField.setError( "Password must be greater than 8 characters" );
                 return false;
             } else if ( !confirmPasswordField.getText().toString().equals(newPass) ) {
                 confirmPasswordField.setError( "Passwords must match" );
+                return false;
+            }
+            if( userName.contains("_") ) {
+                usernameField.setError( "Contains Illegal Character '_'" );
                 return false;
             }
             return true;

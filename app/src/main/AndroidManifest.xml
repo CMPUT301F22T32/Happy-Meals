@@ -91,6 +91,17 @@
         </activity>
 
         <!-- Settings -->
+        <activity android:name=".recipe.PublicRecipeActivity"
+            android:parentActivityName=".recipe.RecipeStorageActivity">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".recipe.RecipeStorageActivity" /></activity>
+        <activity android:name=".recipe.SharedRecipeDetailsActivity"
+            android:parentActivityName=".recipe.PublicRecipeActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".recipe.PublicRecipeActivity" /></activity>
         <activity android:name=".SpinnerSettingsActivity">
             android:parentActivityName=".MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->

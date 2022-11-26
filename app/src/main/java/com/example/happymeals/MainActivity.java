@@ -35,6 +35,8 @@ import com.example.happymeals.shoppinglist.ShoppingListActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Context context;
+    private FireStoreManager fsm;
+
     /**
      * This is the function called whenever the MainActivity is created -- in our
      * case, this is on the launch of the app or when navigating back to the home page.
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById( R.id.appbar);
         setSupportActionBar(toolbar);
         // Create the firebase manager connection along with all the storage classes.
-        FireStoreManager.getInstance();
+        fsm = FireStoreManager.getInstance();
         RecipeStorage.getInstance();
         IngredientStorage.getInstance();
 
@@ -112,10 +114,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if( item.getItemId() == R.id.action_settings ) {
-            Intent intent = new Intent(context, SpinnerSettingsActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent( context, SpinnerSettingsActivity.class );
+            startActivity( intent );
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected( item );
     }
 
     /**
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         FirebaseAuthenticationHandler.getFireAuth().authenticate.signOut();
+                        FireStoreManager.clearInstance();
                         finish();
                     }
                 } );

@@ -50,6 +50,12 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loginIfNeeded();
+    }
+
+    @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
 
@@ -57,10 +63,7 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
         fireAuth = FirebaseAuthenticationHandler.getFireAuth();
         context = this;
         //See if user is already logged in
-        if( fireAuth.authenticate.getCurrentUser() != null ) {
-            FireStoreManager.getInstance().setUser( fireAuth.authenticate.getCurrentUser().getEmail() );
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        }
+        loginIfNeeded();
 
         // initialize all used objects
         login = findViewById(R.id.login_button);
@@ -76,25 +79,15 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
                 // get input from user
                 String inputUser = userInputField.getText().toString();
                 String inputPass = passwordInputField.getText().toString();
-
-
-                // check for errors
-
-                // use string strip userInput.getText().toString()."Strip".Len > 0
-
                 //1 empty user passed
-
                 if( TextUtils.isEmpty(inputUser.trim())) {
                     userInputField.setError("User cannot be empty");
                 }
-
                 //2 empty password passed
-
                 if( TextUtils.isEmpty(inputPass.trim())) {
                     passwordInputField.setError("Password cannot be empty");
                 }
                 //3 Password length cannot be less than 8 chars
-
                 fireAuth.getFireAuth().userLogin(inputUser,inputPass, new OutputListener() {
                     @Override
                     public void onSuccess() {
@@ -125,6 +118,13 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
             }
         });
 
+    }
+
+    public void loginIfNeeded() {
+        if( fireAuth.authenticate.getCurrentUser() != null ) {
+            FireStoreManager.getInstance().setUser( fireAuth.authenticate.getCurrentUser().getEmail() );
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        }
     }
 
     /**

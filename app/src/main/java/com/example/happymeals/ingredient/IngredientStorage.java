@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.happymeals.Constants;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.*;
+import com.example.happymeals.recipe.Recipe;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -43,6 +44,10 @@ public class IngredientStorage implements DatabaseListener {
         fsm.getAllSpinners( this );
         this.ingredientCollection = fsm.getCollectionReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS );
         updateIngredientsFromDatabase();
+    }
+
+    public static void clearInstance() {
+        instance = null;
     }
 
     /**
@@ -103,6 +108,9 @@ public class IngredientStorage implements DatabaseListener {
         fsm.storeSpinners( spinnerMap );
     }
 
+    public String getCurrentUser() {
+        return FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName();
+    }
     /**
      * Standard getter for spinners.
      * @return {@link Constants.StoredSpinnerChoices} which defines the key to fetch the strings.
@@ -248,6 +256,11 @@ public class IngredientStorage implements DatabaseListener {
             ingredients.add( ingredient );
         }
         updateStorage();
+    }
+
+    @Override
+    public void onSharedDataFetchSuccess(Recipe data) {
+
     }
 
     /**

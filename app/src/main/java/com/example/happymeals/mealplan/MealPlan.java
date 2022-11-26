@@ -567,8 +567,13 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
     }
 
     @Override
+    public void onSharedDataFetchSuccess(Recipe data) {
+
+    }
+
+    @Override
     public <T> void onSpinnerFetchSuccess(T listOfSpinners) {
 
     }
 
-    }
+}

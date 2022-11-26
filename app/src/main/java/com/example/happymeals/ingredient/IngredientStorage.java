@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jeastgaa
@@ -129,7 +130,7 @@ public class IngredientStorage implements DatabaseListener {
      * @param count The {@link Double} representing the count to take away from the
      *              provided {@link Ingredient}.
      */
-    public void requestConsumptionOfIngredient( Ingredient ingredient, int count ) {
+    public void requestConsumptionOfIngredient( Ingredient ingredient, Double count ) {
         ingredient.setAmount( ingredient.getAmount() - count );
         updateIngredient( ingredient );
     }
@@ -273,5 +274,9 @@ public class IngredientStorage implements DatabaseListener {
                 spinnerMap = (HashMap<String, ArrayList<String>>) mapOfSpinners;
             }
         }
+    }
+
+    public Ingredient getIngredientByIndex(int i){
+        return ingredients.get(i);
     }
 }

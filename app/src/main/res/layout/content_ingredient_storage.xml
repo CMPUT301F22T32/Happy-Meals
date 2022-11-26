@@ -41,20 +41,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="location"
-        app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_label"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/recipe_list_servings_label"
+        app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_label" />
 
     <TextView
         android:id="@+id/ingredient_storage_amount_unit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
         android:text="XX"
-        app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_text"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_field" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/ingredient_storage_amount_text"
+        app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_text" />
 
     <TextView
         android:id="@+id/recipe_list_servings_label"
@@ -71,10 +69,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
         android:text="XX"
-        app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_label"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_field" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/ingredient_storage_amount_label"
+        app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_label" />
 
     <TextView
         android:id="@+id/ingredient_storage_list_name_field"

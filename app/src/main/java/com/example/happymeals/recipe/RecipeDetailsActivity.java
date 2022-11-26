@@ -188,6 +188,11 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
+    public void onSharedDataFetchSuccess(Recipe data) {
+
+    }
+
+    @Override
     public <T> void onSpinnerFetchSuccess( T map ) {
 
     }

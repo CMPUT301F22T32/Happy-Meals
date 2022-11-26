@@ -17,6 +17,7 @@
         android:theme="@style/Theme.HappyMeals"
         tools:targetApi="31">
 
+        <!-- Main Activity -->
         <provider
             android:authorities="${applicationId}.provider"
             android:name="androidx.core.content.FileProvider"
@@ -34,6 +35,8 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Ingredient Storage -->
         <activity android:name=".ingredient.IngredientViewActivity"
             android:parentActivityName=".ingredient.IngredientStorageActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -49,6 +52,7 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <!-- User Login -->
         <activity
             android:name=".userlogin.LoginActivity"
             android:exported="true">
@@ -59,30 +63,40 @@
             </intent-filter>
         </activity>
 
+        <!-- Recipes -->
+        <activity
+            android:name=".recipe.RecipeDetailsActivity"
+            android:exported="true" />
+        <activity android:name=".recipe.RecipeStorageActivity" />
+        <activity android:name=".recipe.RecipeAddActivity" />
+
+        <!-- Meal Plan -->
+        <activity
+            android:name=".mealplan.MealPlanActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".mealplan.MealPlanListViewActivity"
+            android:parentActivityName=".mealplan.MealPlanActivity" />
+        <activity
+            android:name=".mealplan.CreateMealPlanActivity"
+            android:parentActivityName=".mealplan.MealPlanListViewActivity" />
+
+        <!-- Shopping List -->
+        <activity
+            android:name=".shoppinglist.ShoppingListActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".userlogin.RegisterActivity"
             android:exported="true">
         </activity>
-        <activity
-            android:name=".recipe.RecipeDetailsActivity"
-            android:parentActivityName=".recipe.RecipeStorageActivity">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".recipe.RecipeStorageActivity" /></activity>
-        <activity android:name=".recipe.RecipeStorageActivity"
-                android:parentActivityName=".MainActivity">
-                <!-- The meta-data tag is required if you support API level 15 and lower -->
-                <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainActivity" /></activity>
+
+        <!-- Settings -->
         <activity android:name=".recipe.PublicRecipeActivity"
             android:parentActivityName=".recipe.RecipeStorageActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".recipe.RecipeStorageActivity" /></activity>
-        <activity android:name=".recipe.RecipeAddActivity"></activity>
         <activity android:name=".recipe.SharedRecipeDetailsActivity"
             android:parentActivityName=".recipe.PublicRecipeActivity">
         <meta-data

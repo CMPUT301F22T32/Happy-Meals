@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mealplan.MealPlanDetailsActivity">
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/week_tab"
+        android:layout_width="363dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="#FFEB3B"
+        app:tabIndicatorGravity="stretch"
+        app:tabSelectedTextColor="#00BCD4">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/sun_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="-1dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/mon_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            tools:layout_editor_absoluteX="58dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tue_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="W"
+            tools:layout_editor_absoluteX="181dp"
+            tools:layout_editor_absoluteY="19dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T"
+            tools:layout_editor_absoluteX="236dp"
+            tools:layout_editor_absoluteY="64dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="F" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S"
+            tools:layout_editor_absoluteX="341dp"
+            tools:layout_editor_absoluteY="90dp" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <GridView
+        android:id="@+id/breakfast_gridview"
+        android:horizontalSpacing="0dp"
+        android:layout_width="367dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="4dp"
+        android:numColumns="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meal_details_breakfast" />
+
+    <GridView
+        android:id="@+id/other_gridview"
+        android:layout_width="367dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="8dp"
+        android:numColumns="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meal_details_other" />
+
+    <TextView
+        android:id="@+id/meal_details_breakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Breakfast"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/week_tab" />
+
+    <TextView
+        android:id="@+id/meal_details_other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="Other"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dinner_gridview" />
+
+    <TextView
+        android:id="@+id/meal_details_lunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:text="Lunch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast_gridview" />
+
+    <GridView
+        android:id="@+id/dinner_gridview"
+        android:layout_width="367dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="4dp"
+        android:numColumns="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meal_details_dinner" />
+
+    <ListView
+        android:id="@+id/meal_plan_ingredients"
+        android:layout_width="366dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.355"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/other_gridview" />
+
+    <TextView
+        android:id="@+id/meal_details_dinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="Dinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_gridview" />
+
+    <GridView
+        android:id="@+id/lunch_gridview"
+        android:layout_width="367dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="4dp"
+        android:numColumns="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meal_details_lunch" />
+
+    <TextView
+        android:id="@+id/meal_plan_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Meal Plan Date"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="32dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

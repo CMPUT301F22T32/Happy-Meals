@@ -155,8 +155,9 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
         name.setText( ingredient.getName() );
         name.setEnabled( false );
         description.setText( ingredient.getDescription() );
-        date.setText( ingredient.getBestBeforeDateAsString() );
-        quantity.setText( Integer.toString(ingredient.getAmount()) );
+        date.setText( ingredient.getBestBeforeDate().toString() );
+        quantity.setText( Double.toString(ingredient.getAmount()) );
+
         unitSpinner.setSelection(ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.AMOUNT_UNIT)
                 .indexOf( ingredient.getUnit()));
         locationSpinner.setSelection( ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.LOCATION)
@@ -203,8 +204,9 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 String descriptionArg = description.getText().toString();
                 // <todo> Change date to a fragment
                 Date dateArg = new Date();
+
                 String locationArg = (String) locationSpinner.getSelectedItem();
-                int amountArg = Integer.parseInt(quantity.getText().toString());
+                Double amountArg = Double.parseDouble(quantity.getText().toString());
                 String amountUnitArg = (String) unitSpinner.getSelectedItem();
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 

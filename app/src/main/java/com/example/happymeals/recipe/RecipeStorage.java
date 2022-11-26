@@ -35,6 +35,9 @@ public class RecipeStorage implements DatabaseListener {
 
     private DatasetWatcher listeningActivity;
 
+    public static String REFERENCE = "reference";
+    public static String COUNT = "count";
+
     private ArrayList<Recipe> recipes;
     private ArrayList< Recipe > sharedRecipes;
     private IngredientStorage ingredientStorage;
@@ -84,7 +87,7 @@ public class RecipeStorage implements DatabaseListener {
     public void consumeIngredientInRecipe( Ingredient ingredient, Double amount ) {
         ingredientStorage.requestConsumptionOfIngredient(
                 ingredient,
-                Integer.parseInt( String.valueOf( amount ) ) );
+                Double.parseDouble( String.valueOf( amount ) ) );
     }
 
     public static void clearInstance() {
@@ -107,8 +110,8 @@ public class RecipeStorage implements DatabaseListener {
             this.ingredientHolderForReturn.clear();
             this.ingredientListener = listener;
             for( HashMap< String, Object >  mapInstance: recipe.getIngredients().values() ) {
-                if( mapInstance.get("reference") instanceof DocumentReference ) {
-                    fsm.getData( (DocumentReference) mapInstance.get("reference"), this, new Ingredient() );
+                if( mapInstance.get(REFERENCE) instanceof DocumentReference ) {
+                    fsm.getData( (DocumentReference) mapInstance.get(REFERENCE), this, new Ingredient() );
                 }
             }
         }
@@ -148,7 +151,7 @@ public class RecipeStorage implements DatabaseListener {
      */
     public Double getCountForIngredientInRecipe( Recipe recipe, Ingredient ingredient ) {
         return (Double) getRecipeIngredientMap( recipe ).get( ingredient.getName() )
-                .get("count");
+                .get(COUNT);
     }
 
     public List< Recipe>  getRecipesByCookingTime(int cookTime) {
@@ -185,6 +188,10 @@ public class RecipeStorage implements DatabaseListener {
             }
         }
         return null;
+    }
+
+    public Recipe getRecipeByIndex(int index){
+        return recipes.get(index);
     }
 
     /**

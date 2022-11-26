@@ -23,13 +23,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     testOptions {
         unitTests.all{
             useJUnitPlatform()
         }
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -50,5 +53,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore'
 
+    // Dependencies needed for Meal Plan
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+    //implementation 'org.threeten:threetenbp:1.6.4'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
+
 }

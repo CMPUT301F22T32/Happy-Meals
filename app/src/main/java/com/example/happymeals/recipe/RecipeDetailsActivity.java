@@ -24,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener,
         SearchIngredientFragment.SearchIngredientsFragmentListener,
@@ -35,6 +34,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private ArrayList<Ingredient> ingredients;
     private HashMap< String, HashMap< String, Object > > ingredientMap;
     private IngredientStorageArrayAdapter adapter;
+    private ArrayList< String > comments;
 
     private TextView nameField;
     private EditText descriptionField;
@@ -43,7 +43,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private EditText servingsField;
     private ListView ingredientsListField;
     private TextView instructionsField;
-    private TextView commendsField;
+    private TextView commentsField;
 
     private TextView editButton;
     private Button cancelButton;
@@ -89,7 +89,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         addCommentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                new InputStringFragment("Comment To Add To Recipe", 120).show( getSupportFragmentManager(), "L E S F");
             }
         });
 
@@ -107,6 +107,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
                 saveChanges();
             }
         });
+
         nameField = findViewById( R.id.recipe_name_field );
         descriptionField = findViewById( R.id.recipe_description_field );
         prepTimeField = findViewById( R.id.recipe_preptime_field );
@@ -114,7 +115,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         ingredientsListField = findViewById( R.id.recipe_ingredients_listview );
         servingsField = findViewById( R.id.recipe_servings_field );
         instructionsField = findViewById( R.id.recipe_instructions_field );
-        commendsField = findViewById( R.id.recipe_comment_field );
+        commentsField = findViewById( R.id.recipe_comment_field );
 
         disabledEditOnViews();
 
@@ -143,8 +144,9 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         cookTimeField.setText( String.valueOf( recipe.getCookTime() ) );
         servingsField.setText( String.valueOf( recipe.getServings() ) );
         instructionsField.setText( recipe.getInstructions() );
-        commendsField.setText( recipe.getCommentsAsString() );
+        commentsField.setText( recipe.getCommentsAsString() );
 
+        comments = recipe.getComments();
         ingredientsListField.setAdapter( adapter );
 
     }
@@ -208,7 +210,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         recipe.setPrepTime( new Double( newPrepTime ));
         recipe.setCookTime( new Double( newCookTime ));
         recipe.setServings( new Double( newServings ));
-        recipe.setComments( new ArrayList<>() );
+        recipe.setComments( comments );
         recipe.setInstructions( newInstructions );
         recipe.setIngredients(storage.makeIngredientMapForRecipe( ingredientMap ));
 
@@ -228,7 +230,14 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
 
     @Override
     public void onConfirmClick(String str) {
-
+        comments.add( str );
+        String commentsSoFar = commentsField.getText().toString();
+        if( comments.size() == 1 ) {
+            commentsSoFar = "1. " + str;
+        } else {
+            commentsSoFar += "\n" + String.valueOf( comments.size() ) + ". " + str;
+        }
+        commentsField.setText( commentsSoFar );
     }
 
     @Override

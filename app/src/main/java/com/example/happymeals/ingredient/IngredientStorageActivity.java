@@ -11,7 +11,6 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -45,7 +44,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     private IngredientStorageArrayAdapter storageAdapter;
 
     private IngredientStorage ingredientStorage;
-    private CheckBox viewMissingInfo;
 
     /**
      * This function is called whenever the activity is spawned; it initializes the {@link #storageAdapter}
@@ -60,42 +58,14 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         super.onCreate( savedInstanceState) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
 
-        Intent inIntent = getIntent();
-
         context = this;
 
         ingredientStorage = IngredientStorage.getInstance();
 
         storageListView = findViewById( R.id.storage_list) ;
         ingredientStorage.setListeningActivity(this);
-
-        viewMissingInfo = findViewById( R.id.missing_ingredients_check);
-        Boolean missingChecked = inIntent.getBooleanExtra("MissingCheck", false);
-        viewMissingInfo.setChecked( missingChecked );
-        if ( missingChecked ) {
-            storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredientsMissingInfo() ) ;
-        }
-        else {
-            storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() );
-        }
-
-
+        storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() ) ;
         storageListView.setAdapter( storageAdapter );
-
-
-
-        Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
-        if ( missingInfo ) {
-            viewMissingInfo.setVisibility(View.VISIBLE);
-        }
-        else {
-            viewMissingInfo.setVisibility(View.GONE);
-        }
-
-
-
-
-
 
         FloatingActionButton add_button = findViewById( R.id.add_new_ingredient_button) ;
 
@@ -201,20 +171,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                 startIngredientActivity( true ) ;
             }
         }) ;
-
-        viewMissingInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if ( viewMissingInfo.isChecked() ) {
-                    storageAdapter.updateList( ingredientStorage.getIngredientsMissingInfo() );
-                    signalChangeToAdapter();
-                }
-                else {
-                    storageAdapter.updateList( ingredientStorage.getIngredients() );
-                    signalChangeToAdapter();
-                }
-            }
-        });
     }
 
 

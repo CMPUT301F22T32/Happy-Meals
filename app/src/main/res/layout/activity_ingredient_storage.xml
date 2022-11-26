@@ -8,13 +8,13 @@
 
     <ListView
         android:id="@+id/storage_list"
-        android:layout_width="366dp"
-        android:layout_height="497dp"
+        android:layout_width="370dp"
+        android:layout_height="556dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="67dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ingredient_filter" />
 
@@ -61,11 +61,9 @@
         app:layout_constraintBottom_toTopOf="@+id/storage_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_filter"
-        app:layout_constraintVertical_bias="0.79" />
-
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_filter"/>
     <Spinner
-        android:id="@+id/ingredient_filter"
+        android:id = "@+id/ingredient_filter"
         android:layout_width="301dp"
         android:layout_height="26dp"
         android:layout_marginTop="80dp"
@@ -83,19 +81,6 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_filter"
-        app:layout_constraintVertical_bias="0.979" />
-
-    <CheckBox
-        android:id="@+id/missing_ingredients_check"
-        android:layout_width="321dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="8dp"
-        android:text="Display ingredients with missing information"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ingredient_filter" />
 

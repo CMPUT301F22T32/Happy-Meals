@@ -101,7 +101,7 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
             checkBox.setScaleY(2);
             checkBox.setY(120);
 
-            int d = context.getResources().getColor(R.color.blue, null);
+            int d = context.getResources().getColor(R.color.red, null);
             checkBox.setButtonTintList(ColorStateList.valueOf(d));
         }
         else {

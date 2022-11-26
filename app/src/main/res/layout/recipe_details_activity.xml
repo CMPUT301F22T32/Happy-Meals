@@ -20,61 +20,87 @@
             android:nestedScrollingEnabled="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/edit_recipe_button"
-                android:layout_width="129dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:gravity="end"
-                android:onClick="onEditClick"
-                android:paddingHorizontal="50sp"
-                android:text="Edit"
-                android:textAlignment="center"
-                android:textColor="#2196F3"
-                android:textColorHint="#03A9F4"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/recipe_details_publish_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="100dp"
+                    android:gravity="right"
+                    android:onClick="onPublishClick"
+                    android:text="@string/publish"
+                    android:textColor="#2196F3"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/edit_recipe_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginRight="50dp"
+                    android:gravity="end"
+                    android:onClick="onEditClick"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:text="@string/edit"
+                    android:textAlignment="viewStart"
+                    android:textColor="#2196F3"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="?android:attr/listDivider" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="68dp">
 
                 <TextView
-                    android:id="@+id/recipe_name_label"
-                    android:layout_width="117dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Name:"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
                     android:id="@+id/recipe_name_field"
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:width="150dp"
                     android:editable="false"
                     android:focusable="false"
                     android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColor="@color/blue_menu"
+                    android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/recipe_name_label"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="183dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -92,7 +118,7 @@
                 <EditText
                     android:id="@+id/recipe_description_field"
                     android:layout_width="256dp"
-                    android:layout_height="149dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:width="250dp"
@@ -264,26 +290,31 @@
             <TextView
                 android:id="@+id/recipe_instructions_label"
                 android:layout_width="wrap_content"
-                android:layout_height="31dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:text="Instructions:"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/recipe_instructions_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/recipe_comment_label"
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Comments:"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/recipe_comment_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp" />
 
         </LinearLayout>
     </ScrollView>

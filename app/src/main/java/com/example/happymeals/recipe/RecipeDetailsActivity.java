@@ -19,6 +19,7 @@ import com.example.happymeals.R;
 
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
+import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +27,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
+import com.google.android.gms.common.ErrorDialogFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +56,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
 
     private TextView editButton;
 
+    private RecipeStorage storage;
+
     /**
      * This is the function called whenever the MainActivity is created -- in our
      * case, this is on the launch of the app or when navigating back to the home page.
@@ -66,13 +70,15 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         setContentView( R.layout.recipe_details_activity );
 
         Intent intent = getIntent();
-        if( !intent.hasExtra("recipe") ) {
+        if( !intent.hasExtra("Index") ) {
             // If no recipe has been passed we cannot display anything.
             // <todo> Some error checking here
             finish();
         }
 
-        RecipeStorage storage = RecipeStorage.getInstance();
+        int recipeIndex = intent.getIntExtra("Index", 0 );
+
+        storage = RecipeStorage.getInstance();
 
         editButton = findViewById( R.id.edit_recipe_button );
         nameField = findViewById( R.id.recipe_name_field );
@@ -88,6 +94,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         // Get the recipe and ingredient list
         recipe = (Recipe) getIntent().getSerializableExtra("recipe" );
         //imageFile = storage.getRecipeImage(recipe);
+        recipe = storage.getRecipes().get( recipeIndex );
         // Get the array reference so that we can pass it into the adapter.
         ingredients = storage.getIngredientListReference();
         // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
@@ -157,9 +164,34 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField.setFocusable( true );
     }
 
+    public void onPublishClick( View view ) {
+        if( !recipe.getCreator().equals( storage.getCurrentUser() ) ) {
+            InputErrorFragment notifyFragment = new InputErrorFragment(
+                    "Recipe Not Published",
+                    "You cannot publish an already published recipe!",
+                    this
+            );
+            notifyFragment.display();
+            return;
+        }
+        Recipe newRecipe = recipe.clone();
+        storage.publishRecipe( newRecipe );
+        InputErrorFragment notifyFragment = new InputErrorFragment(
+                "Recipe Published",
+                "Your recipe has been sent off. Please confirm you see it published!",
+                this
+        );
+        notifyFragment.display();
+    }
+
     @Override
     public void onDataFetchSuccess( DatabaseObject data ) {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSharedDataFetchSuccess(Recipe data) {
+
     }
 
     @Override

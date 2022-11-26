@@ -234,7 +234,6 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:clickable="true"
-                    android:cropToPadding="false"
                     android:src="@drawable/ingredients_icon"
                     app:rippleColor="#2CBC12" />
 

@@ -15,10 +15,9 @@ public class Ingredient extends DatabaseObject {
     private String description;
     private Date bestBeforeDate;
     private String location;
-    private Double amount;
+    private int amount;
     private String unit;
     private String category;
-    private Boolean needsUpdate = false;
 
     /**
      * This is an empty constructor needed for Firestore construction.
@@ -38,10 +37,10 @@ public class Ingredient extends DatabaseObject {
      * @param unit The unit the ingredient is stored by ({@link Constants.DefaultAmountUnitSpinners}).
      * @param category The food category that the ingredient falls under ({@link Constants.DefaultIngredientCategorySpinners}).
      */
-    public Ingredient( String name, String creator, String description, Date bestBeforeDate,
-                       String location, Double amount, String unit,
+    public Ingredient( String name, String description, Date bestBeforeDate,
+                       String location, Integer amount, String unit,
                        String category ) {
-        super( name, creator );
+        this.name = name;
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
@@ -85,7 +84,7 @@ public class Ingredient extends DatabaseObject {
      * This returns the number amount of the Ingredient
      * @return amount
      */
-    public Double getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
@@ -103,10 +102,6 @@ public class Ingredient extends DatabaseObject {
      */
     public String getCategory() {
         return category;
-    }
-
-    public Boolean getNeedsUpdate() {
-        return needsUpdate;
     }
 
     /**
@@ -150,7 +145,7 @@ public class Ingredient extends DatabaseObject {
      * @param amount {@link Integer}
      * This is the number amount of the Ingredient
      */
-    public void setAmount( Double amount ) {
+    public void setAmount( int amount ) {
         this.amount = amount;
     }
 
@@ -170,9 +165,5 @@ public class Ingredient extends DatabaseObject {
      */
     public void setCategory( String category ) {
         this.category = category;
-    }
-
-    public void setNeedsUpdate(Boolean update) {
-        this.needsUpdate = update;
     }
 }

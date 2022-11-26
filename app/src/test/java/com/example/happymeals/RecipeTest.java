@@ -44,7 +44,7 @@ public class RecipeTest {
         for( Ingredient i : ingredients ) {
             ingredientMap.put(i.getName(), new HashMap<>() );
         }
-        Recipe recipe = new Recipe("Tacos", 2, "The best tacos ever", "TestUser",
+        Recipe recipe = new Recipe("Tacos", 2, "The best tacos ever",
                 comments, recipeStorage.makeIngredientMapForRecipe(ingredientMap),
                 strInstructions, 15, 6, "images/HelloWorld");
 

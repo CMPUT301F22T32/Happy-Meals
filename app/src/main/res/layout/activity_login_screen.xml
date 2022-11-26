@@ -4,44 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background = "@drawable/background__3_"
     tools:context=".userlogin.LoginActivity">
-
 
     <TextView
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="248dp"
-        android:fontFamily="@font/avenir_black"
-        android:text="Login to your account"
+        android:layout_marginTop="75dp"
+        android:text="@string/login"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="28sp"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-
-        android:layout_width="381dp"
-        android:layout_height="124dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.903"
-        app:srcCompat="@drawable/logo_3" />
-
     <TextView
-        android:id="@+id/title_username"
+        android:id="@+id/title_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/avenir_medium"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
         android:text="@string/username"
-
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:fontFamily="@font/avenir_medium"
         android:text="@string/password"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,9 +63,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_username" />
+        app:layout_constraintTop_toBottomOf="@+id/title_email" />
 
     <TextView
         android:id="@+id/forgot_password"
@@ -91,9 +72,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:clickable="true"
-        android:fontFamily="@font/avenir_roman"
+        android:onClick="forgotPassword"
         android:text="@string/forgot_password_prompt"
-        android:textColor="@color/red"
+        android:textColor="@color/blue"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,48 +83,20 @@
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="352dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="@color/red"
-        android:fontFamily="@font/avenir_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="@string/login"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
 
-    <TextView
-        android:id="@+id/register_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/avenir_roman"
-        android:text="Don't have an account?"
-        android:textColor="#737373"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.399"
-        app:layout_constraintStart_toStartOf="@+id/login_button"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
+    <Button
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:fontFamily="@font/avenir_roman"
-        android:text="  Sign up"
-        android:textColor="@color/red"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/login_button"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/register_text"
-        app:layout_constraintTop_toTopOf="@+id/register_text"
-        app:layout_constraintVertical_bias="0.0" />
-
-
+        android:text="register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

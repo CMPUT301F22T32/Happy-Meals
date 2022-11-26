@@ -12,10 +12,6 @@ import androidx.annotation.NonNull;
 
 import com.example.happymeals.Constants;
 import com.example.happymeals.SpinnerSettingsActivity;
-import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorage;
-import com.example.happymeals.recipe.Recipe;
-import com.example.happymeals.recipe.RecipeStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,7 +50,6 @@ public class FireStoreManager {
     private static FireStoreManager instance = null;
 
     private DocumentReference userDocument;
-    private CollectionReference sharedRecipesCollection;
     private FirebaseFirestore database;
 
     private static final String IP_TAG = "IpFetcher";
@@ -70,8 +65,6 @@ public class FireStoreManager {
      */
     private FireStoreManager() {
         database = FirebaseFirestore.getInstance();
-        sharedRecipesCollection = database.collection(
-                Constants.COLLECTION_NAME.GLOBAL_USERS.toString() );
     }
 
     /**
@@ -95,11 +88,7 @@ public class FireStoreManager {
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
     public void addData(Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
-        if( collectionName == Constants.COLLECTION_NAME.GLOBAL_USERS ) {
-            addData( sharedRecipesCollection, data);
-        } else {
-            addData( userDocument.collection( collectionName.toString() ), data );
-        }
+        addData( userDocument.collection( collectionName.toString() ), data );
     }
 
     /**
@@ -112,7 +101,7 @@ public class FireStoreManager {
      */
     public void addData( CollectionReference collection, DatabaseObject data ) {
         collection
-                .document( data.getId() )
+                .document( data.getName() )
                 .set( data )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -140,12 +129,6 @@ public class FireStoreManager {
         storeSpinners( mapToStore );
     }
 
-    public static void clearInstance(){
-        instance = null;
-        IngredientStorage.clearInstance();
-        RecipeStorage.clearInstance();
-    }
-
     /**
      * Requires a collection name and document name which will lead to a specific dataset.
      * deleteDocument() will remove the requested document and all it's entries from the database.
@@ -156,6 +139,7 @@ public class FireStoreManager {
      */
     public void deleteDocument( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
         deleteDocument( userDocument.collection( collectionName.toString() ), data );
+
     }
 
     /**
@@ -167,7 +151,7 @@ public class FireStoreManager {
      * @param data The {@link DatabaseObject} holding the data that is being removed.
      */
     public void deleteDocument( CollectionReference  collection, DatabaseObject data ) {
-        collection.document( data.getId() )
+        collection.document( data.getName() )
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -182,23 +166,6 @@ public class FireStoreManager {
                     }
                 });
 
-    }
-
-    public void deleteSharedRecipe( DatabaseObject data ) {
-        sharedRecipesCollection.document( data.getId() )
-                .delete()
-                .addOnSuccessListener( new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d( DATA_DELETE_TAG, "Data has been removed." );
-                    }
-                })
-                .addOnFailureListener( new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d( DATA_DELETE_TAG, "Data was unable to be removed." );
-                    }
-                });
     }
 
     /**
@@ -228,23 +195,6 @@ public class FireStoreManager {
                     }
                 });
 
-    }
-
-    public void getAllSharedRecipes( DatabaseListener listener ) {
-        sharedRecipesCollection.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                listener.onSharedDataFetchSuccess(
-                                        document.toObject( Recipe.class ) );
-                            }
-                        } else {
-                            Log.d("TT", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
     }
 
     /**
@@ -323,7 +273,7 @@ public class FireStoreManager {
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
     public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
-        return userDocument.collection( collectionName.toString() ).document( data.getId() );
+        return userDocument.collection( collectionName.toString() ).document( data.getName() );
     }
 
     /**
@@ -335,7 +285,7 @@ public class FireStoreManager {
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
     public DocumentReference getDocReferenceTo( CollectionReference collection, DatabaseObject data ) {
-        return collection.document( data.getId() );
+        return collection.document( data.getName() );
     }
 
     /**

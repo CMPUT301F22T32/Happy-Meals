@@ -11,8 +11,6 @@ import java.io.Serializable;
 public class DatabaseObject implements Serializable {
 
     protected String name;
-    protected String creator;
-    protected String id;
 
     /**
      * Empty constructor required for Firestore construction.
@@ -23,10 +21,8 @@ public class DatabaseObject implements Serializable {
      * Common constructor providing the minimal amount of detail for document storage in database.
      * @param name The {@link String} which will define the name of object document.
      */
-    public DatabaseObject(String name, String creator ) {
+    public DatabaseObject(String name ) {
         this.name = name;
-        this.creator = creator;
-        this.id = creator + "_" + name;
     }
 
     /**
@@ -37,11 +33,4 @@ public class DatabaseObject implements Serializable {
         return this.name;
     }
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public String getId() {
-        return id;
-    }
 }

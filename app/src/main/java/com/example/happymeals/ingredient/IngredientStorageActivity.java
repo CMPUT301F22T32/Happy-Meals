@@ -43,6 +43,9 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
      */
     private IngredientStorageArrayAdapter storageAdapter;
 
+    /**
+     * //TODO: fill in after singleton impl
+     */
     private IngredientStorage ingredientStorage;
 
     /**
@@ -95,7 +98,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                     });
 
                 }
-
                 if(itemSelected.equals("Best Before Date")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
@@ -118,7 +120,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                         }
                     });
                 }
-
                 if(itemSelected.equals("Ingredient Category")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override

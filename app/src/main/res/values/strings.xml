@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- MainActivity -->
     <string name="app_name">Happy Meals</string>
     <string name="user_greeting">Hello User,</string>
@@ -8,18 +8,16 @@
     <string name="description">Description</string>
     <string name="name">Name</string>
     <string name="quantity">Quantity</string>
-    <string name="unit">Unit</string>
+    <string name="unit_cost">Unit</string>
     <string name="location">Location</string>
     <string name="category">Category</string>
     <string name="ingredient_information">Ingredient Information</string>
     <string name="best_before_date">Best Before Date</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
-    <string name="cancel">cancel</string>
     <string name="select_one">Select One</string>
 
     <!-- LoginScreen -->
-
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="username">Username</string>
@@ -30,39 +28,6 @@
     <string name="recipes">Recipes</string>
     <string name="shopping_list">Shopping List</string>
     <string name="meal_plan">Meal Plan</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- Meal Plan -->
-    <string name="breakfast">Breakfast</string>
-    <string name="lunch">Lunch</string>
-    <string name="dinner">Dinner</string>
-    <string name="your_mealplans">Your Meal Plans</string>
-    <string name="add_mealplan">Make a new mealplan</string>
-    <string name="edit_mealplan">Edit an existing meal plan</string>
-    <string name="delete_mealplan">Delete an existing meal plan</string>
-    <string name="view_mealplan">View all meal plans</string>
-    <string name="meal_prompt">Your meals for</string>
-    <string name="today">today</string>
-    <string name="from">From:</string>
-    <string name="to">To:</string>
-    <string name="clear">clear</string>
-    <string name="selection">Selection</string>
-    <string name="mealplan_week">Week of Meal Plan</string>
-    <string name="day_view">View meals by day</string>
-    <string name="meal_plan_description">You can build a meal plan using either your stored ingredients or stored recipes. You can choose any number of ingredients or recipes; a meal plan will be curated based on your selections.</string>
-
-    <!-- Shopping List -->
-    <string name="sort_by">Sort By:</string>
-    <string name="filter">Filter:</string>
-    <string name="storage_amount">Amount in Storage:</string>
-    <string name="amount_needed">Amount Needed:</string>
-    <string name="shopping_list_adapter_unit">Unit:</string>
-    <string name="shopping_list_adapter_category">Ingredient Category:</string>
-    <string name="buy_prompt">I have picked up this item</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
 
     <!-- IngredientStorage -->
     <string-array name="ingredient_options">
@@ -76,25 +41,15 @@
 
     <!-- Recipe Add Activity -->
     <string name="click_to_add">Click to add Ingredient To Recipe</string>
-
     <!-- RecipeStorage -->
     <string-array name="recipe_options">
         <item>Total Time</item>
         <item>Serving</item>
         <item>Description</item>
+
+
     </string-array>
-    <string name="search">Search:</string>
-    <string name="explore">Explore Recipes</string>
-    <string name="public_recipes">Public Recipes</string>
-    <string name="add">Add</string>
-    <string name="details">Details</string>
-    <string name="creator">Creator:</string>
-    <string name="name_shared">Name:</string>
-    <string name="servings">Servings:</string>
-    <string name="publish">Publish Recipe</string>
-    <string name="edit">Edit</string>
-    <string name="see_personal_recipes">See my Recipes Only</string>
-    <string name="see_all_recipes">See all Recipes</string>
+
     <!-- Action Bar Menu -->
     <string name="spinner_settings">Edit Spinners</string>
 

@@ -147,10 +147,6 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 String newInstructions = instructionsField.getText().toString();
                 String newServings = servingsField.getText().toString();
 
-                if( newName.contains("_") ) {
-                    nameField.setError("Illegal Character '_'");
-                    return;
-                }
                 // Check and make sure that required fields have been filled out.
                 if( newName.length() < 1 || newPrepTime.length() < 1 || newCookTime.length() < 1 ) {
                     if( newName.length() < 1 ){
@@ -172,10 +168,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 }
 
                 imageFilePath = storage.addImage(imagePath, newName);
-                String creatorName = storage.getCurrentUser();
                 storage.addRecipe( new Recipe(
                         newName,
-                        creatorName,
                         new Double( newCookTime ),
                         newDescription,
                         comments,

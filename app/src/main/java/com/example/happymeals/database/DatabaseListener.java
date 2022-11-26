@@ -23,6 +23,4 @@ public interface DatabaseListener {
      * @param listOfSpinners The {@link ArrayList} which holds all the spinner from the DB.
      */
     <T> void onSpinnerFetchSuccess(T listOfSpinners );
-
-    void onSpinnerFetchSuccess(Map<String, Object> data);
 }

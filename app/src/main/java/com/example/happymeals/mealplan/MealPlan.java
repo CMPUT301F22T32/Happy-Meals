@@ -151,6 +151,9 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         StringBuilder sb = new StringBuilder();
         int size = items.size() - 1;
 
+        if (size < 0)
+            return null;
+
         for (int i = 0; i < size; i++) {
             sb.append(items.get(i).getName());
             sb.append(", ");
@@ -336,7 +339,7 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
 
         for (Map.Entry<String, HashMap<String, Object>> entry : ingredientInfo.entrySet()) {
             String ingredientName = entry.getKey();
-            HashMap<String, Object> details = entry.getValue();
+            HashMap<String, Object> details = new HashMap<>(entry.getValue());
 
             if (allIngredients.containsKey(ingredientName)) {
                 ArrayList<String> recipeStrings;
@@ -353,6 +356,7 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
 
                 Double oldCount = (Double) allIngredients.get(ingredientName).get(COUNT);
                 Double recipeCount = (Double) details.get(COUNT);
+
                 details.put(COUNT, oldCount + recipeCount);
 
             } else {
@@ -360,6 +364,7 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
                 recipeStrings.add(recipe.getName());
                 details.put(RECIPES, recipeStrings);
             }
+            System.out.println(details.get(COUNT));
             allIngredients.put(ingredientName, details);
         }
     }
@@ -566,8 +571,4 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
 
     }
 
-    @Override
-    public void onSpinnerFetchSuccess(Map<String, Object> data) {
-
     }
-}

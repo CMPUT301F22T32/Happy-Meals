@@ -32,4 +32,5 @@ public class DatabaseObject implements Serializable {
     public String getName() {
         return this.name;
     }
+
 }

@@ -38,7 +38,7 @@ public class MealPlanStorage implements DatabaseListener {
     private CollectionReference mealPlanCollection;
     private FireStoreManager fsm;
     
-    public MealPlanStorage() {
+    private MealPlanStorage() {
         mealPlans = new ArrayList<>();
         allIngredients = new HashMap<>();
         this.listeningActivity = null;
@@ -66,8 +66,9 @@ public class MealPlanStorage implements DatabaseListener {
 
         for (MealPlan mp : mealPlans) {
             for (Map.Entry<String, HashMap<String, Object>> ingredient : mp.getAllIngredients().entrySet()) {
+
                 String ingredientName = ingredient.getKey();
-                HashMap<String, Object> details = ingredient.getValue();
+                HashMap<String, Object> details = new HashMap<>(ingredient.getValue());
 
                 if (allIngredients.containsKey(ingredientName)) {
                     ArrayList<String> recipeNames = (ArrayList<String>) allIngredients.get(ingredientName).get(MealPlan.RECIPES);
@@ -88,8 +89,8 @@ public class MealPlanStorage implements DatabaseListener {
                         details.put(MealPlan.RECIPES, recipeNames);
                     }
 
-                    Double amoundToAdd = (Double) details.get(MealPlan.COUNT);
-                    details.put(MealPlan.COUNT, count + amoundToAdd);
+                    Double amountToAdd = (Double) details.get(MealPlan.COUNT);
+                    details.put(MealPlan.COUNT, count + amountToAdd);
                 }
                 allIngredients.put(ingredientName, details);
             }
@@ -220,11 +221,6 @@ public class MealPlanStorage implements DatabaseListener {
 
     @Override
     public <T> void onSpinnerFetchSuccess(T listOfSpinners) {
-
-    }
-
-    @Override
-    public void onSpinnerFetchSuccess(Map<String, Object> data) {
 
     }
 }

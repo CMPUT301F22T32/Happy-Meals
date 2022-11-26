@@ -1,5 +1,7 @@
 package com.example.happymeals.recipe;
 
+import android.net.Uri;
+
 import com.example.happymeals.Constants;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.DatabaseListener;
@@ -200,7 +202,7 @@ public class RecipeStorage implements DatabaseListener {
     /**
      * This will create a {@link HashMap} which follows the correct data structure
      * which can be stored in the database. It required a Map which holds only the amount for
-     * each engredient, to which this method will populat each {@link HashMap} holding the amount
+     * each ingredient, to which this method will populate each {@link HashMap} holding the amount
      * with the {@link DocumentReference} to be stored and referenced later if required.
      * @param givenMap The {@link HashMap} which needs to hold the name of each {@link Ingredient}
      *                 which requires a reference.
@@ -286,8 +288,7 @@ public class RecipeStorage implements DatabaseListener {
 
     }
 
-    @Override
-    public void onSpinnerFetchSuccess(Map<String, Object> data) {
-
+    public String addImage(Uri uri, String name) {
+        return this.fsm.uploadImage(uri, name);
     }
 }

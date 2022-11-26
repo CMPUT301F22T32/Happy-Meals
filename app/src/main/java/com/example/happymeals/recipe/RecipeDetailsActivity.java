@@ -1,12 +1,18 @@
 package com.example.happymeals.recipe;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.R;
@@ -14,11 +20,19 @@ import com.example.happymeals.R;
 import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.ingredient.Ingredient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener {
 
@@ -35,6 +49,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private ListView ingredientsListField;
     private TextView instructionsField;
     private TextView commendsField;
+    private ImageView imageView;
+
 
     private TextView editButton;
 
@@ -46,8 +62,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_details_activity);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.recipe_details_activity );
 
         Intent intent = getIntent();
         if( !intent.hasExtra("recipe") ) {
@@ -67,9 +83,11 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         servingsField = findViewById( R.id.recipe_servings_field );
         instructionsField = findViewById( R.id.recipe_instructions_field );
         commendsField = findViewById( R.id.recipe_comment_field );
+        imageView = findViewById( R.id.recpie_details_image );
 
         // Get the recipe and ingredient list
         recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
+        //imageFile = storage.getRecipeImage(recipe);
         // Get the array reference so that we can pass it into the adapter.
         ingredients = storage.getIngredientListReference();
         // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
@@ -94,6 +112,33 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         instructionsField.setText( recipe.getInstructions() );
         commendsField.setText( recipe.getCommentsAsString() );
 
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/67.49.30.0/Test Recipe");
+        try {
+            final File localFile = File.createTempFile("Test Recipe", ".jpeg");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d( "Image Download", "Image has been downloaded." );
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    imageView.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d( "Image Download", "Image was unable to be downloaded." );
+
+                }
+
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        //imageView.setImageURI( recipe.getImage() );
+        // System.out.println(recipe.getImage());
+
         ingredientsListField.setAdapter( adapter );
 
     }
@@ -112,17 +157,12 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
-    public void onDataFetchSuccess(DatabaseObject data) {
+    public void onDataFetchSuccess( DatabaseObject data ) {
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public <T> void onSpinnerFetchSuccess( T map ) {
-
-    }
-
-    @Override
-    public void onSpinnerFetchSuccess(Map<String, Object> data) {
 
     }
 }

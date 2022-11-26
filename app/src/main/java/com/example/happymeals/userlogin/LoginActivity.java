@@ -43,7 +43,8 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
 
     private Context context;
 
-    private Button login, register;
+    private Button login;
+    private TextView register;
     private TextView forgotPassword;
     private EditText userInputField, passwordInputField;
     private FirebaseAuthenticationHandler fireAuth;

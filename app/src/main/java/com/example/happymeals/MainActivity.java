@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
@@ -22,6 +24,11 @@ import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.mealplan.MealPlanActivity;
 import com.example.happymeals.recipe.RecipeStorage;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.DocumentReference;
+
 
 import com.example.happymeals.ingredient.IngredientStorageActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
@@ -35,7 +42,10 @@ import com.example.happymeals.shoppinglist.ShoppingListActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Context context;
+
+    BottomNavigationView bottomNavMenu;
     private FireStoreManager fsm;
+
 
     /**
      * This is the function called whenever the MainActivity is created -- in our
@@ -47,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-        Toolbar toolbar = findViewById( R.id.appbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById( R.id.appbar);
+        //setSupportActionBar(toolbar);
         // Create the firebase manager connection along with all the storage classes.
         fsm = FireStoreManager.getInstance();
         RecipeStorage.getInstance();
@@ -61,47 +71,49 @@ public class MainActivity extends AppCompatActivity {
         welcomeMessage.setText("Enjoy a Happy Meal "
                 + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName() );
         // The 4 buttons to access the other activities
-        Button ingredientStorageButton = findViewById( R.id.ingredient_storage_button );
-        Button recipesButton = findViewById( R.id.recipes_button );
-        Button mealPlannerButton = findViewById( R.id.meal_planner_button );
-        Button shoppingListButton = findViewById( R.id.shopping_list_button );
+        
 
-        // Intent to open Ingredient Storage Activity
-        ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                Intent intent = new Intent(context, IngredientStorageActivity.class);
-                startActivity(intent);
-            }
-        });
+        // Navigation
+        bottomNavMenu = findViewById(R.id.bottomNavigationView);
 
-        // Intent to open Recipe Storage Activity
-        recipesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                //TODO: Send intent for Recipe View Activity
-                Intent intent = new Intent( context, RecipeStorageActivity.class );
-                startActivity( intent );
-            }
-        });
 
-        // Intent to open MealPlanner Activity
-        mealPlannerButton.setOnClickListener(new View.OnClickListener() {
+        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick( View view ) {
-                Intent intent = new Intent(context, MealPlanActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        // Intent to open Shopping List Activity
-        shoppingListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                Intent intent = new Intent(context, ShoppingListActivity.class);
-                startActivity(intent);
-            }
-        });
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+                switch (item.getItemId()) {
+
+                    case R.id.recipe_menu:
+                        Toast.makeText(MainActivity.this, "Recipes", Toast.LENGTH_LONG).show();
+
+                        Intent recipe_intent = new Intent( context, RecipeStorageActivity.class );
+                        startActivity( recipe_intent, bundle );
+                        break;
+
+                    case R.id.ingredient_menu:
+                        Toast.makeText(MainActivity.this, "Ingredients", Toast.LENGTH_LONG).show();
+                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
+                        startActivity(ingredient_intent, bundle);
+                        break;
+
+                    case R.id.mealplan_menu:
+                        Toast.makeText(MainActivity.this, "Meal Plan", Toast.LENGTH_LONG).show();
+                         Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
+                         startActivity(mealplan_intent, bundle);
+                        break;
+
+                    case R.id.shopping_menu:
+                        Toast.makeText(MainActivity.this, "Shopping List", Toast.LENGTH_LONG).show();
+                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
+                        startActivity(shoppinglist_intent, bundle)
+                        break;
+                    default:
+                }
+
+                return true;
+  
+
     }
 
     @Override

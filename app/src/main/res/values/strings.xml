@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- MainActivity -->
     <string name="app_name">Happy Meals</string>
     <string name="user_greeting">Hello User,</string>
@@ -19,6 +19,7 @@
     <string name="select_one">Select One</string>
 
     <!-- LoginScreen -->
+
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="username">Username</string>

@@ -51,10 +51,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name = ".userlogin.LoginActivity"
+            android:exported = "true">
+
+        </activity>
+
 
         <!-- User Login -->
         <activity
-            android:name=".userlogin.LoginActivity"
+            android:name=".userlogin.StartScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -90,6 +95,14 @@
             android:exported="true">
         </activity>
 
+        <activity android:name=".recipe.RecipeStorageActivity">
+
+        </activity>
+        <activity android:name=".recipe.RecipeAddActivity">
+
+        </activity>
+=
+
         <!-- Settings -->
         <activity android:name=".recipe.PublicRecipeActivity"
             android:parentActivityName=".recipe.RecipeStorageActivity">
@@ -102,8 +115,9 @@
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".recipe.PublicRecipeActivity" /></activity>
+
         <activity android:name=".SpinnerSettingsActivity">
-            android:parentActivityName=".MainActivity">
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -49,6 +49,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private Button cancelButton;
     private Button saveButton;
     private FloatingActionButton addIngredientButton;
+    private Button addCommentsButton;
 
     private RecipeStorage storage;
 
@@ -76,11 +77,19 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         cancelButton = findViewById( R.id.recipe_details_cancel_button );
         saveButton = findViewById( R.id.recipe_details_button_save_button );
         addIngredientButton = findViewById( R.id.recipe_details_add_ingredients_button );
+        addCommentsButton = findViewById( R.id.recipe_details_add_comment_button );
 
         addIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new SearchIngredientFragment(ingredientMap).show( getSupportFragmentManager(), "Edit Text");
+            }
+        });
+
+        addCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

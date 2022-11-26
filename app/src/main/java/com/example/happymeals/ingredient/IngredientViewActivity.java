@@ -171,8 +171,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
         String errorString = "The ingredient couldn't be saved for the following reasons:\n";
 
         validator.checkText( name, "Name");
-        validator.checkText( description, "Description" );
-//        validator.checkDate( date );
+        validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
         validator.checkSpinner( unitSpinner, "Quantity Unit" );
         validator.checkSpinner( locationSpinner, "DefaultLocationSpinners" );

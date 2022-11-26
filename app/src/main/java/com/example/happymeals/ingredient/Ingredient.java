@@ -19,7 +19,6 @@ public class Ingredient extends DatabaseObject {
     private String unit;
     private String category;
     private Boolean needsUpdate = false;
-    private String id;
 
     /**
      * This is an empty constructor needed for Firestore construction.
@@ -43,7 +42,6 @@ public class Ingredient extends DatabaseObject {
                        String location, Double amount, String unit,
                        String category ) {
         super( name, creator );
-        this.id = creator + "-" + name;
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;
@@ -176,9 +174,5 @@ public class Ingredient extends DatabaseObject {
 
     public void setNeedsUpdate(Boolean update) {
         this.needsUpdate = update;
-    }
-
-    public String getId() {
-        return this.id;
     }
 }

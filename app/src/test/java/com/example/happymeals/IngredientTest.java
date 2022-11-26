@@ -26,7 +26,7 @@ public class IngredientTest {
         assertEquals("Freezer", emptyIngredient.getLocation());
 
         emptyIngredient.setAmount(5.0);
-        assertEquals(new Integer(5), emptyIngredient.getAmount());
+        assertEquals(new Double(5), emptyIngredient.getAmount());
 
         emptyIngredient.setUnit("Count");
         assertEquals("Count", emptyIngredient.getUnit());
@@ -38,17 +38,18 @@ public class IngredientTest {
     @Test
     void testGetters() {
         // this will test the ingredeint getter methods using an existing ingredeint
-        Ingredient ingredient = new Ingredient("Ground Beef", "extra lean",
-                new Date(2022, 01, 01), "Freezer", 500,
-                "Mg", "Meat");
+        Ingredient ingredient = new Ingredient( "Ground Beef", "testUser",
+                "extra lean", new Date(2022, 11, 26),
+                "freezer", 1.5, "kg", "Meat");
 
         assertEquals("Ground Beef", ingredient.getName());
         assertEquals("extra lean", ingredient.getDescription());
-        assertEquals(new Date(2022, 01, 01), ingredient.getBestBeforeDate());
-        assertEquals(Constants.Location.FREEZER, ingredient.getLocation());
-        assertEquals(new Integer(500), ingredient.getAmount());
-        assertEquals(Constants.AmountUnit.MG, ingredient.getUnit());
-        assertEquals(Constants.IngredientCategory.MEAT, ingredient.getCategory());
+        assertEquals(new Date(2022, 11, 26), ingredient.getBestBeforeDate());
+        assertEquals("freezer", ingredient.getLocation());
+        assertEquals(new Double(1.5) , ingredient.getAmount());
+        assertEquals("kg", ingredient.getUnit());
+        assertEquals("Meat", ingredient.getCategory());
+        assertEquals(false, ingredient.getNeedsUpdate());
     }
 
 

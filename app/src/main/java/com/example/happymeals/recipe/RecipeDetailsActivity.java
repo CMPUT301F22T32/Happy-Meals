@@ -112,7 +112,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         instructionsField.setText( recipe.getInstructions() );
         commendsField.setText( recipe.getCommentsAsString() );
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/67.49.30.0/Test Recipe");
+        System.out.println( recipe.getImageFilePath() );
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child( recipe.getImageFilePath() );
         try {
             final File localFile = File.createTempFile("Test Recipe", ".jpeg");
             storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {

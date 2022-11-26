@@ -142,4 +142,10 @@ public class Recipe extends DatabaseObject {
         return servings;
     }
 
+    public String getImageFilePath() { return imageFilePath; }
+
+    public void setImageFilePath(String imageFilePath) {
+        this.imageFilePath = imageFilePath;
+    }
+
 }

@@ -25,7 +25,7 @@ public class IngredientTest {
         emptyIngredient.setLocation("Freezer");
         assertEquals("Freezer", emptyIngredient.getLocation());
 
-        emptyIngredient.setAmount(5);
+        emptyIngredient.setAmount(5.0);
         assertEquals(new Integer(5), emptyIngredient.getAmount());
 
         emptyIngredient.setUnit("Count");

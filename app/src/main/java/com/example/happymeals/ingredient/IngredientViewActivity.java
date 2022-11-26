@@ -87,7 +87,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
             public void onClick(View view) {
                 ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
                         "Remove Ingredient",
-                        String.format("Are you sure you want to remove %s?", ingredient.getDescription()),
+                        String.format("Are you sure you want to remove %s?", ingredient.getName()),
                         context,
                         getDeleteListener());
                 deleteFragment.display();
@@ -155,8 +155,9 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
         name.setText( ingredient.getName() );
         name.setEnabled( false );
         description.setText( ingredient.getDescription() );
-        date.setText( ingredient.getBestBeforeDateAsString() );
-        quantity.setText( Integer.toString(ingredient.getAmount()) );
+        date.setText( ingredient.getBestBeforeDate().toString() );
+        quantity.setText( Double.toString(ingredient.getAmount()) );
+
         unitSpinner.setSelection(ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.AMOUNT_UNIT)
                 .indexOf( ingredient.getUnit()));
         locationSpinner.setSelection( ingredientStorage.getSpinners( Constants.StoredSpinnerChoices.LOCATION)
@@ -170,11 +171,10 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
         String errorString = "The ingredient couldn't be saved for the following reasons:\n";
 
         validator.checkText( name, "Name");
-        validator.checkText( description, "Description" );
 //        validator.checkDate( date );
         validator.checkNum( quantity, "Quantity" );
         validator.checkSpinner( unitSpinner, "Quantity Unit" );
-        validator.checkSpinner( locationSpinner, "Location" );
+        validator.checkSpinner( locationSpinner, "DefaultLocationSpinners" );
         validator.checkSpinner( categorySpinner, "Category" );
 
         String errors = validator.getErrors();
@@ -204,13 +204,15 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 String descriptionArg = description.getText().toString();
                 // <todo> Change date to a fragment
                 Date dateArg = new Date();
+
                 String locationArg = (String) locationSpinner.getSelectedItem();
-                int amountArg = Integer.parseInt(quantity.getText().toString());
+                Double amountArg = Double.parseDouble(quantity.getText().toString());
                 String amountUnitArg = (String) unitSpinner.getSelectedItem();
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
+                    String user = ingredientStorage.getCurrentUser();
+                    ingredient = new Ingredient(nameArg, user, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
                     ingredientStorage.addIngredient(ingredient);
                 }
 

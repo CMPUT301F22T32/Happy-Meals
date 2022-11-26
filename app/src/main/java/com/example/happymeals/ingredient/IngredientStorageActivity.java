@@ -44,9 +44,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
      */
     private IngredientStorageArrayAdapter storageAdapter;
 
-    /**
-     * //TODO: fill in after singleton impl
-     */
     private IngredientStorage ingredientStorage;
     private CheckBox viewMissingInfo;
 
@@ -127,6 +124,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                     });
 
                 }
+
                 if(itemSelected.equals("Best Before Date")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
@@ -140,7 +138,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                         }
                     });
                 }
-                if(itemSelected.equals("Location")){
+                if(itemSelected.equals("DefaultLocationSpinners")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
                         public int compare(Ingredient i1, Ingredient i2) {
@@ -149,6 +147,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                         }
                     });
                 }
+
                 if(itemSelected.equals("Ingredient Category")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override

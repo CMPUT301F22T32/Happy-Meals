@@ -89,7 +89,7 @@
         <!-- Shopping List -->
         <activity
             android:name=".shoppinglist.ShoppingListActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".userlogin.RegisterActivity"
             android:exported="true">

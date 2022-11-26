@@ -86,7 +86,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         imageView = findViewById( R.id.recpie_details_image );
 
         // Get the recipe and ingredient list
-        recipe = storage.getRecipe( (String) getIntent().getSerializableExtra("recipe") );
+        recipe = (Recipe) getIntent().getSerializableExtra("recipe" );
         //imageFile = storage.getRecipeImage(recipe);
         // Get the array reference so that we can pass it into the adapter.
         ingredients = storage.getIngredientListReference();

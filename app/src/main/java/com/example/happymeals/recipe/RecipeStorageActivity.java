@@ -102,6 +102,16 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
         signalChangeToAdapter();
         newRecipeButton = findViewById( R.id.recipe_storage_add_button );
 
+
+        recipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent( context, RecipeDetailsActivity.class );
+                intent.putExtra("recipe", adapter.getItem(i) );
+                context.startActivity( intent );
+            }
+        });
+
         newRecipeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

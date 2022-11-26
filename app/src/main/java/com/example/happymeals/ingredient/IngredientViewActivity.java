@@ -149,8 +149,9 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
     }
 
     private void fillFields( Intent intent ) {
-        Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
-        ingredient = ingredientStorage.getIngredients().get( ingredientIndex );
+        //Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
+        ingredient = (Ingredient) intent.getSerializableExtra(INGREDIENT_EXTRA);
+        //ingredient = ingredientStorage.getIngredients().get( ingredientIndex );
 
         name.setText( ingredient.getName() );
         name.setEnabled( false );

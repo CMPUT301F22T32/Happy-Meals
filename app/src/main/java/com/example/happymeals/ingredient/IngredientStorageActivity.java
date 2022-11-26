@@ -77,6 +77,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         IngredientSort.setAdapter(dataAdapter);
 
+
         IngredientSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -135,6 +136,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
             }
         });
 
+
         storageListView.setAdapter( storageAdapter );
         storageListView.setOnItemClickListener( new AdapterView.OnItemClickListener( )  {
             @Override
@@ -181,14 +183,14 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
      * and the function starts the activity.
      * @param addingNewIngredient true when the user is adding a new {@link Ingredient}, false when the user
      *                            is trying to view an existing one. ({@link Boolean})
-     * @param index optional parameter representing the index of the ingredient in the {@link IngredientStorage}
+     * @param index optional parameter representing the index of the ingredient in the {@link IngredientStorageArrayAdapter}
      *              list, which the {@link IngredientViewActivity} will use to get {@link Ingredient} data.
      */
     private void startIngredientActivity( boolean addingNewIngredient, int... index )  {
         Intent ingredientIntent = new Intent(  this, IngredientViewActivity.class ) ;
         ingredientIntent.putExtra( IngredientViewActivity.ADD_INGREDIENT, addingNewIngredient ) ;
         if ( index.length > 0 )
-            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_EXTRA, index[0] ) ;
+            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_EXTRA, storageAdapter.getItem(index[0]) ) ;
         startActivity( ingredientIntent ) ;
     }
 

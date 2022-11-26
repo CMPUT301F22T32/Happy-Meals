@@ -74,10 +74,6 @@ public class Recipe extends DatabaseObject {
         this.imageFilePath = imageFilePath;
     }
 
-    public Recipe(String description) {
-        this.description = description;
-    }
-
     /** Needed for RecipeStorageAdapter for MealPlan to properly function
      * @return
      */

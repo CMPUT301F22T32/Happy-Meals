@@ -7,6 +7,7 @@ import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.recipe.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.time.DayOfWeek;
@@ -139,7 +141,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
                 setEnvironmentNonEditable();
         }
 
-        recipeAdapter = new RecipeStorageAdapter(context, mealplan.recipeList());
+        recipeAdapter = new RecipeStorageAdapter(context, mealplan.recipeList(), true);
         ingredientAdapter = new IngredientStorageArrayAdapter(context, mealplan.ingredientList());
         mealplan.setListeningActivity(this);
 
@@ -147,6 +149,13 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         checkDuplicate();
 
         }
+
+    private void updateScales() {
+        for (int i = 0; i < recipeAdapter.getCount(); i++) {
+            MaterialTextView amount = itemsView.getChildAt(i).findViewById(R.id.recipe_scale_amount);
+            // TODO
+        }
+    }
 
     private void setListeners() {
         setAddListeners();
@@ -361,6 +370,8 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
                     new InputErrorFragment("Save Error", "A meal plan for the selected week already exists. Please select another week.", context).display();
                     return;
                 }
+
+                updateScales();
 
                 if (autogen)
                     mealplan.generateMealPlan(itemsForAutoGen);

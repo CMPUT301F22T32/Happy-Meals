@@ -20,7 +20,6 @@ import android.widget.Toast;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
-import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
@@ -28,11 +27,6 @@ import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.mealplan.MealPlanActivity;
 import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.RecipeStorage;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import com.example.happymeals.ingredient.IngredientStorageActivity;
-import com.example.happymeals.recipe.RecipeStorageActivity;
-
 
 import com.example.happymeals.userlogin.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,10 +47,9 @@ import java.util.List;
  * page for navigation. From this activity, all of the other main activities -- such as the
  * Ingredient Storage, Recipes, Meal Plan, and Shopping List -- can be viewed.
  */
-public class MainActivity extends AppCompatActivity implements DatasetWatcher {
+public class MainActivity extends AppCompatActivity {
 
     private Context context;
-    private NotificationManagerClass notification;
     //testing for todays meals
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
@@ -65,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements DatasetWatcher {
 
     BottomNavigationView bottomNavMenu;
     private FireStoreManager fsm;
+
+    // Notification
+    private NotificationManagerClass notification;
+    private IngredientStorage ingredientStorage; // needed to genertate notifications
 
 
     /**
@@ -75,199 +72,129 @@ public class MainActivity extends AppCompatActivity implements DatasetWatcher {
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_main );
-        Toolbar toolbar = findViewById( R.id.appbar);
-        setSupportActionBar(toolbar);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //Toolbar toolbar = findViewById( R.id.appbar);
+        //setSupportActionBar(toolbar);
         // Create the firebase manager connection along with all the storage classes.
-        FireStoreManager.getInstance();
+        fsm = FireStoreManager.getInstance();
         RecipeStorage.getInstance();
-        //IngredientStorage.getInstance();
-
         IngredientStorage ingredientStorage = IngredientStorage.getInstance();
-        ingredientStorage.setListeningActivity(this);
 
-        System.out.println(ingredientStorage.getIngredients().size());
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            //Toolbar toolbar = findViewById( R.id.appbar);
-            //setSupportActionBar(toolbar);
-            // Create the firebase manager connection along with all the storage classes.
-            fsm = FireStoreManager.getInstance();
-            RecipeStorage.getInstance();
-            IngredientStorage.getInstance();
+        context = this;
+        // Global Recipes Button
+        TextView globalRecipes;
 
-            context = this;
-            // Global Recipes Button
-            TextView globalRecipes;
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        expandableListDetail = ExpandableListDataPump.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
-        // Notification
-        notification = new NotificationManagerClass("Fill out missing information", "You have ingredients with missing information", context, "Missing Info", 0);
-
-
-
-        // Display the username of user
-        TextView welcomeMessage = findViewById( R.id.user_welcome );
-        welcomeMessage.setText("Enjoy a Happy Meal "
-                + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName() );
-        // The 4 buttons to access the other activities
-        Button ingredientStorageButton = findViewById( R.id.ingredient_storage_button );
-        Button recipesButton = findViewById( R.id.recipes_button );
-        Button mealPlannerButton = findViewById( R.id.meal_planner_button );
-        Button shoppingListButton = findViewById( R.id.shopping_list_button );
-
-        FloatingActionButton ingredientMissingInfoButton = findViewById( R.id.ingredient_missing_info_button);
-        Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
-        System.out.println(missingInfo);
-
-
-
-        if ( ingredientStorage.isIngredientsMissingInfo() ) {
-            ingredientMissingInfoButton.setVisibility(View.VISIBLE);
-            notification.addNotification();
-
-        }
-        else {
-            ingredientMissingInfoButton.setVisibility(View.GONE);
-        }
-
-        // Intent to open Ingredient Storage Activity
-        ingredientStorageButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick( View view ) {
-                Intent intent = new Intent(context, IngredientStorageActivity.class);
-                intent.putExtra("MissingCheck", false);
-                startActivity(intent);
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        expandableListTitle.get(groupPosition) + " List Expanded.",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Intent to open Recipe Storage Activity
-        recipesButton.setOnClickListener(new View.OnClickListener() {
+        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
             @Override
-            public void onClick( View view ) {
-                Intent intent = new Intent( context, RecipeStorageActivity.class );
-                startActivity( intent );
-            }
-        });
-            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-            expandableListDetail = ExpandableListDataPump.getData();
-            expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-            expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-            expandableListView.setAdapter(expandableListAdapter);
-            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        expandableListTitle.get(groupPosition) + " List Collapsed.",
+                        Toast.LENGTH_SHORT).show();
 
-                @Override
-                public void onGroupExpand(int groupPosition) {
-                    Toast.makeText(getApplicationContext(),
-                            expandableListTitle.get(groupPosition) + " List Expanded.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-                @Override
-                public void onGroupCollapse(int groupPosition) {
-                    Toast.makeText(getApplicationContext(),
-                            expandableListTitle.get(groupPosition) + " List Collapsed.",
-                            Toast.LENGTH_SHORT).show();
-
-        // Intent to open Shopping List Activity
-        shoppingListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                //TODO: Send intent for Shopping List Activity
             }
         });
 
-        ingredientMissingInfoButton.setOnClickListener(new View.OnClickListener() {
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        expandableListTitle.get(groupPosition)
+                                + " -> "
+                                + expandableListDetail.get(
+                                expandableListTitle.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+        });
+
+
+        globalRecipes = findViewById(R.id.find_recipes);
+
+        globalRecipes.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent( context, IngredientStorageActivity.class );
-                intent.putExtra("MissingCheck", true);
-                startActivity( intent );
+                startActivity(new Intent(MainActivity.this, PublicRecipeActivity.class));
             }
         });
 
+        // Display the username of user
+        TextView welcomeMessage = findViewById(R.id.user_welcome);
+        welcomeMessage.setText("Enjoy a Happy Meal "
+                + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName());
+        // The 4 buttons to access the other activities
+
+
+        // Notification
+        notification = new NotificationManagerClass("Update Information",
+                "You have ingredients in storage that need to be updated", context,
+                "UpdateInfo", 0);
+        if ( ingredientStorage.isIngredientsMissingInfo() ) {
+            notification.addNotification();
+        }
+
+        // Navigation
+        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+
+
+        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+                switch (item.getItemId()) {
+
+                    case R.id.recipe_menu:
+                        Toast.makeText(MainActivity.this, "Recipes", Toast.LENGTH_LONG).show();
+
+                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
+                        startActivity(recipe_intent, bundle);
+                        break;
+
+                    case R.id.ingredient_menu:
+                        Toast.makeText(MainActivity.this, "Ingredients", Toast.LENGTH_LONG).show();
+                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
+                        startActivity(ingredient_intent, bundle);
+                        break;
+
+                    case R.id.mealplan_menu:
+                        Toast.makeText(MainActivity.this, "Meal Plan", Toast.LENGTH_LONG).show();
+                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
+                        startActivity(mealplan_intent, bundle);
+                        break;
+
+                    case R.id.shopping_menu:
+                        Toast.makeText(MainActivity.this, "Shopping List", Toast.LENGTH_LONG).show();
+                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
+                        startActivity(shoppinglist_intent, bundle);
+                        break;
+                    default:
                 }
-            });
 
-            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v,
-                                            int groupPosition, int childPosition, long id) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            expandableListTitle.get(groupPosition)
-                                    + " -> "
-                                    + expandableListDetail.get(
-                                    expandableListTitle.get(groupPosition)).get(
-                                    childPosition), Toast.LENGTH_SHORT
-                    ).show();
-                    return false;
-                }
-            });
+                return true;
 
-
-            globalRecipes = findViewById(R.id.find_recipes);
-
-            globalRecipes.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, PublicRecipeActivity.class));
-                }
-            });
-
-            // Display the username of user
-            TextView welcomeMessage = findViewById(R.id.user_welcome);
-            welcomeMessage.setText("Enjoy a Happy Meal "
-                    + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName());
-            // The 4 buttons to access the other activities
-
-
-            // Navigation
-            bottomNavMenu = findViewById(R.id.bottomNavigationView);
-
-
-            bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-                @Override
-
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-                    switch (item.getItemId()) {
-
-                        case R.id.recipe_menu:
-                            Toast.makeText(MainActivity.this, "Recipes", Toast.LENGTH_LONG).show();
-
-                            Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
-                            startActivity(recipe_intent, bundle);
-                            break;
-
-                        case R.id.ingredient_menu:
-                            Toast.makeText(MainActivity.this, "Ingredients", Toast.LENGTH_LONG).show();
-                            Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                            startActivity(ingredient_intent, bundle);
-                            break;
-
-                        case R.id.mealplan_menu:
-                            Toast.makeText(MainActivity.this, "Meal Plan", Toast.LENGTH_LONG).show();
-                            Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
-                            startActivity(mealplan_intent, bundle);
-                            break;
-
-                        case R.id.shopping_menu:
-                            Toast.makeText(MainActivity.this, "Shopping List", Toast.LENGTH_LONG).show();
-                            Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
-                            startActivity(shoppinglist_intent, bundle);
-                            break;
-                        default:
-                    }
-
-                    return true;
-
-                }
-            });
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -305,10 +232,5 @@ public class MainActivity extends AppCompatActivity implements DatasetWatcher {
                     }
                 } );
         deleteFragment.display();
-    }
-
-    @Override
-    public void signalChangeToAdapter() {
-
     }
 }

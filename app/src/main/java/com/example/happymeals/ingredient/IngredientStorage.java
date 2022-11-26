@@ -223,6 +223,7 @@ public class IngredientStorage implements DatabaseListener {
             if( i.getName().equals(ingredient.getName() ) ){
                 i = ingredient;
                 updateStorage();
+                ingredient.setNeedsUpdate(false);
                 fsm.updateData( ingredientCollection, ingredient );
                 return;
             }
@@ -283,20 +284,27 @@ public class IngredientStorage implements DatabaseListener {
     public ArrayList<Ingredient> getIngredientsMissingInfo() {
         ArrayList< Ingredient > ingredientsMissingInfo = new ArrayList<Ingredient>();
         for ( Ingredient ingredient : ingredients ) {
-            if ( ingredient.getIsMissingInfo() ) {
+            if ( ingredient.getNeedsUpdate() ) {
                 ingredientsMissingInfo.add( ingredient );
             }
         }
         return ingredientsMissingInfo;
     }
 
-    public Boolean isIngredientsMissingInfo() {
-        for ( Ingredient ingredient : ingredients ) {
-            if ( ingredient.getIsMissingInfo() ) {
+    /**
+     * This returns true if there is at least 1 ingredient that needs to but updated and false if
+     * there are no ingredients that need to be updated
+     * @return {@link boolean}
+     */
+    public boolean isIngredientsMissingInfo() {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getNeedsUpdate()) {
                 return true;
             }
         }
         return false;
+    }
+
     public Ingredient getIngredientByIndex(int i){
         return ingredients.get(i);
     }

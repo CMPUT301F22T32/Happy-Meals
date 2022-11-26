@@ -1,6 +1,7 @@
 package com.example.happymeals.userlogin;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
+import com.example.happymeals.recipe.PublicRecipeActivity;
 
 public class RegisterActivity extends AppCompatActivity{
     private Button registerBtn;
@@ -79,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity{
             returnLogin.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     // close this activity
                     finish();
                 }

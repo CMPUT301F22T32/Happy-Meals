@@ -54,37 +54,46 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         if (listItem == null)
             listItem = LayoutInflater.from(context).inflate(R.layout.content_recipe, parent, false);
 
-        currentRecipe = recipeStorageList.get(position);
+        currentRecipe = recipeStorageList.get( position );
 
         TextView name = listItem.findViewById(R.id.ingredient_specific_list_name_field);
         TextView servings = listItem.findViewById( R.id.recipe_list_servings_field );
         TextView description = listItem.findViewById( R.id.recipe_list_description_field );
+        TextView prepTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
+        TextView cookTime = listItem.findViewById( R.id.recipe_content_cook_time_field );
+        TextView creatorName = listItem.findViewById( R.id.recipe_content_creator_field );
+
         name.setText( currentRecipe.getName() );
         servings.setText( String.valueOf( currentRecipe.getServings() ) );
-        description.setText( currentRecipe.getDescription() );
+        description.setText(
+                currentRecipe.getDescription().equals("") ?
+                        "No Description" : currentRecipe.getDescription() );
+        prepTime.setText( "Prep Time: " + currentRecipe.getPrepTime() + " mins" );
+        cookTime.setText( "Cook Time: " + currentRecipe.getCookTime() + " mins" );
+        creatorName.setText( currentRecipe.getCreator() );
 
-        listItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent( context, RecipeDetailsActivity.class );
-                intent.putExtra("recipe", currentRecipe.getName() );
-                context.startActivity( intent );
-            }
-        });
-
-        listItem.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
-                        "Remove Recipe",
-                        String.format("Are you sure you want to remove %s?", currentRecipe.getName() ),
-                        context,
-                        getDeleteListener() );
-                deleteFragment.display();
-                return true;
-
-            }
-        });
+//        listItem.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent( context, RecipeDetailsActivity.class );
+//                intent.putExtra("recipe", currentRecipe.getName() );
+//                context.startActivity( intent );
+//            }
+//        });
+//
+//        listItem.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
+//                        "Remove Recipe",
+//                        String.format("Are you sure you want to remove %s?", currentRecipe.getName() ),
+//                        context,
+//                        getDeleteListener() );
+//                deleteFragment.display();
+//                return true;
+//
+//            }
+//        });
 
         return listItem;
     }

@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.happymeals">
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyMeals"
         tools:targetApi="31">
+
+        <!-- Main Activity -->
+        <provider
+            android:authorities="${applicationId}.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <activity android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.HappyMeals.Main">
@@ -21,6 +35,8 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Ingredient Storage -->
         <activity android:name=".ingredient.IngredientViewActivity"
             android:parentActivityName=".ingredient.IngredientStorageActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -41,6 +57,7 @@
         </activity>
 
 
+        <!-- User Login -->
         <activity
             android:name=".userlogin.StartScreenActivity"
             android:exported="true">
@@ -51,20 +68,54 @@
             </intent-filter>
         </activity>
 
+        <!-- Recipes -->
+        <activity
+            android:name=".recipe.RecipeDetailsActivity"
+            android:exported="true" />
+        <activity android:name=".recipe.RecipeStorageActivity" />
+        <activity android:name=".recipe.RecipeAddActivity" />
+
+        <!-- Meal Plan -->
+        <activity
+            android:name=".mealplan.MealPlanActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".mealplan.MealPlanListViewActivity"
+            android:parentActivityName=".mealplan.MealPlanActivity" />
+        <activity
+            android:name=".mealplan.CreateMealPlanActivity"
+            android:parentActivityName=".mealplan.MealPlanListViewActivity" />
+
+        <!-- Shopping List -->
+        <activity
+            android:name=".shoppinglist.ShoppingListActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".userlogin.RegisterActivity"
             android:exported="true">
         </activity>
-        <activity
-            android:name=".recipe.RecipeDetailsActivity"
-            android:exported="true">
-        </activity>
+
         <activity android:name=".recipe.RecipeStorageActivity">
 
         </activity>
         <activity android:name=".recipe.RecipeAddActivity">
 
         </activity>
+=
+
+        <!-- Settings -->
+        <activity android:name=".recipe.PublicRecipeActivity"
+            android:parentActivityName=".recipe.RecipeStorageActivity">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".recipe.RecipeStorageActivity" /></activity>
+        <activity android:name=".recipe.SharedRecipeDetailsActivity"
+            android:parentActivityName=".recipe.PublicRecipeActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".recipe.PublicRecipeActivity" /></activity>
+
         <activity android:name=".SpinnerSettingsActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -73,5 +124,6 @@
                 android:value=".MainActivity" />
         </activity>
     </application>
+
 
 </manifest>

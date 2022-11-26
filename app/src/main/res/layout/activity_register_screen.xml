@@ -11,6 +11,7 @@
         android:id="@+id/text_register_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="140dp"
         android:fontFamily="@font/avenir_black"
         android:text="Register a new account"
@@ -99,6 +100,7 @@
 
     <Button
         android:id="@+id/register_button"
+
         android:layout_width="352dp"
         android:layout_height="55dp"
         android:background="#9f0400"

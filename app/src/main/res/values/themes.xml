@@ -32,11 +32,19 @@
         <item name="overlapAnchor">false</item>
         <item name="android:dropDownVerticalOffset">-4dp</item>
 
+
     </style><style name="Theme.HappyMealsTrannsitions" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
     <!-- For Transitions -->
     <item name ="android:windowActivityTransitions">true</item>
     <item name ="android:windowEnterTransition">@transition/activity_transition</item>
     <item name ="android:windowExitTransition">@transition/activity_transition</item>
 </style>
+
+
+
+    <style name="ThemeOverlay.HappyMeals.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
 
 </resources>

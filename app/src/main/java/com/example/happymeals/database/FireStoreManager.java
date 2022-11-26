@@ -3,6 +3,7 @@ package com.example.happymeals.database;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static android.view.View.X;
 
+import android.net.Uri;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,10 @@ import androidx.annotation.NonNull;
 
 import com.example.happymeals.Constants;
 import com.example.happymeals.SpinnerSettingsActivity;
+import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.ingredient.IngredientStorage;
+import com.example.happymeals.recipe.Recipe;
+import com.example.happymeals.recipe.RecipeStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,7 +26,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -43,12 +54,15 @@ public class FireStoreManager {
     private static FireStoreManager instance = null;
 
     private DocumentReference userDocument;
+    private CollectionReference sharedRecipesCollection;
     private FirebaseFirestore database;
 
     private static final String IP_TAG = "IpFetcher";
     private final String GET_DATA_TAG = "Data Request";
     private final String DATA_STORE_TAG = "Data Store";
     private final String DATA_DELETE_TAG = "Data Removal";
+    private final String IMAGE_UPLOAD_TAG = "Image Upload";
+    private String user;
 
     /**
      * Class constructor. This will connect to the Firebase database. Finding the local IP address
@@ -56,6 +70,8 @@ public class FireStoreManager {
      */
     private FireStoreManager() {
         database = FirebaseFirestore.getInstance();
+        sharedRecipesCollection = database.collection(
+                Constants.COLLECTION_NAME.GLOBAL_USERS.toString() );
     }
 
     /**
@@ -79,7 +95,11 @@ public class FireStoreManager {
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
     public void addData(Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
-        addData( userDocument.collection( collectionName.toString() ), data );
+        if( collectionName == Constants.COLLECTION_NAME.GLOBAL_USERS ) {
+            addData( sharedRecipesCollection, data);
+        } else {
+            addData( userDocument.collection( collectionName.toString() ), data );
+        }
     }
 
     /**
@@ -92,7 +112,7 @@ public class FireStoreManager {
      */
     public void addData( CollectionReference collection, DatabaseObject data ) {
         collection
-                .document( data.getName() )
+                .document( data.getId() )
                 .set( data )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -108,6 +128,24 @@ public class FireStoreManager {
                 });
     }
 
+    public void addDefaultSpinners() {
+//        storeSpinners( HashMap< String, ArrayList< String > > data )
+        HashMap< String, ArrayList< String > > mapToStore = new HashMap<>();
+        mapToStore.put(Constants.StoredSpinnerChoices.AMOUNT_UNIT.toString(),
+                Constants.DefaultAmountUnitSpinners );
+        mapToStore.put(Constants.StoredSpinnerChoices.LOCATION.toString(),
+                Constants.DefaultLocationSpinners );
+        mapToStore.put(Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY.toString(),
+                Constants.DefaultIngredientCategorySpiners);
+        storeSpinners( mapToStore );
+    }
+
+    public static void clearInstance(){
+        instance = null;
+        IngredientStorage.clearInstance();
+        RecipeStorage.clearInstance();
+    }
+
     /**
      * Requires a collection name and document name which will lead to a specific dataset.
      * deleteDocument() will remove the requested document and all it's entries from the database.
@@ -118,7 +156,6 @@ public class FireStoreManager {
      */
     public void deleteDocument( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
         deleteDocument( userDocument.collection( collectionName.toString() ), data );
-
     }
 
     /**
@@ -130,7 +167,7 @@ public class FireStoreManager {
      * @param data The {@link DatabaseObject} holding the data that is being removed.
      */
     public void deleteDocument( CollectionReference  collection, DatabaseObject data ) {
-        collection.document( data.getName() )
+        collection.document( data.getId() )
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
@@ -145,6 +182,23 @@ public class FireStoreManager {
                     }
                 });
 
+    }
+
+    public void deleteSharedRecipe( DatabaseObject data ) {
+        sharedRecipesCollection.document( data.getId() )
+                .delete()
+                .addOnSuccessListener( new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d( DATA_DELETE_TAG, "Data has been removed." );
+                    }
+                })
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d( DATA_DELETE_TAG, "Data was unable to be removed." );
+                    }
+                });
     }
 
     /**
@@ -174,6 +228,23 @@ public class FireStoreManager {
                     }
                 });
 
+    }
+
+    public void getAllSharedRecipes( DatabaseListener listener ) {
+        sharedRecipesCollection.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                listener.onSharedDataFetchSuccess(
+                                        document.toObject( Recipe.class ) );
+                            }
+                        } else {
+                            Log.d("TT", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**
@@ -252,7 +323,7 @@ public class FireStoreManager {
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
     public DocumentReference getDocReferenceTo( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
-        return userDocument.collection( collectionName.toString() ).document( data.getName() );
+        return userDocument.collection( collectionName.toString() ).document( data.getId() );
     }
 
     /**
@@ -264,7 +335,7 @@ public class FireStoreManager {
      * @return {@link DocumentReference} referring to the requested document in the given path.
      */
     public DocumentReference getDocReferenceTo( CollectionReference collection, DatabaseObject data ) {
-        return collection.document( data.getName() );
+        return collection.document( data.getId() );
     }
 
     /**
@@ -316,6 +387,7 @@ public class FireStoreManager {
      * @param user The {@link String} of the username.
      */
     public void setUser( String user ) {
+        this.user = user;
         CollectionReference collectionReference = database.collection( Constants.LOCAL_USERS );
         userDocument = collectionReference.document( user );
     }
@@ -358,4 +430,28 @@ public class FireStoreManager {
     public void updateData( CollectionReference collection, DatabaseObject data ) {
         addData( collection, data );
     }
+
+    public String uploadImage(Uri imageUri, String name) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+
+        String filename = "images/"+user+"/"+name;
+        StorageReference ref = storageReference.child(filename);
+
+        ref.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d( IMAGE_UPLOAD_TAG, "Image has been uploaded." );
+                    }
+                })
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be uploaded." );
+                    }
+                });
+        return filename;
+    }
+
 }

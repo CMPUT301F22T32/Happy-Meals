@@ -1,5 +1,10 @@
 package com.example.happymeals.recipe;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
+
 import com.example.happymeals.database.*;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -21,11 +26,14 @@ public class Recipe extends DatabaseObject {
 
     private double cookTime;
     private String description;
+    private String creator;
     private ArrayList< String > comments;
     private HashMap< String, HashMap< String, Object > > ingredients;
     private String instructions;
     private double prepTime;
     private double servings;
+    private String imageFilePath;
+    private String id;
 
     /**
      * Empty Constructor, this is required for {@link FireStoreManager}
@@ -47,19 +55,45 @@ public class Recipe extends DatabaseObject {
      * @param prepTime {@link Double} the time to prep the recipe measured in hrs.
      * @param servings {@link Double} The servings that the meal makes with the ingredients
      *                               described.
+     * @param imageFilePath {@link String} the image of the recipe
      */
-    public Recipe( String name, double cookTime, String description, ArrayList< String > comments,
+    public Recipe( String name, String creator, double cookTime, String description, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
-                   double prepTime, double servings ) {
-        super(name);
+                   double prepTime, double servings, String imageFilePath) {
+        super(name, creator);
+        this.id = creator + "_" + name;
         this.cookTime = cookTime;
         this.description = description;
+        this.creator = creator;
         this.comments = comments;
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.prepTime = prepTime;
         this.servings = servings;
+        this.imageFilePath = imageFilePath;
+    }
+
+    /** Needed for RecipeStorageAdapter for MealPlan to properly function
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    public Recipe clone() {
+        return new Recipe(
+                this.name,
+                this.creator,
+                this.cookTime,
+                this.description,
+                this.comments,
+                this.ingredients,
+                this.instructions,
+                this.prepTime,
+                this.servings,
+                this.imageFilePath
+        );
     }
 
     /**
@@ -76,6 +110,14 @@ public class Recipe extends DatabaseObject {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * gets the username of who created the recipe.
+     * @return The {@link String} representing the creator.
+     */
+    public String getCreator() {
+        return creator;
     }
 
     /**
@@ -133,4 +175,10 @@ public class Recipe extends DatabaseObject {
     public double getServings() {
         return servings;
     }
+
+    public String getId() {
+        return this.id;
+    }
+
 }
+

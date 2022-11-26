@@ -92,9 +92,14 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/ing_content_date_input"
-                android:layout_width="match_parent"
+                android:layout_width="158dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
@@ -106,6 +111,16 @@
                 android:maxLength="10"
                 android:minHeight="48dp"
                 android:paddingStart="8sp" />
+
+            <Button
+                android:id="@+id/ingredient_date_button"
+                android:layout_width="159dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="DATE"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </LinearLayout>
 
             <TextView
                 android:id="@+id/ing_content_quantity_title"
@@ -222,6 +237,8 @@
                     app:layout_constraintStart_toEndOf="@+id/ing_view_delete_button"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </LinearLayout>
     </ScrollView>

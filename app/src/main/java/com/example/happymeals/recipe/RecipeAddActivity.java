@@ -234,8 +234,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         for( Ingredient i : ingredientsToAdd ) {
             ingredientsInRecipe.add( i );
             HashMap< String, Object > tempMap = new HashMap<>();
-            tempMap.put("count", countMap.get( i.getName() ) );
-            this.countMap.put( i.getName(), tempMap );
+            tempMap.put("count", countMap.get( i.getId() ) );
+            this.countMap.put( i.getId(), tempMap );
         }
         adapter.notifyDataSetChanged();
     }

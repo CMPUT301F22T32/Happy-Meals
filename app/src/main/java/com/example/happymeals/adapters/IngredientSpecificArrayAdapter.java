@@ -71,7 +71,7 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
         TextView unit = view.findViewById(R.id.ingredient_specific_amount_unit_text);
 
         name.setText( ingredient.getName() );
-        amount.setText( countMap.get( ingredient.getName() ).toString() );
+        amount.setText( countMap.get( ingredient.getId() ).toString() );
         unit.setText(ingredient.getUnit().toString());
 
         return view;

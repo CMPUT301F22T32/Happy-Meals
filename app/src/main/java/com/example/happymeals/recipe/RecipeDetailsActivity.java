@@ -239,11 +239,6 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
             }
         }
 
-
-
-        //imageView.setImageURI( recipe.getImage() );
-        // System.out.println(recipe.getImage());
-
         ingredientsListField.setAdapter( adapter );
 
     }

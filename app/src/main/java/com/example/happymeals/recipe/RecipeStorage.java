@@ -119,6 +119,7 @@ public class RecipeStorage implements DatabaseListener {
             this.ingredientListener = listener;
             for( HashMap< String, Object >  mapInstance: recipe.getIngredients().values() ) {
                 if( mapInstance.get(REFERENCE) instanceof DocumentReference ) {
+                    DocumentReference docRef = (DocumentReference) mapInstance.get(REFERENCE);
                     fsm.getData( (DocumentReference) mapInstance.get(REFERENCE), this, new Ingredient() );
                 }
             }

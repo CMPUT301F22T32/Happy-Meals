@@ -1,8 +1,11 @@
 package com.example.happymeals.shoppinglist;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,13 +13,19 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.ShoppingListAdapter;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorageActivity;
+import com.example.happymeals.mealplan.MealPlanActivity;
+import com.example.happymeals.recipe.RecipeStorageActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Comparator;
 
@@ -27,11 +36,13 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     private ListView ingredientListView;
     private final Context context = this;
+    private BottomNavigationView bottomNavMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+        getWindow().setEnterTransition(null);
 
         shoppingList = ShoppingList.getInstance();
         ingredientListView = findViewById(R.id.shopping_list_ingredients);
@@ -46,6 +57,48 @@ public class ShoppingListActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(ShoppingListActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.ingredient_options));
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         IngredientSort.setAdapter(dataAdapter);
+
+        // Navigation
+        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+
+        bottomNavMenu.setSelectedItemId(R.id.shopping_menu);
+        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
+                        ShoppingListActivity.this).toBundle();
+                switch (item.getItemId()) {
+                    case R.id.home_menu:
+                        Intent home_intent = new Intent(context, MainActivity.class);
+                        startActivity(home_intent, bundle);
+                        break;
+
+                    case R.id.recipe_menu:
+                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
+                        startActivity(recipe_intent, bundle);
+                        break;
+
+                    case R.id.ingredient_menu:
+                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
+                        startActivity(ingredient_intent, bundle);
+                        break;
+
+                    case R.id.mealplan_menu:
+                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
+                        startActivity(mealplan_intent, bundle);
+                        break;
+
+                    case R.id.shopping_menu:
+                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
+                        startActivity(shoppinglist_intent, bundle);
+                        break;
+                    default:
+                }
+                return true;
+
+            }
+        });
 
         IngredientSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -124,5 +177,11 @@ public class ShoppingListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
     }
 }

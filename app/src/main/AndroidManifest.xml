@@ -44,13 +44,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ingredient.IngredientStorageActivity" />
         </activity>
-        <activity android:name=".ingredient.IngredientStorageActivity"
-            android:parentActivityName=".MainActivity">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".ingredient.IngredientStorageActivity"/>
         <activity android:name = ".userlogin.LoginActivity"
             android:exported = "true">
 
@@ -77,8 +71,7 @@
 
         <!-- Meal Plan -->
         <activity
-            android:name=".mealplan.MealPlanActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".mealplan.MealPlanActivity" />
         <activity
             android:name=".mealplan.MealPlanListViewActivity"
             android:parentActivityName=".mealplan.MealPlanActivity" />
@@ -88,8 +81,7 @@
 
         <!-- Shopping List -->
         <activity
-            android:name=".shoppinglist.ShoppingListActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:name=".shoppinglist.ShoppingListActivity" />
         <activity
             android:name=".userlogin.RegisterActivity"
             android:exported="true">

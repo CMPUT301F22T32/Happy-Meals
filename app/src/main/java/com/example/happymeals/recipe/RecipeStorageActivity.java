@@ -1,9 +1,11 @@
 package com.example.happymeals.recipe;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -13,8 +15,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.adapters.RecipeStorageAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
@@ -24,7 +28,11 @@ import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorageActivity;
 
 import com.example.happymeals.ingredient.IngredientViewActivity;
+import com.example.happymeals.mealplan.MealPlanActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,11 +52,13 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     private RecipeStorageAdapter adapter;
     private FloatingActionButton newRecipeButton;
     private Context context;
+    BottomNavigationView bottomNavMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_storage);
+        getWindow().setEnterTransition(null);
         context = this;
         recipeListView = findViewById(R.id.recipe_list);
         recipeStorage = RecipeStorage.getInstance();
@@ -65,6 +75,49 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                 startActivity( intent ) ;
             }
         }) ;
+
+        // Navigation
+        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+
+        bottomNavMenu.setSelectedItemId(R.id.recipe_menu);
+        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
+                        RecipeStorageActivity.this).toBundle();
+                switch (item.getItemId()) {
+                    case R.id.home_menu:
+                        Intent home_intent = new Intent(context, MainActivity.class);
+                        startActivity(home_intent, bundle);
+                        break;
+
+                    case R.id.recipe_menu:
+                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
+                        startActivity(recipe_intent, bundle);
+                        break;
+
+                    case R.id.ingredient_menu:
+                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
+                        startActivity(ingredient_intent, bundle);
+                        break;
+
+                    case R.id.mealplan_menu:
+                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
+                        startActivity(mealplan_intent, bundle);
+                        break;
+
+                    case R.id.shopping_menu:
+                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
+                        startActivity(shoppinglist_intent, bundle);
+                        break;
+                    default:
+                }
+
+                return true;
+
+            }
+        });
 
         recipeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -179,8 +232,13 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     }
 
     public void onGoBack( View view ) {
-        finish();
+        // This will resume the parent activity.
+        this.onBackPressed();
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
+    }
 }

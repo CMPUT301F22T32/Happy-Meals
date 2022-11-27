@@ -14,6 +14,7 @@ import com.example.happymeals.Constants;
 import com.example.happymeals.SpinnerSettingsActivity;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
+import com.example.happymeals.mealplan.MealPlanStorage;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -144,6 +145,7 @@ public class FireStoreManager {
         instance = null;
         IngredientStorage.clearInstance();
         RecipeStorage.clearInstance();
+        MealPlanStorage.clearInstance();
     }
 
     /**

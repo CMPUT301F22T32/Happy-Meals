@@ -8,11 +8,12 @@
 
     <ListView
         android:id="@+id/storage_list"
-        android:layout_width="366dp"
-        android:layout_height="497dp"
+        android:layout_width="348dp"
+        android:layout_height="441dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="108dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,5 +99,16 @@
         app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ingredient_filter" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include
+            android:id="@+id/bottomNavigationView_layout"
+            layout="@layout/bottom_navigation_bar"></include>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

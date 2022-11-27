@@ -1,10 +1,12 @@
 package com.example.happymeals.mealplan;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,12 +20,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.adapters.RecipeStorageAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
+import com.example.happymeals.ingredient.IngredientStorageActivity;
+import com.example.happymeals.recipe.RecipeStorageActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -70,6 +78,13 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
 
     private MealPlanStorage mps;
     private MealPlan mp;
+    private BottomNavigationView bottomNavMenu;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
+    }
 
     boolean noStoredMealPlans = false;
 
@@ -77,6 +92,7 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_plan);
+        getWindow().setEnterTransition(null);
 
         mps = MealPlanStorage.getInstance();
         mps.setListeningActivity(this);
@@ -120,6 +136,48 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             recipeAdapter = new RecipeStorageAdapter(context, mp.recipeList());
             ingredientAdapter = new IngredientStorageArrayAdapter(context, mp.ingredientList());
         }
+
+        // Navigation
+        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+
+        bottomNavMenu.setSelectedItemId(R.id.mealplan_menu);
+        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
+                        MealPlanActivity.this).toBundle();
+                switch (item.getItemId()) {
+                    case R.id.home_menu:
+                        Intent home_intent = new Intent(context, MainActivity.class);
+                        startActivity(home_intent, bundle);
+                        break;
+
+                    case R.id.recipe_menu:
+                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
+                        startActivity(recipe_intent, bundle);
+                        break;
+
+                    case R.id.ingredient_menu:
+                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
+                        startActivity(ingredient_intent, bundle);
+                        break;
+
+                    case R.id.mealplan_menu:
+                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
+                        startActivity(mealplan_intent, bundle);
+                        break;
+
+                    case R.id.shopping_menu:
+                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
+                        startActivity(shoppinglist_intent, bundle);
+                        break;
+                    default:
+                }
+                return true;
+
+            }
+        });
 
         setCalendarListeners();
         setButtonListener();

@@ -41,8 +41,7 @@ public class Ingredient extends DatabaseObject {
     public Ingredient( String name, String creator, String description, Date bestBeforeDate,
                        String location, double amount, String unit,
                        String category ) {
-        super(name, creator);
-        this.name = name;
+        super( name, creator );
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;
         this.location = location;

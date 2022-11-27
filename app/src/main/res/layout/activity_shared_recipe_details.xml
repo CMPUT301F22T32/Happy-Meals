@@ -37,6 +37,7 @@
                     android:inputType="text"
                     android:textAlignment="center"
                     android:textColor="@color/red"
+                    android:fontFamily="@font/avenir_heavy_oblique"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -56,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Description:"
+                    android:fontFamily="@font/avenir_book"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Prep Time:"
+                    android:fontFamily="@font/avenir_book"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -132,6 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Cook Time:"
+                    android:fontFamily="@font/avenir_book"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -172,6 +176,7 @@
                     android:layout_height="35dp"
                     android:layout_marginStart="8dp"
                     android:text="Servings:"
+                    android:fontFamily="@font/avenir_book"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -202,6 +207,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:text="Ingredients:"
+                android:fontFamily="@font/avenir_book"
                 android:textStyle="bold" />
 
             <ListView
@@ -211,7 +217,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="16dp"
-                android:nestedScrollingEnabled="true" />
+                android:nestedScrollingEnabled="true"
+                android:fontFamily="@font/avenir_book"/>
 
             <TextView
                 android:id="@+id/recipe_instructions_label"
@@ -219,7 +226,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="Instructions:"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="@font/avenir_book"/>
 
             <TextView
                 android:id="@+id/recipe_instructions_field"
@@ -234,6 +242,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:text="Comments:"
+                android:fontFamily="@font/avenir_book"
                 android:textStyle="bold" />
 
             <TextView
@@ -249,6 +258,8 @@
         android:id="@+id/shared_recipe_details_add_button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_black"
+        android:textColor="@color/white"
         android:text="@string/add" />
 
 </LinearLayout>

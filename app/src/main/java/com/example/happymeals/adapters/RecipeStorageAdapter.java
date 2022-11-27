@@ -7,13 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.SeekBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
+
+import com.example.happymeals.database.DatabaseListener;
+import com.example.happymeals.fragments.MealPlanItemsFragment;
+
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
+import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeDetailsActivity;
 import com.example.happymeals.recipe.RecipeStorage;
@@ -31,17 +39,33 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private Context context;
     private Recipe currentRecipe;
 
+    private Boolean showScaleSlider = false;
+    private ArrayList<Double> scaleAmounts = null;
+
+    private SeekBarChangeListener listener;
+
+    public interface SeekBarChangeListener {
+        void changedValue(String recipeName, Double scale);
+    }
+
+    FireStoreManager storeManager;
+    FireStoreManager photoManager;
+
     /**
      * Base constructor which will assign {@link Context} and the {@link ArrayList} which is being
      * viewed and adapted.
      * @param context The {@link Context} of the class which instantiates this adapter.
      * @param recipeStorageList The {@link ArrayList} which is being adapted and viewed.
      */
-    public RecipeStorageAdapter(@NonNull Context context, ArrayList<Recipe> recipeStorageList ) {
+    public RecipeStorageAdapter(@NonNull Context context, ArrayList<Recipe> recipeStorageList, Boolean... showScaleSlider ) {
         super(context, 0 , recipeStorageList );
         this.context = context;
         this.recipeStorageList = recipeStorageList;
         this.currentRecipe = null;
+
+        if (showScaleSlider.length > 0) {
+            this.showScaleSlider = showScaleSlider[0];
+        }
     }
 
     /**
@@ -58,19 +82,59 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
 
         TextView name = listItem.findViewById(R.id.ingredient_specific_list_name_field);
         TextView servings = listItem.findViewById( R.id.recipe_list_servings_field );
-        TextView description = listItem.findViewById( R.id.recipe_list_description_field );
-        TextView prepTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
-        TextView cookTime = listItem.findViewById( R.id.recipe_content_cook_time_field );
+        TextView totalTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
         TextView creatorName = listItem.findViewById( R.id.recipe_content_creator_field );
+        ImageView imageId = listItem.findViewById(R.id.recipe_image_content);
+
 
         name.setText( currentRecipe.getName() );
         servings.setText( String.valueOf( currentRecipe.getServings() ) );
-        description.setText(
-                currentRecipe.getDescription().equals("") ?
-                        "No Description" : currentRecipe.getDescription() );
-        prepTime.setText( "Prep Time: " + currentRecipe.getPrepTime() + " mins" );
-        cookTime.setText( "Cook Time: " + currentRecipe.getCookTime() + " mins" );
+        totalTime.setText( currentRecipe.getPrepTime() + currentRecipe.getCookTime() + " mins" );
         creatorName.setText( currentRecipe.getCreator() );
+        // setting image
+
+
+
+
+
+        if (showScaleSlider) {
+            listItem.findViewById(R.id.recipe_scaler).setVisibility(View.VISIBLE);
+
+            TextView amount = listItem.findViewById(R.id.recipe_scale_amount);
+            SeekBar slider = listItem.findViewById(R.id.recipe_scale_slider);
+
+            String defaultValue;
+
+            if (scaleAmounts == null)
+                defaultValue = "1.0";
+            else {
+                Double scale = scaleAmounts.get(position);
+                defaultValue = Double.toString(scale);
+                slider.setProgress((int) (scale * 2) - 1);
+                servings.setText(String.valueOf(scale * currentRecipe.getServings()));
+            }
+            amount.setText(defaultValue);
+
+            slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                    Double scale = (Double) (i / 2.0) + 0.5;
+                    amount.setText(String.valueOf(scale));
+                    servings.setText( String.valueOf(scale * currentRecipe.getServings()) );
+                    listener.changedValue(currentRecipe.getName(), scale);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+            });
+        }
+        else
+            listItem.findViewById(R.id.recipe_scaler).setVisibility(View.GONE);
 
 //        listItem.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -96,6 +160,14 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
 //        });
 
         return listItem;
+    }
+
+    public void setScales(ArrayList<Double> scaleAmounts) {
+        this.scaleAmounts = scaleAmounts;
+    }
+
+    public void setListener(SeekBarChangeListener listener) {
+        this.listener = listener;
     }
 
     /**

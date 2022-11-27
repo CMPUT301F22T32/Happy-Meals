@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         // Create the firebase manager connection along with all the storage classes.
         fsm = FireStoreManager.getInstance();
         RecipeStorage.getInstance();
+        MealPlanStorage.getInstance();
         ingredientStorage = IngredientStorage.getInstance();
 
         calendarView = findViewById(R.id.main_activity_calendar_view);

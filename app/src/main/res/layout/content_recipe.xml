@@ -43,12 +43,13 @@
 
         <TextView
             android:id="@+id/recipe_list_servings_field"
-            android:layout_width="11dp"
+            android:layout_width="40dp"
             android:layout_height="18dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="36dp"
             android:fontFamily="@font/avenir_book_oblique"
-            android:text="0"
 
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="16dp"
             android:textStyle="bold"
@@ -60,7 +61,7 @@
             android:layout_width="26dp"
             android:layout_height="20dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="11dp"
             app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_field"
             app:layout_constraintTop_toBottomOf="@+id/recipe_content_creator_field"
             app:srcCompat="@drawable/totaltime_icon"
@@ -94,53 +95,6 @@
 
         <TextView
             android:id="@+id/recipe_content_creator_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:text="None" />
-
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/recipe_scaler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingBottom="12dp">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Scale"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <SeekBar
-            android:id="@+id/recipe_scale_slider"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_weight="1"
-            android:max="9"
-            android:min="0"
-            android:progress="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/recipe_scale_amount" />
-
-        <TextView
-            android:id="@+id/recipe_scale_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
             android:layout_width="173dp"
             android:layout_height="22dp"
             android:layout_marginStart="4dp"
@@ -148,9 +102,8 @@
             android:textColor="@color/white"
             android:textSize="15dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/recipe_content_creator_label"
-            app:layout_constraintStart_toEndOf="@+id/recipe_content_creator_label"
-            app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/recipe_content_creator_label"
+            app:layout_constraintStart_toEndOf="@+id/recipe_content_creator_label" />
 
         <ImageView
             android:id="@+id/imageView5"
@@ -162,5 +115,50 @@
             app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field"
             app:srcCompat="@drawable/serving_icon"
             app:tint="@android:color/white" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recipe_scaler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_content_prep_time_field">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Scale"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <SeekBar
+                android:id="@+id/recipe_scale_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_weight="1"
+                android:max="9"
+                android:min="0"
+                android:progress="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/recipe_scale_amount" />
+
+            <TextView
+                android:id="@+id/recipe_scale_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>
+
+
+

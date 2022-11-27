@@ -60,6 +60,8 @@ public class MealPlan extends DatabaseObject {
      * Creates empty HashMap fields for the database that can later be populated.
      */
     public MealPlan() {
+        ingredientStorage = IngredientStorage.getInstance();
+        recipeStorage = RecipeStorage.getInstance();
     }
 
     public MealPlan( String name, String creator ) {

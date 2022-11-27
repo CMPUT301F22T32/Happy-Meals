@@ -72,6 +72,7 @@
         <activity
             android:name=".recipe.RecipeDetailsActivity"
             android:exported="true" />
+        <activity android:name=".recipe.RecipeStorageActivity" />
         <activity android:name=".recipe.RecipeAddActivity" />
 
         <!-- Meal Plan -->

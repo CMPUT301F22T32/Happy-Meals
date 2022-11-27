@@ -168,14 +168,14 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         storageListView.setOnItemClickListener( new AdapterView.OnItemClickListener( )  {
             @Override
             public void onItemClick( AdapterView<?> adapterView, View view, int i, long l )  {
-                startIngredientActivity( false, i) ;
+                startIngredientActivity( false, i ) ;
             }
         }) ;
 
         storageListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Ingredient ingredient = ingredientStorage.getIngredients().get( i );
+                Ingredient ingredient = storageAdapter.getItem( i );
                 ModifyConfirmationFragment modifyConfirmationFragment =
                         new ModifyConfirmationFragment(
                         "Remove Ingredient",
@@ -231,7 +231,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         Intent ingredientIntent = new Intent(  this, IngredientViewActivity.class ) ;
         ingredientIntent.putExtra( IngredientViewActivity.ADD_INGREDIENT, addingNewIngredient ) ;
         if ( index.length > 0 )
-            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_EXTRA, index[0] ) ;
+            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_EXTRA, storageAdapter.getItem( index[0] )) ;
         startActivity( ingredientIntent ) ;
     }
 

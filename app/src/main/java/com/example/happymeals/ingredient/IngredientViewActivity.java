@@ -210,7 +210,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
+                    ingredient = new Ingredient(nameArg, ingredientStorage.getCurrentUser(), descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
                     ingredientStorage.addIngredient(ingredient);
                 }
 

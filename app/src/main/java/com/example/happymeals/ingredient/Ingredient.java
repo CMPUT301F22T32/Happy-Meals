@@ -38,9 +38,10 @@ public class Ingredient extends DatabaseObject {
      * @param unit The unit the ingredient is stored by ({@link Constants.DefaultAmountUnitSpinners}).
      * @param category The food category that the ingredient falls under ({@link Constants.DefaultIngredientCategorySpinners}).
      */
-    public Ingredient( String name, String description, Date bestBeforeDate,
+    public Ingredient( String name, String creator, String description, Date bestBeforeDate,
                        String location, double amount, String unit,
                        String category ) {
+        super(name, creator);
         this.name = name;
         this.description = description;
         this.bestBeforeDate = bestBeforeDate;

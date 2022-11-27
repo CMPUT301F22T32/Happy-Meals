@@ -82,4 +82,14 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
 
         return view;
     }
+
+
+    public void updateList(ArrayList<Ingredient> ingredients) {
+        storageList = ingredients;
+    }
+
+    @Override
+    public int getCount() {
+        return storageList.size();
+    }
 }

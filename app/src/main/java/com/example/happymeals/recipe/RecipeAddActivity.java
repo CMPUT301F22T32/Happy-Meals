@@ -3,11 +3,8 @@ package com.example.happymeals.recipe;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.media.MediaCodec;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -15,13 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -37,7 +32,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -64,6 +58,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
     private ArrayList< String > comments;
     private HashMap< String, HashMap< String, Object > > countMap;
     private IngredientStorageArrayAdapter adapter;
+    private RecipeStorage storage;
 
     private Button confirmButton;
     private Button cancelButton;
@@ -82,8 +77,9 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         setContentView(R.layout.recipe_add_view);
 
         context = this;
+        imageFilePath = "";
 
-        RecipeStorage storage = RecipeStorage.getInstance();
+        storage = RecipeStorage.getInstance();
 
         ingredientsInRecipe = new ArrayList<>();
         countMap = new HashMap<>();
@@ -110,17 +106,17 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         addIngredientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SearchIngredientFragment().show( getSupportFragmentManager(), "Edit Text");
+                new SearchIngredientFragment( countMap ).show( getSupportFragmentManager(), "Edit Text");
             }
         });
 
         findViewById( R.id.recipe_add_add_ingredient_label )
                 .setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new SearchIngredientFragment().show( getSupportFragmentManager(), "Edit Text");
-            }
-        });
+                    @Override
+                    public void onClick(View view) {
+                        new SearchIngredientFragment( countMap ).show( getSupportFragmentManager(), "Edit Text");
+                    }
+                });
 
         addCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,10 +143,6 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 String newInstructions = instructionsField.getText().toString();
                 String newServings = servingsField.getText().toString();
 
-                if( newName.contains("_") ) {
-                    nameField.setError("Illegal Character '_'");
-                    return;
-                }
                 // Check and make sure that required fields have been filled out.
                 if( newName.length() < 1 || newPrepTime.length() < 1 || newCookTime.length() < 1 ) {
                     if( newName.length() < 1 ){
@@ -171,11 +163,12 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                     return;
                 }
 
-                imageFilePath = storage.addImage(imagePath, newName);
-                String creatorName = storage.getCurrentUser();
+                if ( imagePath != null ) {
+                    imageFilePath = storage.addImage(imagePath, newName);
+                }
                 storage.addRecipe( new Recipe(
                         newName,
-                        creatorName,
+                        storage.getCurrentUser(),
                         new Double( newCookTime ),
                         newDescription,
                         comments,
@@ -183,7 +176,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                         newInstructions,
                         new Double( newPrepTime ),
                         new Double( newServings ), imageFilePath
-                        ));
+                ));
                 finish();
             }
         });
@@ -234,6 +227,9 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
     @Override
     public void onConfirmClick( ArrayList<Ingredient> ingredientsToAdd,
                                 HashMap< String, Double > countMap ) {
+        this.ingredientsInRecipe.clear();
+        this.countMap.clear();
+
         for( Ingredient i : ingredientsToAdd ) {
             ingredientsInRecipe.add( i );
             HashMap< String, Object > tempMap = new HashMap<>();

@@ -119,7 +119,11 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 dateArg = new Date(year, month, day);
-                                date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                                String strMonth = String.valueOf( monthOfYear + 1 );
+                                strMonth = strMonth.length() < 2 ? "0"+strMonth : strMonth;
+                                String strDay = String.valueOf( dayOfMonth );
+                                strDay = strDay.length() < 2 ? "0"+strDay : strDay;
+                                date.setText(year + "-" + strMonth + "-" + strDay);
 
                             }
                         }, year, month, day);

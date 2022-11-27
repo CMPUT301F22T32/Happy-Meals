@@ -160,8 +160,7 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
     private void changeViewForEmptyStorage() {
         if (mps.getMealPlans().size() == 0) {
             noStoredMealPlans = true;
-            String buttonMessage = "Make a meal plan";
-            viewAll.setText(buttonMessage);
+            viewAll.setVisibility(View.GONE);
             String prompt = "Looks like you don't have any meal plans yet... make one in just a few clicks.";
             noMPTab.setText(prompt);
         }
@@ -190,15 +189,16 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent;
-                if (noStoredMealPlans) {
-                    MealPlanPromptFragment frag = new MealPlanPromptFragment();
-                    frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
-                }
-                else {
-                    intent = new Intent(context, MealPlanListViewActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(context, MealPlanListViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.add_meal_plan_floating_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MealPlanPromptFragment frag = new MealPlanPromptFragment();
+                frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
             }
         });
     }

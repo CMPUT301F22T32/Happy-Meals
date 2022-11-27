@@ -95,6 +95,11 @@ public class Recipe extends DatabaseObject {
                 this.imageFilePath
         );
     }
+    /**
+     * Gets the image of the recipe.
+     * @return {@link String} object used to store the image.
+     */
+    public String getImageFilePath() {return imageFilePath;}
 
     /**
      * Gets the cook time of the recipe.

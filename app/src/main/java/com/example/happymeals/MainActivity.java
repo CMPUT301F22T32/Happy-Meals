@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListAdapter;
@@ -38,6 +39,12 @@ import com.example.happymeals.ingredient.IngredientStorageActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
 import com.example.happymeals.shoppinglist.ShoppingListActivity;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import android.widget.CalendarView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,9 +62,11 @@ public class MainActivity extends AppCompatActivity {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+    CalendarView calendarView;
 
     BottomNavigationView bottomNavMenu;
     private FireStoreManager fsm;
+
 
 
     /**
@@ -77,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
             RecipeStorage.getInstance();
             IngredientStorage.getInstance();
 
+            calendarView = findViewById(R.id.main_activity_calendar_view);
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(Instant.now().toEpochMilli());
+            calendarView.setDate(c.getTimeInMillis());
             context = this;
             // Global Recipes Button
             TextView globalRecipes;
@@ -87,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
             expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
             expandableListView.setAdapter(expandableListAdapter);
             expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+
+
 
                 @Override
                 public void onGroupExpand(int groupPosition) {

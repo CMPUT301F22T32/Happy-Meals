@@ -131,7 +131,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         createNewMP = extras.getBoolean(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA);
 
         if (createNewMP) {
-            mealplan = new MealPlan(start.toString(), IngredientStorage.getInstance().getCurrentUser());
+            mealplan = new MealPlan("", IngredientStorage.getInstance().getCurrentUser());
             autogen = extras.getBoolean(CreateMealPlanActivity.AUTOGEN_EXTRA);
             if (autogen) {
                 itemsForAutoGen = new HashMap<>();

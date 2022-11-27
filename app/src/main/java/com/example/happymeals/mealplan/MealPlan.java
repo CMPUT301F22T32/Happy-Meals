@@ -40,6 +40,8 @@ public class MealPlan extends DatabaseObject {
     private Date startDate;
     private Date endDate;
 
+    private String creator;
+
     private final Constants.COLLECTION_NAME INGREDIENT_TYPE = Constants.COLLECTION_NAME.INGREDIENTS;
     private final Constants.COLLECTION_NAME RECIPE_TYPE = Constants.COLLECTION_NAME.RECIPES;
 
@@ -58,12 +60,11 @@ public class MealPlan extends DatabaseObject {
      * Creates empty HashMap fields for the database that can later be populated.
      */
     public MealPlan() {
-        ingredientStorage = IngredientStorage.getInstance();
-        recipeStorage = RecipeStorage.getInstance();
     }
 
     public MealPlan( String name, String creator ) {
         super( name, creator );
+        this.creator=creator;
         ingredientStorage = IngredientStorage.getInstance();
         recipeStorage = RecipeStorage.getInstance();
         allIngredients = new HashMap<>();
@@ -81,6 +82,7 @@ public class MealPlan extends DatabaseObject {
 
     public void setStartDate(Date date) {
         startDate = date;
+        this.id=String.format("%s_%s", creator, getStartDateString());
     }
 
     public void setEndDate(Date date) {

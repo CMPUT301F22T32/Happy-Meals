@@ -166,6 +166,7 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 if ( imagePath != null ) {
                     imageFilePath = storage.addImage(imagePath, newName);
                 }
+                String test = storage.getCurrentUser();
                 storage.addRecipe( new Recipe(
                         newName,
                         storage.getCurrentUser(),

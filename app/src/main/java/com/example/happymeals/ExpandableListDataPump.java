@@ -9,25 +9,13 @@ public class ExpandableListDataPump {
         HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
 
         List<String> Breakfast = new ArrayList<String>();
-        Breakfast.add("India");
-        Breakfast.add("Pakistan");
-        Breakfast.add("Australia");
-        Breakfast.add("England");
-        Breakfast.add("South Africa");
+            Breakfast.add("Placeholder");
 
         List<String> Lunch = new ArrayList<String>();
-        Lunch.add("Brazil");
-        Lunch.add("Spain");
-        Lunch.add("Germany");
-        Lunch.add("Netherlands");
-        Lunch.add("Italy");
+            Lunch.add("Placeholder");
 
         List<String> Dinner = new ArrayList<String>();
-        Dinner.add("United States");
-        Dinner.add("Spain");
-        Dinner.add("Argentina");
-        Dinner.add("France");
-        Dinner.add("Russia");
+            Dinner.add("Placeholder");
 
         expandableListDetail.put("Breakfast", Breakfast);
         expandableListDetail.put("Lunch", Lunch);

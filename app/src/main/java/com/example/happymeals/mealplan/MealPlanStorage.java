@@ -131,6 +131,10 @@ public class MealPlanStorage implements DatabaseListener {
         fsm.addData( mealPlanCollection, mealPlan );
     }
 
+    public static void clearInstance() {
+        instance = null;
+    }
+
     /**
      * This will return a specific {@link MealPlan} given the name.
      * @param mealPlanName The {@link String} which holds the name of the requested

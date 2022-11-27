@@ -36,6 +36,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 
 
 /**
@@ -153,7 +154,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                     adapter.sort(new Comparator<Recipe>() {
                         @Override
                         public int compare(Recipe r1, Recipe r2) {
-                            return r2.getName().compareTo(r1.getName());
+                            return r1.getName().toLowerCase().compareTo(r2.getName().toLowerCase());
                         }
 
                     });
@@ -193,7 +194,20 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                     });
                     signalChangeToAdapter();
                 }
+                if(itemSelected.equals("Description")){
+                    adapter.sort(new Comparator<Recipe>() {
+                        @Override
+                        public int compare(Recipe r1, Recipe r2) {
+                            return r1.getDescription().toLowerCase().compareTo(r2.getDescription().toLowerCase());
+                        }
+                    });
+                    signalChangeToAdapter();
+                }
             }
+
+
+
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 return;

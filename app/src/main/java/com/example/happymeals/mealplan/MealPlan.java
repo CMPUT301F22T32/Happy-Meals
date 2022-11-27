@@ -31,33 +31,28 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-public class MealPlan extends DatabaseObject implements DatabaseListener {
+public class MealPlan extends DatabaseObject {
 
-    private static final String MAKE_MEAL_PLAN_TAG = "MealPlanMaker";
+    public static final String REFERENCE = "reference";
+    public static final String RECIPES = "recipes";
+    public static final String COUNT = "count";
+
     private Date startDate;
     private Date endDate;
 
-    // I should make these constants since they're used in Recipes too
-    private static final String TYPE = "type";
-    private static final String MADE = "made";
-    private static final String EXISTS = "exists";
-    private static final String NAME = "displayName";
+    private String creator;
 
-    public static final String REFERENCES = "reference";
-    public static final String RECIPES = "recipe";
-    public static final String COUNT = "count";
+    private final Constants.COLLECTION_NAME INGREDIENT_TYPE = Constants.COLLECTION_NAME.INGREDIENTS;
+    private final Constants.COLLECTION_NAME RECIPE_TYPE = Constants.COLLECTION_NAME.RECIPES;
 
     private FireStoreManager fsm;
+    private IngredientStorage ingredientStorage;
+    private RecipeStorage recipeStorage;
 
-    private HashMap< String, HashMap < String, HashMap < String, Object > > > plans;
+    private HashMap< String, HashMap < String, Meal > > plans;
     private HashMap< String, HashMap< String, Object > > allIngredients;
 
-    // These will be empty upon upload; they are merely used to provide the object ingredient or
-    // recipes that the document references correspond to. Mainly used to facilitate setting up
-    // views and fragments.
     private DatasetWatcher listeningActivity;
-    private ArrayList<Ingredient> ingredients;
-    private ArrayList<Recipe> recipes;
 
     /**
      * Empty constructor which is required by {@link FireStoreManager} to store
@@ -65,16 +60,43 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
      * Creates empty HashMap fields for the database that can later be populated.
      */
     public MealPlan() {
-        this.fsm = FireStoreManager.getInstance();
-        initializeCollections();
+        ingredientStorage = IngredientStorage.getInstance();
+        recipeStorage = RecipeStorage.getInstance();
     }
 
-    private void initializeCollections() {
-        plans = new HashMap<>();
-        ingredients = new ArrayList<>();
-        recipes = new ArrayList<>();
+    public MealPlan( String name, String creator ) {
+        super( name, creator );
+        this.creator=creator;
+        ingredientStorage = IngredientStorage.getInstance();
+        recipeStorage = RecipeStorage.getInstance();
         allIngredients = new HashMap<>();
+        plans = new HashMap<>();
         createMapForWeekday();
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setStartDate(Date date) {
+        startDate = date;
+        this.id=String.format("%s_%s", creator, getStartDateString());
+    }
+
+    public void setEndDate(Date date) {
+        endDate = date;
+    }
+
+    public String getStartDateString() {
+        return new SimpleDateFormat("EEEE, MMM d", Locale.CANADA).format(startDate);
+    }
+
+    public String getEndDateString() {
+        return new SimpleDateFormat("EEEE, MMM d", Locale.CANADA).format(endDate);
     }
 
     // Funcs needed for autogen
@@ -135,74 +157,6 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         }
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setStartDate(Date date) {
-        startDate = date;
-    }
-
-    public void setEndDate(Date date) {
-        endDate = date;
-    }
-
-    public String makeDisplayNameRecipe( ArrayList<Recipe> items) {
-        StringBuilder sb = new StringBuilder();
-        int size = items.size() - 1;
-
-        if (size < 0) {
-            Log.e(MAKE_MEAL_PLAN_TAG, "No recipe provided for meal.");
-            return null;
-        }
-
-        for (int i = 0; i < size; i++) {
-            sb.append(items.get(i).getName());
-            sb.append(", ");
-        }
-
-        sb.append(items.get(size).getName());
-
-        if (sb.length() > 25) {
-            sb.setLength(25);
-            sb.append(" ... ");
-        }
-
-        return sb.toString();
-    }
-
-    public String makeDisplayNameIngredient(ArrayList<Ingredient> items) {
-        StringBuilder sb = new StringBuilder();
-        int size = items.size() - 1;
-
-        for (int i = 0; i < size; i++) {
-            sb.append(items.get(i).getName());
-            sb.append(", ");
-        }
-
-        if (size >= 0)
-            sb.append(items.get(size).getName());
-
-        if (sb.length() > 25) {
-            sb.setLength(25);
-            sb.append(" ... ");
-        }
-
-        return sb.toString();
-    }
-
-    public String getStartDateString() {
-        return new SimpleDateFormat("EEEE, MMM d", Locale.CANADA).format(startDate);
-    }
-
-    public String getEndDateString() {
-        return new SimpleDateFormat("EEEE, MMM d", Locale.CANADA).format(endDate);
-    }
-
     private Constants.DAY_OF_WEEK convertDate( Date date ) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -214,48 +168,19 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
         return !(date.before(startDate) || date.after(endDate));
     }
 
-    public ArrayList<String> getMealNamesForDay(Constants.DAY_OF_WEEK day) {
-        ArrayList<String> names = new ArrayList<>();
-
-        for (Constants.MEAL_OF_DAY mealTimes: Constants.MEAL_OF_DAY.values()) {
-            names.add(getMealDisplayName(day, mealTimes));
-        }
-
-        return names;
-    }
-
-    public ArrayList<String> getMealNamesForDay(Date date) {
-        return getMealNamesForDay(convertDate(date));
-    }
-
-    public ArrayList<Boolean> getMealMadeForDay(Constants.DAY_OF_WEEK day) {
-        ArrayList<Boolean> bools = new ArrayList<>();
-
-        for (Constants.MEAL_OF_DAY mealTimes: Constants.MEAL_OF_DAY.values()) {
-            bools.add(getMealMade(day, mealTimes));
-        }
-
-        return bools;
-    }
-
-    public ArrayList<Boolean> getMealMadeForDay(Date date) {
-        return getMealMadeForDay(convertDate(date));
-    }
-
-    public HashMap<String, HashMap<String, Object>> getMealsForDay(Date date) {
-        return getMealsForDay(convertDate(date));
-    }
-
-    public HashMap<String, HashMap<String, Object>> getMealsForDay(Constants.DAY_OF_WEEK day) {
+    public HashMap<String, Meal> getMealsForDay(Constants.DAY_OF_WEEK day) {
         return plans.get(day.toString());
     }
 
+    public HashMap<String, Meal> getMealsForDay(Date date) {
+        return getMealsForDay(convertDate(date));
+    }
+
     public int getNumberOfMealsForDay(Constants.DAY_OF_WEEK day) {
-        int i = 0;
-        for (Constants.MEAL_OF_DAY mealTimes: Constants.MEAL_OF_DAY.values()) {
-            i = (getMeal(day, mealTimes) != null) ? i + 1 : i;
-        }
-        return i;
+        int count = 0;
+        for (Meal meal : getMealsForDay(day).values())
+            count = (meal == null) ? count : count + 1;
+        return count;
     }
 
     public int getNumberOfMealsForDay(Date date) {
@@ -274,28 +199,32 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
      */
     private void createMapForWeekday() {
         for( Constants.DAY_OF_WEEK day : Constants.DAY_OF_WEEK.values() ) {
-            HashMap < String, HashMap < String, Object > > meals = new HashMap<>();
+            HashMap< String, Meal > map = new HashMap<>();
             for( Constants.MEAL_OF_DAY meal : Constants.MEAL_OF_DAY.values() ) {
-                meals.put( meal.toString(), new HashMap<>(Map.of ( EXISTS, false ) ) );
+                map.put(meal.toString(), null);
             }
-            plans.put( day.toString(), meals );
+            plans.put( day.toString(), map );
         }
     }
 
-    private HashMap< String, Object > getMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
+    public Meal getMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
         // verbose null checking
         try {
-            HashMap<String, Object> meal = Objects.requireNonNull(Objects.requireNonNull(plans.get(dayOfWeek.toString())).get(mealOfDay.toString()));
-            if ((Boolean) Objects.requireNonNull(meal.get(EXISTS)))
-                return meal;
+            return Objects.requireNonNull(Objects.requireNonNull(plans.get(dayOfWeek.toString())).get(mealOfDay.toString()));
         } catch (Exception ignore) { }
 
         return null;
     }
 
-    private boolean setMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, HashMap<String, Object> meal) {
+    public Meal getMeal( Date date, Constants.MEAL_OF_DAY mealOfDay ) {
+        // verbose null checking
+        return getMeal(convertDate(date), mealOfDay);
+    }
+
+    private boolean setMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, Meal meal) {
         try {
-            Objects.requireNonNull(plans.get(dayOfWeek.toString())).put(mealOfDay.toString(), meal);
+            HashMap< String, Meal > map = Objects.requireNonNull(plans.get(dayOfWeek.toString()));
+            map.put(mealOfDay.toString(), meal);
             return true;
         } catch (Exception ignore) {
             return false;
@@ -309,116 +238,130 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
      *                  removed from.
      */
     public boolean removeMeal( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        Map<String, Object> meal = getMeal( dayOfWeek, mealOfDay );
-        if (meal == null)
+        if (getMeal( dayOfWeek, mealOfDay ) == null)
             return false;
 
-        setMeal(dayOfWeek, mealOfDay, new HashMap<>(Map.of(EXISTS, false)));
+        setMeal( dayOfWeek, mealOfDay, null );
         return true;
     }
 
     public void setMealItemsRecipe( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<Recipe> recipes) {
-        HashMap<String, Object> meal = getMeal(dayOfWeek, mealOfDay);
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
 
         if (meal == null)
-            meal = new HashMap<>();
+            meal = new Meal();
 
-        meal.put(NAME, makeDisplayNameRecipe(recipes));
-        meal.put(TYPE, Constants.COLLECTION_NAME.RECIPES.toString());
-        meal.put(EXISTS, true);
-        meal.put(MADE, false);
+        HashMap < String, Double > recipeScales = new HashMap<>();
+        for ( Recipe recipe : recipes )
+            recipeScales.put(recipe.getName(), 1.0);
 
-        ArrayList<DocumentReference> refs = new ArrayList<>();
-
-        for (Recipe recipe : recipes) {
-            insertRecipeIngredientToAll(recipe);
-            DocumentReference doc = fsm.getDocReferenceTo(Constants.COLLECTION_NAME.RECIPES, recipe);
-            refs.add(doc);
-        }
-        meal.put(REFERENCES, refs);
+        meal.setItems(recipeScales);
+        meal.setType(RECIPE_TYPE);
 
         setMeal(dayOfWeek, mealOfDay, meal);
     }
 
-    private void insertRecipeIngredientToAll(Recipe recipe) {
-        HashMap< String, HashMap<String, Object> > ingredientInfo = recipe.getIngredients();
+    public void setMealItemsIngredients( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<Ingredient> ingredients) {
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
 
-        for (Map.Entry<String, HashMap<String, Object>> entry : ingredientInfo.entrySet()) {
-            String ingredientName = entry.getKey();
-            HashMap<String, Object> details = new HashMap<>(entry.getValue());
+        if (meal == null)
+            meal = new Meal();
 
-            if (allIngredients.containsKey(ingredientName)) {
-                ArrayList<String> recipeStrings;
+        HashMap < String, Double > ingredientScales = new HashMap<>();
+        for ( Ingredient ingredient : ingredients )
+            ingredientScales.put(ingredient.getName(), 1.0);
 
-                if (allIngredients.get(ingredientName).containsKey(RECIPES))
-                    recipeStrings = (ArrayList<String>) allIngredients.get(ingredientName).get(RECIPES);
-                else
-                    recipeStrings = new ArrayList<>();
+        meal.setType(INGREDIENT_TYPE);
+        meal.setItems(ingredientScales);
 
-                if (!recipeStrings.contains(recipe.getName()))
-                    recipeStrings.add(recipe.getName());
-
-                details.put(RECIPES, recipeStrings);
-
-                Double oldCount = (Double) allIngredients.get(ingredientName).get(COUNT);
-                Double recipeCount = (Double) details.get(COUNT);
-
-                details.put(COUNT, oldCount + recipeCount);
-
-            } else {
-                ArrayList<String> recipeStrings = new ArrayList<>();
-                recipeStrings.add(recipe.getName());
-                details.put(RECIPES, recipeStrings);
-            }
-            allIngredients.put(ingredientName, details);
-        }
-    }
-
-    private void insertIngredientsToAll(Ingredient ingredient) {
-        if (allIngredients.containsKey(ingredient.getName())) {
-            Double oldCount = (Double) allIngredients.get(ingredient.getName()).get(COUNT);
-            allIngredients.get(ingredient.getName()).put(COUNT, oldCount + ingredient.getAmount());
-        } else {
-            HashMap<String, Object> ingredientDetails = new HashMap<>();
-            ingredientDetails.put(REFERENCES, fsm.getDocReferenceTo(Constants.COLLECTION_NAME.INGREDIENTS, ingredient));
-            ingredientDetails.put(COUNT, ingredient.getAmount());
-            ingredientDetails.put(RECIPES, null);
-            allIngredients.put(ingredient.getName(), ingredientDetails);
-        }
+        setMeal(dayOfWeek, mealOfDay, meal);
     }
 
     public HashMap < String, HashMap< String, Object > > getAllIngredients() {
         return allIngredients;
     }
 
-    public void setMealItemsIngredients( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, ArrayList<Ingredient> ingredients) {
-        HashMap<String, Object> meal = getMeal(dayOfWeek, mealOfDay);
+    public void generateAllIngredients() {
+        allIngredients.clear();
+        for (Constants.DAY_OF_WEEK weekDay : Constants.DAY_OF_WEEK.values()) {
+            for (Constants.MEAL_OF_DAY mealTime : Constants.MEAL_OF_DAY.values()) {
+                Meal meal = getMeal(weekDay, mealTime);
 
-        if (meal == null)
-            meal = new HashMap<>();
+                if (meal == null || meal.isMade())
+                    continue;
 
-        meal.put(NAME, makeDisplayNameIngredient(ingredients));
-        meal.put(TYPE, Constants.COLLECTION_NAME.INGREDIENTS.toString());
-        meal.put(EXISTS, true);
-        meal.put(MADE, false);
+                HashMap<String, Double> items = meal.getItems();
+                if (meal.getType() == INGREDIENT_TYPE) {
 
-        ArrayList<DocumentReference> refs = new ArrayList<>();
+                    for (String ingredientName : items.keySet()) {
+                        insertIngredientToAll(ingredientName, null,null, allIngredients);
+                    }
+                } else if (meal.getType() == RECIPE_TYPE) {
+                    for (Map.Entry<String, Double> entry : items.entrySet()) {
+                        String recipeName = entry.getKey();
+                        Double scale = entry.getValue();
 
-        for (Ingredient ingredient : ingredients) {
-            insertIngredientsToAll(ingredient);
-            DocumentReference doc = fsm.getDocReferenceTo(Constants.COLLECTION_NAME.INGREDIENTS, ingredient);
-            refs.add(doc);
+                        Recipe recipe = recipeStorage.getRecipe(recipeName);
+
+                        for (Map.Entry<String, HashMap<String, Object>> ingredient : recipe.getIngredients().entrySet()) {
+                            String ingredientName = ingredient.getKey();
+                            HashMap<String, Object> ingredientDetails = new HashMap<>(ingredient.getValue());
+                            Double ingredientAmount = (Double) ingredientDetails.get(COUNT);
+
+                            Double scaledAmount = Math.ceil(scale * ingredientAmount);
+                            insertIngredientToAll(ingredientName, recipeName, scaledAmount, allIngredients);
+                        }
+                    }
+                }
+            }
         }
-        meal.put(REFERENCES, refs);
+    }
 
-        setMeal(dayOfWeek, mealOfDay, meal);
+    public void insertIngredientToAll( String ingredientName, String recipeName, Double amount, HashMap<String, HashMap<String, Object>> allIngredients) {
+        Ingredient ingredient = ingredientStorage.getIngredient(ingredientName);
+        HashMap < String, Object > ingredientDetails;
+
+        if (allIngredients.containsKey(ingredientName)) {
+            ingredientDetails = allIngredients.get(ingredientName);
+            Double previousCount = (Double) ingredientDetails.get(COUNT);
+
+            if (amount == null)
+                ingredientDetails.put(COUNT, previousCount + ingredient.getAmount());
+            else
+                ingredientDetails.put(COUNT, previousCount + amount);
+
+            ArrayList<String> storedNames = (ArrayList<String>) allIngredients.get(ingredientName).get(MealPlan.RECIPES);
+            if (recipeName != null && storedNames != null) {
+                if (!storedNames.contains(recipeName)) {
+                    storedNames.add(recipeName);
+                    ingredientDetails.put(MealPlan.RECIPES, storedNames);
+                }
+            }
+
+            allIngredients.put(ingredientName, ingredientDetails);
+        }
+        else {
+            ingredientDetails = new HashMap<>();
+
+            if (amount == null)
+                ingredientDetails.put(COUNT, ingredient.getAmount());
+            else
+                ingredientDetails.put(COUNT, amount);
+
+            if (recipeName != null) {
+                ArrayList<String> recipeNames = new ArrayList<>();
+                recipeNames.add(recipeName);
+                ingredientDetails.put(RECIPES, recipeNames);
+            }
+
+            allIngredients.put(ingredientName, ingredientDetails);
+        }
     }
 
     public boolean setMealMade( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, Boolean made) {
-        HashMap<String, Object> meal = getMeal(dayOfWeek, mealOfDay);
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
         if (meal != null) {
-            meal.put(MADE, made);
-            setMeal(dayOfWeek, mealOfDay, meal);
+            meal.setMade(made);
             return true;
         }
         return false;
@@ -429,118 +372,101 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
     }
 
     public Boolean getMealMade( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        try {
-            return (Boolean) Objects.requireNonNull(getMeal(dayOfWeek, mealOfDay)).get(MADE);
-        } catch (Exception ignore) {
-            return false;
-        }
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
+        if (meal != null)
+            return meal.isMade();
+
+        return false;
     }
 
-    public String getMealDisplayName( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        try {
-            return (String) Objects.requireNonNull(getMeal(dayOfWeek, mealOfDay)).get(NAME);
-        } catch (Exception ignore) {
-            return null;
+    public HashMap< String, Double > getMealItems( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
+        if (meal != null)
+            return meal.getItems();
+
+        return null;
+    }
+
+    public ArrayList<Ingredient> getMealIngredients( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+        if (meal != null) {
+            for (String ingredientName : meal.getItems().keySet()) {
+                Ingredient ingredient = ingredientStorage.getIngredient(ingredientName);
+                ingredients.add(ingredient);
+            }
+            return ingredients;
         }
+
+        return null;
+    }
+
+    public ArrayList<Ingredient> getMealIngredients( Date date, Constants.MEAL_OF_DAY mealOfDay) {
+        return getMealIngredients(convertDate(date), mealOfDay);
+    }
+
+    public ArrayList<Recipe> getMealRecipes( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
+        ArrayList<Recipe> recipes = new ArrayList<>();
+
+        if (meal != null && meal.getItems() != null) {
+            for (String recipeName : meal.getItems().keySet()) {
+                Recipe recipe = recipeStorage.getRecipe(recipeName);
+                recipes.add(recipe);
+            }
+            return recipes;
+        }
+
+        return null;
+    }
+
+    public ArrayList<Recipe> getMealRecipes( Date date, Constants.MEAL_OF_DAY mealOfDay ) {
+        return getMealRecipes(convertDate(date), mealOfDay);
     }
 
     public Constants.COLLECTION_NAME getMealType( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        try {
-            String storedVal = (String) Objects.requireNonNull(getMeal(dayOfWeek, mealOfDay)).get(TYPE);
-            return Constants.COLLECTION_NAME.valueOf(storedVal);
-        } catch (Exception ignore) {
-            return null;
-        }
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
+        if (meal != null)
+            return meal.getType();
+
+        return null;
     }
+
     public Constants.COLLECTION_NAME getMealType( Date date, Constants.MEAL_OF_DAY mealOfDay ) {
         return getMealType(convertDate(date), mealOfDay);
     }
 
-    public ArrayList<Ingredient> ingredientList() {
-        return ingredients;
+    public HashMap<String, HashMap<String, Object>> getMealPlanIngredients( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay) {
+        return allIngredients;
     }
 
-    public ArrayList<Recipe> recipeList() {
-        return recipes;
-    }
-
-    @SuppressWarnings("unchecked")
-    public ArrayList<DocumentReference> getMealDocReferences( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        try {
-            return (ArrayList<DocumentReference>) Objects.requireNonNull(getMeal(dayOfWeek, mealOfDay)).get(REFERENCES);
-        } catch (Exception ignore) {
-            return null;
+    public void setScaleOnItem( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, String itemName, Double scaleFactor ) {
+        Meal meal = getMeal(dayOfWeek, mealOfDay);
+        if (meal != null) {
+            meal.setScale(itemName, scaleFactor);
+            generateAllIngredients();
         }
-    }
-
-    public ArrayList<DocumentReference> getMealDocReferences( Date date, Constants.MEAL_OF_DAY mealOfDay ) {
-        return getMealDocReferences(convertDate(date), mealOfDay);
-    }
-
-    public void getMealIngredients( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay, boolean clear ) {
-        if (getMeal(dayOfWeek, mealOfDay) == null)
-            return;
-
-        if (clear)
-            ingredients.clear();
-        // Always fetch using doc ref in case details have changed
-        for (DocumentReference ref : getMealDocReferences(dayOfWeek, mealOfDay)) {
-            fsm.getData(ref, this, new Ingredient());
-        }
-    }
-
-    public void setListeningActivity( DatasetWatcher context ) {
-        this.listeningActivity = context;
-    }
-
-    public void updateStorage() {
-        if( listeningActivity != null ) {
-            listeningActivity.signalChangeToAdapter();
-        }
-    }
-
-    public void getMealIngredients( Date date, Constants.MEAL_OF_DAY mealOfDay, boolean clear) {
-        getMealIngredients(convertDate(date), mealOfDay, clear);
-    }
-
-    public void getMealRecipes( Constants.DAY_OF_WEEK dayOfWeek, Constants.MEAL_OF_DAY mealOfDay ) {
-        if (getMeal(dayOfWeek, mealOfDay) == null)
-            return;
-
-        recipes.clear();
-        // Always fetch using doc ref in case details have changed
-        for (DocumentReference ref : getMealDocReferences(dayOfWeek, mealOfDay)) {
-            fsm.getData(ref, this, new Recipe());
-        }
-    }
-
-    public void getMealRecipes( Date date, Constants.MEAL_OF_DAY mealOfDay ) {
-        getMealRecipes(convertDate(date), mealOfDay);
     }
 
     public void consumeMeal(Date date, Constants.MEAL_OF_DAY mealTime) {
-        IngredientStorage ingredientStorage= IngredientStorage.getInstance();
-        RecipeStorage recipeStorage = RecipeStorage.getInstance();
+        if (getMealType(date, mealTime) == INGREDIENT_TYPE) {
+            for (Ingredient ingredient : getMealIngredients(date, mealTime))
+                ingredientStorage.requestConsumptionOfIngredient(ingredient, ingredient.getAmount());
 
-        if (getMealType(date, mealTime) == Constants.COLLECTION_NAME.INGREDIENTS) {
-            ArrayList<DocumentReference> refs = getMealDocReferences(date, mealTime);
-            for (DocumentReference ref : refs) {
-                Ingredient ingredient = ingredientStorage.getIngredient(ref.getId());
-                ingredientStorage.requestConsumptionOfIngredient(ingredient, 1.0);
-            }
         }
-        else if (getMealType(date, mealTime) == Constants.COLLECTION_NAME.RECIPES) {
-            ArrayList<DocumentReference> refs = getMealDocReferences(date, mealTime);
-            for (DocumentReference ref : refs) {
-                Recipe recipe = recipeStorage.getRecipe(ref.getId());
-                for (Map.Entry<String, HashMap<String, Object>> entry : recipe.getIngredients().entrySet()) {
-                    String ingredientName = entry.getKey();
-                    HashMap < String, Object > details = entry.getValue();
-                    Ingredient ingredient = ingredientStorage.getIngredient(ingredientName);
-                    recipeStorage.consumeIngredientInRecipe(ingredient, (Double) details.get(COUNT));
+        else if (getMealType(date, mealTime) == RECIPE_TYPE) {
+            Meal meal = getMeal(convertDate(date), mealTime);
+            for (Map.Entry<String, Double> entry : meal.getItems().entrySet()) {
+                Double scaleFactor = entry.getValue();
+                Recipe recipe = recipeStorage.getRecipe(entry.getKey());
+                for (Map.Entry<String, HashMap<String, Object>> ingredientDetails : recipe.getIngredients().entrySet()) {
+                    Ingredient ingredient = ingredientStorage.getIngredient(ingredientDetails.getKey());
+                    recipeStorage.consumeIngredientInRecipe(ingredient, Math.ceil(ingredient.getAmount() * scaleFactor));
                 }
             }
         }
+        generateAllIngredients();
     }
 
     /**
@@ -548,37 +474,8 @@ public class MealPlan extends DatabaseObject implements DatabaseListener {
      * Sunday-Saturday, with 3 meals defined a day.
      * @return
      */
-    public HashMap<String, HashMap<String, HashMap<String, Object > > > getPlans() {
+    public HashMap<String, HashMap<String, Meal > > getPlans() {
         return plans;
-    }
-
-    @Override
-    public void onDataFetchSuccess(DatabaseObject data) {
-        if (data == null) {
-            return;
-        }
-
-        if ( data.getClass() == Recipe.class ) {
-            Recipe recipe = (Recipe) data;
-            recipes.add(recipe);
-            updateStorage();
-        }
-
-        else if ( data.getClass() == Ingredient.class ){
-            Ingredient ingredient = (Ingredient) data;
-            ingredients.add(ingredient);
-            updateStorage();
-        }
-    }
-
-    @Override
-    public void onSharedDataFetchSuccess(Recipe data) {
-
-    }
-
-    @Override
-    public <T> void onSpinnerFetchSuccess(T listOfSpinners) {
-
     }
 
 }

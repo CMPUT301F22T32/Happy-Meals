@@ -67,33 +67,22 @@ public class MealPlanStorage implements DatabaseListener {
 
         for (MealPlan mp : mealPlans) {
             for (Map.Entry<String, HashMap<String, Object>> ingredient : mp.getAllIngredients().entrySet()) {
-
                 String ingredientName = ingredient.getKey();
                 HashMap<String, Object> details = new HashMap<>(ingredient.getValue());
+                Double count = (Double) details.get(MealPlan.COUNT);
+                mp.insertIngredientToAll(ingredientName, null, count, allIngredients);
 
-                if (allIngredients.containsKey(ingredientName)) {
-                    ArrayList<String> recipeNames = (ArrayList<String>) allIngredients.get(ingredientName).get(MealPlan.RECIPES);
-                    Double count = (Double) allIngredients.get(ingredientName).get(MealPlan.COUNT);
-
-                    if (recipeNames == null && details.get(MealPlan.RECIPES) != null) {
-                        recipeNames = new ArrayList<>((ArrayList<String>) details.get(MealPlan.RECIPES));
-                        details.put(MealPlan.RECIPES, recipeNames);
+                ArrayList<String> storedNames = (ArrayList<String>) allIngredients.get(ingredientName).get(MealPlan.RECIPES);
+                ArrayList<String> recipeNames = (ArrayList<String>) details.get(MealPlan.RECIPES);
+                if (recipeNames != null) {
+                    if (storedNames == null)
+                        allIngredients.get(ingredientName).put(MealPlan.RECIPES, recipeNames);
+                    else {
+                        ArrayList<String> newNames = new ArrayList<>(storedNames);
+                        newNames.removeAll(recipeNames);
+                        allIngredients.get(ingredientName).put(MealPlan.RECIPES, storedNames.addAll(newNames));
                     }
-
-                    else if (recipeNames != null && details.get(MealPlan.RECIPES) != null){
-                        ArrayList<String> newRecipes = (ArrayList<String>) details.get(MealPlan.RECIPES);
-                        // Must check duplicates
-                        for (String recipe : newRecipes) {
-                            if (!recipeNames.contains(recipe))
-                                recipeNames.add(recipe);
-                        }
-                        details.put(MealPlan.RECIPES, recipeNames);
-                    }
-
-                    Double amountToAdd = (Double) details.get(MealPlan.COUNT);
-                    details.put(MealPlan.COUNT, count + amountToAdd);
                 }
-                allIngredients.put(ingredientName, details);
             }
         }
         return allIngredients;
@@ -139,7 +128,7 @@ public class MealPlanStorage implements DatabaseListener {
     public void addMealPlan( MealPlan mealPlan ) {
         mealPlans.add( mealPlan );
         updateStorage();
-        fsm.addData(mealPlanCollection, mealPlan);
+        fsm.addData( mealPlanCollection, mealPlan );
     }
 
     public static void clearInstance() {

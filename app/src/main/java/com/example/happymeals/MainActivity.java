@@ -26,6 +26,7 @@ import com.example.happymeals.database.FirebaseAuthenticationHandler;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.mealplan.MealPlanActivity;
+import com.example.happymeals.mealplan.MealPlanStorage;
 import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.RecipeStorage;
 
@@ -89,12 +90,14 @@ public class MainActivity extends AppCompatActivity {
         // Create the firebase manager connection along with all the storage classes.
         fsm = FireStoreManager.getInstance();
         RecipeStorage.getInstance();
+        MealPlanStorage.getInstance();
         ingredientStorage = IngredientStorage.getInstance();
 
         calendarView = findViewById(R.id.main_activity_calendar_view);
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Instant.now().toEpochMilli());
         calendarView.setDate(c.getTimeInMillis());
+
         context = this;
         // Global Recipes Button
         TextView globalRecipes;

@@ -148,6 +148,19 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String itemSelected = adapterView.getItemAtPosition(i).toString();
+                //if sort by "Title" is selected
+                if(itemSelected.equals("Title")){
+                    adapter.sort(new Comparator<Recipe>() {
+                        @Override
+                        public int compare(Recipe r1, Recipe r2) {
+                            return r2.getName().compareTo(r1.getName());
+                        }
+
+                    });
+                    signalChangeToAdapter();
+                    dataAdapter.notifyDataSetChanged();
+                }
+
 
                 //if sort by "Total Time" is selected
                  if(itemSelected.equals("Total Time")){
@@ -187,6 +200,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
             }
         });
 
+        signalChangeToAdapter();
         TextView exploreRecipesText = findViewById( R.id.recipe_storage_explore_label );
         exploreRecipesText.setOnClickListener( new View.OnClickListener() {
             @Override

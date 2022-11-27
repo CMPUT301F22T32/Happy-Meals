@@ -134,7 +134,7 @@ public class ShoppingListActivity extends AppCompatActivity {
                         }
                     });
                 }
-                if (itemSelected.equals("DefaultLocationSpinners")) {
+                if (itemSelected.equals("Location")) {
                     shoppingListAdapter.sort(new Comparator<Ingredient>() {
                         @Override
                         public int compare(Ingredient i1, Ingredient i2) {

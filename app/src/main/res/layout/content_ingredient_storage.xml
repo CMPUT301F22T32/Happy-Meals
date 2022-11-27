@@ -3,17 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/recipe_list_description_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_storage_list_name_field" />
+    android:layout_height="100dp"
+    android:background="@drawable/main_activity_shape">
 
     <View
         android:id="@+id/divider"
@@ -31,8 +22,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/avenir_book_oblique"
         android:text="Amount"
+        android:textSize="15dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipe_list_servings_label" />
 
@@ -42,6 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="location"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/recipe_list_servings_label"
         app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_label" />
 
@@ -49,8 +45,10 @@
         android:id="@+id/ingredient_storage_amount_unit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="8dp"
         android:text="XX"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/ingredient_storage_amount_text"
         app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_text" />
 
@@ -59,33 +57,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/avenir_book_oblique"
         android:text="Location"
+        android:textSize="15dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_storage_list_name_field" />
 
     <TextView
         android:id="@+id/ingredient_storage_amount_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="12dp"
         android:text="XX"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/ingredient_storage_amount_label"
         app:layout_constraintStart_toEndOf="@+id/ingredient_storage_amount_label" />
 
     <TextView
         android:id="@+id/ingredient_storage_list_name_field"
-        android:layout_width="wrap_content"
+        android:layout_width="232dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/avenir_book_oblique"
+        android:maxWidth="200dp"
         android:text="Name"
-        android:textSize="16sp"
+
+        android:textColor="@color/white"
+        android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_list_description_field"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

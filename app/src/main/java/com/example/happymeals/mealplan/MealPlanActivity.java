@@ -96,8 +96,6 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         getWindow().setExitTransition(null);
     }
 
-    boolean noStoredMealPlans = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,13 +157,13 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
 
     private void changeViewForEmptyStorage() {
         if (mps.getMealPlans().size() == 0) {
-            noStoredMealPlans = true;
             viewAll.setVisibility(View.GONE);
             String prompt = "Looks like you don't have any meal plans yet... make one in just a few clicks.";
             noMPTab.setText(prompt);
         }
-        else
-            noStoredMealPlans = false;
+        else {
+            viewAll.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setCalendarListeners() {
@@ -317,7 +315,6 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             return;
         }
 
-        noStoredMealPlans = false;
         String buttonMessage = "View all meal plans";
         viewAll.setText(buttonMessage);
 

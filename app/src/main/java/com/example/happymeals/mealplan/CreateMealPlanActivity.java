@@ -122,8 +122,8 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         calendarNext = findViewById(R.id.calendar_next);
 
         start = LocalDateTime.now().with(LocalTime.MIN).with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        end = LocalDateTime.now().with(LocalTime.MIN).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-        end = end.minusSeconds(1);
+        end = LocalDateTime.now().with(LocalTime.MIN).with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+        end = end.plusHours(11).plusMinutes(59).plusSeconds(59);
 
         setListeners();
 

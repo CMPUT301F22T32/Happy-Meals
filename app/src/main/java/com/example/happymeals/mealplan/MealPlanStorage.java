@@ -127,7 +127,6 @@ public class MealPlanStorage implements DatabaseListener {
      */
     public void addMealPlan( MealPlan mealPlan ) {
         mealPlans.add( mealPlan );
-        System.out.println(mealPlans.toString());
         updateStorage();
         fsm.addData( mealPlanCollection, mealPlan );
     }

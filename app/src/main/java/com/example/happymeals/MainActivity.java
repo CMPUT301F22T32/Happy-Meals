@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            Toolbar toolbar = findViewById( R.id.appbar);
-            setSupportActionBar(toolbar);
-            // Create the firebase manager connection along with all the storage classes.
-            fsm = FireStoreManager.getInstance();
-            RecipeStorage.getInstance();
-            ingredientStorage = IngredientStorage.getInstance();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById( R.id.appbar);
+        setSupportActionBar(toolbar);
+        // Create the firebase manager connection along with all the storage classes.
+        fsm = FireStoreManager.getInstance();
+        RecipeStorage.getInstance();
+        ingredientStorage = IngredientStorage.getInstance();
 
         context = this;
         // Global Recipes Button
@@ -165,26 +165,21 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
 
                     case R.id.recipe_menu:
-                        Toast.makeText(MainActivity.this, "Recipes", Toast.LENGTH_LONG).show();
-
                         Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
                         startActivity(recipe_intent, bundle);
                         break;
 
                     case R.id.ingredient_menu:
-                        Toast.makeText(MainActivity.this, "Ingredients", Toast.LENGTH_LONG).show();
                         Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
                         startActivity(ingredient_intent, bundle);
                         break;
 
                     case R.id.mealplan_menu:
-                        Toast.makeText(MainActivity.this, "Meal Plan", Toast.LENGTH_LONG).show();
                         Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
                         startActivity(mealplan_intent, bundle);
                         break;
 
                     case R.id.shopping_menu:
-                        Toast.makeText(MainActivity.this, "Shopping List", Toast.LENGTH_LONG).show();
                         Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
                         startActivity(shoppinglist_intent, bundle);
                         break;
@@ -232,5 +227,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } );
         deleteFragment.display();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("Here");
     }
 }

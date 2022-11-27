@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                // close this activity
+                finish();
             }
         });
 

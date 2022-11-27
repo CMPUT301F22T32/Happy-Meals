@@ -1,11 +1,15 @@
 package com.example.happymeals.ingredient;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -15,12 +19,18 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
+import com.example.happymeals.databinding.BottomNavigationBarBinding;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
+import com.example.happymeals.mealplan.MealPlanActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Comparator;
 
@@ -46,7 +56,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
 
     private IngredientStorage ingredientStorage;
     private CheckBox viewMissingInfo;
-
+    private BottomNavigationView bottomNavMenu;
     /**
      * This function is called whenever the activity is spawned; it initializes the {@link #storageAdapter}
      * and {@link #storageListView} to properly display the polled data. Action listeners are also set
@@ -82,6 +92,48 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
 
         storageListView.setAdapter( storageAdapter );
 
+        // Navigation
+        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+
+        bottomNavMenu.setSelectedItemId(R.id.ingredient_menu);
+        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
+                        (Activity) context).toBundle();
+                switch (item.getItemId()) {
+                    case R.id.home_menu:
+                        Intent home_intent = new Intent(context, MainActivity.class);
+                        startActivity(home_intent, bundle);
+                        break;
+
+                    case R.id.recipe_menu:
+                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
+                        startActivity(recipe_intent, bundle);
+                        break;
+
+                    case R.id.ingredient_menu:
+                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
+                        startActivity(ingredient_intent, bundle);
+                        break;
+
+                    case R.id.mealplan_menu:
+                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
+                        startActivity(mealplan_intent, bundle);
+                        break;
+
+                    case R.id.shopping_menu:
+                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
+                        startActivity(shoppinglist_intent, bundle);
+                        break;
+                    default:
+                }
+
+                return true;
+
+            }
+        });
 
 
         Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();

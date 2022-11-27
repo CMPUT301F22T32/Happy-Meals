@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,9 @@ import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.MealPlanItemsFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.Recipe;
+import com.example.happymeals.recipe.RecipeStorage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
@@ -40,7 +43,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class CreateMealPlanActivity extends AppCompatActivity implements MealPlanItemsFragment.OnFragmentInteractionListener, DatasetWatcher {
+public class CreateMealPlanActivity extends AppCompatActivity implements MealPlanItemsFragment.OnFragmentInteractionListener, DatasetWatcher, RecipeStorageAdapter.SeekBarChangeListener {
 
     public static final String NEW_MEAPLAN_EXTRA = "com.example.happymeals.mealplan.new";
     public static final String EDITABLE_EXTRA = "com.example.happymeals.mealplan.editable";
@@ -66,6 +69,9 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
     private Button calendarPrevious;
     private Button calendarNext;
 
+    private Constants.COLLECTION_NAME INGREDIENT_TYPE = Constants.COLLECTION_NAME.INGREDIENTS;
+    private Constants.COLLECTION_NAME RECIPE_TYPE = Constants.COLLECTION_NAME.RECIPES;
+
     private Constants.DAY_OF_WEEK[] weekDayConstants = Constants.DAY_OF_WEEK.values();
     private Constants.MEAL_OF_DAY[] mealTimeConstants = Constants.MEAL_OF_DAY.values();
 
@@ -80,8 +86,8 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
 
     private Context context;
 
-    private IngredientStorageArrayAdapter ingredientAdapter = null;
-    private RecipeStorageAdapter recipeAdapter = null;
+    private IngredientStorageArrayAdapter ingredientAdapter;
+    private RecipeStorageAdapter recipeAdapter;
 
     private Boolean createNewMP = false;
     private Boolean autogen = false;
@@ -125,7 +131,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         createNewMP = extras.getBoolean(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA);
 
         if (createNewMP) {
-            mealplan = new MealPlan();
+            mealplan = new MealPlan(start.toString(), IngredientStorage.getInstance().getCurrentUser());
             autogen = extras.getBoolean(CreateMealPlanActivity.AUTOGEN_EXTRA);
             if (autogen) {
                 itemsForAutoGen = new HashMap<>();
@@ -141,21 +147,15 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
                 setEnvironmentNonEditable();
         }
 
-        recipeAdapter = new RecipeStorageAdapter(context, mealplan.recipeList(), true);
-        ingredientAdapter = new IngredientStorageArrayAdapter(context, mealplan.ingredientList());
-        mealplan.setListeningActivity(this);
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        recipeAdapter = new RecipeStorageAdapter(context, recipes, true);
+        recipeAdapter.setListener(this);
 
         resetListView();
         checkDuplicate();
 
         }
 
-    private void updateScales() {
-        for (int i = 0; i < recipeAdapter.getCount(); i++) {
-            MaterialTextView amount = itemsView.getChildAt(i).findViewById(R.id.recipe_scale_amount);
-            // TODO
-        }
-    }
 
     private void setListeners() {
         setAddListeners();
@@ -224,6 +224,8 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         int weekDay = weekTab.getSelectedTabPosition();
         int mealTime = mealsTab.getSelectedTabPosition();
 
+        Constants.COLLECTION_NAME type = mealplan.getMealType(weekDayConstants[weekDay], mealTimeConstants[mealTime]);
+
         String titleStr;
         if (autogen) {
             titleStr = String.format("Items for %s", mealTimeConstants[mealTime].toString().toLowerCase());
@@ -234,10 +236,10 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         }
 
         title.setText(titleStr);
-        Constants.COLLECTION_NAME type = mealplan.getMealType(weekDayConstants[weekDay], mealTimeConstants[mealTime]);
 
-        if (type == Constants.COLLECTION_NAME.INGREDIENTS) {
-            mealplan.getMealIngredients(weekDayConstants[weekDay], mealTimeConstants[mealTime], true);
+        if (type == INGREDIENT_TYPE) {
+            ArrayList<Ingredient> ingredients = mealplan.getMealIngredients(weekDayConstants[weekDay], mealTimeConstants[mealTime]);
+            ingredientAdapter = new IngredientStorageArrayAdapter(context, ingredients);
             itemsView.setAdapter(ingredientAdapter);
             emptyListText.setVisibility(View.GONE);
             add.setEnabled(false);
@@ -245,8 +247,16 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
             clear.setEnabled(true);
         }
 
-        else if (type == Constants.COLLECTION_NAME.RECIPES) {
-            mealplan.getMealRecipes(weekDayConstants[weekDay], mealTimeConstants[mealTime]);
+        else if (type == RECIPE_TYPE) {
+            ArrayList<Recipe> recipes = mealplan.getMealRecipes(weekDayConstants[weekDay], mealTimeConstants[mealTime]);
+            recipeAdapter.clear();
+            recipeAdapter.addAll(recipes);
+
+            ArrayList<Double> weights = new ArrayList<>();
+            for (Double scale : mealplan.getMeal(weekDayConstants[weekDay], mealTimeConstants[mealTime]).getItems().values())
+                weights.add(scale);
+            recipeAdapter.setScales(weights);
+
             itemsView.setAdapter(recipeAdapter);
             emptyListText.setVisibility(View.GONE);
             add.setEnabled(false);
@@ -371,8 +381,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
                     return;
                 }
 
-                updateScales();
-
                 if (autogen)
                     mealplan.generateMealPlan(itemsForAutoGen);
 
@@ -380,6 +388,8 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
                     storage.addMealPlan(mealplan);
                 else
                     storage.updateMealPlan(mealplan);
+
+                mealplan.generateAllIngredients();
 
                 finish();
             }
@@ -415,6 +425,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         mealplan.setMealItemsIngredients(weekDayConstants[weekDay], mealTimeConstants[mealTime], ingredients);
 
         resetListView();
+        signalChangeToAdapter();
     }
 
     @Override
@@ -428,6 +439,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         mealplan.setMealItemsRecipe(weekDayConstants[weekDay], mealTimeConstants[mealTime], recipes);
 
         resetListView();
+        signalChangeToAdapter();
     }
 
     @Override
@@ -438,4 +450,11 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
             recipeAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void changedValue(String recipeName, Double scale) {
+        int weekDay = weekTab.getSelectedTabPosition();
+        int mealTime = mealsTab.getSelectedTabPosition();
+
+        mealplan.setScaleOnItem(weekDayConstants[weekDay], mealTimeConstants[mealTime], recipeName, scale);
+    }
 }

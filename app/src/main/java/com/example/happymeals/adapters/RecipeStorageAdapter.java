@@ -14,7 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
+import com.example.happymeals.database.DatabaseListener;
+import com.example.happymeals.fragments.MealPlanItemsFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
+import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeDetailsActivity;
 import com.example.happymeals.recipe.RecipeStorage;
@@ -33,6 +36,13 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private Recipe currentRecipe;
 
     private Boolean showScaleSlider = false;
+    private ArrayList<Double> scaleAmounts = null;
+
+    private SeekBarChangeListener listener;
+
+    public interface SeekBarChangeListener {
+        void changedValue(String recipeName, Double scale);
+    }
 
     /**
      * Base constructor which will assign {@link Context} and the {@link ArrayList} which is being
@@ -46,8 +56,9 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         this.recipeStorageList = recipeStorageList;
         this.currentRecipe = null;
 
-        if (showScaleSlider.length > 0)
+        if (showScaleSlider.length > 0) {
             this.showScaleSlider = showScaleSlider[0];
+        }
     }
 
     /**
@@ -84,10 +95,25 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
             TextView amount = listItem.findViewById(R.id.recipe_scale_amount);
             SeekBar slider = listItem.findViewById(R.id.recipe_scale_slider);
 
+            String defaultValue;
+
+            if (scaleAmounts == null)
+                defaultValue = "1.0";
+            else {
+                Double scale = scaleAmounts.get(position);
+                defaultValue = Double.toString(scale);
+                slider.setProgress((int) (scale * 2) - 1);
+                servings.setText(String.valueOf(scale * currentRecipe.getServings()));
+            }
+            amount.setText(defaultValue);
+
             slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    amount.setText(String.valueOf((float) (i / 2.0) + 0.5));
+                    Double scale = (Double) (i / 2.0) + 0.5;
+                    amount.setText(String.valueOf(scale));
+                    servings.setText( String.valueOf(scale * currentRecipe.getServings()) );
+                    listener.changedValue(currentRecipe.getName(), scale);
                 }
 
                 @Override
@@ -126,6 +152,14 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
 //        });
 
         return listItem;
+    }
+
+    public void setScales(ArrayList<Double> scaleAmounts) {
+        this.scaleAmounts = scaleAmounts;
+    }
+
+    public void setListener(SeekBarChangeListener listener) {
+        this.listener = listener;
     }
 
     /**

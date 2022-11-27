@@ -25,6 +25,7 @@ import com.example.happymeals.database.FirebaseAuthenticationHandler;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.mealplan.MealPlanActivity;
+import com.example.happymeals.mealplan.MealPlanStorage;
 import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.RecipeStorage;
 
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             fsm = FireStoreManager.getInstance();
             RecipeStorage.getInstance();
             IngredientStorage.getInstance();
+            MealPlanStorage.getInstance();
 
             context = this;
             // Global Recipes Button

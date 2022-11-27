@@ -120,14 +120,24 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                storage.addRecipe( recipe );
-                InputErrorFragment inputErrorFragment =
-                        new InputErrorFragment(
-                            "Added Shared Recipe",
-                            "You have added " + recipe.getName() + " into your inventory",
-                            context
-                        );
-                inputErrorFragment.display();
+                if( !storage.alreadyHave( recipe ) ) {
+                    storage.addRecipe( recipe );
+                    InputErrorFragment inputErrorFragment =
+                            new InputErrorFragment(
+                                    "Added Shared Recipe",
+                                    "You have added " + recipe.getName() + " into your inventory",
+                                    context
+                            );
+                    inputErrorFragment.display();
+                } else {
+                    InputErrorFragment inputErrorFragment =
+                            new InputErrorFragment(
+                                    "Cannot Add Shared Recipe",
+                                    "You have already added " + recipe.getName() + " into your inventory",
+                                    context
+                            );
+                    inputErrorFragment.display();
+                }
             }
         });
     }

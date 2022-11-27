@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
                 if( TextUtils.isEmpty(inputPass.trim())) {
                     passwordInputField.setError("Password cannot be empty");
                 }
-                //3 Password length cannot be less than 8 chars
                 fireAuth.getFireAuth().userLogin(inputUser,inputPass, new OutputListener() {
                     @Override
                     public void onSuccess() {

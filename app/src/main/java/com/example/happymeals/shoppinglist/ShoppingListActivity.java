@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.ShoppingListAdapter;
@@ -58,47 +59,12 @@ public class ShoppingListActivity extends AppCompatActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         IngredientSort.setAdapter(dataAdapter);
 
-        // Navigation
-        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.shopping_menu );
 
-        bottomNavMenu.setSelectedItemId(R.id.shopping_menu);
-        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
 
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
-                        ShoppingListActivity.this).toBundle();
-                switch (item.getItemId()) {
-                    case R.id.home_menu:
-                        Intent home_intent = new Intent(context, MainActivity.class);
-                        startActivity(home_intent, bundle);
-                        break;
-
-                    case R.id.recipe_menu:
-                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
-                        startActivity(recipe_intent, bundle);
-                        break;
-
-                    case R.id.ingredient_menu:
-                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                        startActivity(ingredient_intent, bundle);
-                        break;
-
-                    case R.id.mealplan_menu:
-                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
-                        startActivity(mealplan_intent, bundle);
-                        break;
-
-                    case R.id.shopping_menu:
-                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
-                        startActivity(shoppinglist_intent, bundle);
-                        break;
-                    default:
-                }
-                return true;
-
-            }
-        });
+        bottomNavMenu.setupBarListener();
 
         IngredientSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

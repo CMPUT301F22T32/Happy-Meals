@@ -162,6 +162,7 @@ public class GlobalRecipesAdapter extends
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                RecipeStorage storage = RecipeStorage.getInstance();
                 if( isUsers ) {
                     RecipeStorage.getInstance().removeSharedRecipe( recipeInItem );
                     InputErrorFragment inputErrorFragment =
@@ -173,14 +174,24 @@ public class GlobalRecipesAdapter extends
                             );
                     inputErrorFragment.display();
                 } else {
-                    RecipeStorage.getInstance().addRecipe( recipeInItem );
-                    InputErrorFragment inputErrorFragment =
-                            new InputErrorFragment(
-                                    "Added Shared Recipe",
-                                    "You have added " + recipeInItem.getName() + " into your inventory",
-                                    context
-                            );
-                    inputErrorFragment.display();
+                    if( !storage.alreadyHave( recipeInItem ) ) {
+                        storage.addRecipe( recipeInItem );
+                        InputErrorFragment inputErrorFragment =
+                                new InputErrorFragment(
+                                        "Added Shared Recipe",
+                                        "You have added " + recipeInItem.getName() + " into your inventory",
+                                        context
+                                );
+                        inputErrorFragment.display();
+                    } else {
+                        InputErrorFragment inputErrorFragment =
+                                new InputErrorFragment(
+                                        "Cannot Add Shared Recipe",
+                                        "You have already added " + recipeInItem.getName() + " into your inventory",
+                                        context
+                                );
+                        inputErrorFragment.display();
+                    }
                 }
                 notifyDataSetChanged();
             }

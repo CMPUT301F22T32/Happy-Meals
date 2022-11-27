@@ -43,7 +43,7 @@ public class RecipeStorage implements DatabaseListener {
     private IngredientStorage ingredientStorage;
     private FireStoreManager fsm;
     private CollectionReference collection;
-
+    private ArrayList< String > collectionOfIds;
     private DatasetWatcher sharedListener;
 
     private ArrayList< Ingredient > ingredientHolderForReturn;
@@ -56,6 +56,7 @@ public class RecipeStorage implements DatabaseListener {
      */
     private RecipeStorage() {
         this.recipes = new ArrayList<>();
+        this.collectionOfIds = new ArrayList<>();
         this.sharedRecipes = new ArrayList<>();
         this.ingredientStorage = IngredientStorage.getInstance();
         this.ingredientHolderForReturn = new ArrayList<>();
@@ -74,10 +75,15 @@ public class RecipeStorage implements DatabaseListener {
      */
     public void addRecipe(Recipe recipe) {
         if( !recipes.contains( recipe ) ) {
+            collectionOfIds.add( recipe.getId() );
             recipes.add(recipe);
         }
         fsm.addData( collection, recipe );
         updateStorage();
+    }
+
+    public boolean alreadyHave( Recipe recipe ) {
+        return collectionOfIds.contains( recipe.getId() );
     }
 
     /**
@@ -321,7 +327,7 @@ public class RecipeStorage implements DatabaseListener {
             return;
         }
         if( data.getClass() == Recipe.class ) {
-            recipes.add( (Recipe) data );
+            addRecipe( (Recipe) data );
             updateStorage();
         } else if( data.getClass() == Ingredient.class ) {
             this.ingredientHolderForReturn.add( (Ingredient) data );

@@ -221,7 +221,7 @@ public class IngredientStorage implements DatabaseListener {
      */
     public void updateIngredient( Ingredient ingredient ) {
         for( Ingredient i : ingredients ) {
-            if( i.getName().equals(ingredient.getName() ) ){
+            if( i.getId().equals(ingredient.getId() ) ){
                 i = ingredient;
                 updateStorage();
                 ingredient.setNeedsUpdate(false);

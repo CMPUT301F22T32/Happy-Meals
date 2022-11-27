@@ -38,6 +38,7 @@ public class HappyMealBottomNavigation {
 
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
+                activity.getWindow().setExitTransition(null);
                 switch (item.getItemId()) {
 
                     case R.id.home_menu:
@@ -65,9 +66,7 @@ public class HappyMealBottomNavigation {
                         break;
                     default:
                 }
-
                 return true;
-
             }
         });
     }

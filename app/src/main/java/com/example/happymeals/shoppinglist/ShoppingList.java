@@ -120,7 +120,7 @@ public class ShoppingList {
     public void pickUpItems(ArrayList<Ingredient> list) {
         for (Ingredient ingredient : list) {
             ingredient.setNeedsUpdate(true);
-            ingredientStorage.updateIngredient(ingredient);
+//            ingredientStorage.updateIngredient(ingredient);
         }
     }
 

@@ -277,4 +277,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         getWindow().setExitTransition(null);
     }
+
+
 }

@@ -9,23 +9,15 @@
     <include
         layout="@layout/main_action_bar"
         android:id="@+id/appbar"></include>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@drawable/menu_shape"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        app:itemIconSize="42dp"
-        app:itemIconTint="@drawable/colorshift"
-        app:itemTextColor="@drawable/colorshift"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:menu="@menu/menu_bar" />
+        <include
+            android:id="@+id/bottomNavigationView_layout"
+            layout="@layout/bottom_navigation_bar"></include>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <TextView

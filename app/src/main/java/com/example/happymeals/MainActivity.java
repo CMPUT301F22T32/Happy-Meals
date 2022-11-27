@@ -116,6 +116,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.home_menu );
+
+
+        bottomNavMenu.setupBarListener();
+
         expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 
             @Override
@@ -226,43 +233,6 @@ public class MainActivity extends AppCompatActivity {
             notification.addNotification();
         }
 
-        // Navigation
-        bottomNavMenu = findViewById(R.id.bottomNavigationView);
-
-
-        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-                switch (item.getItemId()) {
-
-                    case R.id.recipe_menu:
-                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
-                        startActivity(recipe_intent, bundle);
-                        break;
-
-                    case R.id.ingredient_menu:
-                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                        startActivity(ingredient_intent, bundle);
-                        break;
-
-                    case R.id.mealplan_menu:
-                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
-                        startActivity(mealplan_intent, bundle);
-                        break;
-
-                    case R.id.shopping_menu:
-                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
-                        startActivity(shoppinglist_intent, bundle);
-                        break;
-                    default:
-                }
-
-                return true;
-
-            }
-        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

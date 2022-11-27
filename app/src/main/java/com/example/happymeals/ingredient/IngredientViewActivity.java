@@ -15,12 +15,12 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.InputValidator;
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -53,7 +53,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_ingredient_view);
+        setContentView(R.layout.activity_ingredient_details);
 
         // won't need new instance after we have the singleton ingredient storage initialized in
         // main class
@@ -76,6 +76,13 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
         // Populate the spinners
         populateSpinners();
+
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.ingredient_menu );
+
+
+        bottomNavMenu.setupBarListener();
 
         newIngredient = intent.getBooleanExtra( ADD_INGREDIENT, false );
         if ( !newIngredient )

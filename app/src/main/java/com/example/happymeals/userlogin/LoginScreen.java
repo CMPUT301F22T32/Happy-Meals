@@ -1,4 +1,4 @@
-package com.example.happymeals;
+package com.example.happymeals.userlogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.happymeals.R;
 
 /**
  * This class is a candidate to be the entry point of the application -- its implementation has yet

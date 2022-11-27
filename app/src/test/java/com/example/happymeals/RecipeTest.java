@@ -53,17 +53,21 @@ public class RecipeTest {
     }
 
     @Test
-    void getDescriptionTest() {
+    void getSetDescriptionTest() {
         Recipe recipe = mockRecipe();
-        String description = recipe.getDescription();
-        assertEquals("This is a nice recipe", description );
+        assertEquals("This is a nice recipe", recipe.getDescription() );
+        recipe.setDescription("New");
+        assertEquals("New", recipe.getDescription() );
     }
 
     @Test
-    void getCommentsTest() {
+    void getSetCommentsTest() {
         Recipe recipe = mockRecipe();
         ArrayList< String > comments = recipe.getComments();
         assertEquals( new ArrayList<>(Arrays.asList("CommentOne","Comment2")), comments);
+        ArrayList<String> tempList = new ArrayList<>(Arrays.asList("HelloThere"));
+        recipe.setComments( tempList );
+        assertEquals(tempList, recipe.getComments());
     }
 
     @Test
@@ -74,73 +78,52 @@ public class RecipeTest {
     }
 
     @Test
-    void getServingsTest() {
+    void getSetServingsTest() {
         Recipe recipe = mockRecipe();
         Double servings = mockRecipe().getServings();
         assertEquals((Double) 12.0, servings);
+        recipe.setServings(33);
+        assertEquals(33, recipe.getServings());
     }
 
     @Test
-    void getCookTimeTest() {
+    void getSetCookTimeTest() {
         Recipe recipe = mockRecipe();
         Double cookTime = recipe.getCookTime();
         assertEquals((Double) 2.0, cookTime);
+        recipe.setCookTime( 25 );
+        assertEquals(25, recipe.getCookTime());
     }
 
     @Test
-    void getPrepTimeTest() {
+    void getSetPrepTimeTest() {
         Recipe recipe = mockRecipe();
         Double prepTime = recipe.getPrepTime();
         assertEquals((Double) 25.0, prepTime);
+        recipe.setPrepTime( 22 );
+        assertEquals( 22, recipe.getPrepTime() );
     }
 
     @Test
-    void getIngerdientCountTest() {
+    void getSetIngerdientCountTest() {
         Recipe recipe = mockRecipe();
+        assertEquals(3, recipe.getIngredients()
+                .get("randomRecipe").get("count"));
+        HashMap< String, HashMap< String, Object > > tempMap = new HashMap<>();
+        HashMap< String, Object > countMap = new HashMap<>();
+        countMap.put("count", 23);
+        tempMap.put("alfredo", countMap );
+        recipe.setIngredients( tempMap );
+        assertEquals(23, recipe.getIngredients().get("alfredo").get("count"));
     }
-//    @Test
-//    void gettersTest() {
-//        // making a recipe
-//        IngredientStorage ingredientStorage = IngredientStorage.getInstance();
-//        RecipeStorage recipeStorage = RecipeStorage.getInstance();
-//
-//        ArrayList<String> comments = new ArrayList<String>();
-//        comments.add("Very Good");
-//        comments.add("Try with ground turkey next time");
-//        String strComments = "1: Very Good\n2: Try with ground turkey next time\n";
-//        ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-//        ingredients.add(new Ingredient("Lettuce", "Crisp romaine lettuce",
-//                new Date(2022, 01, 11), Constants.Location.FRIDGE, 1,
-//                Constants.AmountUnit.COUNT, Constants.IngredientCategory.FRUIT));
-//        ingredients.add(new Ingredient("Ground beef", "Extra lean ground beef",
-//                new Date(2023, 01, 01), Constants.Location.FREEZER, 500,
-//                Constants.AmountUnit.MG, Constants.IngredientCategory.MEAT));
-//        ArrayList instructions = new ArrayList<String>();
-//        instructions.add("Cook beef in a hot pan");
-//        instructions.add("Cut lettuce");
-//        String strInstructions = "1: Cook beef in a hot pan\n2: Cut lettuce\n";
-//        HashMap< String, HashMap< String, Object > > ingredientMap = new HashMap<>();
-//        for( Ingredient i : ingredients ) {
-//            ingredientMap.put(i.getName(), new HashMap<>() );
-//        }
-//        Recipe recipe = new Recipe("Tacos", 2, "The best tacos ever", "TestUser",
-//                comments, recipeStorage.makeIngredientMapForRecipe(ingredientMap),
-//                strInstructions, 15, 6, "images/HelloWorld");
-//
-//        // Test getters
-//        assertEquals("Tacos", recipe.getName());
-//        assertEquals(2, recipe.getCookTime());
-//        assertEquals("The best tacos ever", recipe.getDescription());
-//        assertEquals(comments, recipe.getComments());
-//        assertEquals(strComments, recipe.getCommentsAsString());
-//        assertEquals(ingredients, recipe.getIngredients());
-//        assertEquals(instructions, recipe.getInstructions());
-//        assertEquals(strInstructions, recipe.getInstructions());
-//        assertEquals(15, recipe.getPrepTime());
-//        assertEquals(6, recipe.getServings());
-//
-//    }
 
+    @Test
+    void getSetImagePathTest() {
+        Recipe recipe = mockRecipe();
+        assertEquals("TestPathForImage", recipe.getImageFilePath());
+        recipe.setImageFilePath("TestPath");
+        assertEquals("TestPath", recipe.getImageFilePath());
+    }
 
 
 }

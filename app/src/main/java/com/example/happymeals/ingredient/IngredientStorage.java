@@ -131,7 +131,8 @@ public class IngredientStorage implements DatabaseListener {
      *              provided {@link Ingredient}.
      */
     public void requestConsumptionOfIngredient( Ingredient ingredient, Double count ) {
-        ingredient.setAmount( ingredient.getAmount() - count );
+        ingredient.setAmount(
+                (ingredient.getAmount() - count) >=0 ? ingredient.getAmount() - count : 0);
         updateIngredient( ingredient );
     }
 

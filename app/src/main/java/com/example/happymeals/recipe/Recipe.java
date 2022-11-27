@@ -25,13 +25,13 @@ import java.util.HashMap;
  */
 public class Recipe extends DatabaseObject {
 
-    private double cookTime;
+    private int cookTime;
     private String description;
     private ArrayList< String > comments;
     private HashMap< String, HashMap< String, Object > > ingredients;
     private String instructions;
-    private double prepTime;
-    private double servings;
+    private int prepTime;
+    private Double servings;
     private String imageFilePath;
 
     /**
@@ -56,10 +56,10 @@ public class Recipe extends DatabaseObject {
      *                               described.
      * @param imageFilePath {@link String} the image of the recipe
      */
-    public Recipe( String name, String creator, double cookTime, String description, ArrayList< String > comments,
+    public Recipe( String name, String creator, int cookTime, String description, ArrayList< String > comments,
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
-                   double prepTime, double servings, String imageFilePath ) {
+                   int prepTime, double servings, String imageFilePath ) {
         super(name, creator);
         this.cookTime = cookTime;
         this.description = description;
@@ -99,7 +99,7 @@ public class Recipe extends DatabaseObject {
      * Gets the cook time of the recipe.
      * @return {@link Double} cookTime measured in hrs.
      */
-    public double getCookTime() {
+    public int getCookTime() {
         return cookTime;
     }
 
@@ -155,7 +155,7 @@ public class Recipe extends DatabaseObject {
      * Gets the stored prep time of the recipe. This is the total time - cook time.
      * @return THe {@link Double} representing the prepTime in hrs.
      */
-    public double getPrepTime() {
+    public int getPrepTime() {
         return prepTime;
     }
 
@@ -170,11 +170,11 @@ public class Recipe extends DatabaseObject {
     public void setDescription( String description ) {
         this.description = description;
     }
-    public void setPrepTime( double prepTime ) {
+    public void setPrepTime( int prepTime ) {
         this.prepTime = prepTime;
     }
 
-    public void setCookTime( double cookTime ) {
+    public void setCookTime( int cookTime ) {
         this.cookTime = cookTime;
     }
 

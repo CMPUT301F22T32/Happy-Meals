@@ -215,7 +215,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 String nameArg = name.getText().toString();
                 String descriptionArg = description.getText().toString();
                 String locationArg = (String) locationSpinner.getSelectedItem();
-                int amountArg = Integer.parseInt(quantity.getText().toString());
+                Double amountArg = Double.parseDouble(quantity.getText().toString());
                 String amountUnitArg = (String) unitSpinner.getSelectedItem();
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 
@@ -232,6 +232,9 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 }
 
                 else {
+                    if( dateArg == null ) {
+                        dateArg = ingredient.getBestBeforeDate();
+                    }
                     ingredient.setName( nameArg );
                     ingredient.setDescription( descriptionArg );
                     ingredient.setBestBeforeDate( dateArg );

@@ -63,19 +63,18 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
         Ingredient ingredient = storageList.get(position);
 
         TextView name = view.findViewById( R.id.ingredient_storage_list_name_field);
-        TextView description = view.findViewById(R.id.recipe_list_description_field);
         TextView location = view.findViewById(R.id.recipe_list_servings_field);
         TextView amount = view.findViewById(R.id.ingredient_storage_amount_text);
         TextView unit = view.findViewById(R.id.ingredient_storage_amount_unit_text);
 
-            name.setText( ingredient.getName() );
-            location.setText(ingredient.getLocation().toString());
-            if( countMap != null ) {
-                amount.setText(countMap.get( ingredient.getName()).get("count").toString());
-            } else {
-                amount.setText(ingredient.getAmount().toString());
-            }
-            unit.setText(ingredient.getUnit().toString());
+        name.setText( ingredient.getName() );
+        location.setText(ingredient.getLocation().toString());
+        if( countMap != null ) {
+            amount.setText(countMap.get( ingredient.getName()).get("count").toString());
+        } else {
+            amount.setText(ingredient.getAmount().toString());
+        }
+        unit.setText(ingredient.getUnit().toString());
 
         return view;
     }

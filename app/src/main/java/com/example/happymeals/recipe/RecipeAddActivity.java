@@ -170,12 +170,12 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 storage.addRecipe( new Recipe(
                         newName,
                         storage.getCurrentUser(),
-                        new Double( newCookTime ),
+                        new Integer( newCookTime ),
                         newDescription,
                         comments,
                         RecipeStorage.getInstance().makeIngredientMapForRecipe( countMap ),
                         newInstructions,
-                        new Double( newPrepTime ),
+                        new Integer( newPrepTime ),
                         new Double( newServings ), imageFilePath
                 ));
                 finish();

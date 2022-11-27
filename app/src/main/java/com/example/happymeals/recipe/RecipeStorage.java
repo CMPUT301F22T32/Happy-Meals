@@ -73,7 +73,9 @@ public class RecipeStorage implements DatabaseListener {
      * @param recipe The {@link Recipe} which is being added.
      */
     public void addRecipe(Recipe recipe) {
-        recipes.add(recipe);
+        if( !recipes.contains( recipe ) ) {
+            recipes.add(recipe);
+        }
         fsm.addData( collection, recipe );
         updateStorage();
     }

@@ -318,8 +318,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
 
 
         recipe.setDescription( newDescription );
-        recipe.setPrepTime( new Double( newPrepTime ));
-        recipe.setCookTime( new Double( newCookTime ));
+        recipe.setPrepTime( new Integer( newPrepTime ));
+        recipe.setCookTime( new Integer( newCookTime ));
         recipe.setServings( new Double( newServings ));
         recipe.setComments( comments );
         recipe.setInstructions( newInstructions );

@@ -105,68 +105,62 @@ public class MainActivity extends AppCompatActivity {
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        expandableListTitle.get(groupPosition) + " List Expanded.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        expandableListTitle.get(groupPosition) + " List Collapsed.",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        expandableListTitle.get(groupPosition)
+                                + " -> "
+                                + expandableListDetail.get(
+                                expandableListTitle.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+        });
 
 
+        globalRecipes = findViewById(R.id.find_recipes);
+
+        globalRecipes.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, PublicRecipeActivity.class));
+            }
+        });
+
+        // Display the username of user
+        TextView welcomeMessage = findViewById(R.id.user_welcome);
+        welcomeMessage.setText("Enjoy a Happy Meal "
+                + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName());
+        // The 4 buttons to access the other activities
 
 
-                @Override
-                public void onGroupExpand(int groupPosition) {
-                    Toast.makeText(getApplicationContext(),
-                            expandableListTitle.get(groupPosition) + " List Expanded.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-                @Override
-                public void onGroupCollapse(int groupPosition) {
-                    Toast.makeText(getApplicationContext(),
-                            expandableListTitle.get(groupPosition) + " List Collapsed.",
-                            Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v,
-                                            int groupPosition, int childPosition, long id) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            expandableListTitle.get(groupPosition)
-                                    + " -> "
-                                    + expandableListDetail.get(
-                                    expandableListTitle.get(groupPosition)).get(
-                                    childPosition), Toast.LENGTH_SHORT
-                    ).show();
-                    return false;
-                }
-            });
-
-
-            globalRecipes = findViewById(R.id.find_recipes);
-
-            globalRecipes.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, PublicRecipeActivity.class));
-                }
-            });
-
-            // Display the username of user
-            TextView welcomeMessage = findViewById(R.id.user_welcome);
-            welcomeMessage.setText("Enjoy a Happy Meal "
-                    + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName());
-            // The 4 buttons to access the other activities
-
-
-            ingredientStorage = IngredientStorage.getInstance();
+        ingredientStorage = IngredientStorage.getInstance();
 
         context = this;
-        // Global Recipes Button
-        TextView globalRecipes;
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
@@ -220,13 +214,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PublicRecipeActivity.class));
             }
         });
-
-        // Display the username of user
-        TextView welcomeMessage = findViewById(R.id.user_welcome);
-        welcomeMessage.setText("Enjoy a Happy Meal "
-                + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName());
-        // The 4 buttons to access the other activities
-
 
         // Notification
         notification = new NotificationManagerClass("Update Information",

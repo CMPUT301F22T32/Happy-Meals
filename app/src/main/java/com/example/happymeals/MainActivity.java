@@ -31,6 +31,7 @@ import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.RecipeStorage;
 
 import com.example.happymeals.userlogin.LoginActivity;
+import com.example.happymeals.userlogin.StartScreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentReference;
@@ -266,7 +267,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         FirebaseAuthenticationHandler.getFireAuth().authenticate.signOut();
                         FireStoreManager.clearInstance();
-                        finish();
+                        Intent loginIntent = new Intent( getApplicationContext(), StartScreenActivity.class);
+                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(loginIntent);
                     }
                 } );
         deleteFragment.display();

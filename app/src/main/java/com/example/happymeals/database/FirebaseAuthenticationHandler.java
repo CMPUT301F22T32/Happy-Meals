@@ -62,7 +62,7 @@ public class FirebaseAuthenticationHandler {
                     Log.d("LoginActivity", "User has successfully authenticated");
                 }
                 else {
-                    listener.onFailure(new Exception());
+                    listener.onFailure(action.getException());
                     Log.d("LoginActivity", "User authentication was unsuccessful");
                 }
 
@@ -92,9 +92,12 @@ public class FirebaseAuthenticationHandler {
             @Override
             public void onComplete(@NonNull Task<AuthResult> action) {
                 if(action.isSuccessful()) {
+                    listener.onSuccess();
                     UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                             .setDisplayName( username ).build();
                     fireAuth.authenticate.getCurrentUser().updateProfile( profileUpdate );
+                } else {
+                    listener.onFailure(action.getException());
                 }
             }
         });

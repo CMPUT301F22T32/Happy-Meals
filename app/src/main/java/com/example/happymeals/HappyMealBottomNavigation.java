@@ -40,6 +40,10 @@ public class HappyMealBottomNavigation {
                 Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
                 switch (item.getItemId()) {
 
+                    case R.id.home_menu:
+                        Intent home_intent = new Intent(context, MainActivity.class);
+                        activity.startActivity(home_intent, bundle);
+                        break;
                     case R.id.recipe_menu:
                         Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
                         activity.startActivity(recipe_intent, bundle);

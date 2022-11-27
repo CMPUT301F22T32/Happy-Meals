@@ -9,10 +9,12 @@
         android:id="@+id/shared_recipes_title_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
         android:text="@string/public_recipes"
+        android:textSize="20dp"
         android:textStyle="bold"
+        android:fontFamily="@font/avenir_black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,6 +25,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
         android:text="@string/search"
+        android:fontFamily="@font/avenir_light_oblique"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shared_recipes_title_label" />
@@ -47,8 +50,10 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
     <View
         android:id="@+id/divider3"
@@ -74,8 +79,9 @@
             android:id="@+id/shared_recipe_name_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
+            android:fontFamily="@font/avenir_roman"
             android:maxWidth="55dp"
             android:text="@string/name_shared" />
 
@@ -85,7 +91,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxWidth="50dp"
-            android:text="@string/creator" />
+            android:text="@string/creator"
+            android:fontFamily="@font/avenir_roman"/>
 
         <TextView
             android:id="@+id/shared_recipe_servings_label"
@@ -93,7 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="110dp"
             android:layout_weight="1"
-            android:text="@string/servings" />
+            android:text="@string/servings"
+            android:fontFamily="@font/avenir_roman"/>
     </LinearLayout>
 
     <Button
@@ -103,6 +111,8 @@
         android:layout_marginTop="8dp"
         android:onClick="toggleUserRecipes"
         android:text="See my Recipes Only"
+        android:fontFamily="@font/avenir_black"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/shared_recipes_title_label"
         app:layout_constraintTop_toTopOf="parent" />

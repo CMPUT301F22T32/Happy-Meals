@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListAdapter;
@@ -38,6 +39,12 @@ import com.example.happymeals.ingredient.IngredientStorageActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
 import com.example.happymeals.shoppinglist.ShoppingListActivity;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import android.widget.CalendarView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+    CalendarView calendarView;
 
     BottomNavigationView bottomNavMenu;
     private FireStoreManager fsm;
@@ -62,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     // Notification
     private NotificationManagerClass notification;
     private IngredientStorage ingredientStorage; // needed to genertate notifications
+
 
 
     /**
@@ -79,6 +88,80 @@ public class MainActivity extends AppCompatActivity {
             // Create the firebase manager connection along with all the storage classes.
             fsm = FireStoreManager.getInstance();
             RecipeStorage.getInstance();
+
+            IngredientStorage.getInstance();
+
+            calendarView = findViewById(R.id.main_activity_calendar_view);
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(Instant.now().toEpochMilli());
+            calendarView.setDate(c.getTimeInMillis());
+            context = this;
+            // Global Recipes Button
+            TextView globalRecipes;
+
+            expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+            expandableListDetail = ExpandableListDataPump.getData();
+            expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+            expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+            expandableListView.setAdapter(expandableListAdapter);
+            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+
+
+
+                @Override
+                public void onGroupExpand(int groupPosition) {
+                    Toast.makeText(getApplicationContext(),
+                            expandableListTitle.get(groupPosition) + " List Expanded.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+                @Override
+                public void onGroupCollapse(int groupPosition) {
+                    Toast.makeText(getApplicationContext(),
+                            expandableListTitle.get(groupPosition) + " List Collapsed.",
+                            Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v,
+                                            int groupPosition, int childPosition, long id) {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            expandableListTitle.get(groupPosition)
+                                    + " -> "
+                                    + expandableListDetail.get(
+                                    expandableListTitle.get(groupPosition)).get(
+                                    childPosition), Toast.LENGTH_SHORT
+                    ).show();
+                    return false;
+                }
+            });
+
+
+            globalRecipes = findViewById(R.id.find_recipes);
+
+            globalRecipes.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, PublicRecipeActivity.class));
+                }
+            });
+
+            // Display the username of user
+            TextView welcomeMessage = findViewById(R.id.user_welcome);
+            welcomeMessage.setText("Enjoy a Happy Meal "
+                    + FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser().getDisplayName());
+            // The 4 buttons to access the other activities
+
+
             ingredientStorage = IngredientStorage.getInstance();
 
         context = this;
@@ -152,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         if ( ingredientStorage.isIngredientsMissingInfo() ) {
             notification.addNotification();
         }
+
 
         // Navigation
         bottomNavMenu = findViewById(R.id.bottomNavigationView);

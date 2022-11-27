@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/MealPlanBoxConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="158dp"
+            android:layout_height="137dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ingredient_specific_list_name_field"
+            android:layout_width="232dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/avenir_book_oblique"
+            android:maxWidth="200dp"
+            android:text="Name"
+            android:textColor="@color/empty_red"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/recipe_list_servings_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center|center_vertical"
+            android:text="Servings"
+            android:textSize="14dp"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/ingredient_specific_list_name_field" />
+
+        <TextView
+            android:id="@+id/recipe_list_servings_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/avenir_book_oblique"
+            android:text="0"
+            android:textSize="14dp"
+            app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_label"
+            app:layout_constraintTop_toTopOf="@+id/recipe_list_servings_label" />
+
+        <TextView
+            android:id="@+id/recipe_list_description_field"
+            android:layout_width="218dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/avenir_book_oblique"
+            android:text="Description"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_content_creator_label" />
+
+        <TextView
+            android:id="@+id/recipe_content_prep_time_field"
+            android:layout_width="89dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="14dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/recipe_content_cook_time_field"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
+
+        <TextView
+            android:id="@+id/recipe_content_cook_time_field"
+            android:layout_width="78dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="13dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.489"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_list_description_field" />
+
+        <TextView
+            android:id="@+id/recipe_content_creator_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/avenir_book_oblique"
+            android:text="@string/creator"
+            app:layout_constraintStart_toEndOf="@+id/recipe_list_servings_label"
+            app:layout_constraintTop_toTopOf="@+id/recipe_list_servings_label" />
+
+        <TextView
+            android:id="@+id/recipe_content_creator_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:text="None"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/recipe_content_creator_label"
+            app:layout_constraintTop_toTopOf="@+id/recipe_content_creator_label" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

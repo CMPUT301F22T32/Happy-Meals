@@ -138,11 +138,10 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                         }
                     });
                 }
-                if(itemSelected.equals("DefaultLocationSpinners")){
+                if(itemSelected.equals("Location")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
                         public int compare(Ingredient i1, Ingredient i2) {
-                            // compares and checks best before dates
                             return i1.getLocation().compareTo(i2.getLocation());
                         }
                     });

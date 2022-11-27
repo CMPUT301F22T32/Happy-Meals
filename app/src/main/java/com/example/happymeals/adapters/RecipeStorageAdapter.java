@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
+import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeDetailsActivity;
@@ -30,7 +32,8 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private ArrayList<Recipe> recipeStorageList;
     private Context context;
     private Recipe currentRecipe;
-
+    FireStoreManager storeManager;
+    FireStoreManager photoManager;
     /**
      * Base constructor which will assign {@link Context} and the {@link ArrayList} which is being
      * viewed and adapted.
@@ -58,19 +61,20 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
 
         TextView name = listItem.findViewById(R.id.ingredient_specific_list_name_field);
         TextView servings = listItem.findViewById( R.id.recipe_list_servings_field );
-        TextView description = listItem.findViewById( R.id.recipe_list_description_field );
-        TextView prepTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
-        TextView cookTime = listItem.findViewById( R.id.recipe_content_cook_time_field );
+        TextView totalTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
         TextView creatorName = listItem.findViewById( R.id.recipe_content_creator_field );
+        ImageView imageId = listItem.findViewById(R.id.recipe_image_content);
+
 
         name.setText( currentRecipe.getName() );
         servings.setText( String.valueOf( currentRecipe.getServings() ) );
-        description.setText(
-                currentRecipe.getDescription().equals("") ?
-                        "No Description" : currentRecipe.getDescription() );
-        prepTime.setText( "Prep Time: " + currentRecipe.getPrepTime() + " mins" );
-        cookTime.setText( "Cook Time: " + currentRecipe.getCookTime() + " mins" );
+        totalTime.setText( currentRecipe.getPrepTime() + currentRecipe.getCookTime() + " mins" );
         creatorName.setText( currentRecipe.getCreator() );
+        // setting image
+
+
+
+
 
 //        listItem.setOnClickListener(new View.OnClickListener() {
 //            @Override

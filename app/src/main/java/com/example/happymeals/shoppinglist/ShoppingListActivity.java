@@ -42,6 +42,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+        getWindow().setEnterTransition(null);
 
         shoppingList = ShoppingList.getInstance();
         ingredientListView = findViewById(R.id.shopping_list_ingredients);
@@ -176,5 +177,11 @@ public class ShoppingListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
     }
 }

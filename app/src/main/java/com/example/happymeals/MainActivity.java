@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setEnterTransition(null);
+
         Toolbar toolbar = findViewById( R.id.appbar);
         setSupportActionBar(toolbar);
         // Create the firebase manager connection along with all the storage classes.
@@ -230,8 +232,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        System.out.println("Here");
+    protected void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
     }
 }

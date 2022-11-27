@@ -58,6 +58,7 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_storage);
+        getWindow().setEnterTransition(null);
         context = this;
         recipeListView = findViewById(R.id.recipe_list);
         recipeStorage = RecipeStorage.getInstance();
@@ -219,5 +220,11 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     public void onGoBack( View view ) {
         // This will resume the parent activity.
         this.onBackPressed();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
     }
 }

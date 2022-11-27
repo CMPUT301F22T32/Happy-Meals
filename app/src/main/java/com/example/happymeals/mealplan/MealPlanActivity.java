@@ -79,12 +79,20 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
     private MealPlanStorage mps;
     private MealPlan mp;
     private BottomNavigationView bottomNavMenu;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
+    }
+
     boolean noStoredMealPlans = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_plan);
+        getWindow().setEnterTransition(null);
 
         mps = MealPlanStorage.getInstance();
         mps.setListeningActivity(this);

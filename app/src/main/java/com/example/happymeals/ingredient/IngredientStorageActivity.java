@@ -69,7 +69,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     protected void onCreate( Bundle savedInstanceState)  {
         super.onCreate( savedInstanceState) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
-
+        getWindow().setEnterTransition(null);
         Intent inIntent = getIntent();
 
         context = this;
@@ -293,5 +293,11 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     @Override
     public void signalChangeToAdapter() {
         storageAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        getWindow().setExitTransition(null);
     }
 }

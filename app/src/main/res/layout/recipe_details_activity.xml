@@ -74,23 +74,6 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:background="?android:attr/listDivider" />
-=======
-            <TextView
-                android:id="@+id/edit_recipe_button"
-                android:layout_width="129dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:gravity="end"
-                android:onClick="onEditClick"
-                android:paddingHorizontal="50sp"
-                android:text="Edit"
-                android:textAlignment="center"
-                android:textColor="#2196F3"
-                android:textColorHint="#03A9F4"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

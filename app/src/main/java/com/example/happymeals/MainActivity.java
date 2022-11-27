@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             // Create the firebase manager connection along with all the storage classes.
             fsm = FireStoreManager.getInstance();
             RecipeStorage.getInstance();
-            IngredientStorage.getInstance();
+            ingredientStorage = IngredientStorage.getInstance();
             MealPlanStorage.getInstance();
 
         context = this;

@@ -45,21 +45,6 @@ public class IngredientIntentTests {
 
     @Test
     public void ingredientIntentTests() {
-        ViewInteraction button = onView( 
-                allOf( withId( R.id.ingredient_storage_button ), withText( "INGREDIENT STORAGE" ),
-                        withParent( withParent( withId( android.R.id.content ) ) ),
-                        isDisplayed() ) );
-        button.check( matches( isDisplayed() ) );
-
-        ViewInteraction materialButton = onView( 
-                allOf( withId( R.id.ingredient_storage_button ), withText( "Ingredient Storage" ),
-                        childAtPosition( 
-                                childAtPosition( 
-                                        withId( android.R.id.content ),
-                                        0 ),
-                                2 ),
-                        isDisplayed() ) );
-        materialButton.perform( click() );
 
         ViewInteraction textView = onView( 
                 allOf( withId( R.id.textView2 ), withText( "Ingredient Storage" ),
@@ -72,12 +57,6 @@ public class IngredientIntentTests {
                         withParent( withParent( withId( android.R.id.content ) ) ),
                         isDisplayed() ) );
         textView2.check( matches( withText( "Sort by" ) ) );
-
-        ViewInteraction textView3 = onView( 
-                allOf( withId( R.id.recipe_storage_description_label ), withText( "Description" ),
-                        withParent( withParent( withId( android.R.id.content ) ) ),
-                        isDisplayed() ) );
-        textView3.check( matches( withText( "Description" ) ) );
 
         ViewInteraction imageButton = onView( 
                 allOf( withId( R.id.recipe_storage_add_button ),
@@ -350,12 +329,6 @@ public class IngredientIntentTests {
                         isDisplayed() ) );
         textView15.check( matches( withText( "FRUIT" ) ) );
 
-        ViewInteraction button4 = onView( 
-                allOf( withId( R.id.ing_view_delete_button ), withText( "DELETE" ),
-                        withParent( withParent( IsInstanceOf.<View>instanceOf( android.widget.LinearLayout.class ) ) ),
-                        isDisplayed() ) );
-        button4.check( matches( isDisplayed() ) );
-
         ViewInteraction appCompatEditText5 = onView( 
                 allOf( withId( R.id.ing_content_desc_input ), withText( "Red" ),
                         childAtPosition( 
@@ -443,15 +416,6 @@ public class IngredientIntentTests {
                         withParent( withParent( IsInstanceOf.<View>instanceOf( android.widget.LinearLayout.class ) ) ),
                         isDisplayed() ) );
         editText5.check( matches( withText( "3" ) ) );
-
-        ViewInteraction materialButton12 = onView( 
-                allOf( withId( R.id.ing_view_delete_button ), withText( "Delete" ),
-                        childAtPosition( 
-                                childAtPosition( 
-                                        withClassName( is( "android.widget.LinearLayout" ) ),
-                                        12 ),
-                                0 ) ) );
-        materialButton12.perform( scrollTo(), click() );
 
         ViewInteraction textView18 = onView( 
                 allOf( IsInstanceOf.<View>instanceOf( android.widget.TextView.class ), withText( "Remove Ingredient" ),

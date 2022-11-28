@@ -74,6 +74,14 @@
 
     </string-array>
 
+    <!-- ShoppingListStorage -->
+    <string-array name="shopping_list_options">
+        <item>Amount Needed</item>
+        <item>Category</item>
+
+
+    </string-array>
+
     <!-- Recipe Add Activity -->
     <string name="click_to_add">Click to add Ingredient To Recipe</string>
 

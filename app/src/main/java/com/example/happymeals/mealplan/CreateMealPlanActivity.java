@@ -38,7 +38,11 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
+/**
+ * This is the activity that will facilitate the creation of new meal plans. This activity will also allow
+ * users to view a calendar that will show current, past, and future meal plans.
+ * Meals of the day are seperated through tabs of different meal times.
+ */
 public class CreateMealPlanActivity extends AppCompatActivity implements MealPlanItemsFragment.OnFragmentInteractionListener, DatasetWatcher, RecipeStorageAdapter.SeekBarChangeListener {
 
     public static final String NEW_MEAPLAN_EXTRA = "com.example.happymeals.mealplan.new";

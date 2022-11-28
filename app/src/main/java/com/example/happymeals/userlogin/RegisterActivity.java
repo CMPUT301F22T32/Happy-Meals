@@ -16,7 +16,11 @@ import com.example.happymeals.R;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
 import com.example.happymeals.recipe.PublicRecipeActivity;
-
+/**
+ * This is the activity that will facilitate new user accounts, and will request that the user
+ * provide a valid unique username/email, and a secure password that is longer then 8 characters.
+ *
+ */
 public class RegisterActivity extends AppCompatActivity{
     private Button registerBtn;
     private TextView returnLogin;

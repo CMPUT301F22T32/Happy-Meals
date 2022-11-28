@@ -159,7 +159,7 @@ public class RecipeStorage implements DatabaseListener {
      * @return The {@link Double} of the count attatched to the {@link Ingredient}
      */
     public Double getCountForIngredientInRecipe( Recipe recipe, Ingredient ingredient ) {
-        return (Double) getRecipeIngredientMap( recipe ).get( ingredient.getName() )
+        return (Double) getRecipeIngredientMap( recipe ).get( ingredient.getId() )
                 .get(COUNT);
     }
 

@@ -89,7 +89,7 @@ public class IngredientStorage implements DatabaseListener {
         HashMap< String, DocumentReference > mapToReturn = new HashMap<>();
 
         for( Ingredient ingredient : ingredientList ) {
-            mapToReturn.put( ingredient.getName(), fsm.getDocReferenceTo(ingredientCollection, ingredient ) );
+            mapToReturn.put( ingredient.getId(), fsm.getDocReferenceTo(ingredientCollection, ingredient ) );
         }
 
         return mapToReturn;
@@ -189,14 +189,22 @@ public class IngredientStorage implements DatabaseListener {
 
     /**
      * This will return a specific {@link Ingredient} given the name.
-     * @param ingredientName The {@link String} which holds the name of the requested
+     * @param ingredientKey The {@link String} which holds the id or name of the requested
      * {@link Ingredient}.
      * @return The {@link Ingredient} object.
      */
-    public Ingredient getIngredient( String ingredientName ) {
-        for( Ingredient ingredient : ingredients ) {
-            if ( ingredient.getName().equals( ingredientName ) ) {
-                return ingredient;
+    public Ingredient getIngredient( String ingredientKey ) {
+        if( ingredientKey.contains("_") ) {
+            for( Ingredient ingredient : ingredients ) {
+                if ( ingredient.getId().equals( ingredientKey ) ) {
+                    return ingredient;
+                }
+            }
+        } else {
+            for( Ingredient ingredient : ingredients ) {
+                if ( ingredient.getName().equals( ingredientKey ) ) {
+                    return ingredient;
+                }
             }
         }
         return null;
@@ -248,7 +256,7 @@ public class IngredientStorage implements DatabaseListener {
         // Loop through the list of ingredients and see if we are adding a new one
         // or updating a pre-existing one.
         for( Ingredient ing : this.ingredients ) {
-            if( ing.getName() == ingredient.getName() ){
+            if( ing.getId() == ingredient.getId() ){
                 ing = ingredient;
                 replace = Boolean.TRUE;
                 break;

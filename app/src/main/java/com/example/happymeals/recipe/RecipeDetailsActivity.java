@@ -308,7 +308,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         }
 
         if (imagePath != null) {
-            imageFilePath = storage.addImage( imagePath, recipe.getName() );
+            imageFilePath = storage.addImage( imagePath, recipe.getId() );
         }
 
 
@@ -359,8 +359,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         for( Ingredient i : ingredientsToAdd ) {
             ingredients.add( i );
             HashMap< String, Object > tempMap = new HashMap<>();
-            tempMap.put("count", ingredientMap.get( i.getName() ) );
-            this.ingredientMap.put( i.getName(), tempMap );
+            tempMap.put("count", countsToAdd.get( i.getId() ) );
+            this.ingredientMap.put( i.getId(), tempMap );
         }
         adapter.notifyDataSetChanged();
     }
@@ -403,5 +403,11 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
                 this
         );
         notifyFragment.display();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.SortedList;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
+import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.example.happymeals.recipe.SharedRecipeDetailsActivity;
@@ -103,7 +104,7 @@ public class GlobalRecipesAdapter extends
 
         @Override
         public boolean areItemsTheSame(Recipe item1, Recipe item2) {
-            return item1.getName() == item2.getName();
+            return item1.getId() == item2.getId();
         }
     } );
 
@@ -172,6 +173,7 @@ public class GlobalRecipesAdapter extends
                                             " from shared recipes",
                                     context
                             );
+                    notifyArrayUpdate();
                     inputErrorFragment.display();
                 } else {
                     if( !storage.alreadyHave( recipeInItem ) ) {

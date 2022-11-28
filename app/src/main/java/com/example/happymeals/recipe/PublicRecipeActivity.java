@@ -96,6 +96,9 @@ public class PublicRecipeActivity extends AppCompatActivity
         return true;
     }
 
+    public void updateAdapter() {
+        adapter.notifyDataSetChanged();
+    }
     private static ArrayList< Recipe > filter( ArrayList< Recipe > recipes, String query ) {
         final String[] strQList = query.toLowerCase().split(" ");
         final ArrayList< Recipe > filteredRecipes = new ArrayList<>();

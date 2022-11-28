@@ -76,6 +76,9 @@ public class RecipeStorage implements DatabaseListener {
     public void addRecipe( Recipe recipe ) {
         if( !recipes.contains( recipe ) ) {
             collectionOfIds.add( recipe.getId() );
+            if( !ingredientStorage.assertIngredientsExists( recipe ) ) {
+                Log.d("Recipe Storage: ", "Added ingredients from Recipe");
+            }
             recipes.add( recipe );
         }
         fsm.addData( collection, recipe );
@@ -263,6 +266,7 @@ public class RecipeStorage implements DatabaseListener {
      */
     public void removeRecipe( Recipe recipe ) {
         recipes.remove( recipe );
+        collectionOfIds.remove( recipe.getId() );
         fsm.deleteDocument( collection, recipe );
         updateStorage();
     }

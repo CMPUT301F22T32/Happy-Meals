@@ -6,19 +6,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.happymeals.userlogin.OutputListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**@author bfiogbe
  */
@@ -40,7 +33,7 @@ public class FirebaseAuthenticationHandler {
 
     public static FirebaseAuthenticationHandler getFireAuth(){
 
-        if(fireAuth == null){
+        if( fireAuth == null ){
             fireAuth = new FirebaseAuthenticationHandler();
         }
         return fireAuth;
@@ -52,54 +45,54 @@ public class FirebaseAuthenticationHandler {
      * @param password The {@link String } that was passed in as the password.
      * @param listener The {@link OutputListener } which will listen for the successful login.
      */
-    public void userLogin(String email, String password, OutputListener listener){
-        fireAuth.authenticate.signInWithEmailAndPassword( email, password ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public void userLogin( String email, String password, OutputListener listener ){
+        fireAuth.authenticate.signInWithEmailAndPassword( email, password ).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
             @Override
             // test
-            public void onComplete(@NonNull Task<AuthResult> action) {
-                if (action.isSuccessful()) {
+            public void onComplete( @NonNull Task<AuthResult> action ) {
+                if ( action.isSuccessful() ) {
                     listener.onSuccess();
-                    Log.d("LoginActivity", "User has successfully authenticated");
+                    Log.d( "LoginActivity", "User has successfully authenticated" );
                 }
                 else {
-                    listener.onFailure(action.getException());
-                    Log.d("LoginActivity", "User authentication was unsuccessful");
+                    listener.onFailure( action.getException() );
+                    Log.d( "LoginActivity", "User authentication was unsuccessful" );
                 }
 
             }
-        });
+        } );
     }
 
-    public void validUser(OutputListener listener) {
+    public void validUser( OutputListener listener ) {
         // check is a user already exists
 
-        if(fireAuth.authenticate.getCurrentUser() != null) {
-            Log.d("LoginActivity", "Valid existing user");
+        if( fireAuth.authenticate.getCurrentUser() != null ) {
+            Log.d( "LoginActivity", "Valid existing user" );
         }
         else {
-            Log.d("LoginActivity", "Not an existing user");
+            Log.d( "LoginActivity", "Not an existing user" );
         }
     }
 
-    /** 2) Create new users
+    /** 2 ) Create new users
      * @param: user - email/username
      * @param: password - user password
      * @param: listener - checks if UI works as expected
      */
 
-    public void userRegister(String email, String password, String username, OutputListener listener) {
-        fireAuth.authenticate.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+    public void userRegister( String email, String password, String username, OutputListener listener ) {
+        fireAuth.authenticate.createUserWithEmailAndPassword( email, password ).addOnCompleteListener( new OnCompleteListener<AuthResult>(){
             @Override
-            public void onComplete(@NonNull Task<AuthResult> action) {
-                if(action.isSuccessful()) {
+            public void onComplete( @NonNull Task<AuthResult> action ) {
+                if( action.isSuccessful() ) {
                     listener.onSuccess();
                     UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                             .setDisplayName( username ).build();
                     fireAuth.authenticate.getCurrentUser().updateProfile( profileUpdate );
                 } else {
-                    listener.onFailure(action.getException());
+                    listener.onFailure( action.getException() );
                 }
             }
-        });
+        } );
     }
 }

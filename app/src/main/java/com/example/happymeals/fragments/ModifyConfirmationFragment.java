@@ -14,23 +14,23 @@ import android.content.DialogInterface;
 public class ModifyConfirmationFragment {
 
     /**
-     * This variable represents the generated fragment ({@link AlertDialog}).
+     * This variable represents the generated fragment ( {@link AlertDialog} ).
      */
     private AlertDialog fragment;
 
     /**
      * This is the constructor to create a ModifyConfirmationFragment.
-     * @param title The title of the fragment ({@link String}).
-     * @param message The message to display in the fragment ({@link String}).
+     * @param title The title of the fragment ( {@link String} ).
+     * @param message The message to display in the fragment ( {@link String} ).
      * @param context The {@link Context} of the current activity so that the fragment will properly appear on the screen.
-     * @param actionListener The action to carry out upon the user selecting 'Confirm' ({@link DialogInterface.OnClickListener}
+     * @param actionListener The action to carry out upon the user selecting 'Confirm' ( {@link DialogInterface.OnClickListener}
      */
-    public ModifyConfirmationFragment(String title, String message, Context context, DialogInterface.OnClickListener actionListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Confirm", actionListener)
-                .setNegativeButton("Cancel", null);
+    public ModifyConfirmationFragment( String title, String message, Context context, DialogInterface.OnClickListener actionListener ) {
+        AlertDialog.Builder builder = new AlertDialog.Builder( context );
+        builder.setTitle( title )
+                .setMessage( message )
+                .setPositiveButton( "Confirm", actionListener )
+                .setNegativeButton( "Cancel", null );
         fragment = builder.create();
     }
 

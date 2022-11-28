@@ -33,9 +33,9 @@ public class SpinnerViewAdapter extends ArrayAdapter<String> {
      * @param context The {@link Context} which will instantiate this adapter.
      * @param spinnerList The {@link ArrayList} which is being viewed through this adapter.
      */
-    public SpinnerViewAdapter(@NonNull Context context, ArrayList<String> spinnerList,
+    public SpinnerViewAdapter( @NonNull Context context, ArrayList<String> spinnerList,
                               Constants.StoredSpinnerChoices spinnerCat ) {
-        super(context, 0 , spinnerList );
+        super( context, 0 , spinnerList );
         this.spinnerCat = spinnerCat;
         this.spinnerList = spinnerList;
         this.context = context;
@@ -46,28 +46,28 @@ public class SpinnerViewAdapter extends ArrayAdapter<String> {
      */
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView( int position, @Nullable View convertView, @NonNull ViewGroup parent ) {
         View listItem = convertView;
-        if (listItem == null)
-            listItem = LayoutInflater.from(context).inflate(R.layout.content_string, parent, false);
+        if ( listItem == null )
+            listItem = LayoutInflater.from( context ).inflate( R.layout.content_string, parent, false );
 
-        TextView amountValue = listItem.findViewById(R.id.string_content_field);
+        TextView amountValue = listItem.findViewById( R.id.string_content_field );
 
         amountValue.setText( spinnerList.get( position ) );
 
-        listItem.setOnLongClickListener(new View.OnLongClickListener() {
+        listItem.setOnLongClickListener( new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
+            public boolean onLongClick( View view ) {
+                ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment( 
                         "Remove Spinner",
-                        String.format("Are you sure you want to remove\n\"%s\" as a spinner?",
+                        String.format( "Are you sure you want to remove\n\"%s\" as a spinner?",
                                 amountValue.getText().toString() ),
                         context,
                         new DialogInterface.OnClickListener() {
 
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ( (SpinnerSettingsActivity) context).removeSpinnerFromList(
+                            public void onClick( DialogInterface dialogInterface, int i ) {
+                                ( ( SpinnerSettingsActivity ) context ).removeSpinnerFromList( 
                                         spinnerCat, position );
                             }
                         } );
@@ -75,7 +75,7 @@ public class SpinnerViewAdapter extends ArrayAdapter<String> {
                 return true;
 
             }
-        });
+        } );
 
         return listItem;
     }

@@ -1,11 +1,11 @@
 package com.example.happymeals.mealplan;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
@@ -14,12 +14,14 @@ import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
 import java.util.ArrayList;
 /**
         * This is the activity that will display the details of the multiple meal plans. The view will
         * be persistent and display meal data that has been stored in the database. Meal plans can
         * be edited and updated.
         */
+
 public class MealPlanListViewActivity extends AppCompatActivity implements DatasetWatcher {
 
     private FloatingActionButton makeNewMP;
@@ -28,41 +30,40 @@ public class MealPlanListViewActivity extends AppCompatActivity implements Datas
     private MealPlanStorage mps;
 
     private MealPlanListAdapter adapter;
-    private ArrayList<MealPlan> mealPlans;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meal_plan_list_view);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_meal_plan_list_view );
 
         mps = MealPlanStorage.getInstance();
-        mps.setListeningActivity(this);
+        mps.setListeningActivity( this );
 
-        ListView mealPlanStorage = findViewById(R.id.meal_plan_storage_list);
-        adapter = new MealPlanListAdapter(this, mps.getMealPlans());
-        mealPlanStorage.setAdapter(adapter);
+        ListView mealPlanStorage = findViewById( R.id.meal_plan_storage_list );
+        adapter = new MealPlanListAdapter( this, mps.getMealPlans() );
+        mealPlanStorage.setAdapter( adapter );
 
         HappyMealBottomNavigation bottomNavMenu =
-                new HappyMealBottomNavigation(
-                        findViewById(R.id.bottomNavigationView), this, R.id.mealplan_menu );
+                new HappyMealBottomNavigation( 
+                        findViewById( R.id.bottomNavigationView ), this, R.id.mealplan_menu );
 
 
         bottomNavMenu.setupBarListener();
 
-        makeNewMP = findViewById(R.id.add_meal_plan_btn);
-        makeNewMP.setOnClickListener(new View.OnClickListener() {
+        makeNewMP = findViewById( R.id.add_meal_plan_btn );
+        makeNewMP.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 MealPlanPromptFragment frag = new MealPlanPromptFragment();
-                frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
+                frag.show( getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT" );
             }
-        });
+        } );
     }
 
     @Override
     public void signalChangeToAdapter() {
         adapter.notifyDataSetChanged();
-        if (mps.getMealPlans().size() == 0)
+        if ( mps.getMealPlans().size() == 0 )
             finish();
     }
 }

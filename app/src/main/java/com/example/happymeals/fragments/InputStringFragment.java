@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.happymeals.R;
-import com.example.happymeals.ingredient.Ingredient;
-
-import java.util.ArrayList;
 
 /**
  * @author jeastgaa
@@ -60,10 +56,10 @@ public class InputStringFragment extends DialogFragment {
     @Override
     public void onAttach( Context context ) {
         super.onAttach( context );
-        if ( context instanceof InputStringFragment.InputStringFragmentListener) {
-            listener = (InputStringFragmentListener) context;
+        if ( context instanceof InputStringFragment.InputStringFragmentListener ) {
+            listener = ( InputStringFragmentListener ) context;
         } else {
-            throw new RuntimeException( context.toString() + " must implement listener.");
+            throw new RuntimeException( context.toString() + " must implement listener." );
         }
     }
 
@@ -72,24 +68,24 @@ public class InputStringFragment extends DialogFragment {
      */
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstance ) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.input_string_fragment, null);
+    public Dialog onCreateDialog( @Nullable Bundle savedInstance ) {
+        View view = LayoutInflater.from( getActivity() ).inflate( R.layout.input_string_fragment, null );
 
         inputTextView = view.findViewById( R.id.edit_text_empty_field );
-        inputTextView.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxCharLength)});
+        inputTextView.setFilters( new InputFilter[] {new InputFilter.LengthFilter( maxCharLength )} );
 
         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
         return builder
                 .setView( view )
                 .setTitle( message )
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                .setPositiveButton( "Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick( DialogInterface dialogInterface, int i ) {
-                        if( !inputTextView.getText().toString().equals("") ){
+                        if( !inputTextView.getText().toString().equals( "" ) ){
                             listener.onConfirmClick( inputTextView.getText().toString() );
                         }
                     }
-                })
+                } )
                 .setNegativeButton( "Cancel", null )
                 .create();
     }

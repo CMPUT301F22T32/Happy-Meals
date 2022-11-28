@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity{
     private EditText emailField, passwordField, confirmPasswordField, usernameField;
     private FirebaseAuthenticationHandler fireAuth;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint( "MissingInflatedId" )
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -44,9 +44,9 @@ public class RegisterActivity extends AppCompatActivity{
         returnLogin = findViewById( R.id.return_login );
 
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick( View v ) {
                 String userEmail = emailField.getText().toString();
                 String newPass = passwordField.getText().toString();
                 String userName = usernameField.getText().toString();
@@ -54,44 +54,44 @@ public class RegisterActivity extends AppCompatActivity{
                 if( !checkValidEntries() ){
                     return;
                 }
-                fireAuth.getFireAuth().userRegister(userEmail, newPass, userName, new OutputListener() {
+                fireAuth.getFireAuth().userRegister( userEmail, newPass, userName, new OutputListener() {
                     @Override
                     public void onSuccess() {
-                        Log.d("RegisterActivity", "User was created.");
-                        fireAuth.getFireAuth().userLogin(userEmail, newPass, new OutputListener() {
+                        Log.d( "RegisterActivity", "User was created." );
+                        fireAuth.getFireAuth().userLogin( userEmail, newPass, new OutputListener() {
                             @Override
                             public void onSuccess() {
-                                Log.d("RegisterActivity", "Login from registration success.");
+                                Log.d( "RegisterActivity", "Login from registration success." );
                             }
 
                             @Override
-                            public void onFailure(Exception e) {
-                                Log.e("RegisterActivity", "Login from registration failure: " +
+                            public void onFailure( Exception e ) {
+                                Log.e( "RegisterActivity", "Login from registration failure: " +
                                         e.toString() );
                             }
-                        });
+                        } );
                         FireStoreManager.getInstance().setUser( userEmail );
                         FireStoreManager.getInstance().addDefaultSpinners();
                         finish();
                     }
 
                     @Override
-                    public void onFailure(Exception e) {
-                        Log.e("RegisterActivity", "User could not be created: " + e.toString() );
+                    public void onFailure( Exception e ) {
+                        Log.e( "RegisterActivity", "User could not be created: " + e.toString() );
                         }
-                    });
+                    } );
 
                 }
-            });
+            } );
 
-            returnLogin.setOnClickListener(new View.OnClickListener(){
+            returnLogin.setOnClickListener( new View.OnClickListener(){
                 @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                public void onClick( View v ) {
+                    startActivity( new Intent( RegisterActivity.this, LoginActivity.class ) );
                     // close this activity
                     finish();
                 }
-            });
+            } );
 
         }
 
@@ -107,18 +107,18 @@ public class RegisterActivity extends AppCompatActivity{
             if ( userName.length() < 1 || userEmail.length() < 1 ) {
                 emailField.setError( "Username and Email cannot be empty" );
                 return false;
-            } else if ( !userEmail.contains("@") ) {
+            } else if ( !userEmail.contains( "@" ) ) {
                 emailField.setError( "Must be a valid Email" );
                 return false;
             }
             if ( newPass.length() < 8 ) {
                 passwordField.setError( "Password must be greater than 8 characters" );
                 return false;
-            } else if ( !confirmPasswordField.getText().toString().equals(newPass) ) {
+            } else if ( !confirmPasswordField.getText().toString().equals( newPass ) ) {
                 confirmPasswordField.setError( "Passwords must match" );
                 return false;
             }
-            if( userName.contains("_") ) {
+            if( userName.contains( "_" ) ) {
                 usernameField.setError( "Contains Illegal Character '_'" );
                 return false;
             }

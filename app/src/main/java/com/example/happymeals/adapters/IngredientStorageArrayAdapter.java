@@ -35,10 +35,10 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
      * This is the list of ingredients to be displayed
      */
 
-    public IngredientStorageArrayAdapter(@NonNull Context context,
+    public IngredientStorageArrayAdapter( @NonNull Context context,
                                          ArrayList<Ingredient> storageList,
-                                         HashMap< String, HashMap< String, Object > >... countMap) {
-        super(context, 0, storageList);
+                                         HashMap< String, HashMap< String, Object > >... countMap ) {
+        super( context, 0, storageList );
         this.storageList = storageList;
         this.context = context;
         if( countMap.length > 0 ) {
@@ -53,37 +53,37 @@ public class IngredientStorageArrayAdapter extends ArrayAdapter<Ingredient> {
      */
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView( int position, @Nullable View convertView, @NonNull ViewGroup parent ) {
         View view = convertView;
 
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.content_ingredient_storage, parent, false);
+        if ( view == null ) {
+            view = LayoutInflater.from( context ).inflate( R.layout.content_ingredient_storage, parent, false );
         }
 
-        Ingredient ingredient = storageList.get(position);
+        Ingredient ingredient = storageList.get( position );
 
-        TextView name = view.findViewById( R.id.ingredient_storage_list_name_field);
-        TextView location = view.findViewById(R.id.recipe_list_servings_field);
-        TextView amount = view.findViewById(R.id.ingredient_storage_amount_text);
-        TextView unit = view.findViewById(R.id.ingredient_storage_amount_unit_text);
+        TextView name = view.findViewById( R.id.ingredient_storage_list_name_field );
+        TextView location = view.findViewById( R.id.recipe_list_servings_field );
+        TextView amount = view.findViewById( R.id.ingredient_storage_amount_text );
+        TextView unit = view.findViewById( R.id.ingredient_storage_amount_unit_text );
 
         name.setText( ingredient.getName() );
-        location.setText(ingredient.getLocation().toString());
+        location.setText( ingredient.getLocation().toString() );
         if( countMap != null ) {
-            if( countMap.get( ingredient.getId() ).get("count") != null ) {
-                amount.setText(countMap.get( ingredient.getId()).get("count").toString());
+            if( countMap.get( ingredient.getId() ).get( "count" ) != null ) {
+                amount.setText( countMap.get( ingredient.getId() ).get( "count" ).toString() );
             }
         }
         else {
-            amount.setText(ingredient.getAmount().toString());
+            amount.setText( ingredient.getAmount().toString() );
         }
-        unit.setText(ingredient.getUnit().toString());
+        unit.setText( ingredient.getUnit().toString() );
 
         return view;
     }
 
 
-    public void updateList(ArrayList<Ingredient> ingredients) {
+    public void updateList( ArrayList<Ingredient> ingredients ) {
         storageList = ingredients;
     }
 

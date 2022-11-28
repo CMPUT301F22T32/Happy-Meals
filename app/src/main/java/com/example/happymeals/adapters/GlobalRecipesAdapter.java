@@ -2,7 +2,6 @@ package com.example.happymeals.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +14,11 @@ import androidx.recyclerview.widget.SortedList;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
-import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.example.happymeals.recipe.SharedRecipeDetailsActivity;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * @author jeastgaa
@@ -69,41 +64,41 @@ public class GlobalRecipesAdapter extends
     /** Sorted list which will be used to display recipes on parent activity.
      * This list will deal with sorting/adding/removing/updating the recipes being displayed.
      */
-    final SortedList< Recipe > sortedRecipeList = new SortedList<>(
+    final SortedList< Recipe > sortedRecipeList = new SortedList<>( 
             Recipe.class, new SortedList.Callback< Recipe >() {
 
         @Override
-        public void onInserted(int position, int count) {
+        public void onInserted( int position, int count ) {
             notifyItemRangeInserted( position, count );
         }
 
         @Override
-        public void onRemoved(int position, int count) {
+        public void onRemoved( int position, int count ) {
             notifyItemRangeRemoved( position, count );
         }
 
         @Override
-        public void onMoved(int fromPosition, int toPosition) {
+        public void onMoved( int fromPosition, int toPosition ) {
             notifyItemMoved( fromPosition, toPosition );
         }
 
         @Override
-        public int compare(Recipe o1, Recipe o2) {
+        public int compare( Recipe o1, Recipe o2 ) {
             return 0;
         }
 
         @Override
-        public void onChanged(int position, int count) {
+        public void onChanged( int position, int count ) {
             notifyItemRangeChanged( position, count );
         }
 
         @Override
-        public boolean areContentsTheSame(Recipe oldItem, Recipe newItem) {
+        public boolean areContentsTheSame( Recipe oldItem, Recipe newItem ) {
             return oldItem.equals( newItem );
         }
 
         @Override
-        public boolean areItemsTheSame(Recipe item1, Recipe item2) {
+        public boolean areItemsTheSame( Recipe item1, Recipe item2 ) {
             return item1.getId() == item2.getId();
         }
     } );
@@ -119,7 +114,7 @@ public class GlobalRecipesAdapter extends
 
     @NonNull
     @Override
-    public GlobalRecipesAdapter.RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GlobalRecipesAdapter.RecipeViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ) {
         // Inflate Custom Layout
         View recipeView = inflater.inflate( R.layout.content_shared_recipe, parent, false );
 
@@ -129,7 +124,7 @@ public class GlobalRecipesAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GlobalRecipesAdapter.RecipeViewHolder holder, int position) {
+    public void onBindViewHolder( @NonNull GlobalRecipesAdapter.RecipeViewHolder holder, int position ) {
         TextView nameView = holder.recipeNameLabel;
         TextView creatorView = holder.recipeCreatorLabel;
         TextView servingsView = holder.recipeServingsLabel;
@@ -146,28 +141,28 @@ public class GlobalRecipesAdapter extends
         Button detailsButton = holder.detailButton;
 
         if( isUsers ) {
-            addButton.setText("Delete");
+            addButton.setText( "Delete" );
         } else {
-            addButton.setText("Add");
+            addButton.setText( "Add" );
         }
 
-        detailsButton.setOnClickListener(new View.OnClickListener() {
+        detailsButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(  context, SharedRecipeDetailsActivity.class ) ;
+            public void onClick( View view ) {
+                Intent intent = new Intent( context, SharedRecipeDetailsActivity.class ) ;
                 intent.putExtra( "Index", indexOfItem ) ;
                 context.startActivity( intent ); ;
             }
-        });
+        } );
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 RecipeStorage storage = RecipeStorage.getInstance();
                 if( isUsers ) {
                     RecipeStorage.getInstance().removeSharedRecipe( recipeInItem );
                     InputErrorFragment inputErrorFragment =
-                            new InputErrorFragment(
+                            new InputErrorFragment( 
                                     "Removed Shared Recipe",
                                     "You have removed " + recipeInItem.getName() +
                                             " from shared recipes",
@@ -179,7 +174,7 @@ public class GlobalRecipesAdapter extends
                     if( !storage.alreadyHave( recipeInItem ) ) {
                         storage.addRecipe( recipeInItem );
                         InputErrorFragment inputErrorFragment =
-                                new InputErrorFragment(
+                                new InputErrorFragment( 
                                         "Added Shared Recipe",
                                         "You have added " + recipeInItem.getName() + " into your inventory",
                                         context
@@ -187,7 +182,7 @@ public class GlobalRecipesAdapter extends
                         inputErrorFragment.display();
                     } else {
                         InputErrorFragment inputErrorFragment =
-                                new InputErrorFragment(
+                                new InputErrorFragment( 
                                         "Cannot Add Shared Recipe",
                                         "You have already added " + recipeInItem.getName() + " into your inventory",
                                         context
@@ -197,7 +192,7 @@ public class GlobalRecipesAdapter extends
                 }
                 notifyDataSetChanged();
             }
-        });
+        } );
     }
 
     public void toggleUserRecipes() {

@@ -3,19 +3,12 @@ package com.example.happymeals;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import android.net.Uri;
-
-import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.recipe.Recipe;
-import com.example.happymeals.recipe.RecipeStorage;
 
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 
 public class RecipeTest {
@@ -34,12 +27,12 @@ public class RecipeTest {
         return new Recipe(
                 "Test Recipe",
                 "TestCreator",
-                2.0,
+                2,
                 "This is a nice recipe",
                 commentsToAdd,
                 testMap,
                 "Cook it good",
-                25.0,
+                25,
                 12.0,
                 "TestPathForImage"
         );
@@ -89,8 +82,8 @@ public class RecipeTest {
     @Test
     void getSetCookTimeTest() {
         Recipe recipe = mockRecipe();
-        Double cookTime = recipe.getCookTime();
-        assertEquals((Double) 2.0, cookTime);
+        int cookTime = recipe.getCookTime();
+        assertEquals(2, cookTime);
         recipe.setCookTime( 25 );
         assertEquals(25, recipe.getCookTime());
     }
@@ -98,8 +91,8 @@ public class RecipeTest {
     @Test
     void getSetPrepTimeTest() {
         Recipe recipe = mockRecipe();
-        Double prepTime = recipe.getPrepTime();
-        assertEquals((Double) 25.0, prepTime);
+        int prepTime = recipe.getPrepTime();
+        assertEquals(25, prepTime);
         recipe.setPrepTime( 22 );
         assertEquals( 22, recipe.getPrepTime() );
     }

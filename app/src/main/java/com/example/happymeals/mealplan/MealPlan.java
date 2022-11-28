@@ -45,14 +45,11 @@ public class MealPlan extends DatabaseObject {
     private final Constants.COLLECTION_NAME INGREDIENT_TYPE = Constants.COLLECTION_NAME.INGREDIENTS;
     private final Constants.COLLECTION_NAME RECIPE_TYPE = Constants.COLLECTION_NAME.RECIPES;
 
-    private FireStoreManager fsm;
     private IngredientStorage ingredientStorage;
     private RecipeStorage recipeStorage;
 
     private HashMap< String, HashMap < String, Meal > > plans;
     private HashMap< String, HashMap< String, Object > > allIngredients;
-
-    private DatasetWatcher listeningActivity;
 
     /**
      * Empty constructor which is required by {@link FireStoreManager} to store

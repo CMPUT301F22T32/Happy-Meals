@@ -195,7 +195,7 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         findViewById(R.id.add_meal_plan_floating_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MealPlanPromptFragment frag = new MealPlanPromptFragment();
+                MealPlanPromptFragment frag = new MealPlanPromptFragment(date);
                 frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
             }
         });

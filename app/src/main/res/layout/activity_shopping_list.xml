@@ -20,7 +20,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:text="@string/shopping_list"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            android:fontFamily="@font/avenir_book"
             android:textSize="28sp" />
 
         <LinearLayout
@@ -94,6 +95,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
+            android:textColor="@color/white"
             android:text="I have picked up these items"
             app:layout_constraintTop_toBottomOf="@+id/shopping_list_num_selected" />
 

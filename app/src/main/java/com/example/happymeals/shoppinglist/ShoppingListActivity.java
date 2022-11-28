@@ -28,6 +28,7 @@ import com.example.happymeals.recipe.RecipeStorageActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ShoppingListActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     private ListView ingredientListView;
     private final Context context = this;
     private BottomNavigationView bottomNavMenu;
+    private ArrayList<ShoppingListItem> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         total.setText(Integer.toString(shoppingList.getSize()));
 
         Spinner IngredientSort = findViewById(R.id.shopping_list_spinner);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(ShoppingListActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.ingredient_options));
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(ShoppingListActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.shopping_list_options));
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         IngredientSort.setAdapter(dataAdapter);
 
@@ -64,7 +66,9 @@ public class ShoppingListActivity extends AppCompatActivity {
                         findViewById(R.id.bottomNavigationView), this, R.id.shopping_menu );
 
 
+
         bottomNavMenu.setupBarListener();
+
 
         IngredientSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -72,52 +76,38 @@ public class ShoppingListActivity extends AppCompatActivity {
                 String itemSelected = adapterView.getItemAtPosition(i).toString();
 
                 //if sort by "Amount" is selected
-                if (itemSelected.equals("Amount")) {
-                    shoppingListAdapter.sort(new Comparator<Ingredient>() {
+                if (itemSelected.equals("Amount Needed")) {
+                    items = shoppingList.getShoppingList();
+                    items.sort(new Comparator<ShoppingListItem>() {
                         @Override
-                        public int compare(Ingredient i1, Ingredient i2) {
-                            if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() < i2.getAmount()))
+                        public int compare(ShoppingListItem item1, ShoppingListItem item2) {
+                            if (item1.getAmount() < item2.getAmount()) {
                                 return 1;
-                            else if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() > i2.getAmount()))
+                            } else if (item1.getAmount() > item2.getAmount()) {
                                 return -1;
-                            else
+                            } else {
                                 return 0;
+                            }
                         }
                     });
-
+                    shoppingListAdapter = new ShoppingListAdapter( ShoppingListActivity.this,  items, shoppingList.getIngredientsToBuy() ) ;
+                    ingredientListView.setAdapter( shoppingListAdapter );
                 }
 
-                if (itemSelected.equals("Best Before Date")) {
-                    shoppingListAdapter.sort(new Comparator<Ingredient>() {
+                // sort by category
+                else if (itemSelected.equals("Category")) {
+                    items = shoppingList.getShoppingList();
+                    items.sort(new Comparator<ShoppingListItem>() {
                         @Override
-                        public int compare(Ingredient i1, Ingredient i2) {
-                            if (i1.getBestBeforeDate().compareTo(i2.getBestBeforeDate()) > 0)
-                                return 1;
-                            else if (i1.getBestBeforeDate().compareTo(i2.getBestBeforeDate()) < 0)
-                                return -1;
-                            else
-                                return 0;
+                        public int compare(ShoppingListItem item1, ShoppingListItem item2) {
+                            return item1.getIngredient().getCategory().compareTo(item2.getIngredient().getCategory());
                         }
                     });
-                }
-                if (itemSelected.equals("Location")) {
-                    shoppingListAdapter.sort(new Comparator<Ingredient>() {
-                        @Override
-                        public int compare(Ingredient i1, Ingredient i2) {
-                            // compares and checks best before dates
-                            return i1.getLocation().compareTo(i2.getLocation());
-                        }
-                    });
+                    shoppingListAdapter = new ShoppingListAdapter( ShoppingListActivity.this,  items, shoppingList.getIngredientsToBuy() ) ;
+                    ingredientListView.setAdapter( shoppingListAdapter );
                 }
 
-                if (itemSelected.equals("Ingredient Category")) {
-                    shoppingListAdapter.sort(new Comparator<Ingredient>() {
-                        @Override
-                        public int compare(Ingredient i1, Ingredient i2) {
-                            return i1.getCategory().compareTo(i2.getCategory());
-                        }
-                    });
-                }
+                
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -126,7 +116,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
 
 
-
+        shoppingListAdapter.notifyDataSetChanged();
         DialogInterface.OnClickListener onItemsPickedUpListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

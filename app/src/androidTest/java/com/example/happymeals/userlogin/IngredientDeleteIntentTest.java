@@ -5,10 +5,11 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -19,7 +20,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -30,30 +30,27 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
-import com.example.happymeals.ingredient.IngredientStorageActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ViewIngredientDetailsIntentTest {
+public class IngredientDeleteIntentTest {
 
     @Rule
     public ActivityScenarioRule<StartScreenActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(StartScreenActivity.class);
 
     @Test
-    public void viewIngredientDetailsIntentTest() {
+    public void ingredientDeleteIntentTest() {
         // MUST NOT ALREADY BE LOGGED IN!! SIGN OUT OF APP BEFORE RUNNING TEST
-        // logging in
+        // Run after AddIngredientIntentTesting
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.login_redirect), withText("Login"),
                         childAtPosition(
@@ -75,36 +72,16 @@ public class ViewIngredientDetailsIntentTest {
         appCompatEditText.perform(replaceText("test@test.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.input_username), withText("test@test.com"),
+                allOf(withId(R.id.input_password),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                5),
+                                4),
                         isDisplayed()));
-        appCompatEditText2.perform(pressImeActionButton());
+        appCompatEditText2.perform(replaceText("123456789"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.input_password),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatEditText3.perform(click());
-
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.input_password),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatEditText4.perform(replaceText("123456789"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText5 = onView(
                 allOf(withId(R.id.input_password), withText("123456789"),
                         childAtPosition(
                                 childAtPosition(
@@ -112,9 +89,19 @@ public class ViewIngredientDetailsIntentTest {
                                         0),
                                 4),
                         isDisplayed()));
-        appCompatEditText5.perform(pressImeActionButton());
+        appCompatEditText3.perform(pressImeActionButton());
 
-        ViewInteraction materialButton3 = onView(
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.input_password), withText("123456789"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                4),
+                        isDisplayed()));
+        appCompatEditText4.perform(pressImeActionButton());
+
+        ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.login_button), withText("Login"),
                         childAtPosition(
                                 childAtPosition(
@@ -122,10 +109,8 @@ public class ViewIngredientDetailsIntentTest {
                                         0),
                                 7),
                         isDisplayed()));
-        materialButton3.perform(click());
+        materialButton2.perform(click());
 
-
-        // navigating to ingredient storage
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.ingredient_menu),
                         childAtPosition(
@@ -142,45 +127,22 @@ public class ViewIngredientDetailsIntentTest {
                                 withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                                 0)))
                 .atPosition(2);
-        constraintLayout.perform(click());
+        constraintLayout.perform(longClick());
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.ing_content_name_input), withText("Butter"),
-                        withParent(withParent(withId(R.id.scrollView2))),
-                        isDisplayed()));
-        editText.check(matches(withText("Butter")));
-
-        ViewInteraction editText2 = onView(
-                allOf(withId(R.id.ing_content_desc_input),
-                        withParent(withParent(withId(R.id.scrollView2))),
-                        isDisplayed()));
-        editText2.check(matches(withText("")));
-
-        ViewInteraction editText3 = onView(
-                allOf(withId(R.id.ing_content_date_input), withText("2022-11-26"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        editText3.check(matches(withText("2022-11-26")));
-
-        ViewInteraction editText4 = onView(
-                allOf(withId(R.id.ing_content_quantity_input), withText("4.0"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        editText4.check(matches(withText("4.0")));
+        ViewInteraction materialButton3 = onView(
+                allOf(withId(android.R.id.button1), withText("Confirm"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                3)));
+        materialButton3.perform(scrollTo(), click());
 
         ViewInteraction textView = onView(
-                allOf(withId(android.R.id.text1), withText("Cup"),
-                        withParent(allOf(withId(R.id.ing_content_unit_input),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                allOf(withId(R.id.ingredient_storage_list_name_field), withText("Cookie"),
+                        withParent(withParent(withId(R.id.storage_list))),
                         isDisplayed()));
-        textView.check(matches(withText("Cup")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(android.R.id.text1), withText("Fridge"),
-                        withParent(allOf(withId(R.id.ing_content_location_input),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
-                        isDisplayed()));
-        textView2.check(matches(withText("Fridge")));
+        textView.check(doesNotExist());
     }
 
     private static Matcher<View> childAtPosition(

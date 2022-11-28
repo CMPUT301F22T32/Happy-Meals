@@ -50,7 +50,7 @@ public class AddIngredientIntentTesting {
 
     @Test
     public void addIngredientIntentTesting() {
-         /*// Must Already be logged in!!
+         // MUST NOT ALREADY BE LOGGED IN!! SIGN OUT OF APP BEFORE RUNNING TEST
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.login_redirect), withText("Login"),
                         childAtPosition(
@@ -129,7 +129,7 @@ public class AddIngredientIntentTesting {
                                         0),
                                 7),
                         isDisplayed()));
-        materialButton2.perform(click()); */
+        materialButton2.perform(click());
 
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.ingredient_menu),
@@ -160,7 +160,7 @@ public class AddIngredientIntentTesting {
                                 1)));
         materialButton3.perform(scrollTo(), click());
 
-        // error fragment pops up
+        // error fragment pops up. There are required feilds that are blank
         ViewInteraction materialButton4 = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),
                         childAtPosition(

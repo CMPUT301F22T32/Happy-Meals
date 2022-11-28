@@ -47,9 +47,8 @@ public class SearchIngredientFragment extends DialogFragment implements
      */
     @Override
     public void onConfirmClick(double count, Ingredient ingredient) {
-
         addedIngredientsList.add( ingredient );
-        ingredientCountMap.put( ingredient.getName(), count );
+        ingredientCountMap.put( ingredient.getId(), count );
         addedIngredientsAdapter.notifyDataSetChanged();
     }
 

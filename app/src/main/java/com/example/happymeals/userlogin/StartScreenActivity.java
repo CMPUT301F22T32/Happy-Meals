@@ -14,6 +14,10 @@ import com.example.happymeals.R;
 import com.example.happymeals.database.FireStoreManager;
 import com.example.happymeals.database.FirebaseAuthenticationHandler;
 
+/**
+ * Activity for first time users. Gives users the choice to either login or register for a new account.
+ * If a user is already logged in, this activity is skipped entirely.
+ */
 public class StartScreenActivity extends AppCompatActivity {
 
     private Button loginBtn, registerBtn;

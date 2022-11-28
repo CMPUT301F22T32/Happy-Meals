@@ -21,6 +21,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+
+/**
+ * Activity that displays all the recipes published by other users
+ */
+
+
+
 public class PublicRecipeActivity extends AppCompatActivity
         implements DatasetWatcher, SearchView.OnQueryTextListener {
 

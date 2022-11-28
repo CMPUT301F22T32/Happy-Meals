@@ -24,6 +24,14 @@ import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import java.util.Calendar;
 import java.util.Date;
 
+
+
+/**
+ * This is the activity that will display the details of a specific ingredient. The view will
+ * be persistent and display ingredient data that has been stored in the database. Ingredients can
+ * be edited and updated.
+ * @author kstark sruduke
+ */
 public class IngredientViewActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private EditText name;

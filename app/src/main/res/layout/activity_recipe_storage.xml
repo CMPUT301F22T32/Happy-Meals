@@ -2,21 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipe_storage_contraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".recipe.RecipeStorageActivity">
+
 
     <ListView
         android:id="@+id/recipe_list"
         android:layout_width="383dp"
         android:layout_height="535dp"
-        app:layout_constraintBottom_toTopOf="@+id/return_text"
+        android:layout_marginTop="24dp"
+        android:divider="@color/divider_color"
+        android:dividerHeight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipe_filter" />
-/>
-
 
     <TextView
         android:id="@+id/recipe_title"
@@ -25,6 +27,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Recipes"
+        android:textStyle="bold"
+        android:fontFamily="@font/avenir_book"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,10 +40,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="80dp"
         android:text="Sort by"
+        android:fontFamily="@font/avenir_book"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -64,18 +68,6 @@
         app:layout_constraintTop_toBottomOf="@+id/recipe_filter" />
 
 
-    <TextView
-        android:id="@+id/return_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:onClick="onGoBack"
-        android:text="Go Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Spinner
         android:id="@+id/recipe_filter"
         android:layout_width="301dp"
@@ -83,6 +75,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="80dp"
         android:text="Type"
+        android:fontFamily="@font/avenir_book"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/SortBy"
         app:layout_constraintTop_toTopOf="parent" />
@@ -94,10 +87,21 @@
         android:text="@string/explore"
         android:textColor="@color/design_default_color_secondary_variant"
         android:textSize="18dp"
+        android:fontFamily="@font/avenir_book"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/recipe_filter"
         app:layout_constraintEnd_toStartOf="@+id/recipe_storage_add_button"
         app:layout_constraintStart_toEndOf="@+id/recipe_title"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include
+            android:id="@+id/bottomNavigationView_layout"
+            layout="@layout/bottom_navigation_bar"></include>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

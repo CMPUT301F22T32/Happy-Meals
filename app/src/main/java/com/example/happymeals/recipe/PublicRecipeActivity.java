@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SortedList;
 
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.GlobalRecipesAdapter;
 import com.example.happymeals.database.DatasetWatcher;
@@ -59,6 +60,12 @@ public class PublicRecipeActivity extends AppCompatActivity
         adapter.add( allRecipes );
         listOfRecipesView.setLayoutManager( new LinearLayoutManager(this));
 
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
+
+
+        bottomNavMenu.setupBarListener();
     }
 
     public void toggleUserRecipes( View view ) {
@@ -89,6 +96,9 @@ public class PublicRecipeActivity extends AppCompatActivity
         return true;
     }
 
+    public void updateAdapter() {
+        adapter.notifyDataSetChanged();
+    }
     private static ArrayList< Recipe > filter( ArrayList< Recipe > recipes, String query ) {
         final String[] strQList = query.toLowerCase().split(" ");
         final ArrayList< Recipe > filteredRecipes = new ArrayList<>();

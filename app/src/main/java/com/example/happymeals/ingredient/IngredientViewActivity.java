@@ -15,12 +15,12 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.InputValidator;
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -43,6 +43,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
     protected final static String ADD_INGREDIENT = "com.example.happymeals.addIngredientBooleanExtra";
     protected final static String INGREDIENT_EXTRA = "com.example.happymeals.ingredientExtra";
+    protected final static String INGREDIENT_INDEX = "INDEX";
 
     private Ingredient ingredient = null;
     private Boolean newIngredient;
@@ -52,7 +53,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_ingredient_view);
+        setContentView(R.layout.activity_ingredient_details);
 
         // won't need new instance after we have the singleton ingredient storage initialized in
         // main class
@@ -75,6 +76,13 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
         // Populate the spinners
         populateSpinners();
+
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.ingredient_menu );
+
+
+        bottomNavMenu.setupBarListener();
 
         newIngredient = intent.getBooleanExtra( ADD_INGREDIENT, false );
         if ( !newIngredient )
@@ -118,7 +126,11 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 dateArg = new Date(year, month, day);
-                                date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                                String strMonth = String.valueOf( monthOfYear + 1 );
+                                strMonth = strMonth.length() < 2 ? "0"+strMonth : strMonth;
+                                String strDay = String.valueOf( dayOfMonth );
+                                strDay = strDay.length() < 2 ? "0"+strDay : strDay;
+                                date.setText(year + "-" + strMonth + "-" + strDay);
 
                             }
                         }, year, month, day);
@@ -149,9 +161,9 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
     }
 
     private void fillFields( Intent intent ) {
-        //Integer ingredientIndex = intent.getIntExtra( INGREDIENT_EXTRA,  0);
-        ingredient = (Ingredient) intent.getSerializableExtra(INGREDIENT_EXTRA);
-        //ingredient = ingredientStorage.getIngredients().get( ingredientIndex );
+
+        ingredient = ingredientStorage.getIngredientByIndex(
+                getIntent().getIntExtra(INGREDIENT_INDEX, 0));
 
         name.setText( ingredient.getName() );
         name.setEnabled( false );
@@ -202,19 +214,27 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
                 String nameArg = name.getText().toString();
                 String descriptionArg = description.getText().toString();
-                // <todo> Change date to a fragment
-
                 String locationArg = (String) locationSpinner.getSelectedItem();
-                int amountArg = Integer.parseInt(quantity.getText().toString());
+                Double amountArg = Double.parseDouble(quantity.getText().toString());
                 String amountUnitArg = (String) unitSpinner.getSelectedItem();
                 String categoryArg = (String) categorySpinner.getSelectedItem();
 
                 if (ingredient == null) {
-                    ingredient = new Ingredient(nameArg, descriptionArg, dateArg , locationArg, amountArg, amountUnitArg, categoryArg);
+                    ingredient = new Ingredient(nameArg,
+                            ingredientStorage.getCurrentUser(),
+                            descriptionArg,
+                            dateArg ,
+                            locationArg,
+                            amountArg,
+                            amountUnitArg,
+                            categoryArg );
                     ingredientStorage.addIngredient(ingredient);
                 }
 
                 else {
+                    if( dateArg == null ) {
+                        dateArg = ingredient.getBestBeforeDate();
+                    }
                     ingredient.setName( nameArg );
                     ingredient.setDescription( descriptionArg );
                     ingredient.setBestBeforeDate( dateArg );

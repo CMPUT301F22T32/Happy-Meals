@@ -49,13 +49,6 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
     private EditText userInputField, passwordInputField;
     private FirebaseAuthenticationHandler fireAuth;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loginIfNeeded();
-    }
-
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -63,8 +56,6 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
         setContentView(R.layout.activity_login_screen);
         fireAuth = FirebaseAuthenticationHandler.getFireAuth();
         context = this;
-        //See if user is already logged in
-        loginIfNeeded();
 
         // initialize all used objects
         login = findViewById(R.id.login_button);
@@ -88,12 +79,10 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
                 if( TextUtils.isEmpty(inputPass.trim())) {
                     passwordInputField.setError("Password cannot be empty");
                 }
-                //3 Password length cannot be less than 8 chars
                 fireAuth.getFireAuth().userLogin(inputUser,inputPass, new OutputListener() {
                     @Override
                     public void onSuccess() {
-                        FireStoreManager.getInstance().setUser( inputUser );
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
                     }
 
                     @Override
@@ -110,31 +99,30 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
             }
         });
 
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotPassword();
+            }
+        });
+
         // user clicks "register" button
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                // close this activity
+                finish();
             }
         });
 
-    }
-
-    public void loginIfNeeded() {
-        if( fireAuth.authenticate.getCurrentUser() != null ) {
-            FireStoreManager.getInstance().setUser( fireAuth.authenticate.getCurrentUser().getEmail() );
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        }
     }
 
     /**
      * When the forgot password button is clicked this will launch a
      * {@link InputStringFragment} in order to get the user to input an email to reset the
      * password.
-     * @param view The {@link View} that has called this function.
      */
-    public void forgotPassword( View view ) {
+    public void forgotPassword() {
 
         InputStringFragment inputStringFragment = new InputStringFragment(
                 "Enter Email for Password Reset: ",

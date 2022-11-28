@@ -196,7 +196,7 @@ public class MealPlanItemsFragment extends DialogFragment {
             list.setAdapter( adapter );
             if (selectedNames != null) {
                 for (int i = 0; i < adapter.getCount(); i++) {
-                    if (selectedNames.contains(adapter.getItem(i).getName()))
+                    if (selectedNames.contains(adapter.getItem(i).getName())) {
                         adapter.getView(i, null, list).setBackgroundColor(Color.LTGRAY);
                         selected.add(i);
                         //adapter.notifyDataSetChanged();
@@ -205,3 +205,4 @@ public class MealPlanItemsFragment extends DialogFragment {
             }
         }
     }
+}

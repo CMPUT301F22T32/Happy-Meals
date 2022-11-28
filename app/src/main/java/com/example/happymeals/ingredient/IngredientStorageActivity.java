@@ -1,25 +1,36 @@
 package com.example.happymeals.ingredient;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.happymeals.HappyMealBottomNavigation;
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
+import com.example.happymeals.mealplan.MealPlanActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Comparator;
 
@@ -44,7 +55,8 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     private IngredientStorageArrayAdapter storageAdapter;
 
     private IngredientStorage ingredientStorage;
-
+    private CheckBox viewMissingInfo;
+    private BottomNavigationView bottomNavMenu;
     /**
      * This function is called whenever the activity is spawned; it initializes the {@link #storageAdapter}
      * and {@link #storageListView} to properly display the polled data. Action listeners are also set
@@ -57,6 +69,8 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     protected void onCreate( Bundle savedInstanceState)  {
         super.onCreate( savedInstanceState) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
+        getWindow().setEnterTransition(null);
+        Intent inIntent = getIntent();
 
         context = this;
 
@@ -64,8 +78,34 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
 
         storageListView = findViewById( R.id.storage_list) ;
         ingredientStorage.setListeningActivity(this);
-        storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() ) ;
+
+        viewMissingInfo = findViewById( R.id.missing_ingredients_check);
+        Boolean missingChecked = inIntent.getBooleanExtra("MissingCheck", false);
+        viewMissingInfo.setChecked( missingChecked );
+        if ( missingChecked ) {
+            storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredientsMissingInfo() ) ;
+        }
+        else {
+            storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredients() );
+        }
+
+
         storageListView.setAdapter( storageAdapter );
+
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.ingredient_menu );
+
+
+        bottomNavMenu.setupBarListener();
+
+        Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
+        if ( missingInfo ) {
+            viewMissingInfo.setVisibility(View.VISIBLE);
+        }
+        else {
+            viewMissingInfo.setVisibility(View.GONE);
+        }
 
         FloatingActionButton add_button = findViewById( R.id.add_new_ingredient_button) ;
 
@@ -108,11 +148,10 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                         }
                     });
                 }
-                if(itemSelected.equals("DefaultLocationSpinners")){
+                if(itemSelected.equals("Location")){
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
                         public int compare(Ingredient i1, Ingredient i2) {
-                            // compares and checks best before dates
                             return i1.getLocation().compareTo(i2.getLocation());
                         }
                     });
@@ -171,6 +210,20 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                 startIngredientActivity( true ) ;
             }
         }) ;
+
+        viewMissingInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( viewMissingInfo.isChecked() ) {
+                    storageAdapter.updateList( ingredientStorage.getIngredientsMissingInfo() );
+                    signalChangeToAdapter();
+                }
+                else {
+                    storageAdapter.updateList( ingredientStorage.getIngredients() );
+                    signalChangeToAdapter();
+                }
+            }
+        });
     }
 
 
@@ -187,7 +240,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         Intent ingredientIntent = new Intent(  this, IngredientViewActivity.class ) ;
         ingredientIntent.putExtra( IngredientViewActivity.ADD_INGREDIENT, addingNewIngredient ) ;
         if ( index.length > 0 )
-            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_EXTRA, index[0] ) ;
+            ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_INDEX, index[0] ) ;
         startActivity( ingredientIntent ) ;
     }
 
@@ -197,5 +250,11 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     @Override
     public void signalChangeToAdapter() {
         storageAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        getWindow().setExitTransition(null);
     }
 }

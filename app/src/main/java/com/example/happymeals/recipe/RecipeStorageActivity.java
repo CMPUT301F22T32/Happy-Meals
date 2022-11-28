@@ -1,9 +1,11 @@
 package com.example.happymeals.recipe;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -13,8 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.HappyMealBottomNavigation;
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.adapters.RecipeStorageAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
@@ -24,10 +29,15 @@ import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorageActivity;
 
 import com.example.happymeals.ingredient.IngredientViewActivity;
+import com.example.happymeals.mealplan.MealPlanActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 
 
 /**
@@ -44,11 +54,13 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     private RecipeStorageAdapter adapter;
     private FloatingActionButton newRecipeButton;
     private Context context;
+    BottomNavigationView bottomNavMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_storage);
+        getWindow().setEnterTransition(null);
         context = this;
         recipeListView = findViewById(R.id.recipe_list);
         recipeStorage = RecipeStorage.getInstance();
@@ -65,6 +77,13 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                 startActivity( intent ) ;
             }
         }) ;
+
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
+
+
+        bottomNavMenu.setupBarListener();
 
         recipeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -95,6 +114,19 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String itemSelected = adapterView.getItemAtPosition(i).toString();
+                //if sort by "Title" is selected
+                if(itemSelected.equals("Title")){
+                    adapter.sort(new Comparator<Recipe>() {
+                        @Override
+                        public int compare(Recipe r1, Recipe r2) {
+                            return r1.getName().toLowerCase().compareTo(r2.getName().toLowerCase());
+                        }
+
+                    });
+                    signalChangeToAdapter();
+                    dataAdapter.notifyDataSetChanged();
+                }
+
 
                 //if sort by "Total Time" is selected
                  if(itemSelected.equals("Total Time")){
@@ -127,13 +159,27 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                     });
                     signalChangeToAdapter();
                 }
+                if(itemSelected.equals("Description")){
+                    adapter.sort(new Comparator<Recipe>() {
+                        @Override
+                        public int compare(Recipe r1, Recipe r2) {
+                            return r1.getDescription().toLowerCase().compareTo(r2.getDescription().toLowerCase());
+                        }
+                    });
+                    signalChangeToAdapter();
+                }
             }
+
+
+
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 return;
             }
         });
 
+        signalChangeToAdapter();
         TextView exploreRecipesText = findViewById( R.id.recipe_storage_explore_label );
         exploreRecipesText.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -165,8 +211,13 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
     }
 
     public void onGoBack( View view ) {
-        finish();
+        // This will resume the parent activity.
+        this.onBackPressed();
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
+    }
 }

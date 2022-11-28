@@ -2,15 +2,21 @@ package com.example.happymeals.recipe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
 
 import com.example.happymeals.database.DatabaseListener;
@@ -20,7 +26,14 @@ import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.google.android.gms.common.ErrorDialogFragment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +54,7 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
     private ListView ingredientsListField;
     private TextView instructionsField;
     private TextView commendsField;
+    private ImageView imageView;
 
     private Button addButton;
 
@@ -81,6 +95,8 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
         instructionsField = findViewById( R.id.recipe_instructions_field );
         commendsField = findViewById( R.id.recipe_comment_field );
 
+        imageView = findViewById( R.id.shared_recipe_image );
+
         // Get the recipe and ingredient list
         recipe = storage.getSharedRecipes().get( recipeIndex );
         // Get the array reference so that we can pass it into the adapter.
@@ -94,17 +110,34 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
             setAllValues();
         }
 
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
+
+
+        bottomNavMenu.setupBarListener();
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                storage.addRecipe( recipe );
-                InputErrorFragment inputErrorFragment =
-                        new InputErrorFragment(
-                            "Added Shared Recipe",
-                            "You have added " + recipe.getName() + " into your inventory",
-                            context
-                        );
-                inputErrorFragment.display();
+                if( !storage.alreadyHave( recipe ) ) {
+                    storage.addRecipe( recipe );
+                    InputErrorFragment inputErrorFragment =
+                            new InputErrorFragment(
+                                    "Added Shared Recipe",
+                                    "You have added " + recipe.getName() + " into your inventory",
+                                    context
+                            );
+                    inputErrorFragment.display();
+                } else {
+                    InputErrorFragment inputErrorFragment =
+                            new InputErrorFragment(
+                                    "Cannot Add Shared Recipe",
+                                    "You have already added " + recipe.getName() + " into your inventory",
+                                    context
+                            );
+                    inputErrorFragment.display();
+                }
             }
         });
     }
@@ -123,5 +156,27 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
 
         ingredientsListField.setAdapter( adapter );
 
+        if ( recipe.getImageFilePath() != "" && recipe.getImageFilePath() != null ) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(recipe.getImageFilePath());
+            try {
+                final File localFile = File.createTempFile("Test Recipe", ".jpeg");
+                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("Image Download", "Image has been downloaded.");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Image Download", "Image was unable to be downloaded.");
+                    }
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

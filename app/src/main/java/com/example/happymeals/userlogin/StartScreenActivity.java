@@ -9,11 +9,15 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
+import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.database.FirebaseAuthenticationHandler;
 
 public class StartScreenActivity extends AppCompatActivity {
 
     private Button loginBtn, registerBtn;
+    private FirebaseAuthenticationHandler fireAuth;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState) {
@@ -22,6 +26,7 @@ public class StartScreenActivity extends AppCompatActivity {
         setContentView(R.layout.start_screen_activity);
         loginBtn = findViewById(R.id.login_redirect);
         registerBtn = findViewById(R.id.register_redirect);
+        fireAuth = FirebaseAuthenticationHandler.getFireAuth();
 
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -40,11 +45,18 @@ public class StartScreenActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
 
+    private boolean isLoggedIn() {
+        return FirebaseAuthenticationHandler.getFireAuth().authenticate.getCurrentUser() != null;
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if( isLoggedIn() ) {
+            FireStoreManager.getInstance().setUser( fireAuth.authenticate.getCurrentUser().getEmail() );
+            startActivity(new Intent(StartScreenActivity.this, MainActivity.class));
+        }
+    }
 }

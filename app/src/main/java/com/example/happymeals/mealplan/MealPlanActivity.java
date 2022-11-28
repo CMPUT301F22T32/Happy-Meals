@@ -1,12 +1,16 @@
 package com.example.happymeals.mealplan;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
@@ -18,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.HappyMealBottomNavigation;
+import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.adapters.RecipeStorageAdapter;
@@ -25,12 +31,24 @@ import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 
+import com.example.happymeals.ingredient.Ingredient;
+import com.example.happymeals.recipe.Recipe;
+
+import com.example.happymeals.ingredient.IngredientStorageActivity;
+import com.example.happymeals.recipe.RecipeStorageActivity;
+import com.example.happymeals.shoppinglist.ShoppingListActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
+
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Set;
 
 
 public class MealPlanActivity extends AppCompatActivity implements DatasetWatcher {
@@ -66,17 +84,23 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
 
     private RecipeStorageAdapter recipeAdapter = null;
     private IngredientStorageArrayAdapter ingredientAdapter = null;
-    private ArrayAdapter<MealPlan> mealPlanAdapter = null;
 
     private MealPlanStorage mps;
-    private MealPlan mp;
+    private MealPlan mealPlan;
 
-    boolean noStoredMealPlans = false;
+    private BottomNavigationView bottomNavMenu;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getWindow().setExitTransition(null);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_plan);
+        getWindow().setEnterTransition(null);
 
         mps = MealPlanStorage.getInstance();
         mps.setListeningActivity(this);
@@ -112,14 +136,14 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         c.setTimeInMillis(Instant.now().toEpochMilli());
         calendarView.setDate(c.getTimeInMillis());
 
-        mp = mps.getMealPlanForDay(date);
+        mealPlan = mps.getMealPlanForDay(date);
 
-        mealPlanAdapter = new ArrayAdapter<MealPlan>(context, 0, mps.getMealPlans());
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.mealplan_menu );
 
-        if (mp != null) {
-            recipeAdapter = new RecipeStorageAdapter(context, mp.recipeList());
-            ingredientAdapter = new IngredientStorageArrayAdapter(context, mp.ingredientList());
-        }
+
+        bottomNavMenu.setupBarListener();
 
         setCalendarListeners();
         setButtonListener();
@@ -133,14 +157,13 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
 
     private void changeViewForEmptyStorage() {
         if (mps.getMealPlans().size() == 0) {
-            noStoredMealPlans = true;
-            String buttonMessage = "Make a meal plan";
-            viewAll.setText(buttonMessage);
+            viewAll.setVisibility(View.GONE);
             String prompt = "Looks like you don't have any meal plans yet... make one in just a few clicks.";
             noMPTab.setText(prompt);
         }
-        else
-            noStoredMealPlans = false;
+        else {
+            viewAll.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setCalendarListeners() {
@@ -164,15 +187,16 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent;
-                if (noStoredMealPlans) {
-                    MealPlanPromptFragment frag = new MealPlanPromptFragment();
-                    frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
-                }
-                else {
-                    intent = new Intent(context, MealPlanListViewActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(context, MealPlanListViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.add_meal_plan_floating_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MealPlanPromptFragment frag = new MealPlanPromptFragment(date);
+                frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
             }
         });
     }
@@ -184,10 +208,10 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 breakfastBox.setChecked(true);
-                mp.setMealMade(date, Constants.MEAL_OF_DAY.BREAKFAST, true);
-                mps.updateMealPlan(mp);
+                mealPlan.setMealMade(date, Constants.MEAL_OF_DAY.BREAKFAST, true);
+                mps.updateMealPlan(mealPlan);
                 breakfastBox.setClickable(false);
-                mp.consumeMeal(date, Constants.MEAL_OF_DAY.BREAKFAST);
+                mealPlan.consumeMeal(date, Constants.MEAL_OF_DAY.BREAKFAST);
             }
         };
 
@@ -195,10 +219,10 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 lunchBox.setChecked(true);
-                mp.setMealMade(date, Constants.MEAL_OF_DAY.LUNCH, true);
-                mps.updateMealPlan(mp);
+                mealPlan.setMealMade(date, Constants.MEAL_OF_DAY.LUNCH, true);
+                mps.updateMealPlan(mealPlan);
                 lunchBox.setClickable(false);
-                mp.consumeMeal(date, Constants.MEAL_OF_DAY.LUNCH);
+                mealPlan.consumeMeal(date, Constants.MEAL_OF_DAY.LUNCH);
             }
         };
 
@@ -206,10 +230,10 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dinnerBox.setChecked(true);
-                mp.setMealMade(date, Constants.MEAL_OF_DAY.DINNER, true);
-                mps.updateMealPlan(mp);
+                mealPlan.setMealMade(date, Constants.MEAL_OF_DAY.DINNER, true);
+                mps.updateMealPlan(mealPlan);
                 dinnerBox.setClickable(false);
-                mp.consumeMeal(date, Constants.MEAL_OF_DAY.DINNER);
+                mealPlan.consumeMeal(date, Constants.MEAL_OF_DAY.DINNER);
             }
         };
 
@@ -237,8 +261,13 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             buttons[index].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mp.getMealType(date, mealTimes[index]) == Constants.COLLECTION_NAME.INGREDIENTS) {
-                        mp.getMealIngredients(date, mealTimes[index], true);
+                    if (mealPlan.getMeal(date, mealTimes[index]) == null)
+                        return;
+
+                    if (mealPlan.getMealType(date, mealTimes[index]) == Constants.COLLECTION_NAME.INGREDIENTS) {
+                        ArrayList<Ingredient> ingredients = mealPlan.getMealIngredients(date, mealTimes[index]);
+                        IngredientStorageArrayAdapter ingredientAdapter = new IngredientStorageArrayAdapter(context, ingredients);
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
                         builder.setTitle("Ingredients")
@@ -249,8 +278,11 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
                         AlertDialog fragment = builder.create();
                         fragment.show();
 
-                    } else if (mp.getMealType(date, mealTimes[index]) == Constants.COLLECTION_NAME.RECIPES) {
-                        mp.getMealRecipes(date, mealTimes[index]);
+                    } else if (mealPlan.getMealType(date, mealTimes[index]) == Constants.COLLECTION_NAME.RECIPES) {
+
+                        ArrayList<Recipe>recipes = mealPlan.getMealRecipes(date, mealTimes[index]);
+                        RecipeStorageAdapter recipeAdapter = new RecipeStorageAdapter(context, recipes);
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
                         builder.setTitle("Recipes")
@@ -267,11 +299,11 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
     }
 
     private void setMeals() {
-        mp = mps.getMealPlanForDay(date);
+        mealPlan = mps.getMealPlanForDay(date);
 
         LinearLayout[] tabs = new LinearLayout[]{breakfastTab, lunchTab, dinnerTab};
 
-        if (mp == null) {
+        if (mealPlan == null) {
             noMPTab.setVisibility(View.VISIBLE);
             String prompt = "There is no meal planner for this week.";
             noMPTab.setText(prompt);
@@ -283,25 +315,20 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             return;
         }
 
-        noStoredMealPlans = false;
         String buttonMessage = "View all meal plans";
         viewAll.setText(buttonMessage);
-
-        recipeAdapter = new RecipeStorageAdapter(context, mp.recipeList());
-        ingredientAdapter = new IngredientStorageArrayAdapter(context, mp.ingredientList());
 
         setDetailsListeners();
         setCheckBoxListeners();
 
-        mp.setListeningActivity(this);
         mealPlanTab.setVisibility(View.VISIBLE);
-        startDay.setText(mp.getStartDateString());
-        endDay.setText(mp.getEndDateString());
+        startDay.setText(mealPlan.getStartDateString());
+        endDay.setText(mealPlan.getEndDateString());
 
         String prompt = "There are no meals planned for this day.";
         noMPTab.setText(prompt);
 
-        if (mp.getNumberOfMealsForDay(date) == 0) {
+        if (mealPlan.getNumberOfMealsForDay(date) == 0) {
             noMPTab.setVisibility(View.VISIBLE);
             legend.setVisibility(View.GONE);
 
@@ -312,8 +339,20 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             noMPTab.setVisibility(View.GONE);
             legend.setVisibility(View.VISIBLE);
 
-            ArrayList<String> names = mp.getMealNamesForDay(date);
-            ArrayList<Boolean> made = mp.getMealMadeForDay(date);
+            ArrayList<String> names = new ArrayList<>();
+            ArrayList<Boolean> made = new ArrayList<>();
+
+            for (Constants.MEAL_OF_DAY mealTime : Constants.MEAL_OF_DAY.values()) {
+                Meal meal = mealPlan.getMeal(date, mealTime);
+                if (meal == null) {
+                    names.add(null);
+                    made.add(null);
+                }
+                else {
+                    names.add(buildDisplayString(meal.getItems()));
+                    made.add(meal.isMade());
+                }
+            }
 
             TextView[] views = new TextView[]{breakfastText, lunchText, dinnerText};
             CheckBox[] boxes = new CheckBox[]{breakfastBox, lunchBox, dinnerBox};
@@ -332,6 +371,31 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         }
     }
 
+    private String buildDisplayString(HashMap<String, Double> mealPlanItems) {
+        String[] names = mealPlanItems.keySet().toArray(new String[0]);
+        StringBuilder sb = new StringBuilder();
+        int size = names.length - 1;
+
+        if (size < 0) {
+            Log.e("MealPlanDisplay", "No recipe provided for meal.");
+            return null;
+        }
+
+        for (int i = 0; i < size; i++) {
+            sb.append(names[i]);
+            sb.append(", ");
+        }
+
+        sb.append(names[size]);
+
+        if (sb.length() > 20) {
+            sb.setLength(20);
+            sb.append(" ... ");
+        }
+
+        return sb.toString();
+    }
+
     @Override
     public void signalChangeToAdapter() {
         if (recipeAdapter != null)
@@ -339,10 +403,5 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
 
         if (ingredientAdapter != null)
             ingredientAdapter.notifyDataSetChanged();
-
-        if (mealPlanAdapter != null) {
-            mealPlanAdapter.notifyDataSetChanged();
-            setMeals();
-        }
     }
 }

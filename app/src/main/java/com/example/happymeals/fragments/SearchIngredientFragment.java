@@ -13,12 +13,11 @@ import android.widget.ListView;
 
 import com.example.happymeals.R;
 import com.example.happymeals.ingredient.Ingredient;
-import com.example.happymeals.ingredient.IngredientSpecificArrayAdapter;
+import com.example.happymeals.adapters.IngredientSpecificArrayAdapter;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.recipe.RecipeAddActivity;
 import com.example.happymeals.recipe.RecipeDetailsActivity;
-import com.google.common.collect.Multiset;
 
 
 import androidx.annotation.NonNull;
@@ -27,7 +26,6 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author jeastgaa
@@ -49,9 +47,8 @@ public class SearchIngredientFragment extends DialogFragment implements
      */
     @Override
     public void onConfirmClick(double count, Ingredient ingredient) {
-
         addedIngredientsList.add( ingredient );
-        ingredientCountMap.put( ingredient.getName(), count );
+        ingredientCountMap.put( ingredient.getId(), count );
         addedIngredientsAdapter.notifyDataSetChanged();
     }
 

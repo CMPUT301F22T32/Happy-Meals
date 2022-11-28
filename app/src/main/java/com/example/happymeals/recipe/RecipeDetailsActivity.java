@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
 
 import com.example.happymeals.database.DatabaseListener;
@@ -69,7 +69,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     private TextView commentsField;
     private ImageView imageView;
 
-
+    private TextView publishTextView;
     private TextView editButton;
     private Button cancelButton;
     private Button saveButton;
@@ -94,7 +94,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.recipe_details_activity );
+        setContentView( R.layout.activity_recipe_details);
 
         Intent intent = getIntent();
         if( !intent.hasExtra("Index") ) {
@@ -108,10 +108,18 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         context = this;
 
         editButton = findViewById( R.id.edit_recipe_button );
+        publishTextView = findViewById( R.id.recipe_details_publish_label );
         cancelButton = findViewById( R.id.recipe_details_cancel_button );
         saveButton = findViewById( R.id.recipe_details_button_save_button );
         addIngredientButton = findViewById( R.id.recipe_details_add_ingredients_button );
         addCommentsButton = findViewById( R.id.recipe_details_add_comment_button );
+
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
+
+
+        bottomNavMenu.setupBarListener();
 
         addIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +188,6 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
                     Bitmap bitmap = (Bitmap) bundle.get("data");
                     imagePath = saveImage(bitmap);
                     imageView.setImageURI(imagePath);
-
                 }
             }
         });
@@ -232,11 +239,6 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
             }
         }
 
-
-
-        //imageView.setImageURI( recipe.getImage() );
-        // System.out.println(recipe.getImage());
-
         ingredientsListField.setAdapter( adapter );
 
     }
@@ -247,6 +249,9 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
      */
     public void onEditClick( View view ){
         editButton.setVisibility( View.GONE );
+        publishTextView.setVisibility( View.GONE );
+        findViewById( R.id.recipe_details_top_divider ).setVisibility( View.GONE );
+
         saveButton.setVisibility( View.VISIBLE );
         cancelButton.setVisibility( View.VISIBLE );
         addIngredientButton.setVisibility( View.VISIBLE );
@@ -262,6 +267,9 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
 
     public void disabledEditOnViews() {
         editButton.setVisibility( View.VISIBLE );
+        publishTextView.setVisibility( View.VISIBLE );
+        findViewById( R.id.recipe_details_top_divider ).setVisibility( View.VISIBLE );
+
         saveButton.setVisibility( View.GONE );
         cancelButton.setVisibility( View.GONE );
         addIngredientButton.setVisibility( View.GONE );
@@ -300,13 +308,13 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         }
 
         if (imagePath != null) {
-            imageFilePath = storage.addImage( imagePath, recipe.getName() );
+            imageFilePath = storage.addImage( imagePath, recipe.getId() );
         }
 
 
         recipe.setDescription( newDescription );
-        recipe.setPrepTime( new Double( newPrepTime ));
-        recipe.setCookTime( new Double( newCookTime ));
+        recipe.setPrepTime( new Integer( newPrepTime ));
+        recipe.setCookTime( new Integer( newCookTime ));
         recipe.setServings( new Double( newServings ));
         recipe.setComments( comments );
         recipe.setInstructions( newInstructions );
@@ -351,8 +359,8 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         for( Ingredient i : ingredientsToAdd ) {
             ingredients.add( i );
             HashMap< String, Object > tempMap = new HashMap<>();
-            tempMap.put("count", ingredientMap.get( i.getName() ) );
-            this.ingredientMap.put( i.getName(), tempMap );
+            tempMap.put("count", countsToAdd.get( i.getId() ) );
+            this.ingredientMap.put( i.getId(), tempMap );
         }
         adapter.notifyDataSetChanged();
     }
@@ -375,5 +383,31 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
             e.printStackTrace();
         }
         return uri;
+    }
+
+    public void onPublishClick( View view ) {
+        if( !recipe.getCreator().equals( storage.getCurrentUser() ) ) {
+            InputErrorFragment notifyFragment = new InputErrorFragment(
+                    "Recipe Not Published",
+                    "You cannot publish someone else's recipe!",
+                    this
+            );
+            notifyFragment.display();
+            return;
+        }
+        Recipe newRecipe = recipe.clone();
+        storage.publishRecipe( newRecipe );
+        InputErrorFragment notifyFragment = new InputErrorFragment(
+                "Recipe Published",
+                "Your recipe has been sent off. Please confirm you see it published!",
+                this
+        );
+        notifyFragment.display();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

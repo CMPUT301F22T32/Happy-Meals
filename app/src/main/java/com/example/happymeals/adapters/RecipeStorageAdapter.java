@@ -48,7 +48,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     private SeekBarChangeListener listener;
 
     public interface SeekBarChangeListener {
-        void changedValue(String recipeName, Double scale);
+        void changedValue( String recipeName, Double scale );
     }
 
     FireStoreManager storeManager;
@@ -59,13 +59,13 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
      * @param context The {@link Context} of the class which instantiates this adapter.
      * @param recipeStorageList The {@link ArrayList} which is being adapted and viewed.
      */
-    public RecipeStorageAdapter(@NonNull Context context, ArrayList<Recipe> recipeStorageList, Boolean... showScaleSlider ) {
-        super(context, 0 , recipeStorageList );
+    public RecipeStorageAdapter( @NonNull Context context, ArrayList<Recipe> recipeStorageList, Boolean... showScaleSlider ) {
+        super( context, 0 , recipeStorageList );
         this.context = context;
         this.recipeStorageList = recipeStorageList;
         this.currentRecipe = null;
 
-        if (showScaleSlider.length > 0) {
+        if ( showScaleSlider.length > 0 ) {
             this.showScaleSlider = showScaleSlider[0];
         }
     }
@@ -75,18 +75,18 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
      */
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView( int position, @Nullable View convertView, @NonNull ViewGroup parent ) {
         View listItem = convertView;
-        if (listItem == null)
-            listItem = LayoutInflater.from(context).inflate(R.layout.content_recipe, parent, false);
+        if ( listItem == null )
+            listItem = LayoutInflater.from( context ).inflate( R.layout.content_recipe, parent, false );
 
         currentRecipe = recipeStorageList.get( position );
 
-        TextView name = listItem.findViewById(R.id.ingredient_specific_list_name_field);
+        TextView name = listItem.findViewById( R.id.ingredient_specific_list_name_field );
         TextView servings = listItem.findViewById( R.id.recipe_list_servings_field );
         TextView totalTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
         TextView creatorName = listItem.findViewById( R.id.recipe_content_creator_field );
-        ImageView imageView = listItem.findViewById(R.id.recipe_content_image);
+        ImageView imageView = listItem.findViewById( R.id.recipe_content_image );
 
 
         name.setText( currentRecipe.getName() );
@@ -95,76 +95,76 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         creatorName.setText( currentRecipe.getCreator() );
         // setting image
         if ( currentRecipe.getImageFilePath() != "" && currentRecipe.getImageFilePath() != null ) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(currentRecipe.getImageFilePath());
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child( currentRecipe.getImageFilePath() );
             try {
-                final File localFile = File.createTempFile("Test Recipe", ".jpeg");
-                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                final File localFile = File.createTempFile( "Test Recipe", ".jpeg" );
+                storageReference.getFile( localFile ).addOnSuccessListener( new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("Image Download", "Image has been downloaded.");
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        imageView.setImageBitmap(bitmap);
+                    public void onSuccess( FileDownloadTask.TaskSnapshot taskSnapshot ) {
+                        Log.d( "Image Download", "Image has been downloaded." );
+                        Bitmap bitmap = BitmapFactory.decodeFile( localFile.getAbsolutePath() );
+                        imageView.setImageBitmap( bitmap );
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                } ).addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Image Download", "Image was unable to be downloaded.");
+                    public void onFailure( @NonNull Exception e ) {
+                        Log.d( "Image Download", "Image was unable to be downloaded." );
 
                     }
 
-                });
-            } catch (IOException e) {
+                } );
+            } catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
 
-        if (showScaleSlider) {
-            listItem.findViewById(R.id.recipe_scaler).setVisibility(View.VISIBLE);
+        if ( showScaleSlider ) {
+            listItem.findViewById( R.id.recipe_scaler ).setVisibility( View.VISIBLE );
 
-            TextView amount = listItem.findViewById(R.id.recipe_scale_amount);
-            SeekBar slider = listItem.findViewById(R.id.recipe_scale_slider);
+            TextView amount = listItem.findViewById( R.id.recipe_scale_amount );
+            SeekBar slider = listItem.findViewById( R.id.recipe_scale_slider );
 
             String defaultValue;
 
-            if (scaleAmounts == null)
+            if ( scaleAmounts == null )
                 defaultValue = "1.0";
             else {
-                Double scale = scaleAmounts.get(position);
-                defaultValue = Double.toString(scale);
-                slider.setProgress((int) (scale * 2) - 1);
-                servings.setText(String.valueOf(scale * currentRecipe.getServings()));
+                Double scale = scaleAmounts.get( position );
+                defaultValue = Double.toString( scale );
+                slider.setProgress( ( int ) ( scale * 2 ) - 1 );
+                servings.setText( String.valueOf( scale * currentRecipe.getServings() ) );
             }
-            amount.setText(defaultValue);
+            amount.setText( defaultValue );
 
-            slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            slider.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
                 @Override
-                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    Double scale = (Double) (i / 2.0) + 0.5;
-                    amount.setText(String.valueOf(scale));
-                    servings.setText( String.valueOf(scale * currentRecipe.getServings()) );
-                    listener.changedValue(currentRecipe.getName(), scale);
+                public void onProgressChanged( SeekBar seekBar, int i, boolean b ) {
+                    Double scale = ( Double ) ( i / 2.0 ) + 0.5;
+                    amount.setText( String.valueOf( scale ) );
+                    servings.setText( String.valueOf( scale * currentRecipe.getServings() ) );
+                    listener.changedValue( currentRecipe.getName(), scale );
                 }
 
                 @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
+                public void onStartTrackingTouch( SeekBar seekBar ) {
                 }
 
                 @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
+                public void onStopTrackingTouch( SeekBar seekBar ) {
                 }
-            });
+            } );
         }
         else{
-            listItem.findViewById(R.id.recipe_scaler).setVisibility(View.GONE);
+            listItem.findViewById( R.id.recipe_scaler ).setVisibility( View.GONE );
         }
         return listItem;
     }
 
-    public void setScales(ArrayList<Double> scaleAmounts) {
+    public void setScales( ArrayList<Double> scaleAmounts ) {
         this.scaleAmounts = scaleAmounts;
     }
 
-    public void setListener(SeekBarChangeListener listener) {
+    public void setListener( SeekBarChangeListener listener ) {
         this.listener = listener;
     }
 
@@ -178,7 +178,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         return new DialogInterface.OnClickListener() {
 
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick( DialogInterface dialogInterface, int i ) {
                 RecipeStorage.getInstance().removeRecipe( currentRecipe );
             }
         };

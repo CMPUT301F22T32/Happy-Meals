@@ -1,17 +1,8 @@
 package com.example.happymeals.recipe;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
+import com.example.happymeals.database.DatabaseObject;
+import com.example.happymeals.database.FireStoreManager;
 
-import com.example.happymeals.database.*;
-import com.google.firebase.firestore.DocumentReference;
-
-
-import com.google.firebase.firestore.DocumentReference;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -60,7 +51,7 @@ public class Recipe extends DatabaseObject {
                    HashMap< String, HashMap< String, Object > > ingredients,
                    String instructions,
                    int prepTime, double servings, String imageFilePath ) {
-        super(name, creator);
+        super( name, creator );
         this.cookTime = cookTime;
         this.description = description;
         this.comments = comments;
@@ -80,7 +71,7 @@ public class Recipe extends DatabaseObject {
     }
 
     public Recipe clone() {
-        return new Recipe(
+        return new Recipe( 
                 this.name,
                 this.creator,
                 this.cookTime,
@@ -126,7 +117,7 @@ public class Recipe extends DatabaseObject {
     public String getCommentsAsString() {
         int count = 1;
         String instructionString = "";
-        for( String str : comments){
+        for( String str : comments ){
             instructionString += count + ": " + str + "\n";
             count++;
         }
@@ -195,7 +186,7 @@ public class Recipe extends DatabaseObject {
     }
     public String getImageFilePath() { return imageFilePath; }
 
-    public void setImageFilePath(String imageFilePath) {
+    public void setImageFilePath( String imageFilePath ) {
         this.imageFilePath = imageFilePath;
     }
 

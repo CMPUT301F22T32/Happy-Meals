@@ -8,5 +8,5 @@ public interface OutputListener {
 
     void onSuccess();
 
-    void onFailure(Exception e);
+    void onFailure( Exception e );
 }

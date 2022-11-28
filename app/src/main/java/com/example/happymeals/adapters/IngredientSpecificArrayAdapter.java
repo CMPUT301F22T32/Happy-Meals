@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
-import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.ingredient.Ingredient;
 
 import java.util.ArrayList;
@@ -43,10 +42,10 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
      *                 the {@link Ingredient}'s name value.
      */
 
-    public IngredientSpecificArrayAdapter(@NonNull Context context,
+    public IngredientSpecificArrayAdapter( @NonNull Context context,
                                           ArrayList<Ingredient> storageList,
                                           HashMap< String, Double > countMap ) {
-        super(context, 0, storageList);
+        super( context, 0, storageList );
         this.storageList = storageList;
         this.context = context;
         this.countMap = countMap;
@@ -57,22 +56,22 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
      */
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView( int position, @Nullable View convertView, @NonNull ViewGroup parent ) {
         View view = convertView;
 
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.content_ingredient_specific, parent, false);
+        if ( view == null ) {
+            view = LayoutInflater.from( context ).inflate( R.layout.content_ingredient_specific, parent, false );
         }
 
-        Ingredient ingredient = storageList.get(position);
+        Ingredient ingredient = storageList.get( position );
 
-        TextView name = view.findViewById( R.id.ingredient_specific_list_name_field);
-        TextView amount = view.findViewById(R.id.ingredient_specific_amount_text);
-        TextView unit = view.findViewById(R.id.ingredient_specific_amount_unit_text);
+        TextView name = view.findViewById( R.id.ingredient_specific_list_name_field );
+        TextView amount = view.findViewById( R.id.ingredient_specific_amount_text );
+        TextView unit = view.findViewById( R.id.ingredient_specific_amount_unit_text );
 
         name.setText( ingredient.getName() );
         amount.setText( countMap.get( ingredient.getId() ).toString() );
-        unit.setText(ingredient.getUnit().toString());
+        unit.setText( ingredient.getUnit().toString() );
 
         return view;
     }

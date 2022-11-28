@@ -71,8 +71,8 @@ public class GetCountFragment extends DialogFragment {
      */
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstance ) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.select_count_fragment, null);
+    public Dialog onCreateDialog( @Nullable Bundle savedInstance ) {
+        View view = LayoutInflater.from( getActivity() ).inflate( R.layout.select_count_fragment, null );
 
         getCountField = view.findViewById( R.id.select_count_fragment_content_field );
 
@@ -80,20 +80,20 @@ public class GetCountFragment extends DialogFragment {
         return builder
                 .setView( view )
                 .setTitle( "Set Amount of Ingredient Required:" )
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                .setPositiveButton( "Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick( DialogInterface dialogInterface, int i ) {
                         String givenCount = getCountField.getText().toString();
-                        if( !givenCount.equals("") ) {
+                        if( !givenCount.equals( "" ) ) {
                             try{
-                                listener.onConfirmClick( Double.parseDouble(
+                                listener.onConfirmClick( Double.parseDouble( 
                                         getCountField.getText().toString() ), ingredientToHold );
-                            } catch (Exception e ) {
-                                Log.e("Get Count", e.toString() );
+                            } catch ( Exception e ) {
+                                Log.e( "Get Count", e.toString() );
                             }
                         }
                     }
-                })
+                } )
                 .setNegativeButton( "Cancel", null )
                 .create();
     }

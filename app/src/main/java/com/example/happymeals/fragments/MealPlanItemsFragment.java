@@ -56,137 +56,137 @@ public class MealPlanItemsFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void selectionIngredients(ArrayList<Ingredient> ingredients);
-        void selectionRecipes(ArrayList<Recipe> recipes);
+        void selectionIngredients( ArrayList<Ingredient> ingredients );
+        void selectionRecipes( ArrayList<Recipe> recipes );
     }
 
     public MealPlanItemsFragment() {
         // Required empty public constructor
     }
 
-    public static MealPlanItemsFragment newInstance(String type, ArrayList<String> selectedIndices) {
+    public static MealPlanItemsFragment newInstance( String type, ArrayList<String> selectedIndices ) {
         Bundle args = new Bundle();
-        args.putStringArrayList("selected", selectedIndices);
-        args.putString("type", type);
+        args.putStringArrayList( "selected", selectedIndices );
+        args.putString( "type", type );
         MealPlanItemsFragment fragment = new MealPlanItemsFragment();
-        fragment.setArguments(args);
+        fragment.setArguments( args );
         return fragment;
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    public void onAttach( @NonNull Context context ) {
+        super.onAttach( context );
         this.context = context;
-        listener = (OnFragmentInteractionListener) context;
+        listener = ( OnFragmentInteractionListener ) context;
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog( Bundle savedInstanceState ) {
         // Inflate the layout for this fragment
         View view = LayoutInflater
-                .from(getActivity())
-                .inflate(R.layout.activity_select_meals, null);
+                .from( getActivity() )
+                .inflate( R.layout.activity_select_meals, null );
 
         selected = new HashSet<>();
 
         ingredientStorage = IngredientStorage.getInstance();
         recipeStorage = RecipeStorage.getInstance();
 
-        RadioButton ingredientRadio = view.findViewById(R.id.ingredient_radio);
-        RadioButton recipeRadio = view.findViewById(R.id.recipe_radio);
-        radioGroup = view.findViewById(R.id.mp_type_of_item);
-        list = view.findViewById(R.id.meal_plan_item_list);
-        save = view.findViewById(R.id.mp_items_save);
-        cancel = view.findViewById(R.id.mp_items_cancel);
+        RadioButton ingredientRadio = view.findViewById( R.id.ingredient_radio );
+        RadioButton recipeRadio = view.findViewById( R.id.recipe_radio );
+        radioGroup = view.findViewById( R.id.mp_type_of_item );
+        list = view.findViewById( R.id.meal_plan_item_list );
+        save = view.findViewById( R.id.mp_items_save );
+        cancel = view.findViewById( R.id.mp_items_cancel );
 
         int checked = radioGroup.getCheckedRadioButtonId();
         int ingredientID = ingredientRadio.getId();
         int recipeID = recipeRadio.getId();
 
-        showIngredients = (ingredientID == checked);
+        showIngredients = ( ingredientID == checked );
 
         Bundle inputBundle = getArguments();
-        if (inputBundle != null) {
-            type = inputBundle.getString("type");
-            selectedNames = inputBundle.getStringArrayList("selected");
-            if (type.equals(Constants.COLLECTION_NAME.RECIPES.toString())) {
+        if ( inputBundle != null ) {
+            type = inputBundle.getString( "type" );
+            selectedNames = inputBundle.getStringArrayList( "selected" );
+            if ( type.equals( Constants.COLLECTION_NAME.RECIPES.toString() ) ) {
                 showIngredients = false;
-                radioGroup.check(recipeID);
+                radioGroup.check( recipeID );
             }
         }
 
         setListeners();
         switchList();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder.setView(view).create();
+        AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+        return builder.setView( view ).create();
     }
 
     private void setListeners() {
         Fragment fragment = this;
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                for (Integer index : selected) {
-                    if (index == i) {
-                        view.setBackgroundColor(Color.WHITE);
-                        selected.remove(i);
+            public void onItemClick( AdapterView<?> adapterView, View view, int i, long l ) {
+                for ( Integer index : selected ) {
+                    if ( index == i ) {
+                        view.setBackgroundColor( Color.WHITE );
+                        selected.remove( i );
                         return;
                     }
                 }
-                view.setBackgroundColor(Color.LTGRAY);
-                selected.add(i);
+                view.setBackgroundColor( Color.LTGRAY );
+                selected.add( i );
             }
-        });
+        } );
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+            public void onCheckedChanged( RadioGroup radioGroup, int i ) {
                 showIngredients = !showIngredients;
                 switchList();
             }
-        });
+        } );
 
-        save.setOnClickListener(new View.OnClickListener() {
+        save.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (showIngredients) {
+            public void onClick( View view ) {
+                if ( showIngredients ) {
                     ArrayList<Ingredient> items = new ArrayList<>();
-                    for (Integer index : selected) {
-                        items.add(ingredientStorage.getIngredientByIndex(index));
+                    for ( Integer index : selected ) {
+                        items.add( ingredientStorage.getIngredientByIndex( index ) );
                     }
-                    listener.selectionIngredients(items);
+                    listener.selectionIngredients( items );
                 }
                 else {
                     ArrayList<Recipe> items = new ArrayList<>();
-                    for (Integer index : selected) {
-                        items.add(recipeStorage.getRecipeByIndex(index));
+                    for ( Integer index : selected ) {
+                        items.add( recipeStorage.getRecipeByIndex( index ) );
                     }
-                    listener.selectionRecipes(items);
+                    listener.selectionRecipes( items );
                 }
-                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().remove( fragment ).commit();
             }
-        });
+        } );
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            public void onClick( View view ) {
+                getActivity().getSupportFragmentManager().beginTransaction().remove( fragment ).commit();
             }
-        });
+        } );
     }
 
     private void switchList() {
         selected.clear();
-        if (showIngredients) {
+        if ( showIngredients ) {
             IngredientStorageArrayAdapter adapter = new IngredientStorageArrayAdapter( context, ingredientStorage.getIngredients() ) ;
             list.setAdapter( adapter ) ;
-            if (selectedNames != null) {
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    if (selectedNames.contains(adapter.getItem(i).getName())) {
-                        adapter.getView(i, null, list).setBackgroundColor(Color.LTGRAY);
-                        selected.add(i);
+            if ( selectedNames != null ) {
+                for ( int i = 0; i < adapter.getCount(); i++ ) {
+                    if ( selectedNames.contains( adapter.getItem( i ).getName() ) ) {
+                        adapter.getView( i, null, list ).setBackgroundColor( Color.LTGRAY );
+                        selected.add( i );
                     }
                 }
             }
@@ -194,11 +194,11 @@ public class MealPlanItemsFragment extends DialogFragment {
         else {
             RecipeStorageAdapter adapter = new RecipeStorageAdapter( context, recipeStorage.getRecipes() );
             list.setAdapter( adapter );
-            if (selectedNames != null) {
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    if (selectedNames.contains(adapter.getItem(i).getName())) {
-                        adapter.getView(i, null, list).setBackgroundColor(Color.LTGRAY);
-                        selected.add(i);
+            if ( selectedNames != null ) {
+                for ( int i = 0; i < adapter.getCount(); i++ ) {
+                    if ( selectedNames.contains( adapter.getItem( i ).getName() ) ) {
+                        adapter.getView( i, null, list ).setBackgroundColor( Color.LTGRAY );
+                        selected.add( i );
                         //adapter.notifyDataSetChanged();
                     }
                 }

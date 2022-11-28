@@ -89,15 +89,15 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
      * This is the function called whenever the MainActivity is created -- in our
      * case, this is on the launch of the app or when navigating back to the home page.
      * It it responsible for sending the intents to access all the other main views.
-     * @param savedInstanceState The instance state to restore the activity to (if applicable) {@link Bundle}
+     * @param savedInstanceState The instance state to restore the activity to ( if applicable ) {@link Bundle}
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_recipe_details);
+        setContentView( R.layout.activity_recipe_details );
 
         Intent intent = getIntent();
-        if( !intent.hasExtra("Index") ) {
+        if( !intent.hasExtra( "Index" ) ) {
             // If no recipe has been passed we cannot display anything.
             // <todo> Some error checking here
             finish();
@@ -115,40 +115,40 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         addCommentsButton = findViewById( R.id.recipe_details_add_comment_button );
 
         HappyMealBottomNavigation bottomNavMenu =
-                new HappyMealBottomNavigation(
-                        findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
+                new HappyMealBottomNavigation( 
+                        findViewById( R.id.bottomNavigationView ), this, R.id.recipe_menu );
 
 
         bottomNavMenu.setupBarListener();
 
-        addIngredientButton.setOnClickListener(new View.OnClickListener() {
+        addIngredientButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                new SearchIngredientFragment(ingredientMap).show( getSupportFragmentManager(), "Edit Text");
+            public void onClick( View view ) {
+                new SearchIngredientFragment( ingredientMap ).show( getSupportFragmentManager(), "Edit Text" );
             }
-        });
+        } );
 
-        addCommentsButton.setOnClickListener(new View.OnClickListener() {
+        addCommentsButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                new InputStringFragment("Comment To Add To Recipe", 120).show( getSupportFragmentManager(), "L E S F");
+            public void onClick( View view ) {
+                new InputStringFragment( "Comment To Add To Recipe", 120 ).show( getSupportFragmentManager(), "L E S F" );
             }
-        });
+        } );
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 disabledEditOnViews();
                 setAllValues();
             }
-        });
+        } );
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 saveChanges();
             }
-        });
+        } );
 
         nameField = findViewById( R.id.recipe_name_field );
         descriptionField = findViewById( R.id.recipe_description_field );
@@ -159,46 +159,46 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         instructionsField = findViewById( R.id.recipe_instructions_field );
         commentsField = findViewById( R.id.recipe_comment_field );
         addImageButton = findViewById( R.id.recipe_edit_image_button );
-        addImageButton.setVisibility(View.GONE);
+        addImageButton.setVisibility( View.GONE );
 
         disabledEditOnViews();
 
         imageView = findViewById( R.id.recpie_details_image );
 
         // Get the recipe and ingredient list
-        recipe = storage.getRecipeByIndex( getIntent().getIntExtra("Index", 0 ) );
-        //imageFile = storage.getRecipeImage(recipe);
+        recipe = storage.getRecipeByIndex( getIntent().getIntExtra( "Index", 0 ) );
+        //imageFile = storage.getRecipeImage( recipe );
         // Get the array reference so that we can pass it into the adapter.
         ingredients = storage.getIngredientListReference();
         // Pass the adapter into the array fetch to tell the storage to notify the adapter on data
         // change.
         if( recipe != null ) {
             ingredientMap = storage.getRecipeIngredientMap( recipe );
-            adapter = new IngredientStorageArrayAdapter( this, ingredients, ingredientMap);
+            adapter = new IngredientStorageArrayAdapter( this, ingredients, ingredientMap );
             storage.getIngredientsAsList( recipe, adapter );
 
             setAllValues();
         }
 
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        activityResultLauncher = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
-            public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode() == RESULT_OK && result.getData() != null) {
+            public void onActivityResult( ActivityResult result ) {
+                if( result.getResultCode() == RESULT_OK && result.getData() != null ) {
                     Bundle bundle = result.getData().getExtras();
-                    Bitmap bitmap = (Bitmap) bundle.get("data");
-                    imagePath = saveImage(bitmap);
-                    imageView.setImageURI(imagePath);
+                    Bitmap bitmap = ( Bitmap ) bundle.get( "data" );
+                    imagePath = saveImage( bitmap );
+                    imageView.setImageURI( imagePath );
                 }
             }
-        });
+        } );
 
-        addImageButton.setOnClickListener(new View.OnClickListener() {
+        addImageButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                activityResultLauncher.launch(intent);
+            public void onClick( View view ) {
+                Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+                activityResultLauncher.launch( intent );
             }
-        });
+        } );
     }
 
     /**
@@ -216,25 +216,25 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         comments = recipe.getComments();
 
         if ( recipe.getImageFilePath() != "" && recipe.getImageFilePath() != null ) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(recipe.getImageFilePath());
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child( recipe.getImageFilePath() );
             try {
-                final File localFile = File.createTempFile("Test Recipe", ".jpeg");
-                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                final File localFile = File.createTempFile( "Test Recipe", ".jpeg" );
+                storageReference.getFile( localFile ).addOnSuccessListener( new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("Image Download", "Image has been downloaded.");
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        imageView.setImageBitmap(bitmap);
+                    public void onSuccess( FileDownloadTask.TaskSnapshot taskSnapshot ) {
+                        Log.d( "Image Download", "Image has been downloaded." );
+                        Bitmap bitmap = BitmapFactory.decodeFile( localFile.getAbsolutePath() );
+                        imageView.setImageBitmap( bitmap );
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                } ).addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Image Download", "Image was unable to be downloaded.");
+                    public void onFailure( @NonNull Exception e ) {
+                        Log.d( "Image Download", "Image was unable to be downloaded." );
 
                     }
 
-                });
-            } catch (IOException e) {
+                } );
+            } catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -257,7 +257,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         addIngredientButton.setVisibility( View.VISIBLE );
         addImageButton.setVisibility( View.VISIBLE );
 
-        descriptionField.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        descriptionField.setInputType( InputType.TYPE_TEXT_FLAG_MULTI_LINE );
         prepTimeField.setInputType( InputType.TYPE_CLASS_NUMBER );
         cookTimeField.setInputType( InputType.TYPE_CLASS_NUMBER );
         servingsField.setInputType( InputType.TYPE_CLASS_NUMBER );
@@ -293,12 +293,12 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         // Check and make sure that required fields have been filled out.
         if( newPrepTime.length() < 1 || newCookTime.length() < 1 ) {
             if( newPrepTime.length() < 1 ) {
-                prepTimeField.setError("Missing Field");
+                prepTimeField.setError( "Missing Field" );
             }
             if( newCookTime.length() < 1 ) {
-                cookTimeField.setError("Missing Field");
+                cookTimeField.setError( "Missing Field" );
             }
-            InputErrorFragment inputErrorFragment = new InputErrorFragment(
+            InputErrorFragment inputErrorFragment = new InputErrorFragment( 
                     "Missing Information",
                     "Please ensure you have all required information filled out.",
                     this
@@ -307,19 +307,19 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
             return;
         }
 
-        if (imagePath != null) {
+        if ( imagePath != null ) {
             imageFilePath = storage.addImage( imagePath, recipe.getId() );
         }
 
 
         recipe.setDescription( newDescription );
-        recipe.setPrepTime( new Integer( newPrepTime ));
-        recipe.setCookTime( new Integer( newCookTime ));
-        recipe.setServings( new Double( newServings ));
+        recipe.setPrepTime( new Integer( newPrepTime ) );
+        recipe.setCookTime( new Integer( newCookTime ) );
+        recipe.setServings( new Double( newServings ) );
         recipe.setComments( comments );
         recipe.setInstructions( newInstructions );
-        recipe.setIngredients(storage.makeIngredientMapForRecipe( ingredientMap ));
-        recipe.setImageFilePath(imageFilePath);
+        recipe.setIngredients( storage.makeIngredientMapForRecipe( ingredientMap ) );
+        recipe.setImageFilePath( imageFilePath );
 
         storage.addRecipe( recipe );
         disabledEditOnViews();
@@ -331,7 +331,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
-    public void onSharedDataFetchSuccess(Recipe data) {
+    public void onSharedDataFetchSuccess( Recipe data ) {
 
     }
 
@@ -341,7 +341,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
-    public void onConfirmClick(String str) {
+    public void onConfirmClick( String str ) {
         comments.add( str );
         String commentsSoFar = commentsField.getText().toString();
         if( comments.size() == 1 ) {
@@ -353,33 +353,33 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     }
 
     @Override
-    public void onConfirmClick(ArrayList<Ingredient> ingredientsToAdd, HashMap<String, Double> countsToAdd) {
+    public void onConfirmClick( ArrayList<Ingredient> ingredientsToAdd, HashMap<String, Double> countsToAdd ) {
         ingredients.clear();
         this.ingredientMap.clear();
         for( Ingredient i : ingredientsToAdd ) {
             ingredients.add( i );
             HashMap< String, Object > tempMap = new HashMap<>();
-            tempMap.put("count", countsToAdd.get( i.getId() ) );
+            tempMap.put( "count", countsToAdd.get( i.getId() ) );
             this.ingredientMap.put( i.getId(), tempMap );
         }
         adapter.notifyDataSetChanged();
     }
 
-    private Uri saveImage(Bitmap image) {
-        File imagesFolder = new File(context.getCacheDir(), "images");
+    private Uri saveImage( Bitmap image ) {
+        File imagesFolder = new File( context.getCacheDir(), "images" );
         Uri uri = null;
 
         try {
             imagesFolder.mkdir();
-            File file = new File(imagesFolder, "captured_image.jpg");
-            FileOutputStream stream = new FileOutputStream(file);
-            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            File file = new File( imagesFolder, "captured_image.jpg" );
+            FileOutputStream stream = new FileOutputStream( file );
+            image.compress( Bitmap.CompressFormat.JPEG, 100, stream );
             stream.flush();
             stream.close();
-            uri = FileProvider.getUriForFile(context.getApplicationContext(), "com.example.happymeals"+".provider", file);
-        } catch (FileNotFoundException e) {
+            uri = FileProvider.getUriForFile( context.getApplicationContext(), "com.example.happymeals"+".provider", file );
+        } catch ( FileNotFoundException e ) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch ( IOException e ) {
             e.printStackTrace();
         }
         return uri;
@@ -387,7 +387,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
 
     public void onPublishClick( View view ) {
         if( !recipe.getCreator().equals( storage.getCurrentUser() ) ) {
-            InputErrorFragment notifyFragment = new InputErrorFragment(
+            InputErrorFragment notifyFragment = new InputErrorFragment( 
                     "Recipe Not Published",
                     "You cannot publish someone else's recipe!",
                     this
@@ -397,7 +397,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
         }
         Recipe newRecipe = recipe.clone();
         storage.publishRecipe( newRecipe );
-        InputErrorFragment notifyFragment = new InputErrorFragment(
+        InputErrorFragment notifyFragment = new InputErrorFragment( 
                 "Recipe Published",
                 "Your recipe has been sent off. Please confirm you see it published!",
                 this

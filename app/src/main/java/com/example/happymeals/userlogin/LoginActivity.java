@@ -34,11 +34,11 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
 
     /**
      * This is the function called whenever the LoginScreen is created -- in our
-     * case, this is on the launch of the app (if approved by client). If implemented,
+     * case, this is on the launch of the app ( if approved by client ). If implemented,
      * upon successful user authentication, it will send an intent to open an instance of
      * the MainActivity. From there, users will be able to access all of their data -- ingredients,
      * recipes, meal plans, etc.
-     * @param savedInstanceState The instance state to restore the activity to (if applicable) {@link Bundle}
+     * @param savedInstanceState The instance state to restore the activity to ( if applicable ) {@link Bundle}
      */
 
     private Context context;
@@ -51,69 +51,69 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
 
-        setContentView(R.layout.activity_login_screen);
+        setContentView( R.layout.activity_login_screen );
         fireAuth = FirebaseAuthenticationHandler.getFireAuth();
         context = this;
 
         // initialize all used objects
-        login = findViewById(R.id.login_button);
-        userInputField = findViewById(R.id.input_username);
-        passwordInputField = findViewById(R.id.input_password);
-        forgotPassword = findViewById(R.id.forgot_password);
-        register = findViewById(R.id.register_button);
+        login = findViewById( R.id.login_button );
+        userInputField = findViewById( R.id.input_username );
+        passwordInputField = findViewById( R.id.input_password );
+        forgotPassword = findViewById( R.id.forgot_password );
+        register = findViewById( R.id.register_button );
 
         // user clicks "login" button
-        login.setOnClickListener(new View.OnClickListener(){
+        login.setOnClickListener( new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick( View v ) {
                 // get input from user
                 String inputUser = userInputField.getText().toString();
                 String inputPass = passwordInputField.getText().toString();
                 //1 empty user passed
-                if( TextUtils.isEmpty(inputUser.trim())) {
-                    userInputField.setError("User cannot be empty");
+                if( TextUtils.isEmpty( inputUser.trim() ) ) {
+                    userInputField.setError( "User cannot be empty" );
                 }
                 //2 empty password passed
-                if( TextUtils.isEmpty(inputPass.trim())) {
-                    passwordInputField.setError("Password cannot be empty");
+                if( TextUtils.isEmpty( inputPass.trim() ) ) {
+                    passwordInputField.setError( "Password cannot be empty" );
                 }
-                fireAuth.getFireAuth().userLogin(inputUser,inputPass, new OutputListener() {
+                fireAuth.getFireAuth().userLogin( inputUser,inputPass, new OutputListener() {
                     @Override
                     public void onSuccess() {
                         finish();
                     }
 
                     @Override
-                    public void onFailure(Exception e) {
-                        InputErrorFragment errorFragment = new InputErrorFragment(
+                    public void onFailure( Exception e ) {
+                        InputErrorFragment errorFragment = new InputErrorFragment( 
                                 "Authentication Failure",
                                 "Username or Password was Incorrect",
                                 context
                         );
                         errorFragment.display();
                     }
-                });
+                } );
 
             }
-        });
+        } );
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
+        forgotPassword.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 forgotPassword();
             }
-        });
+        } );
 
         // user clicks "register" button
-        register.setOnClickListener(new View.OnClickListener() {
+        register.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            public void onClick( View v ) {
+                startActivity( new Intent( LoginActivity.this, RegisterActivity.class ) );
                 finish();
             }
-        });
+        } );
 
     }
 
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
      */
     public void forgotPassword() {
 
-        InputStringFragment inputStringFragment = new InputStringFragment(
+        InputStringFragment inputStringFragment = new InputStringFragment( 
                 "Enter Email for Password Reset: ",
                 180
         );
@@ -134,16 +134,16 @@ public class LoginActivity extends AppCompatActivity implements InputStringFragm
     @Override
     public void onConfirmClick( String email ) {
         fireAuth.authenticate.sendPasswordResetEmail( email )
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnCompleteListener( new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        InputErrorFragment errorFragment = new InputErrorFragment(
+                    public void onComplete( @NonNull Task<Void> task ) {
+                        InputErrorFragment errorFragment = new InputErrorFragment( 
                                 "Password Reset",
                                 "Password reset email has been sent to: " + email,
                                 context
                         );
                         errorFragment.display();
                     }
-                });
+                } );
     }
 }

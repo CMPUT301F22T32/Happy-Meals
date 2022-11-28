@@ -3,8 +3,6 @@ package com.example.happymeals.database;
 import com.example.happymeals.recipe.Recipe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author jeastgaa
@@ -32,5 +30,5 @@ public interface DatabaseListener {
      * To be used when the Spinner values have been fetched from the database on request.
      * @param listOfSpinners The {@link ArrayList} which holds all the spinner from the DB.
      */
-    <T> void onSpinnerFetchSuccess(T listOfSpinners );
+    <T> void onSpinnerFetchSuccess( T listOfSpinners );
 }

@@ -20,29 +20,29 @@ public class StartScreenActivity extends AppCompatActivity {
     private FirebaseAuthenticationHandler fireAuth;
 
     @Override
-    protected void onCreate ( Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-        setContentView(R.layout.start_screen_activity);
-        loginBtn = findViewById(R.id.login_redirect);
-        registerBtn = findViewById(R.id.register_redirect);
+    protected void onCreate ( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        getWindow().requestFeature( Window.FEATURE_ACTIVITY_TRANSITIONS );
+        setContentView( R.layout.start_screen_activity );
+        loginBtn = findViewById( R.id.login_redirect );
+        registerBtn = findViewById( R.id.register_redirect );
         fireAuth = FirebaseAuthenticationHandler.getFireAuth();
 
-        loginBtn.setOnClickListener(new View.OnClickListener(){
+        loginBtn.setOnClickListener( new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(StartScreenActivity.this).toBundle();
-                startActivity(new Intent(StartScreenActivity.this, LoginActivity.class), bundle);
+            public void onClick( View v ) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation( StartScreenActivity.this ).toBundle();
+                startActivity( new Intent( StartScreenActivity.this, LoginActivity.class ), bundle );
             }
-        });
+        } );
 
-        registerBtn.setOnClickListener(new View.OnClickListener(){
+        registerBtn.setOnClickListener( new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(StartScreenActivity.this).toBundle();
-                startActivity(new Intent(StartScreenActivity.this, RegisterActivity.class), bundle);
+            public void onClick( View v ) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation( StartScreenActivity.this ).toBundle();
+                startActivity( new Intent( StartScreenActivity.this, RegisterActivity.class ), bundle );
             }
-        });
+        } );
 
 
     }
@@ -56,7 +56,7 @@ public class StartScreenActivity extends AppCompatActivity {
         super.onResume();
         if( isLoggedIn() ) {
             FireStoreManager.getInstance().setUser( fireAuth.authenticate.getCurrentUser().getEmail() );
-            startActivity(new Intent(StartScreenActivity.this, MainActivity.class));
+            startActivity( new Intent( StartScreenActivity.this, MainActivity.class ) );
         }
     }
 }

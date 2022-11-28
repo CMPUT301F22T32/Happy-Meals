@@ -3,15 +3,17 @@ package com.example.happymeals.ingredient;
 import android.util.Log;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.database.DatabaseListener;
+import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.DatasetWatcher;
-import com.example.happymeals.database.*;
+import com.example.happymeals.database.FireStoreManager;
+import com.example.happymeals.database.FirebaseAuthenticationHandler;
 import com.example.happymeals.recipe.Recipe;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author jeastgaa
@@ -71,7 +73,7 @@ public class IngredientStorage implements DatabaseListener {
      */
     public void addSpinner( Constants.StoredSpinnerChoices choice, String spinner ) {
         if( spinnerMap.get( choice.toString() ) == null ) {
-            spinnerMap.put( choice.toString(), new ArrayList<String >());
+            spinnerMap.put( choice.toString(), new ArrayList<String >() );
         }
 
         spinnerMap.get( choice.toString() ).add( spinner );
@@ -85,11 +87,11 @@ public class IngredientStorage implements DatabaseListener {
      * @return The database friendly {@link HashMap} which can be appended to a
      * {@link com.example.happymeals.recipe.Recipe} object.
      */
-    public HashMap< String, DocumentReference > convertListToHashMap(ArrayList< Ingredient > ingredientList ) {
+    public HashMap< String, DocumentReference > convertListToHashMap( ArrayList< Ingredient > ingredientList ) {
         HashMap< String, DocumentReference > mapToReturn = new HashMap<>();
 
         for( Ingredient ingredient : ingredientList ) {
-            mapToReturn.put( ingredient.getId(), fsm.getDocReferenceTo(ingredientCollection, ingredient ) );
+            mapToReturn.put( ingredient.getId(), fsm.getDocReferenceTo( ingredientCollection, ingredient ) );
         }
 
         return mapToReturn;
@@ -117,8 +119,8 @@ public class IngredientStorage implements DatabaseListener {
      */
     public ArrayList<String> getSpinners( Constants.StoredSpinnerChoices choice ) {
         ArrayList< String > temp = new ArrayList<>();
-        if( spinnerMap.get( choice.toString()) != null ) {
-            temp.addAll( spinnerMap.get(choice.toString() ));
+        if( spinnerMap.get( choice.toString() ) != null ) {
+            temp.addAll( spinnerMap.get( choice.toString() ) );
         }
         return temp;
     }
@@ -131,8 +133,8 @@ public class IngredientStorage implements DatabaseListener {
      *              provided {@link Ingredient}.
      */
     public void requestConsumptionOfIngredient( Ingredient ingredient, Double count ) {
-        ingredient.setAmount(
-                (ingredient.getAmount() - count) >=0 ? ingredient.getAmount() - count : 0);
+        ingredient.setAmount( 
+                ( ingredient.getAmount() - count ) >=0 ? ingredient.getAmount() - count : 0 );
         updateIngredient( ingredient );
     }
 
@@ -152,7 +154,7 @@ public class IngredientStorage implements DatabaseListener {
      * that the dataset has changed.
      */
     public void updateStorage() {
-        if (listeningActivity != null) {
+        if ( listeningActivity != null ) {
             listeningActivity.signalChangeToAdapter();
         } else {
             Log.d( "Ingredient Storage Error: ", "No listening activity was defined"
@@ -184,7 +186,7 @@ public class IngredientStorage implements DatabaseListener {
     public void addIngredient( Ingredient ingredient ) {
         ingredients.add( ingredient );
         updateStorage();
-        fsm.addData(ingredientCollection, ingredient);
+        fsm.addData( ingredientCollection, ingredient );
     }
 
     /**
@@ -194,7 +196,7 @@ public class IngredientStorage implements DatabaseListener {
      * @return The {@link Ingredient} object.
      */
     public Ingredient getIngredient( String ingredientKey ) {
-        if( ingredientKey.contains("_") ) {
+        if( ingredientKey.contains( "_" ) ) {
             for( Ingredient ingredient : ingredients ) {
                 if ( ingredient.getId().equals( ingredientKey ) ) {
                     return ingredient;
@@ -229,15 +231,15 @@ public class IngredientStorage implements DatabaseListener {
      */
     public void updateIngredient( Ingredient ingredient ) {
         for( Ingredient i : ingredients ) {
-            if( i.getId().equals(ingredient.getId() ) ){
+            if( i.getId().equals( ingredient.getId() ) ){
                 i = ingredient;
                 updateStorage();
-                ingredient.setNeedsUpdate(false);
+                ingredient.setNeedsUpdate( false );
                 fsm.updateData( ingredientCollection, ingredient );
                 return;
             }
         }
-        Log.d("Ingredient Storage:", "An ingredient update was requested on:\n"
+        Log.d( "Ingredient Storage:", "An ingredient update was requested on:\n"
         + ingredient.getName() + ", but no stored ingredient could be found", null );
 
     }
@@ -250,7 +252,7 @@ public class IngredientStorage implements DatabaseListener {
      * @param data {@link DatabaseObject} which holds the returned class.
      */
     @Override
-    public void onDataFetchSuccess(DatabaseObject data) {
+    public void onDataFetchSuccess( DatabaseObject data ) {
         Ingredient ingredient = ( Ingredient ) data;
         Boolean replace = Boolean.FALSE;
         // Loop through the list of ingredients and see if we are adding a new one
@@ -269,7 +271,7 @@ public class IngredientStorage implements DatabaseListener {
     }
 
     @Override
-    public void onSharedDataFetchSuccess(Recipe data) {
+    public void onSharedDataFetchSuccess( Recipe data ) {
 
     }
 
@@ -280,7 +282,7 @@ public class IngredientStorage implements DatabaseListener {
     public <T> void onSpinnerFetchSuccess( T mapOfSpinners ) {
         if( mapOfSpinners != null ) {
             if( mapOfSpinners.getClass() == HashMap.class ) {
-                spinnerMap = (HashMap<String, ArrayList<String>>) mapOfSpinners;
+                spinnerMap = ( HashMap<String, ArrayList<String>> ) mapOfSpinners;
             }
         }
     }
@@ -305,15 +307,15 @@ public class IngredientStorage implements DatabaseListener {
      * @return {@link boolean}
      */
     public boolean isIngredientsMissingInfo() {
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getNeedsUpdate()) {
+        for ( Ingredient ingredient : ingredients ) {
+            if ( ingredient.getNeedsUpdate() ) {
                 return true;
             }
         }
         return false;
     }
 
-    public Ingredient getIngredientByIndex(int i){
-        return ingredients.get(i);
+    public Ingredient getIngredientByIndex( int i ){
+        return ingredients.get( i );
     }
 }

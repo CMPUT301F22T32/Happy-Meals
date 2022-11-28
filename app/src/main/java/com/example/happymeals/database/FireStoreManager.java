@@ -1,18 +1,12 @@
 package com.example.happymeals.database;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static android.view.View.X;
-
 import android.net.Uri;
 import android.text.format.Formatter;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
 import com.example.happymeals.Constants;
-import com.example.happymeals.SpinnerSettingsActivity;
-import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.ingredient.IngredientStorage;
 import com.example.happymeals.mealplan.MealPlanStorage;
 import com.example.happymeals.recipe.Recipe;
@@ -27,14 +21,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -71,7 +61,7 @@ public class FireStoreManager {
      */
     private FireStoreManager() {
         database = FirebaseFirestore.getInstance();
-        sharedRecipesCollection = database.collection(
+        sharedRecipesCollection = database.collection( 
                 Constants.COLLECTION_NAME.GLOBAL_USERS.toString() );
     }
 
@@ -95,9 +85,9 @@ public class FireStoreManager {
      * @param collectionName The {@link Enum} of the collection which holds desired document.
      * @param data {@link DatabaseObject} holding data to be stored in the document.
      */
-    public void addData(Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
+    public void addData( Constants.COLLECTION_NAME collectionName, DatabaseObject data ) {
         if( collectionName == Constants.COLLECTION_NAME.GLOBAL_USERS ) {
-            addData( sharedRecipesCollection, data);
+            addData( sharedRecipesCollection, data );
         } else {
             addData( userDocument.collection( collectionName.toString() ), data );
         }
@@ -117,27 +107,27 @@ public class FireStoreManager {
                 .set( data )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(Void unused) {
+                    public void onSuccess( Void unused ) {
                         Log.d( DATA_STORE_TAG, "Data has been created." );
                     }
-                })
+                } )
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure( @NonNull Exception e ) {
                         Log.d( DATA_STORE_TAG, "Data could not be created." );
                     }
-                });
+                } );
     }
 
     public void addDefaultSpinners() {
 //        storeSpinners( HashMap< String, ArrayList< String > > data )
         HashMap< String, ArrayList< String > > mapToStore = new HashMap<>();
-        mapToStore.put(Constants.StoredSpinnerChoices.AMOUNT_UNIT.toString(),
+        mapToStore.put( Constants.StoredSpinnerChoices.AMOUNT_UNIT.toString(),
                 Constants.DefaultAmountUnitSpinners );
-        mapToStore.put(Constants.StoredSpinnerChoices.LOCATION.toString(),
+        mapToStore.put( Constants.StoredSpinnerChoices.LOCATION.toString(),
                 Constants.DefaultLocationSpinners );
-        mapToStore.put(Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY.toString(),
-                Constants.DefaultIngredientCategorySpiners);
+        mapToStore.put( Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY.toString(),
+                Constants.DefaultIngredientCategorySpiners );
         storeSpinners( mapToStore );
     }
 
@@ -173,16 +163,16 @@ public class FireStoreManager {
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(Void unused) {
+                    public void onSuccess( Void unused ) {
                         Log.d( DATA_DELETE_TAG, "Data has been removed." );
                     }
-                })
+                } )
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure( @NonNull Exception e ) {
                         Log.d( DATA_DELETE_TAG, "Data was unable to be removed." );
                     }
-                });
+                } );
 
     }
 
@@ -191,16 +181,16 @@ public class FireStoreManager {
                 .delete()
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(Void unused) {
+                    public void onSuccess( Void unused ) {
                         Log.d( DATA_DELETE_TAG, "Data has been removed." );
                     }
-                })
+                } )
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure( @NonNull Exception e ) {
                         Log.d( DATA_DELETE_TAG, "Data was unable to be removed." );
                     }
-                });
+                } );
     }
 
     /**
@@ -213,40 +203,40 @@ public class FireStoreManager {
      *                                               cast the fetched data to.
      */
     public void getAllFrom( CollectionReference collection, DatabaseListener listener,
-                            DatabaseObject requestClassType) {
+                            DatabaseObject requestClassType ) {
         collection
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                listener.onDataFetchSuccess(
+                    public void onComplete( @NonNull Task<QuerySnapshot> task ) {
+                        if ( task.isSuccessful() ) {
+                            for ( QueryDocumentSnapshot document : task.getResult() ) {
+                                listener.onDataFetchSuccess( 
                                         document.toObject( requestClassType.getClass() ) );
                             }
                         } else {
-                            Log.d("TT", "Error getting documents: ", task.getException());
+                            Log.d( "TT", "Error getting documents: ", task.getException() );
                         }
                     }
-                });
+                } );
 
     }
 
     public void getAllSharedRecipes( DatabaseListener listener ) {
         sharedRecipesCollection.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                listener.onSharedDataFetchSuccess(
+                    public void onComplete( @NonNull Task<QuerySnapshot> task ) {
+                        if ( task.isSuccessful() ) {
+                            for ( QueryDocumentSnapshot document : task.getResult() ) {
+                                listener.onSharedDataFetchSuccess( 
                                         document.toObject( Recipe.class ) );
                             }
                         } else {
-                            Log.d("TT", "Error getting documents: ", task.getException());
+                            Log.d( "TT", "Error getting documents: ", task.getException() );
                         }
                     }
-                });
+                } );
     }
 
     /**
@@ -254,21 +244,21 @@ public class FireStoreManager {
      * @param listener The {@link DatabaseListener} which will deal with the fetch of data.
      */
     public void getAllSpinners( DatabaseListener listener ) {
-        userDocument.collection(Constants.SPINNER).document(Constants.SPINNER_ING_DOC)
+        userDocument.collection( Constants.SPINNER ).document( Constants.SPINNER_ING_DOC )
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete( @NonNull Task<DocumentSnapshot> task ) {
                         if( task.isSuccessful() ) {
-                            listener.onSpinnerFetchSuccess(
-                                    (HashMap)
+                            listener.onSpinnerFetchSuccess( 
+                                    ( HashMap )
                                     task.getResult().getData()
                             );
                         } else {
-                            Log.d("TT", "Error getting documents: ", task.getException());
+                            Log.d( "TT", "Error getting documents: ", task.getException() );
                         }
                     }
-                });
+                } );
     }
 
     /**
@@ -301,19 +291,19 @@ public class FireStoreManager {
     public void getData( DocumentReference documentReference,
                          DatabaseListener listener, DatabaseObject requestClassType ) {
         documentReference.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete( @NonNull Task<DocumentSnapshot> task ) {
                         if ( task.isSuccessful() ) {
                             Log.d( GET_DATA_TAG, "Data has been found." );
                             //<todo> Will need change these once classes have been flushed out.
-                            listener.onDataFetchSuccess(
+                            listener.onDataFetchSuccess( 
                                     task.getResult().toObject( requestClassType.getClass() ) );
                         } else {
                             Log.d( GET_DATA_TAG, "Data could not be found." );
                         }
                     }
-                });
+                } );
     }
 
     /**
@@ -366,20 +356,20 @@ public class FireStoreManager {
     // https://stackoverflow.com/questions/6064510/how-to-get-ip-address-of-the-device-from-code
     private static String getLocalIpAddress() {
         try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+            for ( Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                for ( Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress()) {
+                    if ( !inetAddress.isLoopbackAddress() ) {
 
-                        String ip = Formatter.formatIpAddress(inetAddress.hashCode());
-                        Log.i( IP_TAG, "***** IP="+ ip);
+                        String ip = Formatter.formatIpAddress( inetAddress.hashCode() );
+                        Log.i( IP_TAG, "***** IP="+ ip );
                         return ip;
                     }
                 }
             }
-        } catch (SocketException ex) {
-            Log.e( IP_TAG, ex.toString());
+        } catch ( SocketException ex ) {
+            Log.e( IP_TAG, ex.toString() );
         }
         return null;
     }
@@ -399,18 +389,18 @@ public class FireStoreManager {
      * @param data The {@link HashMap} of spinners to be stored.
      */
     public void storeSpinners( HashMap< String, ArrayList< String > > data ) {
-        userDocument.collection(Constants.SPINNER).document(Constants.SPINNER_ING_DOC)
+        userDocument.collection( Constants.SPINNER ).document( Constants.SPINNER_ING_DOC )
                 .set( data )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(Void unused) {
+                    public void onSuccess( Void unused ) {
                         Log.d( DATA_STORE_TAG, "Data has been created." );
                     }
-                })
+                } )
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(DATA_STORE_TAG, "Data could not be created.");
+                    public void onFailure( @NonNull Exception e ) {
+                        Log.d( DATA_STORE_TAG, "Data could not be created." );
                     }
                 }
                );
@@ -433,26 +423,26 @@ public class FireStoreManager {
         addData( collection, data );
     }
 
-    public String uploadImage(Uri imageUri, String name) {
+    public String uploadImage( Uri imageUri, String name ) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
 
         String filename = "images/"+user+"/"+name;
-        StorageReference ref = storageReference.child(filename);
+        StorageReference ref = storageReference.child( filename );
 
-        ref.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        ref.putFile( imageUri )
+                .addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    public void onSuccess( UploadTask.TaskSnapshot taskSnapshot ) {
                         Log.d( IMAGE_UPLOAD_TAG, "Image has been uploaded." );
                     }
-                })
+                } )
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure( @NonNull Exception e ) {
                         Log.d( IMAGE_UPLOAD_TAG, "Image was unable to be uploaded." );
                     }
-                });
+                } );
         return filename;
     }
 

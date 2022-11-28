@@ -12,8 +12,10 @@ import com.example.happymeals.recipe.Recipe;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jeastgaa
@@ -27,6 +29,7 @@ public class IngredientStorage implements DatabaseListener {
 
     private static IngredientStorage instance;
 
+    private ArrayList< String > ingredientsToSetToZero;
     private DatasetWatcher listeningActivity;
     private CollectionReference ingredientCollection;
 
@@ -40,6 +43,7 @@ public class IngredientStorage implements DatabaseListener {
      */
     private IngredientStorage() {
         this.ingredients = new ArrayList<>();
+        this.ingredientsToSetToZero = new ArrayList<>();
         this.spinnerMap = new HashMap<>();
         this.listeningActivity = null;
         this.fsm = FireStoreManager.getInstance();
@@ -78,6 +82,27 @@ public class IngredientStorage implements DatabaseListener {
 
         spinnerMap.get( choice.toString() ).add( spinner );
         fsm.storeSpinners( spinnerMap );
+    }
+
+    /**
+     * Ensures that all ingredients within a recipe exist within the storage.
+     * If they do not exist they will be added with a count of 0.
+     * @param recipe The {@link Recipe} which is being parsed for ingredients.
+     * @return A {@link Boolean} of False if there has been an addition to the ingredients.
+     */
+    public boolean assertIngredientsExists( Recipe recipe ) {
+        boolean toSend = true;
+        // Will get the count map, loop through all the ingredients, and test by name, NOT ID.
+        HashMap< String, HashMap< String, Object > > countMap = recipe.getIngredients();
+        for(Map.Entry entry : countMap.entrySet() ) {
+            if( getIngredient( entry.getKey().toString() ) == null ) {
+                fsm.getData( (DocumentReference) ((HashMap) entry.getValue()).get("reference"),
+                        this, new Ingredient() );
+                ingredientsToSetToZero.add( entry.getKey().toString() );
+                toSend = false;
+            }
+        }
+        return toSend;
     }
 
     /**
@@ -253,6 +278,10 @@ public class IngredientStorage implements DatabaseListener {
      */
     @Override
     public void onDataFetchSuccess( DatabaseObject data ) {
+        if( data == null ) {
+            Log.d("IngredientStorage", "Data fetch was null");
+            return;
+        }
         Ingredient ingredient = ( Ingredient ) data;
         Boolean replace = Boolean.FALSE;
         // Loop through the list of ingredients and see if we are adding a new one
@@ -265,7 +294,13 @@ public class IngredientStorage implements DatabaseListener {
             }
         }
         if( !replace ){
-            ingredients.add( ingredient );
+            if( ingredientsToSetToZero.contains( ingredient.getId() ) ) {
+                ingredient.setAmount(0);
+                addIngredient( ingredient );
+                ingredientsToSetToZero.remove( ingredient.getId() );
+            } else {
+                ingredients.add( ingredient );
+            }
         }
         updateStorage();
     }

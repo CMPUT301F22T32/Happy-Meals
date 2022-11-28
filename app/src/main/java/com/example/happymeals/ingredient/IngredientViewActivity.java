@@ -58,6 +58,7 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
     private IngredientStorage ingredientStorage;
 
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -148,6 +149,10 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
 
     }
 
+    /**
+     *  Function to populate the selection spinners with custom user data from {@link com.example.happymeals.SpinnerSettingsActivity }
+     *  and allows users to select spinners to help define ingredients.
+     */
     private void populateSpinners() {
         IngredientStorage ingredientStorage = IngredientStorage.getInstance();
 

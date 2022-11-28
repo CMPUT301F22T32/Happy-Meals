@@ -82,7 +82,10 @@ public class RecipeStorageActivity extends AppCompatActivity implements DatasetW
                 new HappyMealBottomNavigation(
                         findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
 
-
+        /**
+         * The {@link bottomNavMenu} checks to see if the bottom navigation buttons are pressed,
+         * and redirects accordingly.
+         */
         bottomNavMenu.setupBarListener();
 
         recipeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

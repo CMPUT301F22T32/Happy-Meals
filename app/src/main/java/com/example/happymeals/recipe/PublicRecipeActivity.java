@@ -3,6 +3,7 @@ package com.example.happymeals.recipe;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.GlobalRecipesAdapter;
 import com.example.happymeals.database.DatasetWatcher;
+import com.example.happymeals.ingredient.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +30,6 @@ import java.util.Locale;
  * recipes of their own to the global pool. A unique feature that allows for
  * sharing between users.
  */
-
-
-
 public class PublicRecipeActivity extends AppCompatActivity
         implements DatasetWatcher, SearchView.OnQueryTextListener {
 
@@ -40,7 +39,9 @@ public class PublicRecipeActivity extends AppCompatActivity
             return a.getName().compareTo(b.getName());
         }
     };
-
+    /**
+     * The {@link ArrayList} that stores all the {@link Recipe} objects.,
+     */
     ArrayList< Recipe > allRecipes;
     GlobalRecipesAdapter adapter;
     Button toggleButton;

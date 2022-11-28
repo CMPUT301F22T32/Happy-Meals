@@ -8,7 +8,6 @@ import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SortedList;
 
 import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
@@ -18,16 +17,14 @@ import com.example.happymeals.database.DatasetWatcher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
 
 public class PublicRecipeActivity extends AppCompatActivity
         implements DatasetWatcher, SearchView.OnQueryTextListener {
 
     private static final Comparator<Recipe> ALPHABETICAL_COMPARATOR = new Comparator<Recipe>() {
         @Override
-        public int compare(Recipe a, Recipe b) {
-            return a.getName().compareTo(b.getName());
+        public int compare( Recipe a, Recipe b ) {
+            return a.getName().compareTo( b.getName() );
         }
     };
 
@@ -38,9 +35,9 @@ public class PublicRecipeActivity extends AppCompatActivity
     private SearchView searchView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shared_recipes);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_shared_recipes );
 
         RecipeStorage recipeStorage = RecipeStorage.getInstance();
 
@@ -54,15 +51,15 @@ public class PublicRecipeActivity extends AppCompatActivity
         searchView.setOnQueryTextListener( this );
 
         allRecipes = recipeStorage.getSharedRecipes();
-        adapter = new GlobalRecipesAdapter( this);
+        adapter = new GlobalRecipesAdapter( this );
         listOfRecipesView.setAdapter( adapter );
 
         adapter.add( allRecipes );
-        listOfRecipesView.setLayoutManager( new LinearLayoutManager(this));
+        listOfRecipesView.setLayoutManager( new LinearLayoutManager( this ) );
 
         HappyMealBottomNavigation bottomNavMenu =
-                new HappyMealBottomNavigation(
-                        findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
+                new HappyMealBottomNavigation( 
+                        findViewById( R.id.bottomNavigationView ), this, R.id.recipe_menu );
 
 
         bottomNavMenu.setupBarListener();
@@ -85,12 +82,12 @@ public class PublicRecipeActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s) {
+    public boolean onQueryTextSubmit( String s ) {
         return false;
     }
 
     @Override
-    public boolean onQueryTextChange(String s) {
+    public boolean onQueryTextChange( String s ) {
         final ArrayList< Recipe > filteredRecipeList = filter( allRecipes, s );
         adapter.replaceAll( filteredRecipeList );
         return true;
@@ -100,7 +97,7 @@ public class PublicRecipeActivity extends AppCompatActivity
         adapter.notifyDataSetChanged();
     }
     private static ArrayList< Recipe > filter( ArrayList< Recipe > recipes, String query ) {
-        final String[] strQList = query.toLowerCase().split(" ");
+        final String[] strQList = query.toLowerCase().split( " " );
         final ArrayList< Recipe > filteredRecipes = new ArrayList<>();
         for( Recipe recipe : recipes ) {
             final String text = recipe.getName().toLowerCase() + recipe.getCreator().toLowerCase();

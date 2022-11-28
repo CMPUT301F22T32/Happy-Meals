@@ -18,17 +18,17 @@ public class Constants {
         AMOUNT_UNIT
     }
 
-    public static ArrayList< String > DefaultLocationSpinners = new ArrayList<>(
-            Arrays.asList("Pantry", "Fridge", "Freezer")
-    );
+    public static ArrayList< String > DefaultLocationSpinners = new ArrayList<>( 
+            Arrays.asList( "Pantry", "Fridge", "Freezer" )
+     );
 
-    public static ArrayList< String > DefaultIngredientCategorySpiners = new ArrayList<>(
-            Arrays.asList("Dairy", "Meat", "Fruit", "Vegetable", "Snack", "Bread")
-    );
+    public static ArrayList< String > DefaultIngredientCategorySpiners = new ArrayList<>( 
+            Arrays.asList( "Dairy", "Meat", "Fruit", "Vegetable", "Snack", "Bread" )
+     );
 
-    public static ArrayList< String > DefaultAmountUnitSpinners = new ArrayList<>(
-            Arrays.asList("Count", "mg", "mL", "kg", "g", "oz")
-    );
+    public static ArrayList< String > DefaultAmountUnitSpinners = new ArrayList<>( 
+            Arrays.asList( "Count", "mg", "mL", "kg", "g", "oz" )
+     );
 
     public enum Location {
         PANTRY, FRIDGE, FREEZER

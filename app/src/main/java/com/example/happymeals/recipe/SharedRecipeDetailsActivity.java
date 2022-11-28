@@ -18,14 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
-
-import com.example.happymeals.database.DatabaseListener;
-import com.example.happymeals.database.DatabaseObject;
-import com.example.happymeals.fragments.InputErrorFragment;
-import com.example.happymeals.fragments.ModifyConfirmationFragment;
-import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
-import com.google.android.gms.common.ErrorDialogFragment;
+import com.example.happymeals.fragments.InputErrorFragment;
+import com.example.happymeals.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -36,7 +31,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SharedRecipeDetailsActivity extends AppCompatActivity {
 
@@ -64,23 +58,23 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
      * This is the function called whenever the MainActivity is created -- in our
      * case, this is on the launch of the app or when navigating back to the home page.
      * It it responsible for sending the intents to access all the other main views.
-     * @param savedInstanceState The instance state to restore the activity to (if applicable) {@link Bundle}
+     * @param savedInstanceState The instance state to restore the activity to ( if applicable ) {@link Bundle}
      */
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_shared_recipe_details );
 
         context = this;
 
         Intent intent = getIntent();
-        if( !intent.hasExtra("Index") ) {
+        if( !intent.hasExtra( "Index" ) ) {
             // If no recipe has been passed we cannot display anything.
             // <todo> Some error checking here
             finish();
         }
 
-        int recipeIndex = intent.getIntExtra("Index", 0 );
+        int recipeIndex = intent.getIntExtra( "Index", 0 );
 
         storage = RecipeStorage.getInstance();
 
@@ -105,25 +99,25 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
         // change.
         if( recipe != null ) {
             ingredientMap = storage.getRecipeIngredientMap( recipe );
-            adapter = new IngredientStorageArrayAdapter( this, ingredients, ingredientMap);
+            adapter = new IngredientStorageArrayAdapter( this, ingredients, ingredientMap );
             ingredients = storage.getIngredientsAsList( recipe, adapter );
             setAllValues();
         }
 
         HappyMealBottomNavigation bottomNavMenu =
-                new HappyMealBottomNavigation(
-                        findViewById(R.id.bottomNavigationView), this, R.id.recipe_menu );
+                new HappyMealBottomNavigation( 
+                        findViewById( R.id.bottomNavigationView ), this, R.id.recipe_menu );
 
 
         bottomNavMenu.setupBarListener();
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 if( !storage.alreadyHave( recipe ) ) {
                     storage.addRecipe( recipe );
                     InputErrorFragment inputErrorFragment =
-                            new InputErrorFragment(
+                            new InputErrorFragment( 
                                     "Added Shared Recipe",
                                     "You have added " + recipe.getName() + " into your inventory",
                                     context
@@ -131,7 +125,7 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
                     inputErrorFragment.display();
                 } else {
                     InputErrorFragment inputErrorFragment =
-                            new InputErrorFragment(
+                            new InputErrorFragment( 
                                     "Cannot Add Shared Recipe",
                                     "You have already added " + recipe.getName() + " into your inventory",
                                     context
@@ -139,7 +133,7 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
                     inputErrorFragment.display();
                 }
             }
-        });
+        } );
     }
 
     /**
@@ -157,24 +151,24 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
         ingredientsListField.setAdapter( adapter );
 
         if ( recipe.getImageFilePath() != "" && recipe.getImageFilePath() != null ) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(recipe.getImageFilePath());
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child( recipe.getImageFilePath() );
             try {
-                final File localFile = File.createTempFile("Test Recipe", ".jpeg");
-                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                final File localFile = File.createTempFile( "Test Recipe", ".jpeg" );
+                storageReference.getFile( localFile ).addOnSuccessListener( new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("Image Download", "Image has been downloaded.");
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        imageView.setImageBitmap(bitmap);
+                    public void onSuccess( FileDownloadTask.TaskSnapshot taskSnapshot ) {
+                        Log.d( "Image Download", "Image has been downloaded." );
+                        Bitmap bitmap = BitmapFactory.decodeFile( localFile.getAbsolutePath() );
+                        imageView.setImageBitmap( bitmap );
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                } ).addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Image Download", "Image was unable to be downloaded.");
+                    public void onFailure( @NonNull Exception e ) {
+                        Log.d( "Image Download", "Image was unable to be downloaded." );
                     }
 
-                });
-            } catch (IOException e) {
+                } );
+            } catch ( IOException e ) {
                 e.printStackTrace();
             }
         }

@@ -1,6 +1,5 @@
 package com.example.happymeals.mealplan;
 
-import android.accessibilityservice.FingerprintGestureController;
 import android.util.Log;
 
 import com.example.happymeals.Constants;
@@ -8,12 +7,10 @@ import com.example.happymeals.database.DatabaseListener;
 import com.example.happymeals.database.DatabaseObject;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.database.FireStoreManager;
-import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.recipe.Recipe;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +46,7 @@ public class MealPlanStorage implements DatabaseListener {
     }
 
     public static MealPlanStorage getInstance() {
-        if (instance == null)
+        if ( instance == null )
             instance = new MealPlanStorage();
         return instance;
     }
@@ -65,22 +62,22 @@ public class MealPlanStorage implements DatabaseListener {
     public HashMap<String, HashMap< String, Object>> getAllIngredients() {
         allIngredients.clear();
 
-        for (MealPlan mp : mealPlans) {
-            for (Map.Entry<String, HashMap<String, Object>> ingredient : mp.getAllIngredients().entrySet()) {
+        for ( MealPlan mp : mealPlans ) {
+            for ( Map.Entry<String, HashMap<String, Object>> ingredient : mp.getAllIngredients().entrySet() ) {
                 String ingredientName = ingredient.getKey();
-                HashMap<String, Object> details = new HashMap<>(ingredient.getValue());
-                Double count = (Double) details.get(MealPlan.COUNT);
-                mp.insertIngredientToAll(ingredientName, null, count, allIngredients);
+                HashMap<String, Object> details = new HashMap<>( ingredient.getValue() );
+                Double count = ( Double ) details.get( MealPlan.COUNT );
+                mp.insertIngredientToAll( ingredientName, null, count, allIngredients );
 
-                ArrayList<String> storedNames = (ArrayList<String>) allIngredients.get(ingredientName).get(MealPlan.RECIPES);
-                ArrayList<String> recipeNames = (ArrayList<String>) details.get(MealPlan.RECIPES);
-                if (recipeNames != null) {
-                    if (storedNames == null)
-                        allIngredients.get(ingredientName).put(MealPlan.RECIPES, recipeNames);
+                ArrayList<String> storedNames = ( ArrayList<String> ) allIngredients.get( ingredientName ).get( MealPlan.RECIPES );
+                ArrayList<String> recipeNames = ( ArrayList<String> ) details.get( MealPlan.RECIPES );
+                if ( recipeNames != null ) {
+                    if ( storedNames == null )
+                        allIngredients.get( ingredientName ).put( MealPlan.RECIPES, recipeNames );
                     else {
-                        ArrayList<String> newNames = new ArrayList<>(storedNames);
-                        newNames.removeAll(recipeNames);
-                        allIngredients.get(ingredientName).put(MealPlan.RECIPES, storedNames.addAll(newNames));
+                        ArrayList<String> newNames = new ArrayList<>( storedNames );
+                        newNames.removeAll( recipeNames );
+                        allIngredients.get( ingredientName ).put( MealPlan.RECIPES, storedNames.addAll( newNames ) );
                     }
                 }
             }
@@ -104,7 +101,7 @@ public class MealPlanStorage implements DatabaseListener {
      * that the dataset has changed.
      */
     public void updateStorage() {
-        if (listeningActivity != null) {
+        if ( listeningActivity != null ) {
             listeningActivity.signalChangeToAdapter();
         } else {
             Log.d( "MealPlan Storage Error: ", "No listening activity was defined"
@@ -151,12 +148,12 @@ public class MealPlanStorage implements DatabaseListener {
     }
 
     public MealPlan getMealPlanByIndex( Integer i ) {
-        return mealPlans.get(i);
+        return mealPlans.get( i );
     }
 
-    public MealPlan getMealPlanForDay(Date date) {
-        for (MealPlan mp : mealPlans) {
-            if (mp.isWithinDate(date)) {
+    public MealPlan getMealPlanForDay( Date date ) {
+        for ( MealPlan mp : mealPlans ) {
+            if ( mp.isWithinDate( date ) ) {
                 return mp;
             }
         }
@@ -182,20 +179,20 @@ public class MealPlanStorage implements DatabaseListener {
      */
     public void updateMealPlan( MealPlan mealPlan ) {
         for( MealPlan storedMealPlan : mealPlans ) {
-            if( storedMealPlan.getName().equals(mealPlan.getName() ) ){
+            if( storedMealPlan.getName().equals( mealPlan.getName() ) ){
                 storedMealPlan = mealPlan;
                 updateStorage();
                 fsm.updateData( mealPlanCollection, mealPlan );
                 return;
             }
         }
-        Log.d("MealPlan Storage:", "An MealPlan update was requested on:\n"
+        Log.d( "MealPlan Storage:", "An MealPlan update was requested on:\n"
                 + mealPlan.getName() + ", but no stored MealPlan could be found", null );
 
     }
 
     @Override
-    public void onDataFetchSuccess(DatabaseObject data) {
+    public void onDataFetchSuccess( DatabaseObject data ) {
         MealPlan mealPlan = ( MealPlan ) data;
         boolean replace = false;
         // Loop through the list of mealplans and see if we are adding a new one
@@ -214,12 +211,12 @@ public class MealPlanStorage implements DatabaseListener {
     }
 
     @Override
-    public void onSharedDataFetchSuccess(Recipe data) {
+    public void onSharedDataFetchSuccess( Recipe data ) {
 
     }
 
     @Override
-    public <T> void onSpinnerFetchSuccess(T listOfSpinners) {
+    public <T> void onSpinnerFetchSuccess( T listOfSpinners ) {
 
     }
 }

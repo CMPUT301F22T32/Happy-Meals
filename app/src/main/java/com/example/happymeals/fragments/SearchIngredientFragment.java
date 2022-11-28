@@ -46,7 +46,7 @@ public class SearchIngredientFragment extends DialogFragment implements
      * @link ArrayList}
      */
     @Override
-    public void onConfirmClick(double count, Ingredient ingredient) {
+    public void onConfirmClick( double count, Ingredient ingredient ) {
         addedIngredientsList.add( ingredient );
         ingredientCountMap.put( ingredient.getId(), count );
         addedIngredientsAdapter.notifyDataSetChanged();
@@ -88,13 +88,13 @@ public class SearchIngredientFragment extends DialogFragment implements
         this.ingredientCountMap = new HashMap<>();
         addedIngredientsList = new ArrayList<>();
 
-        for (HashMap.Entry<String, HashMap<String, Object>> mapElement : ingredientCountMap.entrySet()) {
-            this.ingredientCountMap.put(
+        for ( HashMap.Entry<String, HashMap<String, Object>> mapElement : ingredientCountMap.entrySet() ) {
+            this.ingredientCountMap.put( 
                     mapElement.getKey(),
-                    Double.parseDouble(( mapElement.getValue().get("count")).toString()));
-            addedIngredientsList.add( IngredientStorage.getInstance().getIngredient(
+                    Double.parseDouble( ( mapElement.getValue().get( "count" ) ).toString() ) );
+            addedIngredientsList.add( IngredientStorage.getInstance().getIngredient( 
                     mapElement.getKey()
-            ));
+            ) );
         }
 
     }
@@ -109,7 +109,7 @@ public class SearchIngredientFragment extends DialogFragment implements
         if ( context instanceof  SearchIngredientsFragmentListener ) {
             listener = ( SearchIngredientsFragmentListener ) context;
         } else {
-            throw new RuntimeException( context.toString() + " must implement listener.");
+            throw new RuntimeException( context.toString() + " must implement listener." );
         }
     }
 
@@ -133,31 +133,31 @@ public class SearchIngredientFragment extends DialogFragment implements
                 ingredientCountMap );
 
 
-        allIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        allIngredients.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick( AdapterView<?> adapterView, View view, int i, long l ) {
                 GetCountFragment frag = new GetCountFragment( countListener,
-                        (Ingredient) allIngredients.getItemAtPosition( i ) );
+                        ( Ingredient ) allIngredients.getItemAtPosition( i ) );
                 if( context.getClass() == RecipeAddActivity.class ) {
-                    frag.show( ((RecipeAddActivity)context).getSupportFragmentManager(), "L E S F");
-                } else if(context.getClass() == RecipeDetailsActivity.class){
-                    frag.show( ((RecipeDetailsActivity)context).getSupportFragmentManager(), "L E S F");
+                    frag.show( ( ( RecipeAddActivity )context ).getSupportFragmentManager(), "L E S F" );
+                } else if( context.getClass() == RecipeDetailsActivity.class ){
+                    frag.show( ( ( RecipeDetailsActivity )context ).getSupportFragmentManager(), "L E S F" );
                 } else {
-                    Log.e("Search Ingredient Frag:", "Incorrect Context Passed To Fragment.");
+                    Log.e( "Search Ingredient Frag:", "Incorrect Context Passed To Fragment." );
                 }
 
             }
-        });
+        } );
 
         allIngredients.setAdapter( allIngredientsAdapter );
 
-        addedIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        addedIngredients.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick( AdapterView<?> adapterView, View view, int i, long l ) {
                 addedIngredientsList.remove( addedIngredients.getItemAtPosition( i ) );
                 addedIngredientsAdapter.notifyDataSetChanged();
             }
-        });
+        } );
 
         addedIngredients.setAdapter( addedIngredientsAdapter );
 
@@ -165,14 +165,14 @@ public class SearchIngredientFragment extends DialogFragment implements
         return builder
                 .setView( view )
                 .setTitle( "Ingredients to Add to Recipe" )
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                .setPositiveButton( "Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick( DialogInterface dialogInterface, int i ) {
-                        listener.onConfirmClick(
-                                new ArrayList<>(addedIngredientsList),
+                        listener.onConfirmClick( 
+                                new ArrayList<>( addedIngredientsList ),
                                 ingredientCountMap );
                     }
-                })
+                } )
                 .setNegativeButton( "Cancel", null )
                 .create();
     }

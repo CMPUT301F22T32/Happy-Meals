@@ -2,7 +2,6 @@ package com.example.happymeals.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import androidx.fragment.app.Fragment;
 
 /**
  * This class is used to generate the fragment that should appear when a user does not enter valid
@@ -17,21 +16,21 @@ import androidx.fragment.app.Fragment;
 public class InputErrorFragment {
 
     /**
-     * This variable represents the generated fragment ({@link AlertDialog}).
+     * This variable represents the generated fragment ( {@link AlertDialog} ).
      */
     private AlertDialog fragment;
 
     /**
      * This is the constructor to create a InputErrorFragment object.
-     * @param title The title of the fragment ({@link String}).
-     * @param message The message to display in the fragment ({@link String}).
+     * @param title The title of the fragment ( {@link String} ).
+     * @param message The message to display in the fragment ( {@link String} ).
      * @param context The {@link Context} of the current activity so that the fragment will properly appear on the screen.
      */
-    public InputErrorFragment(String title, String message, Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", null);
+    public InputErrorFragment( String title, String message, Context context ) {
+        AlertDialog.Builder builder = new AlertDialog.Builder( context );
+        builder.setTitle( title );
+        builder.setMessage( message );
+        builder.setPositiveButton( "OK", null );
         fragment = builder.create();
     }
 

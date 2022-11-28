@@ -3,22 +3,18 @@ package com.example.happymeals.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-
 import com.example.happymeals.R;
 import com.example.happymeals.mealplan.CreateMealPlanActivity;
-import com.example.happymeals.mealplan.MealPlanActivity;
 
 import java.util.Date;
 
@@ -35,57 +31,57 @@ public class MealPlanPromptFragment extends DialogFragment {
     public MealPlanPromptFragment() {
     }
 
-    public MealPlanPromptFragment(Date date) {
+    public MealPlanPromptFragment( Date date ) {
         this.dateExtra = date;
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    public void onAttach( @NonNull Context context ) {
+        super.onAttach( context );
         this.context = context;
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog( Bundle savedInstanceState ) {
         // Inflate the layout for this fragment
         View view = LayoutInflater
-                .from(getActivity())
-                .inflate(R.layout.meal_plan_prompt_fragment, null);
+                .from( getActivity() )
+                .inflate( R.layout.meal_plan_prompt_fragment, null );
 
-        Button autogen = view.findViewById(R.id.autogenerate_button);
-        Button selfmade = view.findViewById(R.id.selfmade_button);
+        Button autogen = view.findViewById( R.id.autogenerate_button );
+        Button selfmade = view.findViewById( R.id.selfmade_button );
 
         Fragment fragment = this;
 
-        autogen.setOnClickListener(new View.OnClickListener() {
+        autogen.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, CreateMealPlanActivity.class);
-                intent.putExtra(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true);
-                intent.putExtra(CreateMealPlanActivity.AUTOGEN_EXTRA, true);
-                if (dateExtra != null)
-                    intent.putExtra(CreateMealPlanActivity.DATE_EXTRA, dateExtra.toInstant().getEpochSecond());
-                startActivity(intent);
-                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            public void onClick( View view ) {
+                Intent intent = new Intent( context, CreateMealPlanActivity.class );
+                intent.putExtra( CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true );
+                intent.putExtra( CreateMealPlanActivity.AUTOGEN_EXTRA, true );
+                if ( dateExtra != null )
+                    intent.putExtra( CreateMealPlanActivity.DATE_EXTRA, dateExtra.toInstant().getEpochSecond() );
+                startActivity( intent );
+                getActivity().getSupportFragmentManager().beginTransaction().remove( fragment ).commit();
             }
-        });
+        } );
 
-        selfmade.setOnClickListener(new View.OnClickListener() {
+        selfmade.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, CreateMealPlanActivity.class);
-                intent.putExtra(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true);
-                intent.putExtra(CreateMealPlanActivity.AUTOGEN_EXTRA, false);
-                if (dateExtra != null)
-                    intent.putExtra(CreateMealPlanActivity.DATE_EXTRA, dateExtra.toInstant().getEpochSecond());
-                startActivity(intent);
-                getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            public void onClick( View view ) {
+                Intent intent = new Intent( context, CreateMealPlanActivity.class );
+                intent.putExtra( CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true );
+                intent.putExtra( CreateMealPlanActivity.AUTOGEN_EXTRA, false );
+                if ( dateExtra != null )
+                    intent.putExtra( CreateMealPlanActivity.DATE_EXTRA, dateExtra.toInstant().getEpochSecond() );
+                startActivity( intent );
+                getActivity().getSupportFragmentManager().beginTransaction().remove( fragment ).commit();
             }
-        });
+        } );
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
 
-        return builder.setView(view).create();
+        return builder.setView( view ).create();
     }
 
 }

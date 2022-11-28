@@ -1,36 +1,25 @@
 package com.example.happymeals.ingredient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.happymeals.HappyMealBottomNavigation;
-import com.example.happymeals.MainActivity;
+import com.example.happymeals.R;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.database.DatasetWatcher;
-import com.example.happymeals.R;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
-import com.example.happymeals.mealplan.MealPlanActivity;
-import com.example.happymeals.recipe.RecipeStorageActivity;
-import com.example.happymeals.shoppinglist.ShoppingListActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Comparator;
 
@@ -63,24 +52,24 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
      * in this step; clicking on an {@link Ingredient} will open a view containing ingredient details
      * while clicking the plus button in the corner will open a view to add a new ingredient.
      * Also deals with sorting the ingredients.
-     * @param savedInstanceState The state to restore the view to (if applicable).
+     * @param savedInstanceState The state to restore the view to ( if applicable ).
      */
     @Override
-    protected void onCreate( Bundle savedInstanceState)  {
-        super.onCreate( savedInstanceState) ;
+    protected void onCreate( Bundle savedInstanceState )  {
+        super.onCreate( savedInstanceState ) ;
         setContentView( R.layout.activity_ingredient_storage ) ;
-        getWindow().setEnterTransition(null);
+        getWindow().setEnterTransition( null );
         Intent inIntent = getIntent();
 
         context = this;
 
         ingredientStorage = IngredientStorage.getInstance();
 
-        storageListView = findViewById( R.id.storage_list) ;
-        ingredientStorage.setListeningActivity(this);
+        storageListView = findViewById( R.id.storage_list ) ;
+        ingredientStorage.setListeningActivity( this );
 
-        viewMissingInfo = findViewById( R.id.missing_ingredients_check);
-        Boolean missingChecked = inIntent.getBooleanExtra("MissingCheck", false);
+        viewMissingInfo = findViewById( R.id.missing_ingredients_check );
+        Boolean missingChecked = inIntent.getBooleanExtra( "MissingCheck", false );
         viewMissingInfo.setChecked( missingChecked );
         if ( missingChecked ) {
             storageAdapter = new IngredientStorageArrayAdapter( this, ingredientStorage.getIngredientsMissingInfo() ) ;
@@ -93,100 +82,100 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         storageListView.setAdapter( storageAdapter );
 
         HappyMealBottomNavigation bottomNavMenu =
-                new HappyMealBottomNavigation(
-                        findViewById(R.id.bottomNavigationView), this, R.id.ingredient_menu );
+                new HappyMealBottomNavigation( 
+                        findViewById( R.id.bottomNavigationView ), this, R.id.ingredient_menu );
 
 
         bottomNavMenu.setupBarListener();
 
         Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
         if ( missingInfo ) {
-            viewMissingInfo.setVisibility(View.VISIBLE);
+            viewMissingInfo.setVisibility( View.VISIBLE );
         }
         else {
-            viewMissingInfo.setVisibility(View.GONE);
+            viewMissingInfo.setVisibility( View.GONE );
         }
 
-        FloatingActionButton add_button = findViewById( R.id.add_new_ingredient_button) ;
+        FloatingActionButton add_button = findViewById( R.id.add_new_ingredient_button ) ;
 
-        Spinner IngredientSort = findViewById(R.id.ingredient_filter);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(IngredientStorageActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.ingredient_options));
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        IngredientSort.setAdapter(dataAdapter);
+        Spinner IngredientSort = findViewById( R.id.ingredient_filter );
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>( IngredientStorageActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray( R.array.ingredient_options ) );
+        dataAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+        IngredientSort.setAdapter( dataAdapter );
 
-        IngredientSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        IngredientSort.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String itemSelected = adapterView.getItemAtPosition(i).toString();
+            public void onItemSelected( AdapterView<?> adapterView, View view, int i, long l ) {
+                String itemSelected = adapterView.getItemAtPosition( i ).toString();
 
                 //if sort by "Amount" is selected
-                if(itemSelected.equals("Amount")){
-                    storageAdapter.sort(new Comparator<Ingredient>() {
+                if( itemSelected.equals( "Amount" ) ){
+                    storageAdapter.sort( new Comparator<Ingredient>() {
                         @Override
-                        public int  compare(Ingredient i1, Ingredient i2) {
-                            if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() < i2.getAmount()) )
+                        public int  compare( Ingredient i1, Ingredient i2 ) {
+                            if ( ( i1.getCategory().equals( i2.getCategory() ) ) && ( i1.getAmount() < i2.getAmount() ) )
                                 return 1;
-                            else if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() > i2.getAmount()) )
+                            else if ( ( i1.getCategory().equals( i2.getCategory() ) ) && ( i1.getAmount() > i2.getAmount() ) )
                                 return -1;
                             else
                                 return 0;
                         }
-                    });
+                    } );
 
                 }
 
-                if(itemSelected.equals("Best Before Date")){
-                    storageAdapter.sort(new Comparator<Ingredient>() {
+                if( itemSelected.equals( "Best Before Date" ) ){
+                    storageAdapter.sort( new Comparator<Ingredient>() {
                         @Override
-                        public int compare(Ingredient i1, Ingredient i2) {
-                            if (i1.getBestBeforeDate().compareTo(i2.getBestBeforeDate()) > 0 )
+                        public int compare( Ingredient i1, Ingredient i2 ) {
+                            if ( i1.getBestBeforeDate().compareTo( i2.getBestBeforeDate() ) > 0 )
                                 return 1;
-                            else if (i1.getBestBeforeDate().compareTo(i2.getBestBeforeDate()) < 0 )
+                            else if ( i1.getBestBeforeDate().compareTo( i2.getBestBeforeDate() ) < 0 )
                                 return -1;
                             else
                                 return 0;
                         }
-                    });
+                    } );
                 }
-                if(itemSelected.equals("Location")){
-                    storageAdapter.sort(new Comparator<Ingredient>() {
+                if( itemSelected.equals( "Location" ) ){
+                    storageAdapter.sort( new Comparator<Ingredient>() {
                         @Override
-                        public int compare(Ingredient i1, Ingredient i2) {
-                            return i1.getLocation().compareTo(i2.getLocation());
+                        public int compare( Ingredient i1, Ingredient i2 ) {
+                            return i1.getLocation().compareTo( i2.getLocation() );
                         }
-                    });
+                    } );
                 }
 
-                if(itemSelected.equals("Ingredient Category")){
-                    storageAdapter.sort(new Comparator<Ingredient>() {
+                if( itemSelected.equals( "Ingredient Category" ) ){
+                    storageAdapter.sort( new Comparator<Ingredient>() {
                         @Override
-                        public int compare(Ingredient i1, Ingredient i2) {
-                           return i1.getCategory().compareTo(i2.getCategory());
+                        public int compare( Ingredient i1, Ingredient i2 ) {
+                           return i1.getCategory().compareTo( i2.getCategory() );
                         }
-                    });
+                    } );
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected( AdapterView<?> adapterView ) {
                 return;
             }
-        });
+        } );
 
         storageListView.setAdapter( storageAdapter );
-        storageListView.setOnItemClickListener( new AdapterView.OnItemClickListener( )  {
+        storageListView.setOnItemClickListener( new AdapterView.OnItemClickListener()  {
             @Override
             public void onItemClick( AdapterView<?> adapterView, View view, int i, long l )  {
-                startIngredientActivity( false, i) ;
+                startIngredientActivity( false, i ) ;
             }
-        }) ;
+        } ) ;
 
-        storageListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        storageListView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick( AdapterView<?> adapterView, View view, int i, long l ) {
                 Ingredient ingredient = ingredientStorage.getIngredients().get( i );
                 ModifyConfirmationFragment modifyConfirmationFragment =
-                        new ModifyConfirmationFragment(
+                        new ModifyConfirmationFragment( 
                         "Remove Ingredient",
                     "Are you sure you want to remove " +
                             ingredient.getName() + " as an Ingredient",
@@ -194,7 +183,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                             new DialogInterface.OnClickListener() {
 
                                 @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                                public void onClick( DialogInterface dialogInterface, int i ) {
                                     IngredientStorage.getInstance().removeIngredient( ingredient );
                                 }
                             }
@@ -202,18 +191,18 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                 modifyConfirmationFragment.display();
                 return true;
             }
-        });
+        } );
 
-        add_button.setOnClickListener( new View.OnClickListener( )  {
+        add_button.setOnClickListener( new View.OnClickListener()  {
             @Override
-            public void onClick( View view)  {
+            public void onClick( View view )  {
                 startIngredientActivity( true ) ;
             }
-        }) ;
+        } ) ;
 
-        viewMissingInfo.setOnClickListener(new View.OnClickListener() {
+        viewMissingInfo.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 if ( viewMissingInfo.isChecked() ) {
                     storageAdapter.updateList( ingredientStorage.getIngredientsMissingInfo() );
                     signalChangeToAdapter();
@@ -223,7 +212,7 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                     signalChangeToAdapter();
                 }
             }
-        });
+        } );
     }
 
 
@@ -232,12 +221,12 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
      * {@link Ingredient}. The parameters represent the extras to pass to the {@link IngredientViewActivity}
      * and the function starts the activity.
      * @param addingNewIngredient true when the user is adding a new {@link Ingredient}, false when the user
-     *                            is trying to view an existing one. ({@link Boolean})
+     *                            is trying to view an existing one. ( {@link Boolean} )
      * @param index optional parameter representing the index of the ingredient in the {@link IngredientStorage}
      *              list, which the {@link IngredientViewActivity} will use to get {@link Ingredient} data.
      */
     private void startIngredientActivity( boolean addingNewIngredient, int... index )  {
-        Intent ingredientIntent = new Intent(  this, IngredientViewActivity.class ) ;
+        Intent ingredientIntent = new Intent( this, IngredientViewActivity.class ) ;
         ingredientIntent.putExtra( IngredientViewActivity.ADD_INGREDIENT, addingNewIngredient ) ;
         if ( index.length > 0 )
             ingredientIntent.putExtra( IngredientViewActivity.INGREDIENT_INDEX, index[0] ) ;
@@ -255,6 +244,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
     @Override
     public void onPause(){
         super.onPause();
-        getWindow().setExitTransition(null);
+        getWindow().setExitTransition( null );
     }
 }

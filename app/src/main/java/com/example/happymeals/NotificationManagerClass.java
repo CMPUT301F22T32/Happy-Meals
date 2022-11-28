@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -51,8 +52,9 @@ public class NotificationManagerClass {
                 // ingredient icon is temporary. To be updated with app's logo
         Intent notificationIntent = new Intent( context, IngredientStorageActivity.class );
         notificationIntent.putExtra( "MissingCheck", true );
-        PendingIntent pendingIntent = PendingIntent.getActivity( context, 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT );
+        // PendingIntent.FLAG_UPDATE_CURRENT);
+        // PendingIntent.FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity( context, 0, notificationIntent, PendingIntent.FLAG_MUTABLE );
         builder.setContentIntent( pendingIntent );
 
         // Add a notification

@@ -9,15 +9,16 @@
     <ListView
         android:id="@+id/storage_list"
         android:layout_width="348dp"
-        android:layout_height="441dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ingredient_filter" />
+        app:layout_constraintTop_toBottomOf="@+id/missing_ingredients_check" />
 
     <TextView
         android:id="@+id/textView2"
@@ -26,6 +27,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Ingredient Storage"
+        android:fontFamily="@font/avenir_heavy_oblique"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,12 +36,13 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/avenir_heavy_oblique"
         android:text="Sort by"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
 
@@ -49,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/salmon"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,42 +62,47 @@
         android:id="@+id/divider2"
         android:layout_width="409dp"
         android:layout_height="1dp"
+        android:layout_marginBottom="24dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/storage_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_filter"
-        app:layout_constraintVertical_bias="0.372" />
+        app:layout_constraintTop_toBottomOf="@+id/missing_ingredients_check"
+        app:layout_constraintVertical_bias="0.533" />
 
     <Spinner
         android:id="@+id/ingredient_filter"
         android:layout_width="301dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@android:drawable/btn_dropdown"
         android:text="Type"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/ingredient_storage_ins_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="@string/press_and_hold"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ingredient_filter"
-        app:layout_constraintVertical_bias="0.979" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <CheckBox
         android:id="@+id/missing_ingredients_check"
-        android:layout_width="321dp"
+        android:layout_width="0dp"
         android:layout_height="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/avenir_heavy_oblique"
         android:text="Display ingredients with missing information"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"

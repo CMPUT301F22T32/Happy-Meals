@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".adapters.MealPlanListAdapter">
 
@@ -10,46 +10,43 @@
         android:id="@+id/mp_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:background="@android:drawable/presence_invisible"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/salmon"
         app:icon="@android:drawable/ic_menu_view"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconTint="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/mp_edit"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/mp_adapter_start_date"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/mp_delete"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@android:drawable/presence_invisible"
+        android:backgroundTint="@color/salmon"
         app:icon="@android:drawable/ic_menu_delete"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/mp_edit"
-        app:layout_constraintTop_toTopOf="@+id/mp_edit" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/mp_edit"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@android:drawable/presence_invisible"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/salmon"
         app:icon="@android:drawable/ic_menu_edit"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconTint="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/mp_delete"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/mp_view"
-        app:layout_constraintTop_toTopOf="@+id/mp_view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView9"
@@ -57,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/avenir_black"
         android:text="@string/from"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +67,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/avenir_black"
         android:text="@string/to"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,18 +79,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:fontFamily="@font/avenir_book"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
+        app:layout_constraintStart_toEndOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/mp_adapter_end_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:fontFamily="@font/avenir_book"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/mp_adapter_start_date" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/textView16" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,30 +39,60 @@ public class Meal {
         this.items = items;
     }
 
+    /**
+     * This returns the type of the Meal
+     * @return type {@link Constants.COLLECTION_NAME}
+     */
     public Constants.COLLECTION_NAME getType() {
         return type;
     }
 
+    /**
+     * This sets the type of the Meal
+     * @param type {@link Constants.COLLECTION_NAME}
+     */
     public void setType( Constants.COLLECTION_NAME type ) {
         this.type = type;
     }
 
+    /**
+     * This returns whether a Meal has been made
+     * @return {@link boolean}
+     */
     public boolean isMade() {
         return made;
     }
 
+    /**
+     * This sets whether the Meal is made or not
+     * @param made {@link boolean}
+     */
     public void setMade( boolean made ) {
         this.made = made;
     }
 
+    /**
+     * This returns a Hashmap which maps the items of the meal to
+     * their associated scale factor. {"IngredientName" : scaleAmoun}
+     * @return {@link HashMap<String, Double>}
+     */
     public HashMap<String, Double> getItems() {
         return items;
     }
 
+    /**
+     * This sets the items of the meal.
+     * @param items HashMap<String, Double>
+     */
     public void setItems( HashMap<String, Double> items ) {
         this.items = items;
     }
 
+    /**
+     * This sets the scale for a certain item in the Meal.
+     * @param itemName {@link String} is the name of the item.
+     * @param value {@link Double} is the scale factor.
+     */
     public void setScale( String itemName, Double value  ) {
         items.put( itemName, value );
     }

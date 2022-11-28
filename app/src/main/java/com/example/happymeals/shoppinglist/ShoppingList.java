@@ -74,7 +74,13 @@ public class ShoppingList {
             String ingredientName = entry.getKey();
             HashMap<String, Object> details = entry.getValue();
 
-            ArrayList<String> recipeNames = ( ArrayList<String> ) details.get( MealPlan.RECIPES );
+            ArrayList<String> recipeNames;
+            try {
+                recipeNames = (ArrayList<String>) details.get(MealPlan.RECIPES);
+            } catch (Exception e) {
+                recipeNames = null;
+            }
+
             Double count = ( Double ) details.get( MealPlan.COUNT );
 
             Ingredient storageIngredient = ingredientStorage.getIngredient( ingredientName );

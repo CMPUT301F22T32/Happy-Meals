@@ -61,18 +61,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView( R.layout.activity_main );
         getWindow().setEnterTransition( null );
 
-        Toolbar toolbar = findViewById( R.id.appbar );
-        setSupportActionBar( toolbar );
         // Create the firebase manager connection along with all the storage classes.
         fsm = FireStoreManager.getInstance();
         RecipeStorage.getInstance();
         MealPlanStorage.getInstance();
         ingredientStorage = IngredientStorage.getInstance();
 
-        calendarView = findViewById( R.id.main_activity_calendar_view );
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis( Instant.now().toEpochMilli() );
-        calendarView.setDate( c.getTimeInMillis() );
 
         context = this;
         // Global Recipes Button
@@ -115,6 +111,14 @@ public class MainActivity extends AppCompatActivity {
         if ( ingredientStorage.isIngredientsMissingInfo() ) {
             notification.addNotification();
         }
+
+        findViewById(R.id.preferences_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( context, SpinnerSettingsActivity.class );
+                startActivity( intent );
+            }
+        });
 
     }
 

@@ -32,7 +32,7 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/avenir_black"
         android:text="          Can't seem to organize your daily meals?"
         android:textSize="16dp"

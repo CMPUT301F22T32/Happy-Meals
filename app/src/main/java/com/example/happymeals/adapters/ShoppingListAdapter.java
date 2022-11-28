@@ -29,6 +29,7 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
 
     private ArrayList<ShoppingListItem> items;
     private ArrayList<Ingredient> selected;
+    private ArrayList<Ingredient> ingredients;
     private Context context;
 
     /**
@@ -39,6 +40,7 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
      */
     public ShoppingListAdapter( @NonNull Context context, ArrayList<ShoppingListItem> items, ArrayList<Ingredient> ingredients ) {
         super( context, 0, ingredients );
+        this.ingredients = ingredients;
         this.context = context;
         this.items = items;
         selected = new ArrayList<>();
@@ -57,7 +59,11 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
         }
 
         ShoppingListItem item = items.get( position );
-        Ingredient ingredient = item.getIngredient();
+        Ingredient ingredient = ingredients.get( position );
+
+        if (ingredient == null)
+            return view;
+
         Double amount = item.getAmount();
         boolean pickedUp = ingredient.getNeedsUpdate();
         ArrayList<String> recipeNames = item.getRecipes();
@@ -97,7 +103,7 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
             checkBox.setPadding( 0,50,0,0 );
             checkBox.setScaleX( 2 );
             checkBox.setScaleY( 2 );
-            checkBox.setY( 120 );
+            checkBox.setY( 100 );
 
             int d = context.getResources().getColor( R.color.red, null );
             checkBox.setButtonTintList( ColorStateList.valueOf( d ) );

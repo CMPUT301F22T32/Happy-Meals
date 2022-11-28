@@ -2,7 +2,9 @@ package com.example.happymeals.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +18,17 @@ import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
 
-import com.example.happymeals.database.DatabaseListener;
-import com.example.happymeals.fragments.MealPlanItemsFragment;
-
 import com.example.happymeals.database.FireStoreManager;
-import com.example.happymeals.fragments.ModifyConfirmationFragment;
-import com.example.happymeals.ingredient.Ingredient;
 import com.example.happymeals.recipe.Recipe;
-import com.example.happymeals.recipe.RecipeDetailsActivity;
 import com.example.happymeals.recipe.RecipeStorage;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -49,7 +52,6 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
     }
 
     FireStoreManager storeManager;
-    FireStoreManager photoManager;
 
     /**
      * Base constructor which will assign {@link Context} and the {@link ArrayList} which is being
@@ -84,7 +86,7 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         TextView servings = listItem.findViewById( R.id.recipe_list_servings_field );
         TextView totalTime = listItem.findViewById( R.id.recipe_content_prep_time_field );
         TextView creatorName = listItem.findViewById( R.id.recipe_content_creator_field );
-        ImageView imageId = listItem.findViewById(R.id.recipe_image_content);
+        ImageView imageView = listItem.findViewById(R.id.recipe_content_image);
 
 
         name.setText( currentRecipe.getName() );
@@ -92,10 +94,29 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
         totalTime.setText( currentRecipe.getPrepTime() + currentRecipe.getCookTime() + " mins" );
         creatorName.setText( currentRecipe.getCreator() );
         // setting image
+        if ( currentRecipe.getImageFilePath() != "" && currentRecipe.getImageFilePath() != null ) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(currentRecipe.getImageFilePath());
+            try {
+                final File localFile = File.createTempFile("Test Recipe", ".jpeg");
+                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("Image Download", "Image has been downloaded.");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Image Download", "Image was unable to be downloaded.");
 
+                    }
 
-
-
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (showScaleSlider) {
             listItem.findViewById(R.id.recipe_scaler).setVisibility(View.VISIBLE);
@@ -133,32 +154,9 @@ public class RecipeStorageAdapter extends ArrayAdapter<Recipe> {
                 }
             });
         }
-        else
+        else{
             listItem.findViewById(R.id.recipe_scaler).setVisibility(View.GONE);
-
-//        listItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent( context, RecipeDetailsActivity.class );
-//                intent.putExtra("recipe", currentRecipe.getName() );
-//                context.startActivity( intent );
-//            }
-//        });
-//
-//        listItem.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment(
-//                        "Remove Recipe",
-//                        String.format("Are you sure you want to remove %s?", currentRecipe.getName() ),
-//                        context,
-//                        getDeleteListener() );
-//                deleteFragment.display();
-//                return true;
-//
-//            }
-//        });
-
+        }
         return listItem;
     }
 

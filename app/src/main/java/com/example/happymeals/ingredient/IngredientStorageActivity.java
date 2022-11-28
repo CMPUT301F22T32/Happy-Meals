@@ -19,11 +19,11 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.MainActivity;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.R;
-import com.example.happymeals.databinding.BottomNavigationBarBinding;
 import com.example.happymeals.fragments.ModifyConfirmationFragment;
 import com.example.happymeals.mealplan.MealPlanActivity;
 import com.example.happymeals.recipe.RecipeStorageActivity;
@@ -92,49 +92,12 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
 
         storageListView.setAdapter( storageAdapter );
 
-        // Navigation
-        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.ingredient_menu );
 
-        bottomNavMenu.setSelectedItemId(R.id.ingredient_menu);
-        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
 
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
-                        (Activity) context).toBundle();
-                switch (item.getItemId()) {
-                    case R.id.home_menu:
-                        Intent home_intent = new Intent(context, MainActivity.class);
-                        startActivity(home_intent, bundle);
-                        break;
-
-                    case R.id.recipe_menu:
-                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
-                        startActivity(recipe_intent, bundle);
-                        break;
-
-                    case R.id.ingredient_menu:
-                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                        startActivity(ingredient_intent, bundle);
-                        break;
-
-                    case R.id.mealplan_menu:
-                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
-                        startActivity(mealplan_intent, bundle);
-                        break;
-
-                    case R.id.shopping_menu:
-                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
-                        startActivity(shoppinglist_intent, bundle);
-                        break;
-                    default:
-                }
-
-                return true;
-
-            }
-        });
-
+        bottomNavMenu.setupBarListener();
 
         Boolean missingInfo = ingredientStorage.isIngredientsMissingInfo();
         if ( missingInfo ) {
@@ -143,11 +106,6 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
         else {
             viewMissingInfo.setVisibility(View.GONE);
         }
-
-
-
-
-
 
         FloatingActionButton add_button = findViewById( R.id.add_new_ingredient_button) ;
 

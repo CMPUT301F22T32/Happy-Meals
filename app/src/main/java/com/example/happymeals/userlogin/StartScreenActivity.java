@@ -28,12 +28,6 @@ public class StartScreenActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.register_redirect);
         fireAuth = FirebaseAuthenticationHandler.getFireAuth();
 
-        if( isLoggedIn() ) {
-            FireStoreManager.getInstance().setUser( fireAuth.authenticate.getCurrentUser()
-                    .getEmail() );
-            startActivity(new Intent(StartScreenActivity.this, MainActivity.class));
-        }
-
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

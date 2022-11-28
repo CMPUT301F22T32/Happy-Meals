@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.MealPlanListAdapter;
 import com.example.happymeals.database.DatasetWatcher;
@@ -36,6 +37,13 @@ public class MealPlanListViewActivity extends AppCompatActivity implements Datas
         ListView mealPlanStorage = findViewById(R.id.meal_plan_storage_list);
         adapter = new MealPlanListAdapter(this, mps.getMealPlans());
         mealPlanStorage.setAdapter(adapter);
+
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.mealplan_menu );
+
+
+        bottomNavMenu.setupBarListener();
 
         makeNewMP = findViewById(R.id.add_meal_plan_btn);
         makeNewMP.setOnClickListener(new View.OnClickListener() {

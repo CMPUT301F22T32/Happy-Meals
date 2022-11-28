@@ -170,12 +170,12 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
                 storage.addRecipe( new Recipe(
                         newName,
                         storage.getCurrentUser(),
-                        new Double( newCookTime ),
+                        new Integer( newCookTime ),
                         newDescription,
                         comments,
                         RecipeStorage.getInstance().makeIngredientMapForRecipe( countMap ),
                         newInstructions,
-                        new Double( newPrepTime ),
+                        new Integer( newPrepTime ),
                         new Double( newServings ), imageFilePath
                 ));
                 finish();
@@ -234,8 +234,8 @@ public class RecipeAddActivity extends AppCompatActivity  implements SearchIngre
         for( Ingredient i : ingredientsToAdd ) {
             ingredientsInRecipe.add( i );
             HashMap< String, Object > tempMap = new HashMap<>();
-            tempMap.put("count", countMap.get( i.getName() ) );
-            this.countMap.put( i.getName(), tempMap );
+            tempMap.put("count", countMap.get( i.getId() ) );
+            this.countMap.put( i.getId(), tempMap );
         }
         adapter.notifyDataSetChanged();
     }

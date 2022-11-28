@@ -18,6 +18,9 @@ import android.widget.Button;
 
 import com.example.happymeals.R;
 import com.example.happymeals.mealplan.CreateMealPlanActivity;
+import com.example.happymeals.mealplan.MealPlanActivity;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,10 +29,14 @@ import com.example.happymeals.mealplan.CreateMealPlanActivity;
  */
 public class MealPlanPromptFragment extends DialogFragment {
 
-    Context context;
+    private Context context;
+    private Date dateExtra = null;
 
     public MealPlanPromptFragment() {
-        // Required empty public constructor
+    }
+
+    public MealPlanPromptFragment(Date date) {
+        this.dateExtra = date;
     }
 
     @Override
@@ -56,6 +63,8 @@ public class MealPlanPromptFragment extends DialogFragment {
                 Intent intent = new Intent(context, CreateMealPlanActivity.class);
                 intent.putExtra(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true);
                 intent.putExtra(CreateMealPlanActivity.AUTOGEN_EXTRA, true);
+                if (dateExtra != null)
+                    intent.putExtra(CreateMealPlanActivity.DATE_EXTRA, dateExtra.toInstant().getEpochSecond());
                 startActivity(intent);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
@@ -67,6 +76,8 @@ public class MealPlanPromptFragment extends DialogFragment {
                 Intent intent = new Intent(context, CreateMealPlanActivity.class);
                 intent.putExtra(CreateMealPlanActivity.NEW_MEAPLAN_EXTRA, true);
                 intent.putExtra(CreateMealPlanActivity.AUTOGEN_EXTRA, false);
+                if (dateExtra != null)
+                    intent.putExtra(CreateMealPlanActivity.DATE_EXTRA, dateExtra.toInstant().getEpochSecond());
                 startActivity(intent);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
@@ -76,4 +87,5 @@ public class MealPlanPromptFragment extends DialogFragment {
 
         return builder.setView(view).create();
     }
+
 }

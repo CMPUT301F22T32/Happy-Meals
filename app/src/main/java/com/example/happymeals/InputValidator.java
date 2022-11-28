@@ -59,7 +59,7 @@ public class InputValidator {
         // ensures numbers are entered, numbers are ints, and numbers > 0
         boolean valid = true;
         try {
-            Integer input = Integer.parseInt(field.getText().toString());
+            Double input = Double.parseDouble(field.getText().toString());
             if (input <= 0)
                 valid = false;
         } catch (Exception e) {

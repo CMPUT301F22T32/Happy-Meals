@@ -31,6 +31,7 @@ import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.RecipeStorage;
 
 import com.example.happymeals.userlogin.LoginActivity;
+import com.example.happymeals.userlogin.StartScreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentReference;
@@ -59,10 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Context context;
     //testing for todays meals
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+
     CalendarView calendarView;
 
     BottomNavigationView bottomNavMenu;
@@ -101,48 +99,16 @@ public class MainActivity extends AppCompatActivity {
         context = this;
         // Global Recipes Button
         TextView globalRecipes;
+  
 
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.home_menu );
 
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
+        bottomNavMenu.setupBarListener();
 
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        expandableListTitle.get(groupPosition)
-                                + " -> "
-                                + expandableListDetail.get(
-                                expandableListTitle.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
-                return false;
-            }
-        });
-
+       
 
         globalRecipes = findViewById(R.id.find_recipes);
 
@@ -165,47 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
 
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        expandableListTitle.get(groupPosition)
-                                + " -> "
-                                + expandableListDetail.get(
-                                expandableListTitle.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
-                return false;
-            }
-        });
 
 
         globalRecipes = findViewById(R.id.find_recipes);
@@ -226,43 +151,6 @@ public class MainActivity extends AppCompatActivity {
             notification.addNotification();
         }
 
-        // Navigation
-        bottomNavMenu = findViewById(R.id.bottomNavigationView);
-
-
-        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-                switch (item.getItemId()) {
-
-                    case R.id.recipe_menu:
-                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
-                        startActivity(recipe_intent, bundle);
-                        break;
-
-                    case R.id.ingredient_menu:
-                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                        startActivity(ingredient_intent, bundle);
-                        break;
-
-                    case R.id.mealplan_menu:
-                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
-                        startActivity(mealplan_intent, bundle);
-                        break;
-
-                    case R.id.shopping_menu:
-                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
-                        startActivity(shoppinglist_intent, bundle);
-                        break;
-                    default:
-                }
-
-                return true;
-
-            }
-        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -296,7 +184,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         FirebaseAuthenticationHandler.getFireAuth().authenticate.signOut();
                         FireStoreManager.clearInstance();
-                        finish();
+                        Intent loginIntent = new Intent( getApplicationContext(), StartScreenActivity.class);
+                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(loginIntent);
                     }
                 } );
         deleteFragment.display();
@@ -307,4 +197,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         getWindow().setExitTransition(null);
     }
+
+
 }

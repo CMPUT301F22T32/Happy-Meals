@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.happymeals.Constants;
+import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.MainActivity;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
@@ -95,8 +96,6 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         getWindow().setExitTransition(null);
     }
 
-    boolean noStoredMealPlans = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,47 +138,12 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
 
         mealPlan = mps.getMealPlanForDay(date);
 
-        // Navigation
-        bottomNavMenu = findViewById(R.id.bottomNavigationView);
+        HappyMealBottomNavigation bottomNavMenu =
+                new HappyMealBottomNavigation(
+                        findViewById(R.id.bottomNavigationView), this, R.id.mealplan_menu );
 
-        bottomNavMenu.setSelectedItemId(R.id.mealplan_menu);
-        bottomNavMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
 
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
-                        MealPlanActivity.this).toBundle();
-                switch (item.getItemId()) {
-                    case R.id.home_menu:
-                        Intent home_intent = new Intent(context, MainActivity.class);
-                        startActivity(home_intent, bundle);
-                        break;
-
-                    case R.id.recipe_menu:
-                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
-                        startActivity(recipe_intent, bundle);
-                        break;
-
-                    case R.id.ingredient_menu:
-                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                        startActivity(ingredient_intent, bundle);
-                        break;
-
-                    case R.id.mealplan_menu:
-                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
-                        startActivity(mealplan_intent, bundle);
-                        break;
-
-                    case R.id.shopping_menu:
-                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
-                        startActivity(shoppinglist_intent, bundle);
-                        break;
-                    default:
-                }
-                return true;
-
-            }
-        });
+        bottomNavMenu.setupBarListener();
 
         setCalendarListeners();
         setButtonListener();
@@ -193,14 +157,13 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
 
     private void changeViewForEmptyStorage() {
         if (mps.getMealPlans().size() == 0) {
-            noStoredMealPlans = true;
-            String buttonMessage = "Make a meal plan";
-            viewAll.setText(buttonMessage);
+            viewAll.setVisibility(View.GONE);
             String prompt = "Looks like you don't have any meal plans yet... make one in just a few clicks.";
             noMPTab.setText(prompt);
         }
-        else
-            noStoredMealPlans = false;
+        else {
+            viewAll.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setCalendarListeners() {
@@ -224,15 +187,16 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
         viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent;
-                if (noStoredMealPlans) {
-                    MealPlanPromptFragment frag = new MealPlanPromptFragment();
-                    frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
-                }
-                else {
-                    intent = new Intent(context, MealPlanListViewActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(context, MealPlanListViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.add_meal_plan_floating_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MealPlanPromptFragment frag = new MealPlanPromptFragment(date);
+                frag.show(getSupportFragmentManager(), "MEAL_PROMPT_FRAGMENT");
             }
         });
     }
@@ -351,7 +315,6 @@ public class MealPlanActivity extends AppCompatActivity implements DatasetWatche
             return;
         }
 
-        noStoredMealPlans = false;
         String buttonMessage = "View all meal plans";
         viewAll.setText(buttonMessage);
 

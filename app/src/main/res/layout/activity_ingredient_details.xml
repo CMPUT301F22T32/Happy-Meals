@@ -10,14 +10,14 @@
         android:id="@+id/ing_content_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/ingredient_information"
         android:fontFamily="@font/avenir_heavy_oblique"
+        android:text="@string/ingredient_information"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,8 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ing_content_title">
 
@@ -42,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/name"
                 android:fontFamily="@font/avenir_roman"
+                android:text="@string/name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp" />
 
@@ -71,8 +70,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/description"
                 android:fontFamily="@font/avenir_roman"
+                android:text="@string/description"
 
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp" />
@@ -94,42 +93,42 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/best_before_date"
                 android:fontFamily="@font/avenir_roman"
+                android:text="@string/best_before_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/ing_content_date_input"
-                android:layout_width="158dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                android:background="@android:drawable/editbox_dropdown_light_frame"
-                android:ems="10"
-                android:includeFontPadding="false"
-                android:inputType="date"
-                android:maxLength="10"
-                android:minHeight="48dp"
-                android:paddingStart="8sp" />
+                <EditText
+                    android:id="@+id/ing_content_date_input"
+                    android:layout_width="158dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@android:drawable/editbox_dropdown_light_frame"
+                    android:ems="10"
+                    android:includeFontPadding="false"
+                    android:inputType="date"
+                    android:maxLength="10"
+                    android:minHeight="48dp"
+                    android:paddingStart="8sp" />
 
-            <Button
-                android:id="@+id/ingredient_date_button"
-                android:layout_width="132dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:fontFamily="@font/avenir_black"
-                android:text="DATE"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/ingredient_date_button"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/avenir_black"
+                    android:text="DATE"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/ing_content_quantity_title"
@@ -137,8 +136,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/quantity"
                 android:fontFamily="@font/avenir_roman"
+                android:text="@string/quantity"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp" />
 
@@ -182,8 +181,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/location"
                 android:fontFamily="@font/avenir_roman"
+                android:text="@string/location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp" />
 
@@ -205,8 +204,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/category"
                 android:fontFamily="@font/avenir_roman"
+                android:text="@string/category"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp" />
 
@@ -231,8 +230,8 @@
                     android:id="@+id/ing_view_delete_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/delete"
                     android:fontFamily="@font/avenir_black"
+                    android:text="@string/delete"
                     android:textColor="@color/white"
                     app:layout_constraintBaseline_toBaselineOf="@+id/ing_view_save_button"
                     app:layout_constraintEnd_toStartOf="@+id/ing_view_save_button"
@@ -245,8 +244,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginVertical="32dp"
-                    android:text="@string/save"
                     android:fontFamily="@font/avenir_black"
+                    android:text="@string/save"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -255,8 +254,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
         </LinearLayout>
     </ScrollView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include
+            android:id="@+id/bottomNavigationView_layout"
+            layout="@layout/bottom_navigation_bar"></include>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,7 +62,7 @@ public class FirebaseAuthenticationHandler {
                     Log.d("LoginActivity", "User has successfully authenticated");
                 }
                 else {
-                    listener.onFailure(new Exception());
+                    listener.onFailure(action.getException());
                     Log.d("LoginActivity", "User authentication was unsuccessful");
                 }
 
@@ -92,38 +92,14 @@ public class FirebaseAuthenticationHandler {
             @Override
             public void onComplete(@NonNull Task<AuthResult> action) {
                 if(action.isSuccessful()) {
+                    listener.onSuccess();
                     UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                             .setDisplayName( username ).build();
                     fireAuth.authenticate.getCurrentUser().updateProfile( profileUpdate );
-
-                    String IdUser = fireAuth.authenticate.getCurrentUser().getUid();
-                    DocumentReference documentReference = fireAuth.fireStore.collection("Users").document(IdUser);
-
-                    //store every user in a hashmap into Firestore
-
-                    Map<String, Object> userData = new HashMap<>();
-                    userData.put("User", email);
-
-                    // add to Firestore
-
-                    documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            listener.onSuccess();
-                            Log.d("RegisterActivity", "User has been added to firebase");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("RegisterActivity", "Error: User not created or added to firebase");
-                            listener.onFailure(e);
-                        }
-                    });
-
-
+                } else {
+                    listener.onFailure(action.getException());
                 }
             }
         });
     }
-
 }

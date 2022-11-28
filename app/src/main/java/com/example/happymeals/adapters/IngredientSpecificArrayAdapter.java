@@ -1,4 +1,4 @@
-package com.example.happymeals.ingredient;
+package com.example.happymeals.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
+import com.example.happymeals.ingredient.Ingredient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +71,7 @@ public class IngredientSpecificArrayAdapter extends ArrayAdapter<Ingredient> {
         TextView unit = view.findViewById(R.id.ingredient_specific_amount_unit_text);
 
         name.setText( ingredient.getName() );
-        amount.setText( countMap.get( ingredient.getName() ).toString() );
+        amount.setText( countMap.get( ingredient.getId() ).toString() );
         unit.setText(ingredient.getUnit().toString());
 
         return view;

@@ -62,7 +62,8 @@ public class RegisterActivity extends AppCompatActivity{
 
                             @Override
                             public void onFailure(Exception e) {
-                                Log.d("RegisterActivity", "Login from registration failure.");
+                                Log.e("RegisterActivity", "Login from registration failure: " +
+                                        e.toString() );
                             }
                         });
                         FireStoreManager.getInstance().setUser( userEmail );
@@ -72,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity{
 
                     @Override
                     public void onFailure(Exception e) {
-                        Log.d("RegisterActivity", "User could not be created." );
+                        Log.e("RegisterActivity", "User could not be created: " + e.toString() );
                         }
                     });
 

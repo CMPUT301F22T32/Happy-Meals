@@ -160,13 +160,15 @@
                     android:id="@+id/recipe_edit_image_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/red"
                     android:clickable="true"
+                    app:backgroundTint="@color/red"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@android:drawable/ic_menu_camera" />
+                    app:srcCompat="@android:drawable/ic_menu_camera"
+                    app:tint="@color/white" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -266,7 +268,7 @@
 
                 <EditText
                     android:id="@+id/recipe_servings_field"
-                    android:layout_width="96dp"
+                    android:layout_width="69dp"
                     android:layout_height="43dp"
                     android:width="100dp"
                     android:focusable="auto"
@@ -288,6 +290,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:clickable="true"
+                    app:backgroundTint="@color/red"
+                    app:tint="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.SortedList;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
+import com.example.happymeals.recipe.PublicRecipeActivity;
 import com.example.happymeals.recipe.Recipe;
 import com.example.happymeals.recipe.RecipeStorage;
 import com.example.happymeals.recipe.SharedRecipeDetailsActivity;
@@ -103,7 +104,7 @@ public class GlobalRecipesAdapter extends
 
         @Override
         public boolean areItemsTheSame(Recipe item1, Recipe item2) {
-            return item1.getName() == item2.getName();
+            return item1.getId() == item2.getId();
         }
     } );
 
@@ -162,6 +163,7 @@ public class GlobalRecipesAdapter extends
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                RecipeStorage storage = RecipeStorage.getInstance();
                 if( isUsers ) {
                     RecipeStorage.getInstance().removeSharedRecipe( recipeInItem );
                     InputErrorFragment inputErrorFragment =
@@ -171,16 +173,27 @@ public class GlobalRecipesAdapter extends
                                             " from shared recipes",
                                     context
                             );
+                    notifyArrayUpdate();
                     inputErrorFragment.display();
                 } else {
-                    RecipeStorage.getInstance().addRecipe( recipeInItem );
-                    InputErrorFragment inputErrorFragment =
-                            new InputErrorFragment(
-                                    "Added Shared Recipe",
-                                    "You have added " + recipeInItem.getName() + " into your inventory",
-                                    context
-                            );
-                    inputErrorFragment.display();
+                    if( !storage.alreadyHave( recipeInItem ) ) {
+                        storage.addRecipe( recipeInItem );
+                        InputErrorFragment inputErrorFragment =
+                                new InputErrorFragment(
+                                        "Added Shared Recipe",
+                                        "You have added " + recipeInItem.getName() + " into your inventory",
+                                        context
+                                );
+                        inputErrorFragment.display();
+                    } else {
+                        InputErrorFragment inputErrorFragment =
+                                new InputErrorFragment(
+                                        "Cannot Add Shared Recipe",
+                                        "You have already added " + recipeInItem.getName() + " into your inventory",
+                                        context
+                                );
+                        inputErrorFragment.display();
+                    }
                 }
                 notifyDataSetChanged();
             }

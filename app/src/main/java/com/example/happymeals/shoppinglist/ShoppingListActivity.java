@@ -160,7 +160,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
 
 
-
+        shoppingListAdapter.notifyDataSetChanged();
         DialogInterface.OnClickListener onItemsPickedUpListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

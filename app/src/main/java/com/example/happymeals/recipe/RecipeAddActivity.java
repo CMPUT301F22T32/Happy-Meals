@@ -40,6 +40,14 @@ import java.util.HashMap;
 // https://www.youtube.com/watch?v=qO3FFuBrT2E
 // https://www.youtube.com/watch?v=XRdzAWIt8rw
 
+
+/**
+ * This is the activity that will display the required fields for adding a new recipe. The fields
+ * will be initially blank and all the data entered will be stored in the database. Once filled
+ * new recipes can be added by hitting the add button.
+
+ */
+
 public class RecipeAddActivity extends AppCompatActivity  implements SearchIngredientFragment.SearchIngredientsFragmentListener,
         InputStringFragment.InputStringFragmentListener {
 

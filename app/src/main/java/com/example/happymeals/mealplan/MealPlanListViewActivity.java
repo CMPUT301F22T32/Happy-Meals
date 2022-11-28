@@ -13,11 +13,13 @@ import com.example.happymeals.adapters.MealPlanListAdapter;
 import com.example.happymeals.database.DatasetWatcher;
 import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.ArrayList;
 
 /**
- * This view shows the list of all weekly meal plans that the user has made. A user can view,
- * edit, or delete MealPlans from this activity.
- */
+* This is the activity that will display the details of the multiple meal plans. The view will
+* be persistent and display meal data that has been stored in the database. Meal plans can
+* be edited and updated.
+*/
 public class MealPlanListViewActivity extends AppCompatActivity implements DatasetWatcher {
 
     private FloatingActionButton makeNewMP;

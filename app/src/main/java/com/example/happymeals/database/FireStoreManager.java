@@ -264,19 +264,28 @@ public class FireStoreManager {
     /**
      * Finds the document located in the given path and calls the listener function. At this time
      * the proper class will be created from the fetched data and passed as a parameter.
-     * @param collectionName The {@link Enum} representing the collection name where the document
-     *                       is located.
-     * @param documentName The {@link String} representing the document name that is being removed
-     *                     from the given collection.
+     * @param documentPath The {@link String} representing the document that will hold the
+     *                     requested data.
      * @param listener The {@link Class} which impliments the {@link DatabaseListener}
      *                 and holds the listener for the success of data fetching.
      * @param requestClassType The {@link DatabaseObject} child class specifying which type of class
      *                         should be created and returned.
      */
-    public void getData( Constants.COLLECTION_NAME collectionName, String documentName, DatabaseListener listener,
+    public void getData( String documentPath, DatabaseListener listener,
                          DatabaseObject requestClassType ) {
-        getData( userDocument.collection( collectionName.toString() )
-                .document( documentName ), listener, requestClassType );
+         database.document( documentPath ).get()
+                .addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete( @NonNull Task<DocumentSnapshot> task ) {
+                        if ( task.isSuccessful() ) {
+                            Log.d( GET_DATA_TAG, "Data has been found." );
+                            listener.onDataFetchSuccess(
+                                    task.getResult().toObject( requestClassType.getClass() ) );
+                        } else {
+                            Log.d( GET_DATA_TAG, "Data could not be found." );
+                        }
+                    }
+                } );
     }
 
     /**

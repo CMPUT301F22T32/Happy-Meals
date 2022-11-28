@@ -20,7 +20,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+/**
+ * This is the activity that will display the details of each ingredient that needs to be replenished
+ * for the many recipes. The display can be sorted by ingredient category or the amount required to be
+ * replaced.
 
+ */
 public class ShoppingListActivity extends AppCompatActivity {
 
     private ShoppingList shoppingList;

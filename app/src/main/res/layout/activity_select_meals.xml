@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:fontFamily="@font/avenir_black_oblique"
         android:text="@string/selection"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -23,7 +24,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:backgroundTint="@color/salmon"
         android:text="@android:string/cancel"
+        android:fontFamily="@font/avenir_black"
+        android:textColor="@color/divider_color"
         app:layout_constraintBaseline_toBaselineOf="@+id/mp_items_save"
         app:layout_constraintEnd_toStartOf="@+id/mp_items_save"
         app:layout_constraintHorizontal_bias="0.5"
@@ -36,26 +40,14 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
+        android:fontFamily="@font/avenir_black"
+        android:backgroundTint="@color/salmon"
         android:text="@string/save"
+        android:textColor="@color/divider_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/mp_items_cancel" />
-
-    <ListView
-        android:id="@+id/meal_plan_item_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:drawable/editbox_dropdown_light_frame"
-        android:choiceMode="multipleChoice"
-        android:listSelector="@color/black_overlay"
-        app:layout_constraintBottom_toTopOf="@+id/mp_items_cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mp_type_of_item" />
 
     <RadioGroup
         android:id="@+id/mp_type_of_item"
@@ -74,6 +66,7 @@
             android:id="@+id/ingredient_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_book"
             android:text="@string/ingredient_storage"
             tools:layout_conversion_absoluteHeight="48dp"
             tools:layout_conversion_absoluteWidth="109dp"
@@ -85,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:fontFamily="@font/avenir_book"
             android:text="@string/recipes"
             tools:layout_conversion_absoluteHeight="48dp"
             tools:layout_conversion_absoluteWidth="109dp"
@@ -92,4 +86,21 @@
             tools:layout_editor_absoluteY="107dp" />
 
     </RadioGroup>
+
+    <ListView
+        android:id="@+id/meal_plan_item_list"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:choiceMode="multipleChoice"
+        android:listSelector="@color/black_overlay"
+        app:layout_constraintBottom_toTopOf="@+id/mp_items_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mp_type_of_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

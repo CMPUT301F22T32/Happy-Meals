@@ -24,8 +24,8 @@ public class HappyMealBottomNavigation {
     public <T extends android.view.View> HappyMealBottomNavigation( T view, Context context, int resourceId ) {
         if( view.getClass() == BottomNavigationView.class ) {
             this.context = context;
-            activity = (Activity) context;
-            bottomBar = (BottomNavigationView) view;
+            activity = ( Activity ) context;
+            bottomBar = ( BottomNavigationView ) view;
             bottomBar.setSelectedItemId( resourceId );
         } else {
             bottomBar = null;
@@ -33,41 +33,41 @@ public class HappyMealBottomNavigation {
     }
 
     public void setupBarListener() {
-        bottomBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        bottomBar.setOnItemSelectedListener( new NavigationBarView.OnItemSelectedListener() {
             @Override
 
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
-                activity.getWindow().setExitTransition(null);
-                switch (item.getItemId()) {
+            public boolean onNavigationItemSelected( @NonNull MenuItem item ) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation( activity ).toBundle();
+                activity.getWindow().setExitTransition( null );
+                switch ( item.getItemId() ) {
 
                     case R.id.home_menu:
-                        Intent home_intent = new Intent(context, MainActivity.class);
-                        activity.startActivity(home_intent, bundle);
+                        Intent home_intent = new Intent( context, MainActivity.class );
+                        activity.startActivity( home_intent, bundle );
                         break;
                     case R.id.recipe_menu:
-                        Intent recipe_intent = new Intent(context, RecipeStorageActivity.class);
-                        activity.startActivity(recipe_intent, bundle);
+                        Intent recipe_intent = new Intent( context, RecipeStorageActivity.class );
+                        activity.startActivity( recipe_intent, bundle );
                         break;
 
                     case R.id.ingredient_menu:
-                        Intent ingredient_intent = new Intent(context, IngredientStorageActivity.class);
-                        activity.startActivity(ingredient_intent, bundle);
+                        Intent ingredient_intent = new Intent( context, IngredientStorageActivity.class );
+                        activity.startActivity( ingredient_intent, bundle );
                         break;
 
                     case R.id.mealplan_menu:
-                        Intent mealplan_intent = new Intent(context, MealPlanActivity.class);
-                        activity.startActivity(mealplan_intent, bundle);
+                        Intent mealplan_intent = new Intent( context, MealPlanActivity.class );
+                        activity.startActivity( mealplan_intent, bundle );
                         break;
 
                     case R.id.shopping_menu:
-                        Intent shoppinglist_intent = new Intent(context, ShoppingListActivity.class);
-                        activity.startActivity(shoppinglist_intent, bundle);
+                        Intent shoppinglist_intent = new Intent( context, ShoppingListActivity.class );
+                        activity.startActivity( shoppinglist_intent, bundle );
                         break;
                     default:
                 }
                 return true;
             }
-        });
+        } );
     }
 }

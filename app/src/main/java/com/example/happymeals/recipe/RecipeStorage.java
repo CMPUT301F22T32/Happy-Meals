@@ -73,10 +73,13 @@ public class RecipeStorage implements DatabaseListener {
      * database.
      * @param recipe The {@link Recipe} which is being added.
      */
-    public void addRecipe(Recipe recipe) {
+    public void addRecipe( Recipe recipe ) {
         if( !recipes.contains( recipe ) ) {
             collectionOfIds.add( recipe.getId() );
-            recipes.add(recipe);
+            if( !ingredientStorage.assertIngredientsExists( recipe ) ) {
+                Log.d("Recipe Storage: ", "Added ingredients from Recipe");
+            }
+            recipes.add( recipe );
         }
         fsm.addData( collection, recipe );
         updateStorage();
@@ -93,7 +96,7 @@ public class RecipeStorage implements DatabaseListener {
      * @param amount The {@link Double } by which the ingredient amount is getting reduced by.
      */
     public void consumeIngredientInRecipe( Ingredient ingredient, Double amount ) {
-        ingredientStorage.requestConsumptionOfIngredient(
+        ingredientStorage.requestConsumptionOfIngredient( 
                 ingredient,
                 Double.parseDouble( String.valueOf( amount ) ) );
     }
@@ -118,9 +121,9 @@ public class RecipeStorage implements DatabaseListener {
             this.ingredientHolderForReturn.clear();
             this.ingredientListener = listener;
             for( HashMap< String, Object >  mapInstance: recipe.getIngredients().values() ) {
-                if( mapInstance.get(REFERENCE) instanceof DocumentReference ) {
-                    DocumentReference docRef = (DocumentReference) mapInstance.get(REFERENCE);
-                    fsm.getData( (DocumentReference) mapInstance.get(REFERENCE), this, new Ingredient() );
+                if( mapInstance.get( REFERENCE ) instanceof DocumentReference ) {
+                    DocumentReference docRef = ( DocumentReference ) mapInstance.get( REFERENCE );
+                    fsm.getData( ( DocumentReference ) mapInstance.get( REFERENCE ), this, new Ingredient() );
                 }
             }
         }
@@ -159,26 +162,26 @@ public class RecipeStorage implements DatabaseListener {
      * @return The {@link Double} of the count attatched to the {@link Ingredient}
      */
     public Double getCountForIngredientInRecipe( Recipe recipe, Ingredient ingredient ) {
-        return (Double) getRecipeIngredientMap( recipe ).get( ingredient.getId() )
-                .get(COUNT);
+        return ( Double ) getRecipeIngredientMap( recipe ).get( ingredient.getId() )
+                .get( COUNT );
     }
 
-    public List< Recipe>  getRecipesByCookingTime(int cookTime) {
+    public List< Recipe>  getRecipesByCookingTime( int cookTime ) {
         this.ingredientHolderForReturn = new ArrayList<>();
         List<Recipe> result = new ArrayList<Recipe>();
-        for (Recipe recipe : recipes) {
-            if (recipe.getCookTime() == cookTime) {
-                result.add(recipe);
+        for ( Recipe recipe : recipes ) {
+            if ( recipe.getCookTime() == cookTime ) {
+                result.add( recipe );
             }
         }
         return result;
     }
 
-    public List<Recipe> getRecipesByDescription(String description) {
+    public List<Recipe> getRecipesByDescription( String description ) {
         List<Recipe> result = new ArrayList<Recipe>();
-        for (Recipe recipe : recipes) {
-            if (recipe.getDescription().equals(description)) {
-                result.add(recipe);
+        for ( Recipe recipe : recipes ) {
+            if ( recipe.getDescription().equals( description ) ) {
+                result.add( recipe );
             }
         }
         return result;
@@ -192,15 +195,15 @@ public class RecipeStorage implements DatabaseListener {
      */
     public Recipe getRecipe( String recipeName ) {
         for( Recipe recipe : this.recipes ) {
-            if ( recipe.getName().equals( recipeName )) {
+            if ( recipe.getName().equals( recipeName ) ) {
                 return recipe;
             }
         }
         return null;
     }
 
-    public Recipe getRecipeByIndex(int index){
-        return recipes.get(index);
+    public Recipe getRecipeByIndex( int index ){
+        return recipes.get( index );
     }
 
     /**
@@ -239,13 +242,13 @@ public class RecipeStorage implements DatabaseListener {
      * @return The {@link HashMap} which will now hold a key/value pair for each
      * {@link Ingredient}-name key.
      */
-    public HashMap< String, HashMap< String, Object > > makeIngredientMapForRecipe(
+    public HashMap< String, HashMap< String, Object > > makeIngredientMapForRecipe( 
             HashMap< String, HashMap< String, Object > > givenMap ) {
 
         for( Map.Entry<String, HashMap< String, Object > > entry : givenMap.entrySet() ) {
-            entry.getValue().put(
+            entry.getValue().put( 
                     "reference",
-                    fsm.getDocReferenceTo(Constants.COLLECTION_NAME.INGREDIENTS,
+                    fsm.getDocReferenceTo( Constants.COLLECTION_NAME.INGREDIENTS,
                             entry.getKey() ) );
         }
 
@@ -253,7 +256,7 @@ public class RecipeStorage implements DatabaseListener {
     }
 
     public void publishRecipe( Recipe recipe ) {
-        fsm.addData( Constants.COLLECTION_NAME.GLOBAL_USERS, recipe);
+        fsm.addData( Constants.COLLECTION_NAME.GLOBAL_USERS, recipe );
     }
 
     /**
@@ -261,8 +264,9 @@ public class RecipeStorage implements DatabaseListener {
      * the updateStorage() method in order to update the current listener.
      * @param recipe
      */
-    public void removeRecipe(Recipe recipe) {
-        recipes.remove(recipe);
+    public void removeRecipe( Recipe recipe ) {
+        recipes.remove( recipe );
+        collectionOfIds.remove( recipe.getId() );
         fsm.deleteDocument( collection, recipe );
         updateStorage();
     }
@@ -322,16 +326,16 @@ public class RecipeStorage implements DatabaseListener {
      * @param data {@link DatabaseObject} which holds the returned class.
      */
     @Override
-    public void onDataFetchSuccess(DatabaseObject data) {
+    public void onDataFetchSuccess( DatabaseObject data ) {
         if( data == null ) {
-            Log.e("DATA FETCH SUCCESS: ", "Database object returned as null");
+            Log.e( "DATA FETCH SUCCESS: ", "Database object returned as null" );
             return;
         }
         if( data.getClass() == Recipe.class ) {
-            addRecipe( (Recipe) data );
+            addRecipe( ( Recipe ) data );
             updateStorage();
         } else if( data.getClass() == Ingredient.class ) {
-            this.ingredientHolderForReturn.add( (Ingredient) data );
+            this.ingredientHolderForReturn.add( ( Ingredient ) data );
             if( ingredientListener != null ) {
                 ingredientListener.notifyDataSetChanged();
             }
@@ -339,7 +343,7 @@ public class RecipeStorage implements DatabaseListener {
     }
 
     @Override
-    public void onSharedDataFetchSuccess(Recipe data) {
+    public void onSharedDataFetchSuccess( Recipe data ) {
         sharedRecipes.add( data );
         if( sharedListener != null ) {
             sharedListener.signalChangeToAdapter();
@@ -351,7 +355,7 @@ public class RecipeStorage implements DatabaseListener {
 
     }
 
-    public String addImage(Uri uri, String name) {
-        return this.fsm.uploadImage(uri, name);
+    public String addImage( Uri uri, String name ) {
+        return this.fsm.uploadImage( uri, name );
     }
 }

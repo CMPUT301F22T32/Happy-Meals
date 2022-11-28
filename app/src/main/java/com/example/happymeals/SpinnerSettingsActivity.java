@@ -48,21 +48,21 @@ public class SpinnerSettingsActivity extends AppCompatActivity implements
         expecting = null;
         ingredientStorage = IngredientStorage.getInstance();
 
-        amountSpinnerArray = ingredientStorage.getSpinners(
+        amountSpinnerArray = ingredientStorage.getSpinners( 
                 Constants.StoredSpinnerChoices.AMOUNT_UNIT
         );
-        locationSpinnerArray = ingredientStorage.getSpinners(
+        locationSpinnerArray = ingredientStorage.getSpinners( 
                 Constants.StoredSpinnerChoices.LOCATION
         );
-        categorySpinnerArray = ingredientStorage.getSpinners(
+        categorySpinnerArray = ingredientStorage.getSpinners( 
                 Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY
         );
 
-        addAmountButton = findViewById( R.id.spinner_add_amount_button);
+        addAmountButton = findViewById( R.id.spinner_add_amount_button );
         addLocationButton = findViewById( R.id.spinner_add_location_button );
         addCategoryButton = findViewById( R.id.spinner_add_category_button );
 
-        ListView amountSpinnerList = findViewById( R.id.edit_spinner_amount_list);
+        ListView amountSpinnerList = findViewById( R.id.edit_spinner_amount_list );
         ListView locationSpinnerList = findViewById( R.id.edit_spinner_location_list );
         ListView categorySpinnerList = findViewById( R.id.edit_spinner_category_list );
 
@@ -77,29 +77,36 @@ public class SpinnerSettingsActivity extends AppCompatActivity implements
         locationSpinnerList.setAdapter( locationSpinnerAdapter );
         categorySpinnerList.setAdapter( categorySpinnerAdapter );
 
-        addAmountButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.spinner_back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+
+        addAmountButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
                 expecting = Constants.StoredSpinnerChoices.AMOUNT_UNIT;
-                new InputStringFragment("Input New Amount Spinner", 10).show( getSupportFragmentManager(), "L E S F");
+                new InputStringFragment( "Input New Amount Spinner", 10 ).show( getSupportFragmentManager(), "L E S F" );
             }
-        });
+        } );
 
-        addCategoryButton.setOnClickListener(new View.OnClickListener() {
+        addCategoryButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 expecting = Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY;
-                new InputStringFragment("Input New Category Spinner", 10).show( getSupportFragmentManager(), "L E S F");
+                new InputStringFragment( "Input New Category Spinner", 10 ).show( getSupportFragmentManager(), "L E S F" );
             }
-        });
+        } );
 
-        addLocationButton.setOnClickListener(new View.OnClickListener() {
+        addLocationButton.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 expecting = Constants.StoredSpinnerChoices.LOCATION;
-                new InputStringFragment("Input New DefaultLocationSpinners Spinner", 10).show( getSupportFragmentManager(), "L E S F");
+                new InputStringFragment( "Input New DefaultLocationSpinners Spinner", 10 ).show( getSupportFragmentManager(), "L E S F" );
             }
-        });
+        } );
     }
 
     /**
@@ -129,29 +136,29 @@ public class SpinnerSettingsActivity extends AppCompatActivity implements
      * @param str The passed {@link String}
      */
     @Override
-    public void onConfirmClick(String str) {
+    public void onConfirmClick( String str ) {
         IngredientStorage.getInstance().addSpinner( expecting, str );
 
         if( expecting == Constants.StoredSpinnerChoices.AMOUNT_UNIT ) {
             amountSpinnerArray.clear();
-            amountSpinnerArray.addAll(
-                    ingredientStorage.getSpinners(
+            amountSpinnerArray.addAll( 
+                    ingredientStorage.getSpinners( 
                             Constants.StoredSpinnerChoices.AMOUNT_UNIT
                     )
             );
             amountSpinnerAdapter.notifyDataSetChanged();
         } else if ( expecting == Constants.StoredSpinnerChoices.LOCATION ) {
             locationSpinnerArray.clear();
-            locationSpinnerArray.addAll(
-                    ingredientStorage.getSpinners(
+            locationSpinnerArray.addAll( 
+                    ingredientStorage.getSpinners( 
                             Constants.StoredSpinnerChoices.LOCATION
                     )
             );
             locationSpinnerAdapter.notifyDataSetChanged();
         } else if ( expecting == Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY ) {
             categorySpinnerArray.clear();
-            categorySpinnerArray.addAll(
-                    ingredientStorage.getSpinners(
+            categorySpinnerArray.addAll( 
+                    ingredientStorage.getSpinners( 
                             Constants.StoredSpinnerChoices.INGREDIENT_CATEGORY
                     )
             );

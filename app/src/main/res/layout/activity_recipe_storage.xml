@@ -48,6 +48,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/recipe_storage_add_button"
+        android:backgroundTint="@color/salmon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -85,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/explore"
-        android:textColor="@color/design_default_color_secondary_variant"
+        android:textColor="@color/salmon"
         android:textSize="18dp"
         android:fontFamily="@font/avenir_book"
         android:textStyle="bold|italic"

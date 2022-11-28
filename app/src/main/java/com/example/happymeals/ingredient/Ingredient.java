@@ -30,13 +30,13 @@ public class Ingredient extends DatabaseObject {
     /**
      * This is the loaded constructor for an {@link Ingredient} object. It contains all of the
      * necessary parameters for instantiation.
-     * @param name The name of the ingredient ({@link String}).
-     * @param description An optional description of the ingredient ({@link String}).
-     * @param bestBeforeDate The expiry date in YYYY-MM-DD ISO Format ({@link Date}).
-     * @param location The location where the ingredient is stored ({@link Constants.DefaultLocationSpinners}).
-     * @param amount The positive integer amount of the ingredient ({@link Integer}.
-     * @param unit The unit the ingredient is stored by ({@link Constants.DefaultAmountUnitSpinners}).
-     * @param category The food category that the ingredient falls under ({@link Constants.DefaultIngredientCategorySpinners}).
+     * @param name The name of the ingredient ( {@link String} ).
+     * @param description An optional description of the ingredient ( {@link String} ).
+     * @param bestBeforeDate The expiry date in YYYY-MM-DD ISO Format ( {@link Date} ).
+     * @param location The location where the ingredient is stored ( {@link Constants.DefaultLocationSpinners} ).
+     * @param amount The positive integer amount of the ingredient ( {@link Integer}.
+     * @param unit The unit the ingredient is stored by ( {@link Constants.DefaultAmountUnitSpinners} ).
+     * @param category The food category that the ingredient falls under ( {@link Constants.DefaultIngredientCategorySpinners} ).
      */
     public Ingredient( String name, String creator, String description, Date bestBeforeDate,
                        String location, double amount, String unit,
@@ -71,7 +71,7 @@ public class Ingredient extends DatabaseObject {
         int year = bestBeforeDate.getYear();
         int month = bestBeforeDate.getMonth();
         int day = bestBeforeDate.getDate();
-        return String.format("%04d-%02d-%02d", year, month+1, day);
+        return String.format( "%04d-%02d-%02d", year, month+1, day );
     }
 
     /**
@@ -173,7 +173,7 @@ public class Ingredient extends DatabaseObject {
         this.category = category;
     }
 
-    public void setNeedsUpdate(Boolean update) {
+    public void setNeedsUpdate( Boolean update ) {
         this.needsUpdate = update;
     }
 }

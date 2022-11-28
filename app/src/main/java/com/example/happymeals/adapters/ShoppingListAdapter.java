@@ -1,13 +1,7 @@
 package com.example.happymeals.adapters;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.happymeals.R;
 import com.example.happymeals.fragments.InputErrorFragment;
@@ -31,6 +29,7 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
 
     private ArrayList<ShoppingListItem> items;
     private ArrayList<Ingredient> selected;
+    private ArrayList<Ingredient> ingredients;
     private Context context;
 
     /**
@@ -39,8 +38,9 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
      * @param items {@link ArrayList<ShoppingListItem>}
      * @param ingredients {@link ArrayList<Ingredient>}
      */
-    public ShoppingListAdapter(@NonNull Context context, ArrayList<ShoppingListItem> items, ArrayList<Ingredient> ingredients) {
-        super(context, 0, ingredients);
+    public ShoppingListAdapter( @NonNull Context context, ArrayList<ShoppingListItem> items, ArrayList<Ingredient> ingredients ) {
+        super( context, 0, ingredients );
+        this.ingredients = ingredients;
         this.context = context;
         this.items = items;
         selected = new ArrayList<>();
@@ -51,87 +51,91 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
      */
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView( int position, @Nullable View convertView, @NonNull ViewGroup parent ) {
         View view = convertView;
 
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.activity_shopping_list_adapter, parent, false);
+        if ( view == null ) {
+            view = LayoutInflater.from( context ).inflate( R.layout.activity_shopping_list_adapter, parent, false );
         }
 
-        ShoppingListItem item = items.get(position);
-        Ingredient ingredient = item.getIngredient();
+        ShoppingListItem item = items.get( position );
+        Ingredient ingredient = ingredients.get( position );
+
+        if (ingredient == null)
+            return view;
+
         Double amount = item.getAmount();
         boolean pickedUp = ingredient.getNeedsUpdate();
         ArrayList<String> recipeNames = item.getRecipes();
 
-        Button showRecipes = view.findViewById(R.id.show_list_recipe_button);
+        Button showRecipes = view.findViewById( R.id.show_list_recipe_button );
 
-        TextView title = view.findViewById(R.id.show_list_item_title);
-        TextView storedAmountView = view.findViewById(R.id.shop_list_storage_amount_value);
-        TextView neededAmountView = view.findViewById(R.id.shop_list_buy_amount_value);
-        TextView unitView1 = view.findViewById(R.id.shop_list_unit_value1);
-        TextView unitView2 = view.findViewById(R.id.shop_list_unit_value2);
-        TextView categoryView = view.findViewById(R.id.shop_list_category_value);
+        TextView title = view.findViewById( R.id.show_list_item_title );
+        TextView storedAmountView = view.findViewById( R.id.shop_list_storage_amount_value );
+        TextView neededAmountView = view.findViewById( R.id.shop_list_buy_amount_value );
+        TextView unitView1 = view.findViewById( R.id.shop_list_unit_value1 );
+        TextView unitView2 = view.findViewById( R.id.shop_list_unit_value2 );
+        TextView categoryView = view.findViewById( R.id.shop_list_category_value );
 
-        CheckBox checkBox = view.findViewById(R.id.shopping_list_checkbox);
+        CheckBox checkBox = view.findViewById( R.id.shopping_list_checkbox );
 
-        title.setText(ingredient.getName());
-        categoryView.setText(ingredient.getCategory().toString());
+        title.setText( ingredient.getName() );
+        categoryView.setText( ingredient.getCategory().toString() );
 
-        if (recipeNames == null)
-            showRecipes.setVisibility(View.GONE);
+        if ( recipeNames == null )
+            showRecipes.setVisibility( View.GONE );
 
-        if (pickedUp) {
-            checkBox.setChecked(true);
-            checkBox.setEnabled(false);
+        if ( pickedUp ) {
+            checkBox.setChecked( true );
+            checkBox.setEnabled( false );
 
             String message = "Storage information needs to be updated.";
-            TextView amountStoredHeader = view.findViewById(R.id.shopping_list_storage_title);
-            amountStoredHeader.setText(message);
+            TextView amountStoredHeader = view.findViewById( R.id.shopping_list_storage_title );
+            amountStoredHeader.setText( message );
 
-            TextView amountNeededHeader = view.findViewById(R.id.shopping_list_needed_title);
-            amountNeededHeader.setVisibility(View.GONE);
+            TextView amountNeededHeader = view.findViewById( R.id.shopping_list_needed_title );
+            amountNeededHeader.setVisibility( View.GONE );
 
-            ConstraintLayout background = view.findViewById(R.id.shopping_list_adapter_view);
-            int c = context.getResources().getColor(R.color.black_overlay, null);
-            background.setBackgroundColor(c);
+            ConstraintLayout background = view.findViewById( R.id.shopping_list_adapter_view );
+            int c = context.getResources().getColor( R.color.black_overlay, null );
+            background.setBackgroundColor( c );
 
-            checkBox.setPadding(0,50,0,0);
-            checkBox.setScaleX(2);
-            checkBox.setScaleY(2);
-            checkBox.setY(120);
+            checkBox.setPadding( 0,50,0,0 );
+            checkBox.setScaleX( 2 );
+            checkBox.setScaleY( 2 );
+            checkBox.setY( 100 );
 
-            int d = context.getResources().getColor(R.color.red, null);
-            checkBox.setButtonTintList(ColorStateList.valueOf(d));
+            int d = context.getResources().getColor( R.color.red, null );
+            checkBox.setButtonTintList( ColorStateList.valueOf( d ) );
         }
         else {
-            storedAmountView.setText(ingredient.getAmount().toString());
-            unitView1.setText(ingredient.getUnit().toString());
+            storedAmountView.setText( ingredient.getAmount().toString() );
+            unitView1.setText( ingredient.getUnit().toString() );
 
-            neededAmountView.setText(amount.toString());
-            unitView2.setText(ingredient.getUnit().toString());
+            neededAmountView.setText( amount.toString() );
+            unitView2.setText( ingredient.getUnit().toString() );
         }
 
-        checkBox.setOnClickListener(new View.OnClickListener() {
+        checkBox.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (checkBox.isChecked())
-                    selected.add(ingredient);
+            public void onClick( View view ) {
+                if ( checkBox.isChecked() )
+                    selected.add( ingredient );
                 else
-                    selected.remove(ingredient);
+                    selected.remove( ingredient );
             }
-        });
+        } );
 
-        showRecipes.setOnClickListener(new View.OnClickListener() {
+        showRecipes.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                StringBuilder sb = new StringBuilder("This ingredient is included in the following recipes:\n");
-                for (String s : recipeNames) {
-                    sb.append(String.format(" - %s\n", s));
+            public void onClick( View view ) {
+                StringBuilder sb = new StringBuilder( "This ingredient is included in the following recipes:\n" );
+                for ( String s : recipeNames ) {
+                    sb.append( String.format( " - %s\n", s ) );
                 }
-                new InputErrorFragment("Included Recipes", sb.toString(), context).display();
+                new InputErrorFragment( "Included Recipes", sb.toString(), context ).display();
             }
-        });
+        } );
 
         return view;
     }

@@ -29,50 +29,50 @@ public class MealPlanIngredientFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof  OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
+    public void onAttach( Context context ) {
+        super.onAttach( context );
+        if ( context instanceof  OnFragmentInteractionListener ) {
+            listener = ( OnFragmentInteractionListener ) context;
         }
         else {
-            throw new RuntimeException(context.toString() + "This is not the correct fragment");
+            throw new RuntimeException( context.toString() + "This is not the correct fragment" );
         }
     }
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog( @Nullable Bundle savedInstanceState ) {
         View view = LayoutInflater
-                .from(getActivity())
-                .inflate(R.layout.meal_plan_recipe_fragment, null);
+                .from( getActivity() )
+                .inflate( R.layout.meal_plan_recipe_fragment, null );
 
-        ingredientListView = view.findViewById(R.id.meal_plan_recipe_list_view);
+        ingredientListView = view.findViewById( R.id.meal_plan_recipe_list_view );
         ingredientStorage = IngredientStorage.getInstance();
-        ingredientAdapter = new IngredientStorageArrayAdapter(view.getContext(), ingredientStorage.getIngredients() );
-        ingredientListView.setAdapter(ingredientAdapter);
+        ingredientAdapter = new IngredientStorageArrayAdapter( view.getContext(), ingredientStorage.getIngredients() );
+        ingredientListView.setAdapter( ingredientAdapter );
 
-        ingredientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ingredientListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick( AdapterView<?> adapterView, View view, int i, long l ) {
                 // add this to the meal plan array
-                ingredientStorage.getIngredientByIndex(i);
+                ingredientStorage.getIngredientByIndex( i );
             }
-        });
+        } );
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
 
 
         return builder
-                .setView(view)
-                .setTitle("Add Recipes")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setView( view )
+                .setTitle( "Add Recipes" )
+                .setNegativeButton( "Cancel", null )
+                .setPositiveButton( "OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick( DialogInterface dialogInterface, int i ) {
                         listener.onOkPressed();
                     }
-                }).create();
+                } ).create();
 
 
 

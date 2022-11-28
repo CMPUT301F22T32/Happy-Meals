@@ -5,7 +5,9 @@ import com.example.happymeals.ingredient.Ingredient;
 import java.util.ArrayList;
 
 /**
- * This is a class that defines a Shopping List Item.
+ * This is a class that defines a Shopping List Item. A Shopping List Item represents an Ingredient
+ * that has to be bought, which has a list of the names of recipes it is made with as well as the
+ * amount needed to buy.
  * @author sruduke
  */
 public class ShoppingListItem {
@@ -19,7 +21,7 @@ public class ShoppingListItem {
      * @param recipes {@link ArrayList<String>} of recipe names this ingredient is needed for
      * @param amount {@link Double} of the ingredient that is needed
      */
-    public ShoppingListItem(Ingredient ingredient, ArrayList<String> recipes, Double amount) {
+    public ShoppingListItem( Ingredient ingredient, ArrayList<String> recipes, Double amount ) {
         this.ingredient = ingredient;
         this.recipes = recipes;
         this.amount = amount;
@@ -37,7 +39,7 @@ public class ShoppingListItem {
      * This sets the ingredient of the ShoppingListItem
      * @param ingredient {@link Ingredient}
      */
-    public void setIngredient(Ingredient ingredient) {
+    public void setIngredient( Ingredient ingredient ) {
         this.ingredient = ingredient;
     }
 
@@ -53,7 +55,7 @@ public class ShoppingListItem {
      * This sets the recipes of the ShoppingListItem
      * @param recipes {@link ArrayList<String>}
      */
-    public void setRecipes(ArrayList<String> recipes) {
+    public void setRecipes( ArrayList<String> recipes ) {
         this.recipes = recipes;
     }
 
@@ -69,7 +71,7 @@ public class ShoppingListItem {
      * This sets the amount of the ShoppingListItem
      * @param amount {@link Double}
      */
-    public void setAmount(Double amount) {
+    public void setAmount( Double amount ) {
         this.amount = amount;
     }
 

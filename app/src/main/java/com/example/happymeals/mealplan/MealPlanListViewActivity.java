@@ -15,7 +15,11 @@ import com.example.happymeals.fragments.MealPlanPromptFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-
+/**
+        * This is the activity that will display the details of the multiple meal plans. The view will
+        * be persistent and display meal data that has been stored in the database. Meal plans can
+        * be edited and updated.
+        */
 public class MealPlanListViewActivity extends AppCompatActivity implements DatasetWatcher {
 
     private FloatingActionButton makeNewMP;

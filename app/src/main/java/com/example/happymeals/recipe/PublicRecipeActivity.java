@@ -23,7 +23,10 @@ import java.util.Locale;
 
 
 /**
- * Activity that displays all the recipes published by other users
+ * Activity that displays all the recipes published by other users.
+ * Allows users to pull other recipes made by other users, or push
+ * recipes of their own to the global pool. A unique feature that allows for
+ * sharing between users.
  */
 
 

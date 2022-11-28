@@ -124,15 +124,14 @@ public class IngredientStorageActivity extends AppCompatActivity implements Data
                     storageAdapter.sort(new Comparator<Ingredient>() {
                         @Override
                         public int  compare(Ingredient i1, Ingredient i2) {
-                            if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() < i2.getAmount()) )
+                            if ((i1.getAmount() > i2.getAmount()) && ((i1.getUnit().equals(i2.getUnit()))))
                                 return 1;
-                            else if ((i1.getCategory().equals(i2.getCategory())) && (i1.getAmount() > i2.getAmount()) )
+                            else if ((i1.getAmount() < i2.getAmount()) && ((i1.getUnit().equals(i2.getUnit()))))
                                 return -1;
                             else
                                 return 0;
                         }
                     });
-
                 }
 
                 if(itemSelected.equals("Best Before Date")){

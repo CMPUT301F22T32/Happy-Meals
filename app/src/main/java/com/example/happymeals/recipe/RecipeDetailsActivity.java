@@ -48,6 +48,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+
+/**
+ * This is the activity that will display the details of a specific recipe. The view will
+ * be persistent and display recipe data that has been stored in the database. Recipes can
+ * be edited and updated.
+ */
 public class RecipeDetailsActivity extends AppCompatActivity implements DatabaseListener,
         SearchIngredientFragment.SearchIngredientsFragmentListener,
         InputStringFragment.InputStringFragmentListener{

@@ -38,6 +38,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is the activity that will display the details of a specific shared recipe. The view will
+ * be persistent and display recipe data that has been stored in the database.
+ */
+
 public class SharedRecipeDetailsActivity extends AppCompatActivity {
 
     private Recipe recipe;

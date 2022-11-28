@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.happymeals.R;
+/**
+ * Activity for selecting a specific meal plan.
 
+ */
 public class SelectMealsActivity extends AppCompatActivity {
 
     @Override

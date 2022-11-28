@@ -36,22 +36,6 @@ public class RecipeStorageNavigationTest {
 
     @Test
     public void recipeStorageNavigationTest() {
-        ViewInteraction button = onView( 
-                allOf( withId( R.id.recipes_button ), withText( "RECIPES" ),
-                        withParent( withParent( withId( android.R.id.content ) ) ),
-                        isDisplayed() ) );
-        button.check( matches( isDisplayed() ) );
-
-        ViewInteraction materialButton = onView( 
-                allOf( withId( R.id.recipes_button ), withText( "Recipes" ),
-                        childAtPosition( 
-                                childAtPosition( 
-                                        withId( android.R.id.content ),
-                                        0 ),
-                                3 ),
-                        isDisplayed() ) );
-        materialButton.perform( click() );
-
         ViewInteraction textView = onView( 
                 allOf( withId( R.id.recipe_title ), withText( "Recipes" ),
                         withParent( withParent( withId( android.R.id.content ) ) ),
@@ -68,11 +52,6 @@ public class RecipeStorageNavigationTest {
                         isDisplayed() ) );
         materialTextView.perform( click() );
 
-        ViewInteraction button2 = onView( 
-                allOf( withId( R.id.recipes_button ), withText( "RECIPES" ),
-                        withParent( withParent( withId( android.R.id.content ) ) ),
-                        isDisplayed() ) );
-        button2.check( matches( isDisplayed() ) );
     }
 
     private static Matcher<View> childAtPosition( 

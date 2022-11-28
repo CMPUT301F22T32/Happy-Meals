@@ -30,12 +30,12 @@ public class RecipeTest {
         comments.add( "Try with ground turkey next time" );
         String strComments = "1: Very Good\n2: Try with ground turkey next time\n";
         ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-        ingredients.add( new Ingredient( "Lettuce", "Crisp romaine lettuce",
-                new Date( 2022, 01, 11 ), Constants.Location.FRIDGE, 1,
-                Constants.AmountUnit.COUNT, Constants.IngredientCategory.FRUIT ) );
-        ingredients.add( new Ingredient( "Ground beef", "Extra lean ground beef",
-                new Date( 2023, 01, 01 ), Constants.Location.FREEZER, 500,
-                Constants.AmountUnit.MG, Constants.IngredientCategory.MEAT ) );
+        ingredients.add( new Ingredient( "Lettuce", "test", "Crisp romaine lettuce",
+                new Date( 2022, 01, 11 ), Constants.Location.FRIDGE.toString(), 1.0,
+                Constants.AmountUnit.COUNT.toString(), Constants.IngredientCategory.FRUIT.toString() ) );
+        ingredients.add( new Ingredient( "Ground beef", "test", "Extra lean ground beef",
+                new Date( 2023, 01, 01 ), Constants.Location.FREEZER.toString(), 500.0,
+                Constants.AmountUnit.MG.toString(), Constants.IngredientCategory.MEAT.toString() ) );
         ArrayList instructions = new ArrayList<String>();
         instructions.add( "Cook beef in a hot pan" );
         instructions.add( "Cut lettuce" );
@@ -44,8 +44,9 @@ public class RecipeTest {
         for( Ingredient i : ingredients ) {
             ingredientMap.put( i.getName(), new HashMap<>() );
         }
-        Recipe recipe = new Recipe( "Tacos", 2, "The best tacos ever", "TestUser",
-                comments, recipeStorage.makeIngredientMapForRecipe( ingredientMap ),
+
+        Recipe recipe = new Recipe( "Tacos", "test", 2, "The best tacos ever", comments,
+                 recipeStorage.makeIngredientMapForRecipe( ingredientMap ),
                 strInstructions, 15, 6, "images/HelloWorld" );
 
         // Test getters

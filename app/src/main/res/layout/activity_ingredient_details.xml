@@ -10,7 +10,7 @@
         android:id="@+id/ing_content_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/avenir_heavy_oblique"
         android:text="@string/ingredient_information"
@@ -18,7 +18,7 @@
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ingredient_details_back_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -50,7 +50,7 @@
                 android:id="@+id/ing_content_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
@@ -85,7 +85,8 @@
                 android:background="@android:drawable/editbox_dropdown_light_frame"
                 android:ems="10"
                 android:gravity="start|top"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/ing_content_date_title"
@@ -124,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:backgroundTint="@color/salmon"
                     android:fontFamily="@font/avenir_black"
                     android:text="DATE"
                     android:textColor="@color/white"
@@ -144,6 +146,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/salmon"
                 android:orientation="horizontal">
 
                 <EditText
@@ -221,37 +224,16 @@
                 android:minHeight="48dp"
                 android:prompt="@string/select_one" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/ing_view_save_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top">
-
-                <Button
-                    android:id="@+id/ing_view_delete_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_black"
-                    android:text="@string/delete"
-                    android:textColor="@color/white"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/ing_view_save_button"
-                    app:layout_constraintEnd_toStartOf="@+id/ing_view_save_button"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <Button
-                    android:id="@+id/ing_view_save_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="32dp"
-                    android:fontFamily="@font/avenir_black"
-                    android:text="@string/save"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/ing_view_delete_button"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_gravity="center"
+                android:layout_marginVertical="32dp"
+                android:backgroundTint="@color/salmon"
+                android:fontFamily="@font/avenir_black_oblique"
+                android:text="@string/save"
+                android:textColor="@color/white" />
 
 
         </LinearLayout>
@@ -267,4 +249,16 @@
             android:id="@+id/bottomNavigationView_layout"
             layout="@layout/bottom_navigation_bar"></include>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ingredient_details_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        app:backgroundTint="@color/salmon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/actionModeCloseDrawable" />
 </androidx.constraintlayout.widget.ConstraintLayout>

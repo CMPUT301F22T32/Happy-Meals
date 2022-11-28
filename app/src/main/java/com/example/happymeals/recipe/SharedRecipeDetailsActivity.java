@@ -20,6 +20,7 @@ import com.example.happymeals.HappyMealBottomNavigation;
 import com.example.happymeals.R;
 import com.example.happymeals.adapters.IngredientStorageArrayAdapter;
 import com.example.happymeals.fragments.InputErrorFragment;
+import com.example.happymeals.fragments.InputStringFragment;
 import com.example.happymeals.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,8 +32,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
-public class SharedRecipeDetailsActivity extends AppCompatActivity {
+public class SharedRecipeDetailsActivity extends AppCompatActivity implements InputStringFragment.InputStringFragmentListener {
 
     private Recipe recipe;
     private Context context;
@@ -49,6 +51,8 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
     private TextView instructionsField;
     private TextView commendsField;
     private ImageView imageView;
+
+    private ArrayList< String > comments;
 
     private Button addButton;
 
@@ -146,7 +150,13 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
         cookTimeField.setText( String.valueOf( recipe.getCookTime() ) );
         servingsField.setText( String.valueOf( recipe.getServings() ) );
         instructionsField.setText( recipe.getInstructions() );
-        commendsField.setText( recipe.getCommentsAsString() );
+
+        comments = recipe.getComments();
+
+        if (comments.size() > 0) {
+            commendsField.setVisibility(View.VISIBLE);
+            commendsField.setText(recipe.getCommentsAsString());
+        }
 
         ingredientsListField.setAdapter( adapter );
 
@@ -172,5 +182,25 @@ public class SharedRecipeDetailsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        commendsField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new InputStringFragment( "Comment To Add To Recipe", 120 ).show( getSupportFragmentManager(), "L E S F" );
+            }
+        });
+    }
+
+    @Override
+    public void onConfirmClick(String str) {
+        comments.add( str );
+        String commentsSoFar = commendsField.getText().toString();
+        commendsField.setVisibility(View.VISIBLE);
+        if( comments.size() == 1 ) {
+            commentsSoFar = "1. " + str;
+        } else {
+            commentsSoFar += "\n" + String.valueOf( comments.size() ) + ". " + str;
+        }
+        commendsField.setText( commentsSoFar );
     }
 }

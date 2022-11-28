@@ -39,6 +39,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Activity that creates a weekly meal planner. it features a weekly calendar to select the time span,
+ * buttons to select plan meals Sunday-Saturday, and tabs to select which meal to plan out (breakfast,
+ * lunch, supper, etc.)
+ */
 public class CreateMealPlanActivity extends AppCompatActivity implements MealPlanItemsFragment.OnFragmentInteractionListener, DatasetWatcher, RecipeStorageAdapter.SeekBarChangeListener {
 
     public static final String NEW_MEAPLAN_EXTRA = "com.example.happymeals.mealplan.new";
@@ -57,7 +62,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
     private TextView title;
 
     private FloatingActionButton add;
-    private FloatingActionButton edit;
     private FloatingActionButton clear;
     private FloatingActionButton help;
 
@@ -101,7 +105,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         title = findViewById( R.id.mp_items_title );
 
         add = findViewById( R.id.mp_add_item );
-        edit = findViewById( R.id.mp_edit_item );
         clear = findViewById( R.id.mp_delete_items );
         help = findViewById( R.id.mp_help_button );
 
@@ -120,7 +123,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
 
         start = LocalDateTime.now().with( LocalTime.MIN ).with( TemporalAdjusters.previousOrSame( DayOfWeek.SUNDAY ) );
         end = LocalDateTime.now().with( LocalTime.MIN ).with( TemporalAdjusters.nextOrSame( DayOfWeek.SATURDAY ) );
-        end = end.plusHours( 11 ).plusMinutes( 59 ).plusSeconds( 59 );
+        end = end.plusHours( 8 );
 
         setListeners();
 
@@ -162,7 +165,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
     private void setCalendar( LocalDateTime day ) {
         start = LocalDateTime.now().with( LocalTime.MIN ).with( TemporalAdjusters.previousOrSame( DayOfWeek.SUNDAY ) );
         end = LocalDateTime.now().with( LocalTime.MIN ).with( TemporalAdjusters.nextOrSame( DayOfWeek.SATURDAY ) );
-        end = end.plusHours( 11 ).plusMinutes( 59 ).plusSeconds( 59 );
+        end = end.plusHours( 6 );
 
         while ( day.isAfter( start ) && day.getDayOfWeek() != start.getDayOfWeek() ) {
             start = start.plusWeeks( 1 );
@@ -178,7 +181,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
 
     private void setListeners() {
         setAddListeners();
-        setEditListeners();
         setClearListeners();
         setFunctionButtonListeners();
         setCalendarListeners();
@@ -262,7 +264,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
             itemsView.setAdapter( ingredientAdapter );
             emptyListText.setVisibility( View.GONE );
             add.setEnabled( false );
-            edit.setEnabled( true );
             clear.setEnabled( true );
         }
 
@@ -279,7 +280,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
             itemsView.setAdapter( recipeAdapter );
             emptyListText.setVisibility( View.GONE );
             add.setEnabled( false );
-            edit.setEnabled( true );
             clear.setEnabled( true );
         }
 
@@ -287,7 +287,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
             itemsView.setAdapter( null );
             emptyListText.setVisibility( View.VISIBLE );
             add.setEnabled( true );
-            edit.setEnabled( false );
             clear.setEnabled( false );
         }
     }
@@ -319,31 +318,6 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
             @Override
             public void onClick( View view ) {
                 MealPlanItemsFragment frag = new MealPlanItemsFragment();
-                frag.show( getSupportFragmentManager(), "MEAL_PLAN_ITEM_SELECT" );
-            }
-        } );
-    }
-
-    private void setEditListeners() {
-        edit.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                ArrayList<String> names = new ArrayList<>();
-
-                int weekDay = weekTab.getSelectedTabPosition();
-                int mealTime = mealsTab.getSelectedTabPosition();
-                Constants.COLLECTION_NAME type = mealplan.getMealType( weekDayConstants[weekDay], mealTimeConstants[mealTime] );
-
-                if ( type == Constants.COLLECTION_NAME.INGREDIENTS ) {
-                    for ( int i = 0; i < ingredientAdapter.getCount(); i++ )
-                        names.add( ingredientAdapter.getItem( i ).getName() );
-                }
-                else if ( type == Constants.COLLECTION_NAME.RECIPES ) {
-                    for ( int i = 0; i < recipeAdapter.getCount(); i++ )
-                        names.add( recipeAdapter.getItem( i ).getName() );
-                }
-
-                MealPlanItemsFragment frag = MealPlanItemsFragment.newInstance( type.toString(), names );
                 frag.show( getSupportFragmentManager(), "MEAL_PLAN_ITEM_SELECT" );
             }
         } );
@@ -393,7 +367,7 @@ public class CreateMealPlanActivity extends AppCompatActivity implements MealPla
         mpSave.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                ZoneOffset offset = ZoneId.of( "America/Edmonton" ).getRules().getOffset( Instant.now() );
+                ZoneOffset offset = ZoneId.systemDefault().getRules().getOffset( Instant.now() );
                 mealplan.setStartDate( Date.from( start.toInstant( offset ) ) );
                 mealplan.setEndDate( Date.from( end.toInstant( offset ) ) );
 

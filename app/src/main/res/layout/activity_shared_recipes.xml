@@ -120,6 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:onClick="toggleUserRecipes"
+        android:backgroundTint="@color/salmon"
         android:text="See my Recipes Only"
         android:fontFamily="@font/avenir_black"
         android:textColor="@color/white"

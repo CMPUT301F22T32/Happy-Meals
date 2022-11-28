@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -128,14 +130,24 @@ public class MealPlanItemsFragment extends DialogFragment {
         list.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick( AdapterView<?> adapterView, View view, int i, long l ) {
+                Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.image_shape, null);
                 for ( Integer index : selected ) {
                     if ( index == i ) {
-                        view.setBackgroundColor( Color.WHITE );
+                        if ( !showIngredients )
+                            view = view.findViewById(R.id.adapter_actual_background);
+
+                        view.setBackground(drawable);
+                        view.setBackgroundColor( Color.parseColor("#fca6a6") );
                         selected.remove( i );
                         return;
                     }
                 }
-                view.setBackgroundColor( Color.LTGRAY );
+
+                if ( !showIngredients )
+                    view = view.findViewById(R.id.adapter_actual_background);
+
+                view.setBackground(drawable);
+                view.setBackgroundColor( Color.parseColor("#DD0F31") );
                 selected.add( i );
             }
         } );
@@ -182,27 +194,10 @@ public class MealPlanItemsFragment extends DialogFragment {
         if ( showIngredients ) {
             IngredientStorageArrayAdapter adapter = new IngredientStorageArrayAdapter( context, ingredientStorage.getIngredients() ) ;
             list.setAdapter( adapter ) ;
-            if ( selectedNames != null ) {
-                for ( int i = 0; i < adapter.getCount(); i++ ) {
-                    if ( selectedNames.contains( adapter.getItem( i ).getName() ) ) {
-                        adapter.getView( i, null, list ).setBackgroundColor( Color.LTGRAY );
-                        selected.add( i );
-                    }
-                }
-            }
         }
         else {
             RecipeStorageAdapter adapter = new RecipeStorageAdapter( context, recipeStorage.getRecipes() );
             list.setAdapter( adapter );
-            if ( selectedNames != null ) {
-                for ( int i = 0; i < adapter.getCount(); i++ ) {
-                    if ( selectedNames.contains( adapter.getItem( i ).getName() ) ) {
-                        adapter.getView( i, null, list ).setBackgroundColor( Color.LTGRAY );
-                        selected.add( i );
-                        //adapter.notifyDataSetChanged();
-                    }
-                }
-            }
         }
     }
 }

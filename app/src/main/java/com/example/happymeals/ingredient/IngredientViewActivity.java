@@ -71,7 +71,6 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
         categorySpinner = findViewById( R.id.ing_content_category_input );
 
         saveButton = findViewById( R.id.ing_view_save_button );
-        deleteButton = findViewById( R.id.ing_view_delete_button );
         datePickerButton = findViewById( R.id.ingredient_date_button );
 
         // Populate the spinners
@@ -81,26 +80,18 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
                 new HappyMealBottomNavigation( 
                         findViewById( R.id.bottomNavigationView ), this, R.id.ingredient_menu );
 
-
         bottomNavMenu.setupBarListener();
+
+        findViewById( R.id.ingredient_details_back_button ).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         newIngredient = intent.getBooleanExtra( ADD_INGREDIENT, false );
         if ( !newIngredient )
             fillFields( intent );
-        else
-            deleteButton.setVisibility( View.GONE );
-
-        deleteButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick( View view ) {
-                ModifyConfirmationFragment deleteFragment = new ModifyConfirmationFragment( 
-                        "Remove Ingredient",
-                        String.format( "Are you sure you want to remove %s?", ingredient.getDescription() ),
-                        context,
-                        getDeleteListener() );
-                deleteFragment.display();
-            }
-        } );
 
         saveButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -251,19 +242,6 @@ public class IngredientViewActivity extends AppCompatActivity implements DatePic
             }
         };
     }
-
-    private DialogInterface.OnClickListener getDeleteListener() {
-
-        return new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick( DialogInterface dialogInterface, int i ) {
-                ingredientStorage.removeIngredient( ingredient );
-                finish();
-            }
-        };
-    }
-
 
     @Override
     public void onDateSet( DatePicker datePicker, int year, int month, int day ) {

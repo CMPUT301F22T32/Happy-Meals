@@ -344,6 +344,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements Database
     public void onConfirmClick( String str ) {
         comments.add( str );
         String commentsSoFar = commentsField.getText().toString();
+        commentsField.setVisibility(View.VISIBLE);
         if( comments.size() == 1 ) {
             commentsSoFar = "1. " + str;
         } else {

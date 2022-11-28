@@ -21,9 +21,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * A MealPlan class which represents the set of planned out meals for breakast, lunch, and
+ * supper on a weekly Sunday - Saturday basis. A MealPlan manages meals {@link Meal} for the
+ * week.
+ */
 public class MealPlan extends DatabaseObject {
 
-    public static final String REFERENCE = "reference";
+    // The keys of the HashMap used to gather all Ingredients in a MealPlan
     public static final String RECIPES = "recipes";
     public static final String COUNT = "count";
 
@@ -38,19 +43,27 @@ public class MealPlan extends DatabaseObject {
     private IngredientStorage ingredientStorage;
     private RecipeStorage recipeStorage;
 
+    // This HashMap maps day of week (Sunday-Saturday) -> meal of day (Breakfast, lunch, supper) -> Meal
     private HashMap< String, HashMap < String, Meal > > plans;
+
+    // This HashMap maps ingredients to a HashMap of key-value pairs. These keys are the RECIPES and
+    //COUNT static strings. e.g ingredientName -> {"count":5, "recipes":["omelette"]}
     private HashMap< String, HashMap< String, Object > > allIngredients;
 
     /**
      * Empty constructor which is required by {@link FireStoreManager} to store
      * object in the database.
-     * Creates empty HashMap fields for the database that can later be populated.
      */
     public MealPlan() {
         ingredientStorage = IngredientStorage.getInstance();
         recipeStorage = RecipeStorage.getInstance();
     }
 
+    /**
+     * MealPlan constructor which
+     * @param name
+     * @param creator
+     */
     public MealPlan( String name, String creator ) {
         super( name, creator );
         this.creator=creator;

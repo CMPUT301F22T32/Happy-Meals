@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/shared_recipes_content_name"
-            android:layout_width="232dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
@@ -62,7 +62,7 @@
 
         <TextView
             android:id="@+id/shared_recipes_content_creator"
-            android:layout_width="173dp"
+            android:layout_width="140dp"
             android:layout_height="22dp"
             android:layout_marginStart="4dp"
             android:text="None"
@@ -85,38 +85,40 @@
 
         <Button
             android:id="@+id/shared_recipes_content_details_button"
-            android:layout_width="85dp"
-            android:layout_height="39dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/salmon"
             android:fontFamily="@font/avenir_black"
+            android:gravity="center"
             android:maxWidth="60dp"
             android:minWidth="60dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="1dp"
             android:text="@string/details"
-            android:textColor="@color/white"
-            android:textSize="8dp"
-            android:gravity="center"
-            android:background="@android:drawable/dialog_holo_light_frame"
+            android:textColor="@color/divider_color"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shared_recipes_content_name"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/shared_recipes_content_add_recipe_button" />
 
         <Button
             android:id="@+id/shared_recipes_content_add_recipe_button"
-            android:layout_width="84dp"
-            android:layout_height="36dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/salmon"
             android:fontFamily="@font/avenir_black"
+            android:gravity="center"
             android:maxWidth="77dp"
             android:minWidth="77dp"
             android:text="@string/add"
-            android:gravity="center"
-            android:textSize="8dp"
-            android:textColor="@color/white"
-            android:background="@android:drawable/dialog_holo_light_frame"
-            app:layout_constraintStart_toEndOf="@+id/shared_recipes_content_creator"
-            app:layout_constraintTop_toBottomOf="@+id/shared_recipes_content_details_button" />
+            android:textColor="@color/divider_color"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/shared_recipes_content_details_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/shared_recipes_content_name"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -33,6 +33,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="32dp"
                     android:text="Meal Planner"
+                    android:fontFamily="@font/avenir_black_oblique"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +46,7 @@
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="64dp"
                     android:clickable="true"
+                    android:backgroundTint="@color/salmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@android:drawable/ic_input_add" />
@@ -67,6 +69,7 @@
 
                     <TextView
                         android:id="@+id/textView13"
+                        android:fontFamily="@font/avenir_medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -76,6 +79,7 @@
                     <TextView
                         android:id="@+id/meal_plan_view_date"
                         android:layout_width="match_parent"
+                        android:fontFamily="@font/avenir_black"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
                         android:layout_weight="1"
@@ -107,6 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TextView"
+                        android:fontFamily="@font/avenir_black_oblique"
                         app:layout_constraintEnd_toStartOf="@+id/current_mp_end"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -117,6 +122,7 @@
                         android:layout_height="wrap_content"
                         android:text="TextView"
                         app:layout_constraintEnd_toEndOf="parent"
+                        android:fontFamily="@font/avenir_black_oblique"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/current_mp_start" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -132,14 +138,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="250dp"
                         android:text="Made"
+                        android:fontFamily="@font/avenir_medium"
                         app:layout_constraintStart_toStartOf="parent"
                         tools:layout_editor_absoluteY="0dp" />
 
                     <TextView
                         android:id="@+id/textView18"
-                        android:layout_width="43dp"
+                        android:layout_width="44dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/avenir_medium"
                         android:text="Details"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:layout_editor_absoluteY="0dp" />
@@ -163,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:baselineAligned="false"
                         android:text="@string/breakfast"
+                        android:fontFamily="@font/avenir_black_oblique"
                         android:textStyle="bold" />
 
                     <TextView
@@ -184,7 +193,7 @@
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="@android:drawable/presence_invisible"
-                        android:backgroundTint="@color/white"
+                        android:backgroundTint="@color/salmon"
                         android:textColor="@color/black"
                         app:icon="@android:drawable/ic_menu_view"
                         app:iconGravity="textStart"
@@ -211,6 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lunch"
+                        android:fontFamily="@font/avenir_black_oblique"
                         android:textStyle="bold" />
 
                     <TextView
@@ -263,6 +273,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/avenir_book"
                         android:maxLength="36"
                         android:paddingStart="6dp" />
 
@@ -292,6 +303,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
                     android:gravity="center"
+                    android:fontFamily="@font/avenir_medium"
                     android:text="There are no meals planned for this day." />
 
                 <Button
@@ -299,7 +311,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="14dp"
+                    android:fontFamily="@font/avenir_black_oblique"
                     android:layout_marginBottom="32dp"
+                    android:backgroundTint="@color/salmon"
                     android:text="@string/view_mealplan"
                     android:textColor="@color/white" />
             </LinearLayout>

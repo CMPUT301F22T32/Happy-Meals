@@ -9,9 +9,11 @@
     android:scrollbars="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="16dp"
         android:nestedScrollingEnabled="true">
 
         <LinearLayout
@@ -26,11 +28,12 @@
 
                 <TextView
                     android:id="@+id/recipe_name_label"
-                    android:layout_width="117dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Name:"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +44,6 @@
                     android:id="@+id/recipe_add_name_field"
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
@@ -51,25 +53,39 @@
                     android:inputType="text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/recipe_name_label"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline10"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="108dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/recipe_description_label"
-                android:layout_width="77dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:fontFamily="@font/avenir_black"
                 android:text="Description:"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/recipe_add_description_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:padding="4dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -82,6 +98,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
+                    android:background="@android:drawable/ic_menu_camera"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
@@ -95,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
                     android:clickable="true"
+                    app:backgroundTint="@color/salmon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -107,11 +125,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp">
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="108dp" />
+
                 <TextView
                     android:id="@+id/recipe_preptime_label"
-                    android:layout_width="68dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Prep Time:"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -120,14 +146,13 @@
 
                 <EditText
                     android:id="@+id/recipe_add_prep_time_field"
-                    android:layout_width="70dp"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:editable="false"
                     android:focusable="true"
                     android:inputType="number"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/recipe_preptime_label"
+                    app:layout_constraintStart_toStartOf="@+id/guideline11"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -136,6 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Minutes"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -147,11 +173,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="66dp">
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="108dp" />
+
                 <TextView
                     android:id="@+id/recipe_cooktime_label"
-                    android:layout_width="71dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Cook Time:"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -160,14 +194,13 @@
 
                 <EditText
                     android:id="@+id/recipe_add_cook_time_field"
-                    android:layout_width="70dp"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:editable="false"
                     android:focusable="true"
                     android:inputType="number"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/recipe_cooktime_label"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -176,6 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Minutes"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -187,11 +221,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="84dp">
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="108dp" />
+
                 <TextView
                     android:id="@+id/recipe_servings_label"
-                    android:layout_width="85dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_marginStart="8dp"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Servings:"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -200,9 +242,8 @@
 
                 <EditText
                     android:id="@+id/recipe_add_servings_field"
-                    android:layout_width="207dp"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:width="100dp"
@@ -211,8 +252,10 @@
                     android:inputType="number"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/recipe_servings_label"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline13"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.869" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -223,7 +266,9 @@
                     android:id="@+id/recipe_ingredients_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/avenir_black"
+                    android:paddingTop="16dp"
                     android:text="Ingredients:"
                     android:textStyle="bold" />
 
@@ -236,6 +281,7 @@
                     android:clickable="true"
                     android:cropToPadding="false"
                     android:src="@drawable/ingredients_icon"
+                    app:backgroundTint="@color/salmon"
                     app:rippleColor="#2CBC12" />
 
                 <TextView
@@ -243,13 +289,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/avenir_book"
                     android:text="@string/click_to_add" />
             </LinearLayout>
 
             <ListView
                 android:id="@+id/recipe_ingredients_listview"
                 android:layout_width="378dp"
-                android:layout_height="199dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="16dp"
@@ -265,7 +312,11 @@
             <EditText
                 android:id="@+id/recipe_add_instructions_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="100dp"
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:padding="4dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -284,16 +335,23 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Add Comment" />
+                    android:backgroundTint="@color/salmon"
+                    android:fontFamily="@font/avenir_black"
+                    android:text="Add Comment"
+                    android:textColor="@color/divider_color" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/recipe_add_comments_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:gravity="top"
                 android:inputType="textMultiLine"
+                android:isScrollContainer="true"
+                android:padding="4dp"
                 android:scrollbars="vertical"
-                android:isScrollContainer="true"/>
+                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -306,7 +364,10 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/salmon"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Save"
+                    android:textColor="@color/divider_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -321,14 +382,17 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/salmon"
+                    android:fontFamily="@font/avenir_black"
                     android:text="Cancel"
+                    android:textColor="@color/divider_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/recipe_add_save_button"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </LinearLayout>

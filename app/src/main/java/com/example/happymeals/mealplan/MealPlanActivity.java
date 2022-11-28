@@ -37,7 +37,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-
+/**
+ * This activity acts as the 'home page' for MealPlans. It features a calendar which can be selected
+ * and will display the planned meals for the day (if applicable). From this activity users can
+ * see a list of their meal plans or add new meal plans, while being able to explore the meals
+ * they currently have set.
+ */
 public class MealPlanActivity extends AppCompatActivity implements DatasetWatcher {
     private LinearLayout breakfastTab;
     private LinearLayout lunchTab;

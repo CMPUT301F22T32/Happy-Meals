@@ -77,6 +77,13 @@ public class SpinnerSettingsActivity extends AppCompatActivity implements
         locationSpinnerList.setAdapter( locationSpinnerAdapter );
         categorySpinnerList.setAdapter( categorySpinnerAdapter );
 
+        findViewById(R.id.spinner_back_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         addAmountButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {

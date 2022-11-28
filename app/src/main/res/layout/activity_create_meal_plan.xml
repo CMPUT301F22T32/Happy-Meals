@@ -12,8 +12,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/week_tab">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,6 +23,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_black"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:paddingTop="32dp"
@@ -38,6 +38,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:paddingBottom="8dp"
+                android:fontFamily="@font/avenir_black"
                 android:text="@string/mealplan_week"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -107,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/avenir_black_oblique"
                 android:text="This week already has a meal plan assigned."
                 tools:layout_editor_absoluteY="214dp" />
 
@@ -117,6 +119,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginBottom="8dp"
+                android:fontFamily="@font/avenir_black"
                 android:text="Day of Week"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -131,7 +134,7 @@
                 app:tabBackground="@android:drawable/radiobutton_off_background"
                 app:tabGravity="fill"
                 app:tabIndicator="@android:drawable/radiobutton_off_background"
-                app:tabIndicatorColor="@color/light_blue_A400"
+                app:tabIndicatorColor="@color/salmon"
                 app:tabIndicatorGravity="stretch"
                 app:tabSelectedTextColor="@color/white">
 
@@ -215,6 +218,7 @@
                     app:elevation="12dp"
                     app:fabCustomSize="25dp"
                     app:fabSize="normal"
+                    android:backgroundTint="@color/salmon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView19"
                     app:layout_constraintTop_toTopOf="parent"
@@ -262,6 +266,7 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/avenir_book"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:text="Looks a little empty, add some ingredients or recipes to your meal plan." />
@@ -293,8 +298,9 @@
                         android:id="@+id/mp_items_title"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/teal_200"
+                        android:background="@color/salmon"
                         android:gravity="center"
+                        android:fontFamily="@font/avenir_book"
                         android:text="Items for Breakfast on Sunday"
                         android:textSize="18sp" />
 
@@ -324,32 +330,24 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
+                        android:backgroundTint="@color/salmon"
                         android:clickable="true"
                         app:fabCustomSize="40dp"
-                        app:layout_constraintBottom_toTopOf="@+id/mp_edit_item"
+                        app:layout_constraintBottom_toTopOf="@+id/mp_delete_items"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="spread"
                         app:srcCompat="@android:drawable/ic_input_add" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/mp_edit_item"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:clickable="true"
-                        app:fabCustomSize="40dp"
-                        app:layout_constraintBottom_toTopOf="@+id/mp_delete_items"
-                        app:layout_constraintTop_toBottomOf="@+id/mp_add_item"
-                        app:srcCompat="@android:drawable/ic_menu_edit" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/mp_delete_items"
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:clickable="true"
+                        android:backgroundTint="@color/salmon"
                         app:fabCustomSize="40dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/mp_edit_item"
+                        app:layout_constraintTop_toBottomOf="@+id/mp_add_item"
                         app:srcCompat="@android:drawable/ic_menu_delete" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -365,6 +363,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/save"
+                    android:fontFamily="@font/avenir_black_oblique"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/salmon"
                     app:layout_constraintBaseline_toBaselineOf="@+id/mp_cancel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -375,6 +376,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cancel"
+                    android:fontFamily="@font/avenir_black_oblique"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/salmon"
                     app:layout_constraintEnd_toStartOf="@+id/mp_save"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
